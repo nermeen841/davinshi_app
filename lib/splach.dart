@@ -23,7 +23,7 @@ class Splach extends StatefulWidget {
 
 class _SplachState extends State<Splach> {
   Future go() async {
-    await Future.delayed(const Duration(milliseconds: 50), () async {
+    await Future.delayed(const Duration(seconds: 5), () async {
       String? lang = prefs.getString('language_code');
       if (lang != null) {
         if (login) {
@@ -95,40 +95,40 @@ class _SplachState extends State<Splach> {
         width: w,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/icons/Mask Group 30.png'),
+            image: AssetImage('assets/Mask Group 1.png'),
             fit: BoxFit.cover,
           ),
         ),
         child: Scaffold(
           backgroundColor: Colors.white54,
-          body: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Image.asset(
-                    'assets/KONOZ-ICON.png',
-                    width: w * 0.6,
-                    height: h * 0.2,
-                    fit: BoxFit.contain,
+          body: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/Rectangle 2.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Image.asset(
+                      'assets/malllll.png',
+                      width: w * 0.6,
+                      height: h * 0.2,
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: h * 0.02,
-                ),
-                Text(
-                  "Konoz",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                      fontSize: w * 0.1,
-                      fontFamily: 'Tajawal'),
-                )
-                // Center(
-                //   child: Image.asset('assets/icons/title_splash.png'),
-                // ),
-              ],
+                  SizedBox(
+                    height: h * 0.02,
+                  ),
+                  Center(
+                    child: Image.asset('assets/splashtext.png'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

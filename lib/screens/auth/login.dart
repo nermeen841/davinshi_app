@@ -43,7 +43,7 @@ class _LoginState extends State<Login> {
             height: h,
             decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("assets/icons/Mask Group 30.png"),
+                    image: AssetImage("assets/logindesign.png"),
                     fit: BoxFit.fill)),
           ),
           Form(
@@ -57,43 +57,35 @@ class _LoginState extends State<Login> {
                       body: Container(
                           width: w,
                           height: h,
+                          decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage("assets/Rectangle 2.png"),
+                                  fit: BoxFit.fill)),
                           padding: EdgeInsets.only(top: h * 0.07),
                           child: SingleChildScrollView(
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
+                                  SizedBox(
+                                    height: h * 0.03,
+                                  ),
                                   Center(
                                       child: Image.asset(
-                                    "assets/KONOZ-ICON.png",
-                                    // "assets/icons/ابيض.png",
+                                    "assets/Group 949.png",
                                     width: w * 0.6,
                                     height: h * 0.2,
                                     fit: BoxFit.contain,
                                   )),
-                                  SizedBox(
-                                    height: h * 0.05,
-                                  ),
-                                  Container(
-                                    height: h * 0.07,
-                                    width: w * 0.65,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
-                                      border: Border.all(color: Colors.white),
-                                      color: Colors.black38,
+                                  Center(
+                                    child: Text(
+                                      translate(context, 'buttons', 'login'),
+                                      style: TextStyle(
+                                          color: mainColor,
+                                          fontSize: w * 0.07,
+                                          fontFamily: 'Tajawal',
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    child: Center(
-                                      child: Text(
-                                        translate(context, 'buttons', 'login'),
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: w * 0.06,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: h * 0.05,
                                   ),
                                   SizedBox(
                                     width: w,
@@ -181,9 +173,8 @@ class _LoginState extends State<Login> {
                                               ),
                                             ),
                                           ),
-
                                           SizedBox(
-                                            height: h * 0.06,
+                                            height: h * 0.03,
                                           ),
                                           Text(
                                             translate(
@@ -295,7 +286,7 @@ class _LoginState extends State<Login> {
                                             },
                                           ),
                                           SizedBox(
-                                            height: h * 0.05,
+                                            height: h * 0.03,
                                           ),
                                           RoundedLoadingButton(
                                             controller: _btnController,
@@ -314,7 +305,7 @@ class _LoginState extends State<Login> {
                                               )),
                                             ),
                                             successColor: Colors.black,
-                                            color: Colors.black,
+                                            color: mainColor,
                                             borderRadius: w * 0.07,
                                             height: h * 0.07,
                                             disabledColor: Colors.black,
@@ -407,50 +398,6 @@ class _LoginState extends State<Login> {
                                           ),
                                           SizedBox(
                                             height: h * 0.01,
-                                          ),
-                                          // Row(
-                                          //   mainAxisAlignment:
-                                          //       MainAxisAlignment.spaceBetween,
-                                          //   children: [
-                                          // SizedBox(
-                                          //   child: Row(
-                                          //     children: [
-                                          // Checkbox(
-                                          //   value: select,
-                                          //   activeColor: Colors.white,
-                                          //   focusColor: Colors.white,
-                                          //   overlayColor:
-                                          //       MaterialStateProperty.all<
-                                          //           Color>(Colors.white),
-                                          //   checkColor: mainColor,
-                                          //   fillColor: MaterialStateProperty
-                                          //       .all<Color>(Colors.white),
-                                          //   onChanged: (val) {
-                                          //     print(val);
-                                          //     setState(() {
-                                          //       select = !select;
-                                          //     });
-                                          //   },
-                                          // ),
-                                          // SizedBox(
-                                          //   width: w * 0.01,
-                                          // ),
-                                          // Text(
-                                          //   translate(context, 'login',
-                                          //       'remember'),
-                                          //   style: TextStyle(
-                                          //     color: Colors.white,
-                                          //     fontSize: w * 0.035,
-                                          //     fontWeight: FontWeight.bold,
-                                          //   ),
-                                          // ),
-                                          //     ],
-                                          //   ),
-                                          // ),
-                                          //   ],
-                                          // ),
-                                          SizedBox(
-                                            height: h * 0.05,
                                           ),
                                           Row(
                                             mainAxisAlignment:

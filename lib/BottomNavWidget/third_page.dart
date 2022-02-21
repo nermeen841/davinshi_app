@@ -39,7 +39,7 @@ class _ThirdPageState extends State<ThirdPage> {
                   style: TextStyle(color: Colors.white, fontSize: w * 0.04),
                 ),
                 centerTitle: true,
-                backgroundColor: Colors.black,
+                backgroundColor: mainColor,
                 // automaticallyImplyLeading: false,
                 actions: [
                   Padding(

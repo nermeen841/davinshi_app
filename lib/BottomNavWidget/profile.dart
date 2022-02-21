@@ -62,8 +62,8 @@ class _ProfileState extends State<Profile> {
               image: 'assets/icons/FeatherIconSet-Feather_Music-headphones.png',
               className: ContactUs()),
           Tile(
-              nameAr: 'عن دافنشي',
-              nameEn: 'About Davinchi',
+              nameAr: 'عن كنوز',
+              nameEn: 'About Konoz',
               keyApi: 'about',
               image: 'assets/icons/FeatherIconSet-Feather_Layout-layers.png',
               className: AboutUs('About Us')),
@@ -124,8 +124,8 @@ class _ProfileState extends State<Profile> {
               image: 'assets/icons/FeatherIconSet-Feather_Music-headphones.png',
               className: ContactUs()),
           Tile(
-              nameAr: 'عن دافنشي',
-              nameEn: 'About Davinchi',
+              nameAr: 'عن كنوز',
+              nameEn: 'About Konoz',
               keyApi: 'about',
               image: 'assets/icons/FeatherIconSet-Feather_Layout-layers.png',
               className: AboutUs('About Us')),
@@ -257,7 +257,7 @@ class _ProfileState extends State<Profile> {
           preferredSize: Size(w, h * 0.32),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.black,
+              color: mainColor,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(w * 0.1),
                 bottomRight: Radius.circular(w * 0.1),

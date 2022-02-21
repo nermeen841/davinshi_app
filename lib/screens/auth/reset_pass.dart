@@ -112,7 +112,7 @@ class _ResetPassState extends State<ResetPass> {
                           if (value!.isEmpty) {
                             return translate(context, 'validation', 'field');
                           }
-                          if (value.length < 8) {
+                          if (value.length < 6) {
                             return translate(context, 'validation', 'pass');
                           }
                           return null;

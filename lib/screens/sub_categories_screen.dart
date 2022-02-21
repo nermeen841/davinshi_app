@@ -55,7 +55,7 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
               style: TextStyle(color: Colors.white, fontSize: w * 0.04),
             ),
             centerTitle: true,
-            backgroundColor: Colors.black,
+            backgroundColor: mainColor,
             leading: const BackButton(
               color: Colors.white,
             ),

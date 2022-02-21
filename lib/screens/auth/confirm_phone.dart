@@ -136,6 +136,10 @@ class _ConfirmPhoneState extends State<ConfirmPhone> {
                             child: TextField(
                               controller: sms,
                               decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                  Icons.mail,
+                                  color: mainColor,
+                                ),
                                 border: OutlineInputBorder(
                                     borderSide:
                                         const BorderSide(color: Colors.black),
@@ -355,7 +359,7 @@ class _ConfirmPhoneState extends State<ConfirmPhone> {
                                   decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.circular(w * 0.08),
-                                    color: Colors.black,
+                                    color: mainColor,
                                   ),
                                   child: Center(
                                     child: Text(

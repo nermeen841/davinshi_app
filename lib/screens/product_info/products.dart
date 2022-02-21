@@ -575,7 +575,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
               ),
             ),
             centerTitle: true,
-            backgroundColor: Colors.black,
+            backgroundColor: mainColor,
             actions: [
               Padding(
                 padding: EdgeInsets.symmetric(vertical: w * 0.01),

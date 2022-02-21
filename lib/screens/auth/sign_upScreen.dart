@@ -66,7 +66,7 @@ class _SignupScreenState extends State<SignupScreen> {
             FocusScope.of(context).unfocus();
           },
           child: Scaffold(
-            backgroundColor: Colors.black,
+            backgroundColor: mainColor,
             body: SizedBox(
               child: SingleChildScrollView(
                 primary: true,
@@ -185,7 +185,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     fontWeight: FontWeight.bold),
                               )),
                               successColor: Colors.white,
-                              color: Colors.black,
+                              color: mainColor,
                               borderRadius: w * 0.07,
                               height: h * 0.06,
                               disabledColor: Colors.black,

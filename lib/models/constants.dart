@@ -9,8 +9,8 @@ import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/screens/auth/login.dart';
 
-SystemUiOverlayStyle st = const SystemUiOverlayStyle(
-  statusBarColor: Colors.black,
+SystemUiOverlayStyle st = SystemUiOverlayStyle(
+  statusBarColor: mainColor,
   statusBarIconBrightness: Brightness.light,
   statusBarBrightness: Brightness.light,
 );

@@ -133,14 +133,6 @@ class _SearchPaginateState extends State<SearchPaginate> {
                                     EdgeInsets.symmetric(vertical: h * 0.01),
                                 child: Row(
                                   children: [
-                                    // SizedBox(
-                                    //   width: w * 0.1,
-                                    //   height: w * 0.1,
-                                    //   child: Image.network(
-                                    //     "",
-                                    //     fit: BoxFit.cover,
-                                    //   ),
-                                    // ),
                                     SizedBox(
                                       width: w * 2.5 / 100,
                                     ),

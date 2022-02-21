@@ -1,3 +1,4 @@
+import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:davinshi_app/lang/change_language.dart';
@@ -71,7 +72,7 @@ class LangPage extends StatelessWidget {
                         InkWell(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                              color: mainColor,
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Padding(
@@ -122,7 +123,7 @@ class LangPage extends StatelessWidget {
                         InkWell(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                              color: mainColor,
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Padding(

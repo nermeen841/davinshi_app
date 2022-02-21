@@ -10,5 +10,5 @@ class BottomNav {
       this.iconSelect, this.iconNotSelect, this.id, this.titleEn, this.titleAr);
 }
 
-Color mainColor = const Color(0xfffe4194);
+Color mainColor = const Color(0xff22103D);
 Color mainColor2 = const Color(0xffff979c);
