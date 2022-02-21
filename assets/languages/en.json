@@ -1,0 +1,267 @@
+{
+  "language": {
+    "change_language" : "Change Language",
+    "language" : "Languages",
+    "welcom": "Welcome back ",
+    "my_account": "My account",
+    "shop":"Shop Now"
+  },
+  "home" : {
+    "exit_app": "Exit Davinchi",
+    "ok_mess": "Do you want to exit Davinchi ?",
+    "yes":"Yes",
+    "no":"No",
+    "home" : "Home",
+    "search": "Search",
+    "discount":"Discount : ",
+    "seller_name":"Seller Name : ",
+    "seller":"Seller name ",
+    "review": "Your review has been submitted successfully",
+    "new" : "New",
+    "best" : "Best",
+    "recommendation" : "Recommendation",
+    "offers" : "Offers",
+    "title1" : "Offers end soon",
+    "title2" : "New Products",
+    "title3" : "Best Products",
+    "title4" : "Recommended Products",
+    "title5" : "Best Discount",
+    "title6" : "Best Price",
+    "title7" : "Most likes",
+    "title8" : "Top Rate",
+    "contact" : "Contact Information",
+    "brand" : "Shop by brand",
+    "cat" : "Categories",
+    "see" : "more",
+    "sort" : "Sort"
+  },
+  "page_four" : {
+    "title" : "Search",
+    "sub_title" : "Categories"
+  },
+  "page_three" : {
+    "title" : "Categories",
+    "sub_title" : "Categories"
+  },
+  "page_two" : {
+    "title" : "Favorite",
+    "sort" : "Sort"
+  },
+  "page_five" : {
+    "title" : "Profile",
+    "change_pass" : "Change Password",
+    "address" : "My Address",
+    "orders" : "My Orders",
+    "countries" : "Countries",
+    "about" : "About Us",
+    "privacy" : "Privacy & Policy",
+    "terms" : "Terms & Conditions",
+    "delivery" : "Delivery Info",
+    "info" : "Information",
+    "questions" : "Questions",
+    "contacts" : "Contact Us",
+    "how" : "How To Use",
+    "register1" : "Register for membership",
+    "register2" : "Get various benefits",
+    "notification" : "Notifications`s Permission"
+  },
+  "sms" : {
+    "title" : "Activation code sent",
+    "hint" : "Activation code",
+    "in" : "Invalid code",
+    "re" : "Re-send code   ",
+    "wait" : "Wait a minute then try again later"
+  },
+  "multiple" : {
+    "title" : "Categories",
+    "tab1" : "Recommendation",
+    "tab2" : "New",
+    "tab3" : "Best",
+    "sort" : "Sort"
+  },
+  "profile": {
+    "title": "Profile"
+  },
+  "address_info" : {
+    "title" : "Add Address"
+  },
+  "empty" : {
+    "no_products" : "There are no products yet",
+    "no_favorite" : "There are no Fav item yet",
+    "no_address" : "There is no locations",
+    "no_order" : "There is no orders",
+    "no_details" : "There are no details ",
+    "no_student" : "There are no brands yet",
+    "no_rate" : "There are no rate yet",
+    "empty" : "Empty !",
+    "empty_cart" : "Empty Cart!"
+  },
+  "change_pass" : {
+    "title" : "Change Password"
+  },
+  "validation" : {
+    "confirm_pass" : "Password does not match",
+    "old_pass" : "Enter old password",
+    "new_pass" : "Enter New password",
+    "valid_email" : "Enter valid email",
+    "terms" : "   Must accept Terms and Conditions",
+    "date" : "Choose the date",
+    "field" : "Enter this field",
+    "area" : "Choose the area",
+    "pass" : "Password length must be at least 6 char",
+    "phone" : "Enter valid phone"
+  },
+  "order": {
+    "title": "My Orders"
+  },
+  "cart": {
+    "title" : "Cart",
+    "address" : "Choose address",
+    "price" : "Price",
+    "total" : "Total",
+    "delivery" : "Delivery",
+    "discount" : "Discount",
+    "add" : "Add coupon",
+    "visit" : "Visit stores",
+    "coupon" : "Coupon",
+    "error" : "Something wrong try again",
+    "delete" : "Delete All",
+    "all" : "All products"
+  },
+  "country" : {
+    "title" : "Countries",
+    "choose" : "Choose country"
+  },
+  "snack_bar": {
+    "undo" : "Undo",
+    "login" : "Must Login",
+    "area" : "Must Update the Area",
+    "area_button" : "Update",
+    "phone" : "Wrong phone",
+    "try" : "Try again later"
+  },
+  "inputs" : {
+    "phone" : "Phone",
+    "phone_num" : "Phone Number",
+    "email" : "E-mail",
+    "day" : "Birth Date",
+    "coupon" : "Coupon",
+    "name" : "Full name",
+    "pass" : "Password",
+  
+    "comment" : "Comment (optional)",
+    "old_pass" : "Old password",
+    "new_pass" : "New password",
+    "confirm_pass" : "Confirm Password",
+    "find_product" : "Find Product",
+    "search_location" : "Search Location",
+    "area" : "Choose Area",
+    "add_address_title" : "Add address title"
+  },
+  "add_address" : {
+    "here" : "Delivery address",
+    "location" : "Location"
+  },
+  "address" : {
+    "title" : "Addresses"
+  },
+  "area" : {
+    "title" : "Choose Area"
+  },
+  "choose_address": {
+    "title" : "Choose Addresses",
+    "locations" : "locations"
+  },
+  "student" : {
+    "title" : "Brand Section",
+    "all" : "View All",
+    "all_products" : "All Products",
+    "sort" : "Sort",
+    "famous" : "Famous brands"
+  },
+  "buttons" : {
+    "next" : "Next",
+    "send" : "Send",
+    "back" : "Back",
+    "add_product" : "Add Products",
+    "save" : "Save",
+    "check_out" : "check Out",
+    "save_location" : "Save Location",
+    "login" : "Login",
+    "register" : "Register",
+    "open" : "Open",
+    "add_cart" : "Add to cart",
+    "log_out" : "Log Out",
+    "log_in" : "Log In",
+    "add_address" : "Add new address",
+    "change" : "Change",
+    "cont" : "Continue",
+    "add" : "Add to cart",
+    "error_cart": "Delete Cart",
+    "delete_address" : "Delete address"
+  },
+  "reset_pass": {
+    "title" : "Reset Password",
+    "sub_title1" : "Enter Your phone for send",
+    "sub_title2" : "Activation code",
+    "sub_title3" : "New Password"
+  },
+  "fire_base": {
+    "error1" : "Failed send sms please wait then try again",
+    "error2" : "Verification code is wrong"
+  },
+  "login" : {
+    "title" : "Register for membership\n     Get various benefits",
+    "guest" : "Browse as a visitor",
+    "sub" : "Brand subscription",
+    "reset" : "Forget the password ?",
+    "have_not" : "Don`t have an account ? ",
+    "have_account": "Already have account ?",
+    "have" : "Have an account ? ",
+    "login" : "Login",
+    "error" : "Email or password not correct",
+    "remember" : "Remember Me",
+    "register" : "Sign Up"
+  },
+  "sub": {
+    "title" : "Subscription Request"
+  },
+  "product": {
+    "tab1": "Product",
+    "tab2": "Image",
+    "tab3": "Features",
+    "tab4": "Comments",
+    "tab5": "Help",
+    "sign_up": "Sign up To get the discount",
+    "about": "About Brand",
+    "cat": "Categories",
+    "des": "Description",
+    "why": "WHY",
+    "error_cart": "Can`t order from 2 places",
+    "price": "price"
+  },
+  "register" : {
+    "title": "Register Now",
+    "agree": "I agree to the ",
+    "terms": "Terms and Conditions"
+  },
+  "contac_us": {
+    "success" : "Request Sent"
+  },
+  "alert": {
+    "success" : "Success",
+    "operation" : "Successful operation",
+    "try" : "Try again later",
+    "failed" : "Failed",
+    "search_empty":"No result",
+    "app_rate":"Rate app",
+    "title":"Add your feedback on the app"
+  },
+  "check_out": {
+    "title" : "Check Out",
+    "payment": "payment",
+    "cash": "Cash on delivery",
+    "visa": "VISA",
+    "master": "Master Card"
+  }
+}

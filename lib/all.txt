@@ -1,0 +1,182 @@
+A- dbHelper
+الفايل المسوول عن الداتا بيز الداخلية (السلة)
+B- Helper Fun
+فايل يحتوي على بعض الفانكشن المساعدة لعدم التكرار
+C- Main
+الصفحة التشغيلية للبرنامج
+D- splach
+الاسبلاش سكرين ويتم فيها استدعاء اللغة المخزنة وبعد القيم المهمه واستدعاء البيانات اللتي تظهر في الصفحة الرئيسية
+و الدول و المفضلة
+
+
+
+
+ // Container(
+              //   width: w,
+              //   height: h,
+              //   child: Stack(
+              //     children: [
+              //       Container(
+              //         width: w,
+              //         height: h,
+              //         child: SingleChildScrollView(
+              //           controller: _controller4,
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               InkWell(
+              //                 child: Container(
+              //                   width: w,
+              //                   height: h*.17,
+              //                   decoration: BoxDecoration(
+              //                     image: DecorationImage(
+              //                       image: AssetImage('assets/food18.png'),
+              //                       fit: BoxFit.fitWidth,
+              //                     ),
+              //                   ),
+              //                 ),
+              //                 onTap: (){
+              //                   Navigator.push(context, MaterialPageRoute(builder: (ctx)=>MultiplePackages()));
+              //                 },
+              //               ),
+              //               SizedBox(height: h*0.01,),
+              //               Padding(
+              //                 padding: EdgeInsets.only(left: w*0.025),
+              //                 child: DropdownButton<String>(
+              //                   isDense: true,
+              //                   underline: SizedBox(),
+              //                   iconEnabledColor: mainColor,
+              //                   iconDisabledColor: mainColor,
+              //                   iconSize: w*0.08,
+              //                   hint: Text('Sort'),
+              //                   items: List.generate(sorts.length, (index) {
+              //                     return DropdownMenuItem(
+              //                       value: sorts[index],
+              //                       child: Text(sorts[index],style: TextStyle(color: Colors.grey[600],),),
+              //                     );
+              //                   }),
+              //                   onChanged: (val){
+              //                     setState(() {
+              //                       sort=val! ;
+              //                     });
+              //                   },
+              //                   value: sort,
+              //                 ),
+              //               ),
+              //               SizedBox(height: h*0.01,),
+              //               Padding(
+              //                 padding: EdgeInsets.only(left: w*0.025),
+              //                 child: Container(
+              //                   width: w,
+              //                   child: Wrap(
+              //                     children: List.generate(20, (i) {
+              //                       return InkWell(
+              //                         child: Padding(
+              //                           padding:  EdgeInsets.only(right: w*0.0375,bottom: h*0.02),
+              //                           child: Column(
+              //                             mainAxisSize: MainAxisSize.min,
+              //                             children: [
+              //                               Container(
+              //                                 width: w*0.45,
+              //                                 height: h*0.22,
+              //                                 decoration: BoxDecoration(
+              //                                     image: DecorationImage(
+              //                                       image: AssetImage('assets/food${i+1}.png'),
+              //                                       fit: BoxFit.fitHeight,
+              //                                     )
+              //                                 ),
+              //                                 child: Padding(
+              //                                   padding:  EdgeInsets.all(w*0.015),
+              //                                   child: Align(
+              //                                     alignment: Alignment.bottomLeft,
+              //                                     child: CircleAvatar(
+              //                                       backgroundColor: mainColor,
+              //                                       radius: w*.05,
+              //                                       child: Center(
+              //                                         child: Icon(Icons.shopping_cart_outlined,color: Colors.white,size: w*0.05,),
+              //                                       ),
+              //                                     ),
+              //                                   ),
+              //                                 ),
+              //                               ),
+              //                               Container(
+              //                                 width: w*0.45,
+              //                                 child: Column(
+              //                                   mainAxisSize: MainAxisSize.min,
+              //                                   crossAxisAlignment: CrossAxisAlignment.start,
+              //                                   children: [
+              //                                     SizedBox(height: h*0.01,),
+              //                                     Text('Product '+(i+1).toString(),style: TextStyle(fontSize: w*0.035),),
+              //                                     SizedBox(height: h*0.005,),
+              //                                     RichText(
+              //                                       text: TextSpan(
+              //                                         children: [
+              //                                           TextSpan(text: '12.5 ${prefs.getString("currency").toString()}',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black)),
+              //                                           TextSpan(text: '10%',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.red)),
+              //                                         ],
+              //                                       ),
+              //                                     ),
+              //                                     Text('14.5 ${prefs.getString("currency").toString()}',style: TextStyle(fontSize: w*0.035,decoration: TextDecoration.lineThrough,color: Colors.grey,),),
+              //                                   ],
+              //                                 ),
+              //                               ),
+              //                             ],
+              //                           ),
+              //                         ),
+              //                         onTap: (){
+              //                           Navigator.pushReplacementNamed(context, 'pro');
+              //                         },
+              //                       );
+              //                     }),
+              //                   ),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //       mask4?Positioned(
+              //         bottom: h*0.03,
+              //         right: w*0.08,
+              //         child: CircleAvatar(
+              //           radius: w*0.06,
+              //           backgroundColor: mainColor.withOpacity(0.7),
+              //           child: InkWell(
+              //             child: Center(child: Icon(Icons.arrow_upward_outlined,color: Colors.white,)),
+              //             onTap: (){
+              //               _controller4.animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.easeInBack);
+              //             },
+              //           ),
+              //         ),
+              //       ):
+              //       SizedBox(),
+              //     ],
+              //   ),
+              // ),
+              // Container(
+              //   width: w,
+              //   height: h,
+              //   child: ListView.builder(
+              //     itemCount: 20,
+              //     itemBuilder: (ctx,i){
+              //       return InkWell(
+              //         child: Padding(
+              //           padding:  EdgeInsets.only(bottom: h*0.03),
+              //           child: Container(
+              //             width: w,
+              //             height: h*.21,
+              //             decoration: BoxDecoration(
+              //               image: DecorationImage(
+              //                 image: AssetImage('assets/food${i+1}.png'),
+              //                 fit: BoxFit.fitWidth,
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //         onTap: (){
+              //           Navigator.push(context, MaterialPageRoute(builder: (ctx)=>MultiplePackages()));
+              //         },
+              //       );
+              //     },
+              //   ),
+              // ),
