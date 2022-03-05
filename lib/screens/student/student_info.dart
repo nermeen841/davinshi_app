@@ -174,7 +174,7 @@ class _StudentInfo extends State<StudentInfo> {
               },
             );
           },
-          backgroundColor: Colors.black,
+          backgroundColor: mainColor,
           child: Center(
             child: Icon(
               Icons.call,
@@ -226,7 +226,7 @@ class _StudentInfo extends State<StudentInfo> {
               width: w * 0.02,
             ),
           ],
-          backgroundColor: Colors.black,
+          backgroundColor: mainColor,
           iconTheme: IconThemeData(color: mainColor),
         ),
         body: Center(

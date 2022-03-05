@@ -565,16 +565,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
         child: Scaffold(
           appBar: AppBar(
             elevation: 0,
-            title: Container(
-              width: w * 0.1,
-              height: h * 0.05,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/logo2.png'),
-                    fit: BoxFit.fitHeight),
-              ),
-            ),
-            centerTitle: true,
             backgroundColor: mainColor,
             actions: [
               Padding(
@@ -664,9 +654,14 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  showCatchDialog(
-                                      context: context,
-                                      image: productCla.image);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Img(productCla.image)));
+                                  // showCatchDialog(
+                                  //     context: context,
+                                  //     image: productCla.image);
                                 },
                                 child: Container(
                                   width: w,
@@ -700,11 +695,12 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                      width: w * 0.5,
+                                      width: w * 0.4,
                                       child: Text(
                                         translateString(productCla.nameEn,
                                             productCla.nameAr),
                                         maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: w * 0.04),

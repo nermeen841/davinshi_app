@@ -1,6 +1,5 @@
 // ignore_for_file: empty_catches, deprecated_member_use, avoid_print
 import 'dart:io';
-
 import 'package:davinshi_app/screens/auth/login.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +16,7 @@ import 'package:davinshi_app/screens/auth/country.dart';
 import 'package:davinshi_app/screens/contac_us.dart';
 import 'package:davinshi_app/screens/profile_user.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:simple_star_rating/simple_star_rating.dart';
 
@@ -31,6 +31,7 @@ class _ProfileState extends State<Profile> {
   final RoundedLoadingButtonController controller =
       RoundedLoadingButtonController();
   double ratingValue = 0;
+  final InAppReview inAppReview = InAppReview.instance;
   final List<Tile> tile = login
       ? [
           Tile(
@@ -570,7 +571,12 @@ class _ProfileState extends State<Profile> {
                                           builder: (context) => Country(1)),
                                       (route) => false);
                                 } else if (tile[i].nameEn == 'App rate') {
-                                  showAppRatingDialog(context: context);
+                                  if (Platform.isAndroid) {
+                                    showRequestDialog();
+                                  } else {
+                                    inAppReview.openStoreListing(
+                                        appStoreId: '');
+                                  }
                                 } else if (tile[i].nameEn == 'Share App') {
                                   // navPRRU(context, const Country(1));
                                 } else {
@@ -758,6 +764,20 @@ class _ProfileState extends State<Profile> {
         );
       },
     );
+  }
+
+  Future<void> showRequestDialog() async {
+    final InAppReview inAppReview = InAppReview.instance;
+
+    if (await inAppReview.isAvailable()) {
+      inAppReview.requestReview().then((value) {
+        inAppReview.openStoreListing(
+          appStoreId: "com.konoz.konoz",
+        );
+      }).catchError((err) {
+        error(context);
+      });
+    }
   }
 
   InputBorder form2() {

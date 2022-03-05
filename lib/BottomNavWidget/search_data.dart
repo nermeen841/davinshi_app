@@ -35,8 +35,9 @@ class _SearchDataScreenState extends State<SearchDataScreen> {
           queryParameters: {'page': page},
           data: data,
           options: Options(headers: {
-            'auth-token': (login) ? auth : null,
+            'auth-token': (login) ? auth : '',
           }));
+      print(response.data);
       if (response.data['status'] == 1) {
         SearchModel searchModel = SearchModel.fromJson(response.data);
         // searchData = searchModel.orders!.categories!;
@@ -75,7 +76,7 @@ class _SearchDataScreenState extends State<SearchDataScreen> {
             queryParameters: {'page': page},
             data: data,
             options: Options(headers: {
-              'auth-token': (login) ? auth : null,
+              'auth-token': (login) ? auth : '',
             }));
 
         SearchModel searchModel = SearchModel.fromJson(response.data);
@@ -151,17 +152,21 @@ class _SearchDataScreenState extends State<SearchDataScreen> {
                                           SizedBox(
                                             width: w * 2.5 / 100,
                                           ),
-                                          Text(
-                                            translateString(
-                                                searchData[index]
-                                                    .nameEn
-                                                    .toString(),
-                                                searchData[index]
-                                                    .nameAr
-                                                    .toString()),
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: w * 0.04),
+                                          SizedBox(
+                                            width: w * 0.7,
+                                            child: Text(
+                                              translateString(
+                                                  searchData[index]
+                                                      .nameEn
+                                                      .toString(),
+                                                  searchData[index]
+                                                      .nameAr
+                                                      .toString()),
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: w * 0.04),
+                                            ),
                                           ),
                                         ],
                                       ),

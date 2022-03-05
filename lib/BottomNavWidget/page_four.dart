@@ -118,15 +118,14 @@ class _PageFourState extends State<PageFour> {
                         controller: search,
                         onEditingComplete: () {
                           FocusScope.of(context).unfocus();
-                          if (login) {
+
+                          setState(() {
+                            isSearching = true;
+                          });
+                          if (search.text.isEmpty) {
                             setState(() {
-                              isSearching = true;
+                              isSearching = false;
                             });
-                            if (search.text.isEmpty) {
-                              setState(() {
-                                isSearching = false;
-                              });
-                            }
                           }
                         },
                         decoration: InputDecoration(
@@ -143,32 +142,30 @@ class _PageFourState extends State<PageFour> {
                           hintStyle: const TextStyle(color: Colors.grey),
                         ),
                         onChanged: (val) {
-                          if (login) {
+                          setState(() {
+                            isSearching = true;
+                          });
+                          if (search.text.isEmpty) {
                             setState(() {
-                              isSearching = true;
+                              isSearching = false;
                             });
-                            if (search.text.isEmpty) {
-                              setState(() {
-                                isSearching = false;
-                              });
-                            }
+                          }
+
+                          List<SubCategories> _subCat = [];
+                          if (val.isEmpty || val == '') {
+                            setState(() {
+                              catProvider.sub = catProvider.allSub;
+                            });
                           } else {
-                            List<SubCategories> _subCat = [];
-                            if (val.isEmpty || val == '') {
-                              setState(() {
-                                catProvider.sub = catProvider.allSub;
-                              });
-                            } else {
-                              catProvider.allSub.forEach((e) {
-                                if (e.nameEn.toLowerCase().contains(val) ||
-                                    e.nameAr.toUpperCase().contains(val)) {
-                                  _subCat.add(e);
-                                }
-                              });
-                              setState(() {
-                                catProvider.sub = _subCat;
-                              });
-                            }
+                            catProvider.allSub.forEach((e) {
+                              if (e.nameEn.toLowerCase().contains(val) ||
+                                  e.nameAr.toUpperCase().contains(val)) {
+                                _subCat.add(e);
+                              }
+                            });
+                            setState(() {
+                              catProvider.sub = _subCat;
+                            });
                           }
                         },
                         keyboardType: TextInputType.text,
@@ -181,10 +178,9 @@ class _PageFourState extends State<PageFour> {
                         style: TextStyle(
                             color: Colors.grey[400], fontSize: w * 0.035),
                       ),
-                      if (login && isSearching)
-                        SearchDataScreen(keyword: search.text),
+                      if (isSearching) SearchDataScreen(keyword: search.text),
                       if (login && !isSearching) SearchPaginate(),
-                      if (!login)
+                      if (!login && !isSearching)
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: List.generate(catProvider.categories.length,

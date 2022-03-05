@@ -199,7 +199,7 @@ class _CartState extends State<Cart> {
             style: TextStyle(color: Colors.white, fontSize: w * 0.04),
           ),
           centerTitle: false,
-          backgroundColor: Colors.black,
+          backgroundColor: mainColor,
           leading: const BackButton(
             color: Colors.white,
           ),

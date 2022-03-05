@@ -4,7 +4,7 @@ import 'package:davinshi_app/dbhelper.dart';
 import 'package:davinshi_app/models/cart.dart';
 import 'package:davinshi_app/models/rate.dart';
 import 'package:davinshi_app/provider/cart_provider.dart';
-import 'package:davinshi_app/screens/home_folder/more.dart';
+import 'package:davinshi_app/screens/home_folder/more/more.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 import 'package:davinshi_app/BottomNavWidget/first_page.dart';
@@ -32,49 +32,6 @@ class TabOne extends StatefulWidget {
 }
 
 class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
-  // late AnimationController animationController;
-  // late Animation<Color> buttonColor;
-  // // ignore: unused_field
-  // late Animation<double> animationIcon;
-  // late Animation<double> translateButton;
-  // late int selectedIndex;
-  // Curve curve = Curves.easeOut;
-  // int _counter = 1;
-  // @override
-  // void initState() {
-  //   animationController = AnimationController(
-  //       vsync: this, duration: const Duration(microseconds: 500))
-  //     ..addListener(() {
-  //       setState(() {});
-  //     })
-  //     ..addStatusListener((status) {
-  //       if (status == AnimationStatus.completed) {
-  //         setState(() {
-  //           // TabOne.isOpened = true;
-  //         });
-  //       } else if (status == AnimationStatus.dismissed) {
-  //         setState(() {
-  //           // TabOne.isOpened = false;
-  //         });
-  //       }
-  //     });
-  //   animationIcon =
-  //       Tween<double>(begin: 0.0, end: 1.0).animate(animationController);
-  //   translateButton = Tween<double>(begin: 0.0, end: 30.0).animate(
-  //       CurvedAnimation(
-  //           parent: animationController,
-  //           curve: Interval(0.00, 0.75, curve: curve)));
-  //   super.initState();
-  // }
-
-  // animate({required int productId}) {
-  //   if (TabOne.isOpened[productId] == true) {
-  //     animationController.forward();
-  //   } else {
-  //     animationController.reverse();
-  //   }
-  // }
-
   DbHelper helper = DbHelper();
   List<Rate> rate = [];
   List<int> att = [];
@@ -208,13 +165,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                   child: Container(
                                     decoration: const BoxDecoration(
                                       color: Colors.transparent,
-                                      // borderRadius: isLeft()
-                                      //     ? const BorderRadius.only(
-                                      //         bottomLeft: Radius.circular(15),
-                                      //       )
-                                      //     : const BorderRadius.only(
-                                      //         bottomRight: Radius.circular(15),
-                                      //       ),
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.all(w * 0.025),
@@ -246,29 +196,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                               ),
                                             ),
                                           ),
-                                          // SizedBox(
-                                          //   width: w * 0.01,
-                                          // ),
-                                          // Container(
-                                          //   padding: EdgeInsets.symmetric(
-                                          //       horizontal: w * 0.01),
-                                          //   color: Colors.grey[200],
-                                          //   child: Center(
-                                          //     child: (prefs
-                                          //                 .getString(
-                                          //                     'language_code')
-                                          //                 .toString() ==
-                                          //             'en')
-                                          //         ? const Icon(
-                                          //             Icons.keyboard_arrow_right,
-                                          //             color: Colors.black,
-                                          //           )
-                                          //         : const Icon(
-                                          //             Icons.keyboard_arrow_left,
-                                          //             color: Colors.black,
-                                          //           ),
-                                          //   ),
-                                          // ),
                                         ],
                                       ),
                                     ),
@@ -277,16 +204,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     Provider.of<BottomProvider>(context,
                                             listen: false)
                                         .setIndex(2);
-                                    // dialog(context);
-                                    // await CatProvider.getParentCat().then((value) {
-                                    //   if(value){
-                                    //     Navigator.pop(context);
-                                    //     Provider.of<BottomProvider>(context,listen: false).setIndex(2);
-                                    //   }else{
-                                    //     Navigator.pop(context);
-                                    //     error(context);
-                                    //   }
-                                    // });
                                   },
                                 ),
                               ],
@@ -482,10 +399,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                     childAspectRatio: 0.9,
                                                     crossAxisSpacing: h * 0.001,
                                                     mainAxisSpacing: w * 0.015),
-                                            // separatorBuilder: (context, index) =>
-                                            //     SizedBox(
-                                            //   width: w * 0.01,
-                                            // ),
                                           ),
                                         );
                                       } else if (snapshot.connectionState ==
@@ -533,13 +446,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                   child: Container(
                                     decoration: const BoxDecoration(
                                       color: Colors.transparent,
-                                      // borderRadius: isLeft()
-                                      //     ? const BorderRadius.only(
-                                      //         bottomLeft: Radius.circular(15),
-                                      //       )
-                                      //     : const BorderRadius.only(
-                                      //         bottomRight: Radius.circular(15),
-                                      //       ),
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.all(w * 0.025),
@@ -681,16 +587,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                                           .bold,
                                                                   color: Colors
                                                                       .black)),
-                                                    // if (offerEnd[i].isSale &&
-                                                    //     offerEnd[i].disPer != null)
-                                                    //   TextSpan(
-                                                    //       text:
-                                                    //           offerEnd[i].disPer! +
-                                                    //               '%',
-                                                    //       style: const TextStyle(
-                                                    //           fontWeight:
-                                                    //               FontWeight.bold,
-                                                    //           color: Colors.red)),
                                                   ],
                                                 ),
                                               ),
@@ -732,7 +628,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                       SizedBox(
                         height: h * 0.01,
                       ),
-
                     Container(
                       width: w,
                       color: Colors.white,
@@ -763,13 +658,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     child: Container(
                                       decoration: const BoxDecoration(
                                         color: Colors.transparent,
-                                        // borderRadius: isLeft()
-                                        //     ? const BorderRadius.only(
-                                        //         bottomLeft: Radius.circular(15),
-                                        //       )
-                                        //     : const BorderRadius.only(
-                                        //         bottomRight: Radius.circular(15),
-                                        //       ),
                                       ),
                                       child: Padding(
                                         padding: EdgeInsets.all(w * 0.025),
@@ -797,20 +685,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                 ),
                                               ),
                                             ),
-                                            // SizedBox(
-                                            //   width: w * 0.01,
-                                            // ),
-                                            // Container(
-                                            //   padding: EdgeInsets.symmetric(
-                                            //       horizontal: w * 0.01),
-                                            //   color: Colors.grey[200],
-                                            //   child: const Center(
-                                            //     child: Icon(
-                                            //       Icons.keyboard_arrow_right,
-                                            //       color: Colors.black,
-                                            //     ),
-                                            //   ),
-                                            // ),
                                           ],
                                         ),
                                       ),
@@ -875,126 +749,13 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                         ),
                       ),
                     ),
-
-                    // if (checkPosition(1))
-                    //   InkWell(
-                    //     child: Container(
-                    //       width: w,
-                    //       height: h * 0.15,
-                    //       decoration: BoxDecoration(
-                    //         image: DecorationImage(
-                    //           image: NetworkImage(getAdsPosition(1).image),
-                    //           fit: BoxFit.fitWidth,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     focusColor: Colors.transparent,
-                    //     splashColor: Colors.transparent,
-                    //     highlightColor: Colors.transparent,
-                    //     onTap: () async {
-                    //       Ads _ads = getAdsPosition(1);
-                    //       if (_ads.inApp) {
-                    //         if (_ads.type) {
-                    //           dialog(context);
-                    //           await getItem(int.parse(_ads.link));
-                    //           Navigator.pushReplacementNamed(context, 'pro');
-                    //         } else {
-                    //           dialog(context);
-                    //           Provider.of<NewPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<BestPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           await Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .getItems(int.parse(_ads.link));
-                    //           Navigator.pushReplacement(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (ctx) => MultiplePackages(
-                    //                         id: int.parse(_ads.link),
-                    //                       )));
-                    //         }
-                    //       }
-                    //     },
-                    //   ),
                     if (getAds(1).isNotEmpty)
                       SizedBox(
                         height: h * 0.01,
                       ),
-                    // if (getAds(1).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.2,
-                    //     child: Padding(
-                    //       padding: EdgeInsets.symmetric(horizontal: w * 0.025),
-                    //       child: Swiper(
-                    //         itemCount: getAds(1).length,
-                    //         itemBuilder: (BuildContext context, int i) {
-                    //           Ads _ads = getAds(1)[i];
-                    //           return InkWell(
-                    //             child: Container(
-                    //               width: w * 0.95,
-                    //               height: h * 0.2,
-                    //               decoration: BoxDecoration(
-                    //                 image: DecorationImage(
-                    //                   image: NetworkImage(_ads.image),
-                    //                   fit: BoxFit.fitWidth,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             focusColor: Colors.transparent,
-                    //             splashColor: Colors.transparent,
-                    //             highlightColor: Colors.transparent,
-                    //             onTap: () async {
-                    //               if (_ads.inApp) {
-                    //                 if (_ads.type) {
-                    //                   dialog(context);
-                    //                   await getItem(int.parse(_ads.link));
-                    //                   Navigator.pushReplacementNamed(
-                    //                       context, 'pro');
-                    //                 } else {
-                    //                   dialog(context);
-                    //                   Provider.of<NewPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<RePackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<BestPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   await Provider.of<RePackageItemProvider>(
-                    //                           context,
-                    //                           listen: false)
-                    //                       .getItems(int.parse(_ads.link));
-                    //                   Navigator.pushReplacement(
-                    //                       context,
-                    //                       MaterialPageRoute(
-                    //                           builder: (ctx) => MultiplePackages(
-                    //                                 id: int.parse(_ads.link),
-                    //                               )));
-                    //                 }
-                    //               } else {
-                    //                 await canLaunch(_ads.link)
-                    //                     ? await launch(_ads.link)
-                    //                     : throw 'Could not launch ${_ads.link}';
-                    //               }
-                    //             },
-                    //           );
-                    //         },
-                    //         autoplay: true,
-                    //         autoplayDelay: 5000,
-                    //       ),
-                    //     ),
-                    //   ),
                     SizedBox(
                       height: h * 0.01,
                     ),
-
                     if (newItem.isNotEmpty)
                       Column(
                         children: [
@@ -1018,13 +779,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                   child: Container(
                                     decoration: const BoxDecoration(
                                       color: Colors.transparent,
-                                      // borderRadius: isLeft()
-                                      //     ? const BorderRadius.only(
-                                      //         bottomLeft: Radius.circular(15),
-                                      //       )
-                                      //     : const BorderRadius.only(
-                                      //         bottomRight: Radius.circular(15),
-                                      //       ),
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.all(w * 0.025),
@@ -1036,8 +790,9 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          MoreScreen(
-                                                            products: newItem,
+                                                          const MoreScreen(
+                                                            endPoint:
+                                                                "get-new-products",
                                                           )));
                                             },
                                             child: Container(
@@ -1063,29 +818,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                               ),
                                             ),
                                           ),
-                                          // SizedBox(
-                                          //   width: w * 0.01,
-                                          // ),
-                                          // Container(
-                                          //   padding: EdgeInsets.symmetric(
-                                          //       horizontal: w * 0.01),
-                                          //   color: Colors.grey[200],
-                                          //   child: Center(
-                                          //     child: (prefs
-                                          //                 .getString(
-                                          //                     'language_code')
-                                          //                 .toString() ==
-                                          //             'en')
-                                          //         ? const Icon(
-                                          //             Icons.keyboard_arrow_right,
-                                          //             color: Colors.black,
-                                          //           )
-                                          //         : const Icon(
-                                          //             Icons.keyboard_arrow_left,
-                                          //             color: Colors.black,
-                                          //           ),
-                                          //   ),
-                                          // ),
                                         ],
                                       ),
                                     ),
@@ -1282,6 +1014,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                 height: h * 0.01,
                                               ),
                                               Container(
+                                                  width: w * 0.45,
                                                   constraints: BoxConstraints(
                                                     maxHeight: h * 0.07,
                                                   ),
@@ -1289,10 +1022,11 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       translateString(
                                                           newItem[i].nameEn,
                                                           newItem[i].nameAr),
+                                                      maxLines: 2,
                                                       style: TextStyle(
                                                           fontSize: w * 0.035),
-                                                      overflow:
-                                                          TextOverflow.fade)),
+                                                      overflow: TextOverflow
+                                                          .ellipsis)),
                                               SizedBox(
                                                 height: h * 0.005,
                                               ),
@@ -1425,8 +1159,9 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          MoreScreen(
-                                                            products: bestDis,
+                                                          const MoreScreen(
+                                                            endPoint:
+                                                                "get-offer-products",
                                                           )));
                                             },
                                             child: Container(
@@ -1671,6 +1406,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                 height: h * 0.01,
                                               ),
                                               Container(
+                                                  width: w * 0.45,
                                                   constraints: BoxConstraints(
                                                     maxHeight: h * 0.07,
                                                   ),
@@ -1678,10 +1414,11 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       translateString(
                                                           bestDis[i].nameEn,
                                                           bestDis[i].nameAr),
+                                                      maxLines: 2,
                                                       style: TextStyle(
                                                           fontSize: w * 0.035),
-                                                      overflow:
-                                                          TextOverflow.fade)),
+                                                      overflow: TextOverflow
+                                                          .ellipsis)),
                                               SizedBox(
                                                 height: h * 0.005,
                                               ),
@@ -1768,125 +1505,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                           ),
                         ],
                       ),
-
-                    // if (checkPosition(2))
-                    //   SizedBox(
-                    //     height: h * 0.01,
-                    //   ),
-                    // if (checkPosition(2))
-                    //   InkWell(
-                    //     child: Container(
-                    //       width: w,
-                    //       height: h * 0.15,
-                    //       decoration: BoxDecoration(
-                    //           image: DecorationImage(
-                    //         image: NetworkImage(getAdsPosition(2).image),
-                    //         fit: BoxFit.fitWidth,
-                    //       )),
-                    //     ),
-                    //     focusColor: Colors.transparent,
-                    //     splashColor: Colors.transparent,
-                    //     highlightColor: Colors.transparent,
-                    //     onTap: () async {
-                    //       Ads _ads = getAdsPosition(2);
-                    //       if (_ads.inApp) {
-                    //         if (_ads.type) {
-                    //           dialog(context);
-                    //           await getItem(int.parse(_ads.link));
-                    //           Navigator.pushReplacementNamed(context, 'pro');
-                    //         } else {
-                    //           dialog(context);
-                    //           Provider.of<NewPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<BestPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           await Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .getItems(int.parse(_ads.link));
-                    //           Navigator.pushReplacement(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (ctx) => MultiplePackages(
-                    //                         id: int.parse(_ads.link),
-                    //                       )));
-                    //         }
-                    //       }
-                    //     },
-                    //   ),
-                    // if (getAds(2).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.01,
-                    //   ),
-                    // if (getAds(2).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.2,
-                    //     child: Padding(
-                    //       padding: EdgeInsets.symmetric(horizontal: w * 0.025),
-                    //       child: Swiper(
-                    //         itemCount: getAds(2).length,
-                    //         itemBuilder: (BuildContext context, int i) {
-                    //           Ads _ads = getAds(2)[i];
-                    //           return InkWell(
-                    //             child: Container(
-                    //               width: w * 0.95,
-                    //               height: h * 0.2,
-                    //               decoration: BoxDecoration(
-                    //                 image: DecorationImage(
-                    //                   image: NetworkImage(_ads.image),
-                    //                   fit: BoxFit.fitWidth,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             focusColor: Colors.transparent,
-                    //             splashColor: Colors.transparent,
-                    //             highlightColor: Colors.transparent,
-                    //             onTap: () async {
-                    //               if (_ads.inApp) {
-                    //                 if (_ads.type) {
-                    //                   dialog(context);
-                    //                   await getItem(int.parse(_ads.link));
-                    //                   Navigator.pushReplacementNamed(
-                    //                       context, 'pro');
-                    //                 } else {
-                    //                   dialog(context);
-                    //                   Provider.of<NewPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<RePackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<BestPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   await Provider.of<RePackageItemProvider>(
-                    //                           context,
-                    //                           listen: false)
-                    //                       .getItems(int.parse(_ads.link));
-                    //                   Navigator.pushReplacement(
-                    //                       context,
-                    //                       MaterialPageRoute(
-                    //                           builder: (ctx) => MultiplePackages(
-                    //                                 id: int.parse(_ads.link),
-                    //                               )));
-                    //                 }
-                    //               } else {
-                    //                 await canLaunch(_ads.link)
-                    //                     ? await launch(_ads.link)
-                    //                     : throw 'Could not launch ${_ads.link}';
-                    //               }
-                    //             },
-                    //           );
-                    //         },
-                    //         autoplay: true,
-                    //         autoplayDelay: 5000,
-                    //       ),
-                    //     ),
-                    //   ),
                     SizedBox(height: h * 0.01),
                     if (reItem.isNotEmpty)
                       Column(
@@ -1945,29 +1563,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                               ),
                                             ),
                                           ),
-                                          // SizedBox(
-                                          //   width: w * 0.01,
-                                          // ),
-                                          // Container(
-                                          //   padding: EdgeInsets.symmetric(
-                                          //       horizontal: w * 0.01),
-                                          //   color: Colors.grey[200],
-                                          //   child: Center(
-                                          //     child: (prefs
-                                          //                 .getString(
-                                          //                     'language_code')
-                                          //                 .toString() ==
-                                          //             'en')
-                                          //         ? const Icon(
-                                          //             Icons.keyboard_arrow_right,
-                                          //             color: Colors.black,
-                                          //           )
-                                          //         : const Icon(
-                                          //             Icons.keyboard_arrow_left,
-                                          //             color: Colors.black,
-                                          //           ),
-                                          //   ),
-                                          // ),
                                         ],
                                       ),
                                     ),
@@ -1976,32 +1571,13 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => MoreScreen(
-                                                  products: reItem,
+                                            builder: (context) =>
+                                                const MoreScreen(
+                                                  endPoint:
+                                                      "get-recommended-products",
                                                 )));
                                   },
                                 ),
-                                // InkWell(
-                                //   child: Container(
-                                //     child: Row(
-                                //       children: [
-                                //         Text('See All',style: TextStyle(fontSize: w*0.035,color: mainColor),),
-                                //         Directionality(
-                                //           textDirection: TextDirection.rtl,
-                                //           child: BackButton(
-                                //             onPressed: (){
-                                //
-                                //             },
-                                //             color: mainColor,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     ),
-                                //   ),
-                                //   onTap: (){
-                                //     Navigator.push(context, MaterialPageRoute(builder: (ctx)=>Packages()));
-                                //   },
-                                // ),
                               ],
                             ),
                           ),
@@ -2015,12 +1591,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                               itemCount: reItem.length,
                               primary: false,
                               shrinkWrap: true,
-                              // gridDelegate:
-                              //     SliverGridDelegateWithFixedCrossAxisCount(
-                              //         crossAxisSpacing: h * 0.01,
-                              //         mainAxisSpacing: w * 0.01,
-                              //         crossAxisCount: 2,
-                              //         childAspectRatio: 0.7),
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (ctx, i) {
                                 return InkWell(
@@ -2081,6 +1651,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                   height: h * 0.01,
                                                 ),
                                                 Container(
+                                                    width: w * 0.45,
                                                     constraints: BoxConstraints(
                                                       maxHeight: h * 0.07,
                                                     ),
@@ -2088,11 +1659,12 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                         translateString(
                                                             reItem[i].nameEn,
                                                             reItem[i].nameAr),
+                                                        maxLines: 2,
                                                         style: TextStyle(
                                                             color: Colors.black,
                                                             fontSize: w * 0.05),
-                                                        overflow:
-                                                            TextOverflow.fade)),
+                                                        overflow: TextOverflow
+                                                            .ellipsis)),
                                                 SizedBox(
                                                   height: h * 0.005,
                                                 ),
@@ -2242,7 +1814,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                           ),
                         ],
                       ),
-
                     SizedBox(
                       height: h * 0.03,
                     ),
@@ -2303,27 +1874,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                               ),
                                             ),
                                           ),
-
-                                          // Container(
-                                          //   padding: EdgeInsets.symmetric(
-                                          //       horizontal: w * 0.01),
-                                          //   color: Colors.grey[200],
-                                          //   child: Center(
-                                          //     child: (prefs
-                                          //                 .getString(
-                                          //                     'language_code')
-                                          //                 .toString() ==
-                                          //             'en')
-                                          //         ? const Icon(
-                                          //             Icons.keyboard_arrow_right,
-                                          //             color: Colors.black,
-                                          //           )
-                                          //         : const Icon(
-                                          //             Icons.keyboard_arrow_left,
-                                          //             color: Colors.black,
-                                          //           ),
-                                          //   ),
-                                          // ),
                                         ],
                                       ),
                                     ),
@@ -2332,8 +1882,10 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => MoreScreen(
-                                                products: bestItem)));
+                                            builder: (context) =>
+                                                const MoreScreen(
+                                                    endPoint:
+                                                        "get-best-products")));
                                   },
                                 ),
                               ],
@@ -2527,6 +2079,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                 height: h * 0.01,
                                               ),
                                               Container(
+                                                  width: w * 0.45,
                                                   constraints: BoxConstraints(
                                                     maxHeight: h * 0.07,
                                                   ),
@@ -2534,10 +2087,11 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       translateString(
                                                           bestItem[i].nameEn,
                                                           bestItem[i].nameAr),
+                                                      maxLines: 2,
                                                       style: TextStyle(
                                                           fontSize: w * 0.035),
-                                                      overflow:
-                                                          TextOverflow.fade)),
+                                                      overflow: TextOverflow
+                                                          .ellipsis)),
                                               SizedBox(
                                                 height: h * 0.005,
                                               ),
@@ -2624,368 +2178,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                           ),
                         ],
                       ),
-                    // if (checkPosition(3))
-                    //   SizedBox(
-                    //     height: h * 0.01,
-                    //   ),
-                    // if (checkPosition(3))
-                    //   InkWell(
-                    //     child: Container(
-                    //       width: w,
-                    //       height: h * 0.15,
-                    //       decoration: BoxDecoration(
-                    //           image: DecorationImage(
-                    //         image: NetworkImage(getAdsPosition(3).image),
-                    //         fit: BoxFit.fitWidth,
-                    //       )),
-                    //     ),
-                    //     focusColor: Colors.transparent,
-                    //     splashColor: Colors.transparent,
-                    //     highlightColor: Colors.transparent,
-                    //     onTap: () async {
-                    //       Ads _ads = getAdsPosition(3);
-                    //       if (_ads.inApp) {
-                    //         if (_ads.type) {
-                    //           dialog(context);
-                    //           await getItem(int.parse(_ads.link));
-                    //           Navigator.pushReplacementNamed(context, 'pro');
-                    //         } else {
-                    //           dialog(context);
-                    //           Provider.of<NewPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<BestPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           await Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .getItems(int.parse(_ads.link));
-                    //           Navigator.pushReplacement(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (ctx) => MultiplePackages(
-                    //                         id: int.parse(_ads.link),
-                    //                       )));
-                    //         }
-                    //       }
-                    //     },
-                    //   ),
-                    // if (getAds(3).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.01,
-                    //   ),
-                    // if (getAds(3).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.2,
-                    //     child: Padding(
-                    //       padding: EdgeInsets.symmetric(horizontal: w * 0.025),
-                    //       child: Swiper(
-                    //         itemCount: getAds(3).length,
-                    //         itemBuilder: (BuildContext context, int i) {
-                    //           Ads _ads = getAds(3)[i];
-                    //           return InkWell(
-                    //             child: Container(
-                    //               width: w * 0.95,
-                    //               height: h * 0.2,
-                    //               decoration: BoxDecoration(
-                    //                 image: DecorationImage(
-                    //                   image: NetworkImage(_ads.image),
-                    //                   fit: BoxFit.fitWidth,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             focusColor: Colors.transparent,
-                    //             splashColor: Colors.transparent,
-                    //             highlightColor: Colors.transparent,
-                    //             onTap: () async {
-                    //               if (_ads.inApp) {
-                    //                 if (_ads.type) {
-                    //                   dialog(context);
-                    //                   await getItem(int.parse(_ads.link));
-                    //                   Navigator.pushReplacementNamed(
-                    //                       context, 'pro');
-                    //                 } else {
-                    //                   dialog(context);
-                    //                   Provider.of<NewPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<RePackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<BestPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   await Provider.of<RePackageItemProvider>(
-                    //                           context,
-                    //                           listen: false)
-                    //                       .getItems(int.parse(_ads.link));
-                    //                   Navigator.pushReplacement(
-                    //                       context,
-                    //                       MaterialPageRoute(
-                    //                           builder: (ctx) => MultiplePackages(
-                    //                                 id: int.parse(_ads.link),
-                    //                               )));
-                    //                 }
-                    //               } else {
-                    //                 await canLaunch(_ads.link)
-                    //                     ? await launch(_ads.link)
-                    //                     : throw 'Could not launch ${_ads.link}';
-                    //               }
-                    //             },
-                    //           );
-                    //         },
-                    //         autoplay: true,
-                    //         autoplayDelay: 5000,
-                    //       ),
-                    //     ),
-                    //   ),
                     SizedBox(
-                      height: h * 0.03,
-                    ),
-                    // if (checkPosition(4))
-                    //   SizedBox(
-                    //     height: h * 0.01,
-                    //   ),
-                    // if (checkPosition(4))
-                    //   InkWell(
-                    //     child: Container(
-                    //       width: w,
-                    //       height: h * 0.15,
-                    //       decoration: BoxDecoration(
-                    //           image: DecorationImage(
-                    //         image: NetworkImage(getAdsPosition(4).image),
-                    //         fit: BoxFit.fitWidth,
-                    //       )),
-                    //     ),
-                    //     focusColor: Colors.transparent,
-                    //     splashColor: Colors.transparent,
-                    //     highlightColor: Colors.transparent,
-                    //     onTap: () async {
-                    //       Ads _ads = getAdsPosition(4);
-                    //       if (_ads.inApp) {
-                    //         if (_ads.type) {
-                    //           dialog(context);
-                    //           await getItem(int.parse(_ads.link));
-                    //           Navigator.pushReplacementNamed(context, 'pro');
-                    //         } else {
-                    //           dialog(context);
-                    //           Provider.of<NewPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<BestPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           await Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .getItems(int.parse(_ads.link));
-                    //           Navigator.pushReplacement(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (ctx) => MultiplePackages(
-                    //                         id: int.parse(_ads.link),
-                    //                       )));
-                    //         }
-                    //       }
-                    //     },
-                    //   ),
-                    // if (getAds(4).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.01,
-                    //   ),
-                    // if (getAds(4).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.2,
-                    //     child: Padding(
-                    //       padding: EdgeInsets.symmetric(horizontal: w * 0.025),
-                    //       child: Swiper(
-                    //         itemCount: getAds(4).length,
-                    //         itemBuilder: (BuildContext context, int i) {
-                    //           Ads _ads = getAds(4)[i];
-                    //           return InkWell(
-                    //             child: Container(
-                    //               width: w * 0.95,
-                    //               height: h * 0.2,
-                    //               decoration: BoxDecoration(
-                    //                 image: DecorationImage(
-                    //                   image: NetworkImage(_ads.image),
-                    //                   fit: BoxFit.fitWidth,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             focusColor: Colors.transparent,
-                    //             splashColor: Colors.transparent,
-                    //             highlightColor: Colors.transparent,
-                    //             onTap: () async {
-                    //               if (_ads.inApp) {
-                    //                 if (_ads.type) {
-                    //                   dialog(context);
-                    //                   await getItem(int.parse(_ads.link));
-                    //                   Navigator.pushReplacementNamed(
-                    //                       context, 'pro');
-                    //                 } else {
-                    //                   dialog(context);
-                    //                   Provider.of<NewPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<RePackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<BestPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   await Provider.of<RePackageItemProvider>(
-                    //                           context,
-                    //                           listen: false)
-                    //                       .getItems(int.parse(_ads.link));
-                    //                   Navigator.pushReplacement(
-                    //                       context,
-                    //                       MaterialPageRoute(
-                    //                           builder: (ctx) => MultiplePackages(
-                    //                                 id: int.parse(_ads.link),
-                    //                               )));
-                    //                 }
-                    //               } else {
-                    //                 await canLaunch(_ads.link)
-                    //                     ? await launch(_ads.link)
-                    //                     : throw 'Could not launch ${_ads.link}';
-                    //               }
-                    //             },
-                    //           );
-                    //         },
-                    //         autoplay: true,
-                    //         autoplayDelay: 5000,
-                    //       ),
-                    //     ),
-                    //   ),
-                    SizedBox(
-                      height: h * 0.01,
-                    ),
-                    // if (checkPosition(5))
-                    //   SizedBox(
-                    //     height: h * 0.01,
-                    //   ),
-                    // if (checkPosition(5))
-                    //   InkWell(
-                    //     child: Container(
-                    //       width: w,
-                    //       height: h * 0.15,
-                    //       decoration: BoxDecoration(
-                    //           image: DecorationImage(
-                    //         image: NetworkImage(getAdsPosition(5).image),
-                    //         fit: BoxFit.fitWidth,
-                    //       )),
-                    //     ),
-                    //     focusColor: Colors.transparent,
-                    //     splashColor: Colors.transparent,
-                    //     highlightColor: Colors.transparent,
-                    //     onTap: () async {
-                    //       Ads _ads = getAdsPosition(5);
-                    //       if (_ads.inApp) {
-                    //         if (_ads.type) {
-                    //           dialog(context);
-                    //           await getItem(int.parse(_ads.link));
-                    //           Navigator.pushReplacementNamed(context, 'pro');
-                    //         } else {
-                    //           dialog(context);
-                    //           Provider.of<NewPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<BestPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           await Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .getItems(int.parse(_ads.link));
-                    //           Navigator.pushReplacement(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (ctx) => MultiplePackages(
-                    //                         id: int.parse(_ads.link),
-                    //                       )));
-                    //         }
-                    //       }
-                    //     },
-                    //   ),
-                    // if (getAds(5).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.01,
-                    //   ),
-                    // if (getAds(5).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.2,
-                    //     child: Padding(
-                    //       padding: EdgeInsets.symmetric(horizontal: w * 0.025),
-                    //       child: Swiper(
-                    //         itemCount: getAds(5).length,
-                    //         itemBuilder: (BuildContext context, int i) {
-                    //           Ads _ads = getAds(5)[i];
-                    //           return InkWell(
-                    //             child: Container(
-                    //               width: w * 0.95,
-                    //               height: h * 0.2,
-                    //               decoration: BoxDecoration(
-                    //                 image: DecorationImage(
-                    //                   image: NetworkImage(_ads.image),
-                    //                   fit: BoxFit.fitWidth,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             focusColor: Colors.transparent,
-                    //             splashColor: Colors.transparent,
-                    //             highlightColor: Colors.transparent,
-                    //             onTap: () async {
-                    //               if (_ads.inApp) {
-                    //                 if (_ads.type) {
-                    //                   dialog(context);
-                    //                   await getItem(int.parse(_ads.link));
-                    //                   Navigator.pushReplacementNamed(
-                    //                       context, 'pro');
-                    //                 } else {
-                    //                   dialog(context);
-                    //                   Provider.of<NewPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<RePackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<BestPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   await Provider.of<RePackageItemProvider>(
-                    //                           context,
-                    //                           listen: false)
-                    //                       .getItems(int.parse(_ads.link));
-                    //                   Navigator.pushReplacement(
-                    //                       context,
-                    //                       MaterialPageRoute(
-                    //                           builder: (ctx) => MultiplePackages(
-                    //                                 id: int.parse(_ads.link),
-                    //                               )));
-                    //                 }
-                    //               } else {
-                    //                 await canLaunch(_ads.link)
-                    //                     ? await launch(_ads.link)
-                    //                     : throw 'Could not launch ${_ads.link}';
-                    //               }
-                    //             },
-                    //           );
-                    //         },
-                    //         autoplay: true,
-                    //         autoplayDelay: 5000,
-                    //       ),
-                    //     ),
-                    //   ),
-                    SizedBox(
-                      height: h * 0.01,
+                      height: h * 0.02,
                     ),
                     if (bestPrice.isNotEmpty)
                       Column(
@@ -3006,79 +2200,74 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                 SizedBox(
                                   width: w * 0.01,
                                 ),
-                                InkWell(
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                      color: Colors.transparent,
-                                      // borderRadius: isLeft()
-                                      //     ? const BorderRadius.only(
-                                      //         bottomLeft: Radius.circular(15),
-                                      //       )
-                                      //     : const BorderRadius.only(
-                                      //         bottomRight: Radius.circular(15),
-                                      //       ),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(w * 0.025),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: w * 0.2,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        w * 0.02),
-                                                color: mainColor),
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: w * 0.02,
-                                                vertical: h * 0.01),
-                                            child: Center(
-                                              child: Text(
-                                                translate(
-                                                    context, 'home', 'see'),
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: w * 0.05,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ),
-                                          ),
-                                          // SizedBox(
-                                          //   width: w * 0.01,
-                                          // ),
-                                          // Container(
-                                          //   padding: EdgeInsets.symmetric(
-                                          //       horizontal: w * 0.01),
-                                          //   color: Colors.grey[200],
-                                          //   child: Center(
-                                          //     child: (prefs
-                                          //                 .getString(
-                                          //                     'language_code')
-                                          //                 .toString() ==
-                                          //             'en')
-                                          //         ? const Icon(
-                                          //             Icons.keyboard_arrow_right,
-                                          //             color: Colors.black,
-                                          //           )
-                                          //         : const Icon(
-                                          //             Icons.keyboard_arrow_left,
-                                          //             color: Colors.black,
-                                          //           ),
-                                          //   ),
-                                          // ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => MoreScreen(
-                                                products: bestPrice)));
-                                  },
-                                ),
+
+                                // InkWell(
+                                //   child: Container(
+                                //     decoration: const BoxDecoration(
+                                //       color: Colors.transparent,
+                                //     ),
+                                //     child: Padding(
+                                //       padding: EdgeInsets.all(w * 0.025),
+                                //       child: Row(
+                                //         children: [
+                                //           // Container(
+                                //           //   width: w * 0.2,
+                                //           //   decoration: BoxDecoration(
+                                //           //       borderRadius:
+                                //           //           BorderRadius.circular(
+                                //           //               w * 0.02),
+                                //           //       color: mainColor),
+                                //           //   padding: EdgeInsets.symmetric(
+                                //           //       horizontal: w * 0.02,
+                                //           //       vertical: h * 0.01),
+                                //           //   child: Center(
+                                //           //     child: Text(
+                                //           //       translate(
+                                //           //           context, 'home', 'see'),
+                                //           //       style: TextStyle(
+                                //           //           color: Colors.white,
+                                //           //           fontSize: w * 0.05,
+                                //           //           fontWeight:
+                                //           //               FontWeight.bold),
+                                //           //     ),
+                                //           //   ),
+                                //           // ),
+                                //           // // SizedBox(
+                                //           //   width: w * 0.01,
+                                //           // ),
+                                //           // Container(
+                                //           //   padding: EdgeInsets.symmetric(
+                                //           //       horizontal: w * 0.01),
+                                //           //   color: Colors.grey[200],
+                                //           //   child: Center(
+                                //           //     child: (prefs
+                                //           //                 .getString(
+                                //           //                     'language_code')
+                                //           //                 .toString() ==
+                                //           //             'en')
+                                //           //         ? const Icon(
+                                //           //             Icons.keyboard_arrow_right,
+                                //           //             color: Colors.black,
+                                //           //           )
+                                //           //         : const Icon(
+                                //           //             Icons.keyboard_arrow_left,
+                                //           //             color: Colors.black,
+                                //           //           ),
+                                //           //   ),
+                                //           // ),
+                                //         ],
+                                //       ),
+                                //     ),
+                                //   ),
+                                //   onTap: () {
+                                //     Navigator.push(
+                                //         context,
+                                //         MaterialPageRoute(
+                                //             builder: (context) => const MoreScreen(
+                                //                 endPoint:
+                                //                     "get-recommended-products")));
+                                //   },
+                                // ),
                               ],
                             ),
                           ),
@@ -3280,6 +2469,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                 height: h * 0.01,
                                               ),
                                               Container(
+                                                  width: w * 0.45,
                                                   constraints: BoxConstraints(
                                                     maxHeight: h * 0.07,
                                                   ),
@@ -3287,10 +2477,11 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       translateString(
                                                           bestPrice[i].nameEn,
                                                           bestPrice[i].nameAr),
+                                                      maxLines: 2,
                                                       style: TextStyle(
                                                           fontSize: w * 0.035),
-                                                      overflow:
-                                                          TextOverflow.fade)),
+                                                      overflow: TextOverflow
+                                                          .ellipsis)),
                                               SizedBox(
                                                 height: h * 0.005,
                                               ),
@@ -3372,124 +2563,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                           ),
                         ],
                       ),
-                    // if (checkPosition(6))
-                    //   SizedBox(
-                    //     height: h * 0.01,
-                    //   ),
-                    // if (checkPosition(6))
-                    //   InkWell(
-                    //     child: Container(
-                    //       width: w,
-                    //       height: h * 0.15,
-                    //       decoration: BoxDecoration(
-                    //           image: DecorationImage(
-                    //         image: NetworkImage(getAdsPosition(6).image),
-                    //         fit: BoxFit.fitWidth,
-                    //       )),
-                    //     ),
-                    //     focusColor: Colors.transparent,
-                    //     splashColor: Colors.transparent,
-                    //     highlightColor: Colors.transparent,
-                    //     onTap: () async {
-                    //       Ads _ads = getAdsPosition(6);
-                    //       if (_ads.inApp) {
-                    //         if (_ads.type) {
-                    //           dialog(context);
-                    //           await getItem(int.parse(_ads.link));
-                    //           Navigator.pushReplacementNamed(context, 'pro');
-                    //         } else {
-                    //           dialog(context);
-                    //           Provider.of<NewPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<BestPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           await Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .getItems(int.parse(_ads.link));
-                    //           Navigator.pushReplacement(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (ctx) => MultiplePackages(
-                    //                         id: int.parse(_ads.link),
-                    //                       )));
-                    //         }
-                    //       }
-                    //     },
-                    //   ),
-                    // if (getAds(6).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.01,
-                    //   ),
-                    // if (getAds(6).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.2,
-                    //     child: Padding(
-                    //       padding: EdgeInsets.symmetric(horizontal: w * 0.025),
-                    //       child: Swiper(
-                    //         itemCount: getAds(6).length,
-                    //         itemBuilder: (BuildContext context, int i) {
-                    //           Ads _ads = getAds(6)[i];
-                    //           return InkWell(
-                    //             child: Container(
-                    //               width: w * 0.95,
-                    //               height: h * 0.2,
-                    //               decoration: BoxDecoration(
-                    //                 image: DecorationImage(
-                    //                   image: NetworkImage(_ads.image),
-                    //                   fit: BoxFit.fitWidth,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             focusColor: Colors.transparent,
-                    //             splashColor: Colors.transparent,
-                    //             highlightColor: Colors.transparent,
-                    //             onTap: () async {
-                    //               if (_ads.inApp) {
-                    //                 if (_ads.type) {
-                    //                   dialog(context);
-                    //                   await getItem(int.parse(_ads.link));
-                    //                   Navigator.pushReplacementNamed(
-                    //                       context, 'pro');
-                    //                 } else {
-                    //                   dialog(context);
-                    //                   Provider.of<NewPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<RePackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<BestPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   await Provider.of<RePackageItemProvider>(
-                    //                           context,
-                    //                           listen: false)
-                    //                       .getItems(int.parse(_ads.link));
-                    //                   Navigator.pushReplacement(
-                    //                       context,
-                    //                       MaterialPageRoute(
-                    //                           builder: (ctx) => MultiplePackages(
-                    //                                 id: int.parse(_ads.link),
-                    //                               )));
-                    //                 }
-                    //               } else {
-                    //                 await canLaunch(_ads.link)
-                    //                     ? await launch(_ads.link)
-                    //                     : throw 'Could not launch ${_ads.link}';
-                    //               }
-                    //             },
-                    //           );
-                    //         },
-                    //         autoplay: true,
-                    //         autoplayDelay: 5000,
-                    //       ),
-                    //     ),
-                    //   ),
                     SizedBox(
                       height: h * 0.03,
                     ),
@@ -3550,29 +2623,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                               ),
                                             ),
                                           ),
-                                          // SizedBox(
-                                          //   width: w * 0.01,
-                                          // ),
-                                          // Container(
-                                          //   padding: EdgeInsets.symmetric(
-                                          //       horizontal: w * 0.01),
-                                          //   color: Colors.grey[200],
-                                          //   child: Center(
-                                          //     child: (prefs
-                                          //                 .getString(
-                                          //                     'language_code')
-                                          //                 .toString() ==
-                                          //             'en')
-                                          //         ? const Icon(
-                                          //             Icons.keyboard_arrow_right,
-                                          //             color: Colors.black,
-                                          //           )
-                                          //         : const Icon(
-                                          //             Icons.keyboard_arrow_left,
-                                          //             color: Colors.black,
-                                          //           ),
-                                          //   ),
-                                          // ),
                                         ],
                                       ),
                                     ),
@@ -3581,8 +2631,9 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => MoreScreen(
-                                                products: topLikes)));
+                                            builder: (context) => const MoreScreen(
+                                                endPoint:
+                                                    "get-topLikes-products")));
                                   },
                                 ),
                               ],
@@ -3783,6 +2834,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                 height: h * 0.01,
                                               ),
                                               Container(
+                                                  width: w * 0.45,
                                                   constraints: BoxConstraints(
                                                     maxHeight: h * 0.07,
                                                   ),
@@ -3790,10 +2842,11 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       translateString(
                                                           topLikes[i].nameEn,
                                                           topLikes[i].nameAr),
+                                                      maxLines: 2,
                                                       style: TextStyle(
                                                           fontSize: w * 0.035),
-                                                      overflow:
-                                                          TextOverflow.fade)),
+                                                      overflow: TextOverflow
+                                                          .ellipsis)),
                                               SizedBox(
                                                 height: h * 0.005,
                                               ),
@@ -3834,14 +2887,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       ],
                                                     ),
                                                   ),
-                                                  // if (topLikes[i].isSale &&
-                                                  //     topLikes[i].disPer != null)
-                                                  //   Text(topLikes[i].disPer! + '%',
-                                                  //       style: TextStyle(
-                                                  //           fontWeight:
-                                                  //               FontWeight.bold,
-                                                  //           color: Colors.red)),
-
                                                   if (topLikes[i].isSale)
                                                     Text(
                                                       '${topLikes[i].price} $currency',
@@ -3874,124 +2919,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                           ),
                         ],
                       ),
-                    // if (checkPosition(7))
-                    //   SizedBox(
-                    //     height: h * 0.01,
-                    //   ),
-                    // if (checkPosition(7))
-                    //   InkWell(
-                    //     child: Container(
-                    //       width: w,
-                    //       height: h * 0.15,
-                    //       decoration: BoxDecoration(
-                    //           image: DecorationImage(
-                    //         image: NetworkImage(getAdsPosition(7).image),
-                    //         fit: BoxFit.fitWidth,
-                    //       )),
-                    //     ),
-                    //     focusColor: Colors.transparent,
-                    //     splashColor: Colors.transparent,
-                    //     highlightColor: Colors.transparent,
-                    //     onTap: () async {
-                    //       Ads _ads = getAdsPosition(7);
-                    //       if (_ads.inApp) {
-                    //         if (_ads.type) {
-                    //           dialog(context);
-                    //           await getItem(int.parse(_ads.link));
-                    //           Navigator.pushReplacementNamed(context, 'pro');
-                    //         } else {
-                    //           dialog(context);
-                    //           Provider.of<NewPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<BestPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           await Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .getItems(int.parse(_ads.link));
-                    //           Navigator.pushReplacement(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (ctx) => MultiplePackages(
-                    //                         id: int.parse(_ads.link),
-                    //                       )));
-                    //         }
-                    //       }
-                    //     },
-                    //   ),
-                    // if (getAds(7).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.01,
-                    //   ),
-                    // if (getAds(7).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.2,
-                    //     child: Padding(
-                    //       padding: EdgeInsets.symmetric(horizontal: w * 0.025),
-                    //       child: Swiper(
-                    //         itemCount: getAds(7).length,
-                    //         itemBuilder: (BuildContext context, int i) {
-                    //           Ads _ads = getAds(7)[i];
-                    //           return InkWell(
-                    //             child: Container(
-                    //               width: w * 0.95,
-                    //               height: h * 0.2,
-                    //               decoration: BoxDecoration(
-                    //                 image: DecorationImage(
-                    //                   image: NetworkImage(_ads.image),
-                    //                   fit: BoxFit.fitWidth,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             focusColor: Colors.transparent,
-                    //             splashColor: Colors.transparent,
-                    //             highlightColor: Colors.transparent,
-                    //             onTap: () async {
-                    //               if (_ads.inApp) {
-                    //                 if (_ads.type) {
-                    //                   dialog(context);
-                    //                   await getItem(int.parse(_ads.link));
-                    //                   Navigator.pushReplacementNamed(
-                    //                       context, 'pro');
-                    //                 } else {
-                    //                   dialog(context);
-                    //                   Provider.of<NewPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<RePackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<BestPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   await Provider.of<RePackageItemProvider>(
-                    //                           context,
-                    //                           listen: false)
-                    //                       .getItems(int.parse(_ads.link));
-                    //                   Navigator.pushReplacement(
-                    //                       context,
-                    //                       MaterialPageRoute(
-                    //                           builder: (ctx) => MultiplePackages(
-                    //                                 id: int.parse(_ads.link),
-                    //                               )));
-                    //                 }
-                    //               } else {
-                    //                 await canLaunch(_ads.link)
-                    //                     ? await launch(_ads.link)
-                    //                     : throw 'Could not launch ${_ads.link}';
-                    //               }
-                    //             },
-                    //           );
-                    //         },
-                    //         autoplay: true,
-                    //         autoplayDelay: 5000,
-                    //       ),
-                    //     ),
-                    //   ),
                     SizedBox(
                       height: h * 0.03,
                     ),
@@ -4052,29 +2979,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                               ),
                                             ),
                                           ),
-                                          // SizedBox(
-                                          //   width: w * 0.01,
-                                          // ),
-                                          // Container(
-                                          //   padding: EdgeInsets.symmetric(
-                                          //       horizontal: w * 0.01),
-                                          //   color: Colors.grey[200],
-                                          //   child: Center(
-                                          //     child: (prefs
-                                          //                 .getString(
-                                          //                     'language_code')
-                                          //                 .toString() ==
-                                          //             'en')
-                                          //         ? const Icon(
-                                          //             Icons.keyboard_arrow_right,
-                                          //             color: Colors.black,
-                                          //           )
-                                          //         : const Icon(
-                                          //             Icons.keyboard_arrow_left,
-                                          //             color: Colors.black,
-                                          //           ),
-                                          //   ),
-                                          // ),
                                         ],
                                       ),
                                     ),
@@ -4083,8 +2987,9 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                MoreScreen(products: topRate)));
+                                            builder: (context) => const MoreScreen(
+                                                endPoint:
+                                                    "get-topRating-products")));
                                   },
                                 ),
                               ],
@@ -4283,6 +3188,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                 height: h * 0.01,
                                               ),
                                               Container(
+                                                  width: w * 0.45,
                                                   constraints: BoxConstraints(
                                                     maxHeight: h * 0.07,
                                                   ),
@@ -4290,10 +3196,11 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       translateString(
                                                           topRate[i].nameEn,
                                                           topRate[i].nameAr),
+                                                      maxLines: 2,
                                                       style: TextStyle(
                                                           fontSize: w * 0.035),
-                                                      overflow:
-                                                          TextOverflow.fade)),
+                                                      overflow: TextOverflow
+                                                          .ellipsis)),
                                               SizedBox(
                                                 height: h * 0.005,
                                               ),
@@ -4334,14 +3241,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       ],
                                                     ),
                                                   ),
-                                                  // if (topRate[i].isSale &&
-                                                  //     topRate[i].disPer != null)
-                                                  //   Text(topRate[i].disPer! + '%',
-                                                  //       style: TextStyle(
-                                                  //           fontWeight:
-                                                  //               FontWeight.bold,
-                                                  //           color: mainColor)),
-
                                                   if (topRate[i].isSale)
                                                     Text(
                                                       '${topRate[i].price} $currency',
@@ -4374,176 +3273,9 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                           ),
                         ],
                       ),
-
-                    // if (checkPosition(8))
-                    //   SizedBox(
-                    //     height: h * 0.01,
-                    //   ),
-                    // if (checkPosition(8))
-                    //   InkWell(
-                    //     child: Container(
-                    //       width: w,
-                    //       height: h * 0.15,
-                    //       decoration: BoxDecoration(
-                    //           image: DecorationImage(
-                    //         image: NetworkImage(getAdsPosition(8).image),
-                    //         fit: BoxFit.fitWidth,
-                    //       )),
-                    //     ),
-                    //     focusColor: Colors.transparent,
-                    //     splashColor: Colors.transparent,
-                    //     highlightColor: Colors.transparent,
-                    //     onTap: () async {
-                    //       Ads _ads = getAdsPosition(8);
-                    //       if (_ads.inApp) {
-                    //         if (_ads.type) {
-                    //           dialog(context);
-                    //           await getItem(int.parse(_ads.link));
-                    //           Navigator.pushReplacementNamed(context, 'pro');
-                    //         } else {
-                    //           dialog(context);
-                    //           Provider.of<NewPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           Provider.of<BestPackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .clearList();
-                    //           await Provider.of<RePackageItemProvider>(context,
-                    //                   listen: false)
-                    //               .getItems(int.parse(_ads.link));
-                    //           Navigator.pushReplacement(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (ctx) => MultiplePackages(
-                    //                         id: int.parse(_ads.link),
-                    //                       )));
-                    //         }
-                    //       }
-                    //     },
-                    //   ),
-                    // if (getAds(8).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.01,
-                    //   ),
-                    // if (getAds(8).isNotEmpty)
-                    //   SizedBox(
-                    //     height: h * 0.2,
-                    //     child: Padding(
-                    //       padding: EdgeInsets.symmetric(horizontal: w * 0.025),
-                    //       child: Swiper(
-                    //         itemCount: getAds(8).length,
-                    //         itemBuilder: (BuildContext context, int i) {
-                    //           Ads _ads = getAds(8)[i];
-                    //           return InkWell(
-                    //             child: Container(
-                    //               width: w * 0.95,
-                    //               height: h * 0.2,
-                    //               decoration: BoxDecoration(
-                    //                 image: DecorationImage(
-                    //                   image: NetworkImage(_ads.image),
-                    //                   fit: BoxFit.fitWidth,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             focusColor: Colors.transparent,
-                    //             splashColor: Colors.transparent,
-                    //             highlightColor: Colors.transparent,
-                    //             onTap: () async {
-                    //               if (_ads.inApp) {
-                    //                 if (_ads.type) {
-                    //                   dialog(context);
-                    //                   await getItem(int.parse(_ads.link));
-                    //                   Navigator.pushReplacementNamed(
-                    //                       context, 'pro');
-                    //                 } else {
-                    //                   dialog(context);
-                    //                   Provider.of<NewPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<RePackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   Provider.of<BestPackageItemProvider>(context,
-                    //                           listen: false)
-                    //                       .clearList();
-                    //                   await Provider.of<RePackageItemProvider>(
-                    //                           context,
-                    //                           listen: false)
-                    //                       .getItems(int.parse(_ads.link));
-                    //                   Navigator.pushReplacement(
-                    //                       context,
-                    //                       MaterialPageRoute(
-                    //                           builder: (ctx) => MultiplePackages(
-                    //                                 id: int.parse(_ads.link),
-                    //                               )));
-                    //                 }
-                    //               } else {
-                    //                 await canLaunch(_ads.link)
-                    //                     ? await launch(_ads.link)
-                    //                     : throw 'Could not launch ${_ads.link}';
-                    //               }
-                    //             },
-                    //           );
-                    //         },
-                    //         autoplay: true,
-                    //         autoplayDelay: 5000,
-                    //       ),
-                    //     ),
-                    //   ),
                     SizedBox(
                       height: h * 0.01,
                     ),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(horizontal: w * 0.025),
-                    //   child: SizedBox(
-                    //     width: w,
-                    //     child: Column(
-                    //       crossAxisAlignment: CrossAxisAlignment.start,
-                    //       children: [
-                    //         Text(
-                    //           translate(context, 'home', 'contact'),
-                    //           style:
-                    //               TextStyle(color: Colors.red, fontSize: w * 0.035),
-                    //         ),
-                    //         for (var e in homeInfo)
-                    //           Text(
-                    //             e.title,
-                    //             style: TextStyle(
-                    //                 color: Colors.grey, fontSize: w * 0.035),
-                    //           ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-                    // SizedBox(
-                    //   height: h * 0.02,
-                    // ),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(horizontal: w * 0.025),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //     children: List.generate(icons.length, (i) {
-                    //       return InkWell(
-                    //         child: CircleAvatar(
-                    //           radius: w * 0.04,
-                    //           backgroundColor: Colors.white,
-                    //           backgroundImage: NetworkImage(icons[i].image),
-                    //         ),
-                    //         onTap: () async {
-                    //           await canLaunch(icons[i].link)
-                    //               ? await launch(icons[i].link)
-                    //               : throw 'Could not launch ${icons[i].link}';
-                    //         },
-                    //       );
-                    //     }),
-                    //   ),
-                    // ),
-                    // SizedBox(
-                    //   height: h * 0.15,
-                    // ),
                   ],
                 ),
               ),

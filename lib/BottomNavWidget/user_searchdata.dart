@@ -29,10 +29,9 @@ class _SearchPaginateState extends State<SearchPaginate> {
           queryParameters: {'page': page},
           options: Options(
             headers: {
-              'auth-token': (login) ? auth : null,
+              'auth-token': auth,
             },
           ));
-
       UserSearchModel userSearchModel = UserSearchModel.fromJson(response.data);
       setState(() {
         searchData = userSearchModel.texts!.data!;
@@ -64,7 +63,7 @@ class _SearchPaginateState extends State<SearchPaginate> {
             queryParameters: {'page': page},
             options: Options(
               headers: {
-                'auth-token': (login) ? auth : null,
+                'auth-token': auth,
               },
             ));
 
@@ -98,12 +97,6 @@ class _SearchPaginateState extends State<SearchPaginate> {
     firstLoad();
     _controller = ScrollController()..addListener(loadMore);
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.removeListener(loadMore);
-    super.dispose();
   }
 
   @override

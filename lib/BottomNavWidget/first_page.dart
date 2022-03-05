@@ -552,6 +552,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                       height: h * 0.01,
                                                     ),
                                                     Container(
+                                                        width: w * 0.45,
                                                         constraints:
                                                             BoxConstraints(
                                                           maxHeight: h * 0.07,
@@ -562,12 +563,13 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                     .nameEn,
                                                                 newItem.items[i]
                                                                     .nameAr),
+                                                            maxLines: 2,
                                                             style: TextStyle(
                                                                 fontSize:
                                                                     w * 0.035),
                                                             overflow:
                                                                 TextOverflow
-                                                                    .fade)),
+                                                                    .ellipsis)),
                                                     SizedBox(
                                                       height: h * 0.005,
                                                     ),

@@ -304,13 +304,13 @@ class _LoginState extends State<Login> {
                                                         FontWeight.bold),
                                               )),
                                             ),
-                                            successColor: Colors.black,
+                                            successColor: mainColor,
                                             color: mainColor,
                                             borderRadius: w * 0.07,
                                             height: h * 0.07,
-                                            disabledColor: Colors.black,
-                                            errorColor: Colors.black,
-                                            valueColor: mainColor,
+                                            disabledColor: Colors.white,
+                                            errorColor: Colors.white,
+                                            valueColor: Colors.white,
                                             onPressed: () async {
                                               FocusScope.of(context).unfocus();
                                               if (_formKey.currentState!
@@ -338,7 +338,7 @@ class _LoginState extends State<Login> {
                                                     _btnController.error();
                                                     await Future.delayed(
                                                         const Duration(
-                                                            seconds: 2));
+                                                            seconds: 1));
                                                     _btnController.stop();
                                                   }
                                                 }).catchError((error) {

@@ -268,160 +268,177 @@ class _ConfirmPhoneState extends State<ConfirmPhone> {
                   child: Scaffold(
                     backgroundColor: Colors.transparent,
                     body: Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: w * 0.05, right: w * 0.05, top: h * 0.3),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: h * 0.07,
-                                width: w * 0.8,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(w * 0.07),
-                                  border: Border.all(color: Colors.black),
-                                  color: Colors.white30,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    translate(context, 'reset_pass', 'title'),
-                                    style: TextStyle(
-                                        fontSize: w * 0.05,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
+                      child: ListView(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: InkWell(
+                              onTap: () => Navigator.pop(context),
+                              child: Icon(
+                                Icons.keyboard_arrow_left,
+                                color: Colors.white,
+                                size: w * 0.15,
                               ),
-                              SizedBox(
-                                height: h * 0.04,
-                              ),
-                              Text(
-                                translate(context, 'reset_pass', 'sub_title1'),
-                                style: TextStyle(
-                                    fontSize: w * 0.05,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              Text(
-                                translate(context, 'reset_pass', 'sub_title2'),
-                                style: TextStyle(
-                                    fontSize: w * 0.05,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              SizedBox(
-                                height: h * 0.05,
-                              ),
-                              TextFormField(
-                                controller: _controller,
-                                cursorColor: Colors.black,
-                                textInputAction: TextInputAction.done,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                            content: Text(translate(context,
-                                                'validation', 'field'))));
-                                  }
-                                  if (value.length != countryNumber) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                            content: Text(translate(context,
-                                                'validation', 'phone'))));
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                    focusedBorder: form(),
-                                    enabledBorder: form(),
-                                    errorBorder: form(),
-                                    focusedErrorBorder: form(),
-                                    fillColor: Colors.white,
-                                    filled: true,
-                                    hintText:
-                                        translate(context, 'inputs', 'phone'),
-                                    hintStyle:
-                                        const TextStyle(color: Colors.grey),
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.never,
-                                    errorMaxLines: 1,
-                                    errorStyle: TextStyle(fontSize: w * 0.03)),
-                                keyboardType: TextInputType.number,
-                              ),
-                              SizedBox(
-                                height: h * 0.06,
-                              ),
-                              RoundedLoadingButton(
-                                child: Container(
-                                  height: h * 0.08,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: w * 0.05, right: w * 0.05, top: h * 0.3),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: h * 0.07,
+                                  width: w * 0.8,
                                   decoration: BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.circular(w * 0.08),
-                                    color: mainColor,
+                                        BorderRadius.circular(w * 0.07),
+                                    border: Border.all(color: Colors.black),
+                                    color: Colors.white30,
                                   ),
                                   child: Center(
                                     child: Text(
-                                      translate(context, 'buttons', 'send'),
+                                      translate(context, 'reset_pass', 'title'),
                                       style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: w * 0.045,
+                                          fontSize: w * 0.05,
+                                          color: Colors.black,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ),
-                                controller: _btnController,
-                                successColor: Colors.black,
-                                color: Colors.black,
-                                disabledColor: Colors.black,
-                                onPressed: () async {
-                                  FocusScope.of(context).unfocus();
-                                  if (_formKey.currentState!.validate()) {
-                                    // fireSms(context, _controller.text, _btnController);
-                                    verifyPhone();
-                                  } else {
-                                    _btnController.error();
-                                    await Future.delayed(
-                                        const Duration(milliseconds: 1000));
-                                    _btnController.stop();
-                                  }
-                                },
-                              ),
-                              SizedBox(
-                                height: h * 0.05,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    translate(context, 'login', 'have_not'),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: w * 0.035,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    width: w * 0.01,
-                                  ),
-                                  InkWell(
-                                    child: Text(
-                                      translate(context, 'login', 'register'),
-                                      style: TextStyle(
-                                        color: mainColor,
-                                        fontSize: w * 0.035,
-                                        fontWeight: FontWeight.bold,
+                                SizedBox(
+                                  height: h * 0.04,
+                                ),
+                                Text(
+                                  translate(
+                                      context, 'reset_pass', 'sub_title1'),
+                                  style: TextStyle(
+                                      fontSize: w * 0.05,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                Text(
+                                  translate(
+                                      context, 'reset_pass', 'sub_title2'),
+                                  style: TextStyle(
+                                      fontSize: w * 0.05,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                SizedBox(
+                                  height: h * 0.05,
+                                ),
+                                TextFormField(
+                                  controller: _controller,
+                                  cursorColor: Colors.black,
+                                  textInputAction: TextInputAction.done,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(translate(context,
+                                                  'validation', 'field'))));
+                                    }
+                                    if (value.length != countryNumber) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(translate(context,
+                                                  'validation', 'phone'))));
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                      focusedBorder: form(),
+                                      enabledBorder: form(),
+                                      errorBorder: form(),
+                                      focusedErrorBorder: form(),
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      hintText:
+                                          translate(context, 'inputs', 'phone'),
+                                      hintStyle:
+                                          const TextStyle(color: Colors.grey),
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.never,
+                                      errorMaxLines: 1,
+                                      errorStyle:
+                                          TextStyle(fontSize: w * 0.03)),
+                                  keyboardType: TextInputType.number,
+                                ),
+                                SizedBox(
+                                  height: h * 0.06,
+                                ),
+                                RoundedLoadingButton(
+                                  child: Container(
+                                    height: h * 0.08,
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(w * 0.08),
+                                      color: mainColor,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        translate(context, 'buttons', 'send'),
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: w * 0.045,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ),
-                                    onTap: () {
-                                      navP(context, SignupScreen());
-                                    },
                                   ),
-                                ],
-                              ),
-                            ],
+                                  controller: _btnController,
+                                  successColor: Colors.black,
+                                  color: Colors.black,
+                                  disabledColor: Colors.black,
+                                  onPressed: () async {
+                                    FocusScope.of(context).unfocus();
+                                    if (_formKey.currentState!.validate()) {
+                                      // fireSms(context, _controller.text, _btnController);
+                                      verifyPhone();
+                                    } else {
+                                      _btnController.error();
+                                      await Future.delayed(
+                                          const Duration(milliseconds: 1000));
+                                      _btnController.stop();
+                                    }
+                                  },
+                                ),
+                                SizedBox(
+                                  height: h * 0.05,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      translate(context, 'login', 'have_not'),
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: w * 0.035,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    SizedBox(
+                                      width: w * 0.01,
+                                    ),
+                                    InkWell(
+                                      child: Text(
+                                        translate(context, 'login', 'register'),
+                                        style: TextStyle(
+                                          color: mainColor,
+                                          fontSize: w * 0.035,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        navP(context, SignupScreen());
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ),

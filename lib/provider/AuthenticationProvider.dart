@@ -42,7 +42,7 @@ class AuthenticationProvider {
           id: userData['id'],
           name: userData['name'],
           phone: userData['phone'],
-          email: userData['email']);
+          email: userData['email'] ?? "");
       Provider.of<AddressProvider>(context, listen: false).getAddress();
       setUserId(userData['id']);
       setLogin(true);
@@ -145,7 +145,7 @@ class AuthenticationProvider {
           userName = userData['data']['user']['name'];
           await getHomeItems();
           setUserId(userData['data']['user']['id']);
-          setAuth(userData['data']['token']);
+          // setAuth(userData['data']['token']);
           dbHelper.deleteAll();
           fireSms(context, phone.text, controller);
         } catch (e) {

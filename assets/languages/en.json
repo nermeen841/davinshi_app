@@ -246,7 +246,8 @@
     "terms": "Terms and Conditions"
   },
   "contac_us": {
-    "success" : "Request Sent"
+    "success" : "Request Sent",
+    "paginate":"No more Product"
   },
   "alert": {
     "success" : "Success",

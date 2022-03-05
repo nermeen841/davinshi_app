@@ -27,7 +27,7 @@ class Student extends StatelessWidget {
           centerTitle: true,
           leading: const BackButton(color: Colors.white),
           elevation: 5,
-          backgroundColor: Colors.black,
+          backgroundColor: mainColor,
           iconTheme: IconThemeData(color: mainColor),
         ),
         body: SizedBox(

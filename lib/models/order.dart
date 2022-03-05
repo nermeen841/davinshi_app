@@ -1,11 +1,9 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls, avoid_print
 
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:davinshi_app/models/user.dart';
 import 'package:davinshi_app/provider/address.dart';
-import 'package:jiffy/jiffy.dart';
 import 'constants.dart';
 
 class OrderClass {
