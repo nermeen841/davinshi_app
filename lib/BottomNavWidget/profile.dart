@@ -627,12 +627,18 @@ class _ProfileState extends State<Profile> {
               RaisedButton(
                 color: mainColor,
                 onPressed: () => Navigator.of(context).pop(false),
-                child: Text(translate(context, 'home', 'no')),
+                child: Text(
+                  translate(context, 'home', 'no'),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
               RaisedButton(
                 color: mainColor,
                 onPressed: () => Navigator.of(context).pop(true),
-                child: Text(translate(context, 'home', 'yes')),
+                child: Text(
+                  translate(context, 'home', 'yes'),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),

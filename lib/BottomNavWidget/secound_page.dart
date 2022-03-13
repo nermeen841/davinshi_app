@@ -617,13 +617,19 @@ class _SecPageState extends State<SecPage> {
               RaisedButton(
                 color: mainColor,
                 onPressed: () => Navigator.of(context).pop(false),
-                child: Text(translate(context, 'home', 'no')),
+                child: Text(
+                  translate(context, 'home', 'no'),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
               // ignore: deprecated_member_use
               RaisedButton(
                 color: mainColor,
                 onPressed: () => Navigator.of(context).pop(true),
-                child: Text(translate(context, 'home', 'yes')),
+                child: Text(
+                  translate(context, 'home', 'yes'),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),

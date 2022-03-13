@@ -16,6 +16,13 @@ class Country extends StatefulWidget {
 
 class _CountryState extends State<Country> {
   List<Countries> list = countries;
+
+  @override
+  void initState() {
+    getCountries();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     print([2, Navigator.canPop(context)]);

@@ -82,7 +82,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                             return InkWell(
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.grey[200],
+                                  color: Colors.white,
                                   image: DecorationImage(
                                     image: NetworkImage(slider[i].image),
                                     fit: BoxFit.fitWidth,
@@ -443,40 +443,32 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                       fontFamily: 'Tajawal'),
                                 ),
                                 InkWell(
+                                  onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const MoreScreen(
+                                                  endPoint:
+                                                      "get-offer-products"))),
                                   child: Container(
-                                    decoration: const BoxDecoration(
-                                      color: Colors.transparent,
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(w * 0.025),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            translate(context, 'home', 'see'),
-                                            style: TextStyle(
-                                                color: mainColor2,
-                                                fontSize: w * 0.035,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                            width: w * 0.01,
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: w * 0.01),
-                                            color: Colors.grey[200],
-                                            child: const Center(
-                                              child: Icon(
-                                                Icons.keyboard_arrow_right,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                    width: w * 0.2,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(w * 0.02),
+                                        color: mainColor),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: w * 0.02,
+                                        vertical: h * 0.01),
+                                    child: Center(
+                                      child: Text(
+                                        translate(context, 'home', 'see'),
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: w * 0.05,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                   ),
-                                  onTap: () {},
                                 ),
                               ],
                             ),
@@ -501,20 +493,164 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Stack(
-                                          children: [
-                                            Container(
-                                              width: w * 0.4,
-                                              height: h * 0.25,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.grey[200],
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        offerEnd[i].image),
-                                                    fit: BoxFit.fitHeight,
-                                                  )),
+                                        Container(
+                                          width: w * 0.4,
+                                          height: h * 0.25,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    offerEnd[i].image),
+                                                fit: BoxFit.fitHeight,
+                                              )),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(w * 0.015),
+                                            child: Align(
+                                              alignment: isLeft()
+                                                  ? Alignment.bottomLeft
+                                                  : Alignment.bottomRight,
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  if (cartId == null ||
+                                                      cartId == studentId) {
+                                                    try {
+                                                      if (!cart.idp.contains(
+                                                          offerEnd[i].id)) {
+                                                        await helper.createCar(
+                                                            CartProducts(
+                                                                id: null,
+                                                                studentId:
+                                                                    studentId,
+                                                                image:
+                                                                    offerEnd[i]
+                                                                        .image,
+                                                                titleAr:
+                                                                    offerEnd[i]
+                                                                        .nameAr,
+                                                                titleEn:
+                                                                    offerEnd[i]
+                                                                        .nameEn,
+                                                                price: offerEnd[
+                                                                        i]
+                                                                    .finalPrice
+                                                                    .toDouble(),
+                                                                quantity: 1,
+                                                                att: att,
+                                                                des: des,
+                                                                idp: offerEnd[i]
+                                                                    .id,
+                                                                idc: 0,
+                                                                catNameEn: "",
+                                                                catNameAr: "",
+                                                                catSVG: ""));
+                                                      } else {
+                                                        int quantity = cart
+                                                            .items
+                                                            .firstWhere(
+                                                                (element) =>
+                                                                    element
+                                                                        .idp ==
+                                                                    offerEnd[i]
+                                                                        .id)
+                                                            .quantity;
+                                                        await helper
+                                                            .updateProduct(
+                                                                1 + quantity,
+                                                                offerEnd[i].id,
+                                                                offerEnd[i]
+                                                                    .finalPrice
+                                                                    .toDouble(),
+                                                                jsonEncode(att),
+                                                                jsonEncode(
+                                                                    des));
+                                                      }
+                                                      await cart.setItems();
+                                                    } catch (e) {
+                                                      // error(context);
+                                                      print('e');
+                                                      print(e);
+                                                    }
+                                                  } else {
+                                                    if (cartId == null ||
+                                                        cartId == studentId) {
+                                                      try {
+                                                        if (!cart.idp.contains(
+                                                            offerEnd[i].id)) {
+                                                          await helper.createCar(CartProducts(
+                                                              id: null,
+                                                              studentId:
+                                                                  offerEnd[i]
+                                                                      .brands![
+                                                                          i]
+                                                                      .id,
+                                                              image: offerEnd[i]
+                                                                  .image,
+                                                              titleAr: offerEnd[
+                                                                      i]
+                                                                  .nameAr,
+                                                              titleEn:
+                                                                  offerEnd[i]
+                                                                      .nameEn,
+                                                              price: offerEnd[i]
+                                                                  .price
+                                                                  .toDouble(),
+                                                              quantity: 1,
+                                                              att: att,
+                                                              des: des,
+                                                              idp: offerEnd[i]
+                                                                  .id,
+                                                              idc: offerEnd[i]
+                                                                  .id,
+                                                              catNameEn: "",
+                                                              catNameAr: "",
+                                                              catSVG: ""));
+                                                        } else {
+                                                          int quantity = cart
+                                                              .items
+                                                              .firstWhere(
+                                                                  (element) =>
+                                                                      element
+                                                                          .idp ==
+                                                                      offerEnd[
+                                                                              i]
+                                                                          .id)
+                                                              .quantity;
+                                                          await helper
+                                                              .updateProduct(
+                                                                  1 + quantity,
+                                                                  offerEnd[i]
+                                                                      .id,
+                                                                  offerEnd[i]
+                                                                      .finalPrice
+                                                                      .toDouble(),
+                                                                  jsonEncode(
+                                                                      att),
+                                                                  jsonEncode(
+                                                                      des));
+                                                        }
+                                                        await cart.setItems();
+                                                      } catch (e) {
+                                                        print('e');
+                                                        print(e);
+                                                      }
+                                                    } else {}
+                                                  }
+                                                },
+                                                child: CircleAvatar(
+                                                  backgroundColor: mainColor,
+                                                  radius: w * .05,
+                                                  child: Center(
+                                                    child: Icon(
+                                                      Icons
+                                                          .shopping_cart_outlined,
+                                                      color: Colors.white,
+                                                      size: w * 0.05,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                          ],
+                                          ),
                                         ),
                                         SizedBox(
                                           width: w * 0.4,
@@ -531,14 +667,17 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                   Container(
                                                       constraints:
                                                           BoxConstraints(
-                                                        maxHeight: h * 0.07,
-                                                      ),
+                                                              maxHeight:
+                                                                  h * 0.07,
+                                                              maxWidth:
+                                                                  w * 0.25),
                                                       child: Text(
                                                           translateString(
                                                               offerEnd[i]
                                                                   .nameEn,
                                                               offerEnd[i]
                                                                   .nameAr),
+                                                          maxLines: 2,
                                                           style: TextStyle(
                                                               fontSize:
                                                                   w * 0.035),
@@ -3319,13 +3458,19 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
               RaisedButton(
                 color: mainColor,
                 onPressed: () => Navigator.of(context).pop(false),
-                child: Text(translate(context, 'home', 'no')),
+                child: Text(
+                  translate(context, 'home', 'no'),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
               // ignore: deprecated_member_use
               RaisedButton(
                 color: mainColor,
                 onPressed: () => Navigator.of(context).pop(true),
-                child: Text(translate(context, 'home', 'yes')),
+                child: Text(
+                  translate(context, 'home', 'yes'),
+                  style: const TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),

@@ -7,6 +7,8 @@ import 'package:davinshi_app/models/order.dart';
 import 'package:davinshi_app/provider/home.dart';
 import 'package:davinshi_app/screens/home_folder/home_page.dart';
 import 'package:provider/provider.dart';
+import '../../models/cart.dart';
+import '../../provider/cart_provider.dart';
 import 'order_info.dart';
 
 class Orders extends StatelessWidget {
@@ -32,11 +34,14 @@ class Orders extends StatelessWidget {
             leading: BackButton(
               color: Colors.black,
               onPressed: () {
+                Provider.of<CartProvider>(context, listen: false).clearAll();
+                cartId = null;
+
                 Provider.of<BottomProvider>(context, listen: false).setIndex(4);
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => Home()),
-                    (route) => false);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Home()),
+                );
               },
             ),
             centerTitle: true,

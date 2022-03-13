@@ -234,8 +234,8 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
 
   List<int> att = [];
   List<String> des = [];
-
   DbHelper helper = DbHelper();
+
   @override
   Widget build(BuildContext context) {
     // timeDilation = 1.5;

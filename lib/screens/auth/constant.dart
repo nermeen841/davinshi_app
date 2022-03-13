@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, body_might_complete_normally_nullable
 
 import 'dart:async';
 import 'package:davinshi_app/screens/auth/sign_upScreen.dart';

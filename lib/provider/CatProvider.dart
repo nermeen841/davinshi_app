@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:davinshi_app/models/cat.dart';

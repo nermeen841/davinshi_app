@@ -1,4 +1,4 @@
-// ignore_for_file: empty_catches
+// ignore_for_file: empty_catches, file_names
 
 import 'package:dio/dio.dart';
 import 'package:davinshi_app/models/constants.dart';
