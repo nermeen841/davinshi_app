@@ -670,7 +670,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                               maxHeight:
                                                                   h * 0.07,
                                                               maxWidth:
-                                                                  w * 0.25),
+                                                                  w * 0.35),
                                                       child: Text(
                                                           translateString(
                                                               offerEnd[i]
@@ -683,62 +683,76 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                                   w * 0.035),
                                                           overflow: TextOverflow
                                                               .fade)),
-                                                  const SizedBox(
-                                                    width: 7,
-                                                  ),
-                                                  if (offerEnd[i].isSale &&
-                                                      offerEnd[i].disPer !=
-                                                          null)
-                                                    Text(
-                                                        offerEnd[i].disPer! +
-                                                            '%',
-                                                        style: const TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Colors.red)),
+                                                  // const SizedBox(
+                                                  //   width: 7,
+                                                  // ),
+                                                  // if (offerEnd[i].isSale &&
+                                                  //     offerEnd[i].disPer !=
+                                                  //         null)
+                                                  //   Text(
+                                                  //       offerEnd[i].disPer! +
+                                                  //           '%',
+                                                  //       style: const TextStyle(
+                                                  //           fontWeight:
+                                                  //               FontWeight.bold,
+                                                  //           color: Colors.red)),
                                                 ],
                                               ),
                                               SizedBox(
                                                 height: h * 0.005,
                                               ),
-                                              RichText(
-                                                text: TextSpan(
-                                                  children: [
-                                                    if (offerEnd[i].isSale)
-                                                      TextSpan(
-                                                          text:
-                                                              '${offerEnd[i].salePrice} $currency',
-                                                          style:
-                                                              const TextStyle(
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  RichText(
+                                                    text: TextSpan(
+                                                      children: [
+                                                        if (offerEnd[i].isSale)
+                                                          TextSpan(
+                                                              text:
+                                                                  '${offerEnd[i].salePrice} $currency',
+                                                              style: const TextStyle(
+                                                                  fontFamily:
+                                                                      'Tajawal',
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
                                                                   color: Colors
                                                                       .black)),
-                                                    if (!offerEnd[i].isSale)
-                                                      TextSpan(
-                                                          text:
-                                                              '${offerEnd[i].price} $currency',
-                                                          style:
-                                                              const TextStyle(
+                                                        if (!offerEnd[i].isSale)
+                                                          TextSpan(
+                                                              text:
+                                                                  '${offerEnd[i].price} $currency',
+                                                              style: const TextStyle(
+                                                                  fontFamily:
+                                                                      'Tajawal',
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
                                                                   color: Colors
                                                                       .black)),
-                                                  ],
-                                                ),
-                                              ),
-                                              if (offerEnd[i].isSale)
-                                                Text(
-                                                  '${offerEnd[i].price} $currency',
-                                                  style: TextStyle(
-                                                    fontSize: w * 0.035,
-                                                    decoration: TextDecoration
-                                                        .lineThrough,
-                                                    color: Colors.grey,
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
+                                                  if (offerEnd[i].isSale)
+                                                    Text(
+                                                      '${offerEnd[i].price} $currency',
+                                                      style: TextStyle(
+                                                        fontSize: w * 0.035,
+                                                        decorationColor:
+                                                            mainColor,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .lineThrough,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
                                             ],
                                           ),
                                         ),

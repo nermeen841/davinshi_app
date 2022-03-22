@@ -17,7 +17,6 @@ class Orders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     orders = orders.reversed.toList();
-    // orders.sort((a, b) => a.date.compareTo(b.date));
     return Directionality(
       textDirection: getDirection(),
       child: Scaffold(
@@ -34,9 +33,6 @@ class Orders extends StatelessWidget {
             leading: BackButton(
               color: Colors.black,
               onPressed: () {
-                Provider.of<CartProvider>(context, listen: false).clearAll();
-                cartId = null;
-
                 Provider.of<BottomProvider>(context, listen: false).setIndex(4);
                 Navigator.pushReplacement(
                   context,
