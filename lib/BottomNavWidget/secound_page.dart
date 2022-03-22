@@ -512,21 +512,6 @@ class _SecPageState extends State<SecPage> {
                                                             ],
                                                           ),
                                                         ),
-                                                        // if (item.items[i]
-                                                        //         .isSale &&
-                                                        //     item.items[i]
-                                                        //             .disPer !=
-                                                        //         null)
-                                                        //   Text(
-                                                        //       item.items[i]
-                                                        //               .disPer! +
-                                                        //           '%',
-                                                        //       style: const TextStyle(
-                                                        //           fontWeight:
-                                                        //               FontWeight
-                                                        //                   .bold,
-                                                        //           color: Colors
-                                                        //               .red)),
                                                         if (item
                                                             .items[i].isSale)
                                                           Text(
@@ -534,6 +519,8 @@ class _SecPageState extends State<SecPage> {
                                                             style: TextStyle(
                                                               fontSize:
                                                                   w * 0.035,
+                                                              decorationThickness:
+                                                                  w * 0.1,
                                                               decoration:
                                                                   TextDecoration
                                                                       .lineThrough,

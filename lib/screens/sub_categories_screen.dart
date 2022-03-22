@@ -303,6 +303,8 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                                                                     Colors.grey,
                                                                 decorationColor:
                                                                     mainColor,
+                                                                decorationThickness:
+                                                                    w * 0.1,
                                                                 decoration:
                                                                     TextDecoration
                                                                         .lineThrough,

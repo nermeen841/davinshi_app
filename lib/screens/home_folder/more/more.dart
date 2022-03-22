@@ -428,6 +428,8 @@ class _MoreScreenState extends State<MoreScreen>
                                                       '${allProduct[i].salePrice} $currency',
                                                       style: TextStyle(
                                                         fontSize: w * 0.035,
+                                                        decorationThickness:
+                                                            w * 0.1,
                                                         decorationColor:
                                                             mainColor,
                                                         decoration:

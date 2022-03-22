@@ -745,6 +745,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                         fontSize: w * 0.035,
                                                         decorationColor:
                                                             mainColor,
+                                                        decorationThickness:
+                                                            w * 0.1,
                                                         decoration:
                                                             TextDecoration
                                                                 .lineThrough,
@@ -1232,6 +1234,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       '${newItem[i].price} $currency',
                                                       style: TextStyle(
                                                         fontSize: w * 0.035,
+                                                        decorationThickness:
+                                                            w * 0.1,
                                                         decorationColor:
                                                             mainColor,
                                                         decoration:
@@ -1625,6 +1629,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       '${bestDis[i].price} $currency',
                                                       style: TextStyle(
                                                           fontSize: w * 0.035,
+                                                          decorationThickness:
+                                                              w * 0.1,
                                                           decoration:
                                                               TextDecoration
                                                                   .lineThrough,
@@ -2297,6 +2303,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       '${bestItem[i].price} $currency',
                                                       style: TextStyle(
                                                         fontSize: w * 0.035,
+                                                        decorationThickness:
+                                                            w * 0.1,
                                                         decoration:
                                                             TextDecoration
                                                                 .lineThrough,
@@ -2689,6 +2697,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       '${bestPrice[i].price} $currency',
                                                       style: TextStyle(
                                                           fontSize: w * 0.035,
+                                                          decorationThickness:
+                                                              w * 0.1,
                                                           decoration:
                                                               TextDecoration
                                                                   .lineThrough,
@@ -3045,6 +3055,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       '${topLikes[i].price} $currency',
                                                       style: TextStyle(
                                                           fontSize: w * 0.035,
+                                                          decorationThickness:
+                                                              w * 0.1,
                                                           decoration:
                                                               TextDecoration
                                                                   .lineThrough,
@@ -3398,6 +3410,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                     Text(
                                                       '${topRate[i].price} $currency',
                                                       style: TextStyle(
+                                                          decorationThickness:
+                                                              w * 0.1,
                                                           fontSize: w * 0.035,
                                                           decoration:
                                                               TextDecoration

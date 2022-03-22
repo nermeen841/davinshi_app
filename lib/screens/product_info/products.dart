@@ -207,7 +207,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
     }
     // att = _list;
     // des = _des;
-    _tabBar = TabController(length: 4, vsync: this);
+    _tabBar = TabController(length: 3, vsync: this);
     _tabBar.addListener(() {
       if (_tabBar.index == 3) {
         if (finishTab) {
@@ -584,9 +584,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                       text: translate(context, 'product', 'tab1'),
                     ),
                     Tab(
-                      text: translate(context, 'product', 'tab3'),
-                    ),
-                    Tab(
                       text: translate(context, 'product', 'tab4'),
                     ),
                     Tab(
@@ -753,65 +750,56 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            // TextSpan(
-                                            //   text: translate(context,
-                                            //           'product', 'price') +
-                                            //       " :  ",
-                                            //   style: TextStyle(
-                                            //       fontWeight: FontWeight.bold,
-                                            //       fontFamily: 'Tajawal',
-                                            //       fontSize: w * 0.045,
-                                            //       color: Colors.black),
-                                            // ),
-                                            if (productCla.isOffer)
-                                              TextSpan(
-                                                  text: productCla.offerPrice
-                                                          .toString() +
-                                                      ' '
-                                                          '$currency',
-                                                  style: TextStyle(
-                                                      fontFamily: 'Tajawal',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black,
-                                                      fontSize: w * 0.05)),
-                                            if (!productCla.isOffer)
-                                              TextSpan(
-                                                  text: productCla.price
-                                                          .toString() +
-                                                      ' $currency',
-                                                  style: TextStyle(
-                                                      fontFamily: 'Tajawal',
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black,
-                                                      fontSize: w * 0.05)),
-                                          ],
-                                        ),
-                                      ),
+                                      // TextSpan(
+                                      //   text: translate(context,
+                                      //           'product', 'price') +
+                                      //       " :  ",
+                                      //   style: TextStyle(
+                                      //       fontWeight: FontWeight.bold,
+                                      //       fontFamily: 'Tajawal',
+                                      //       fontSize: w * 0.045,
+                                      //       color: Colors.black),
+                                      // ),
+                                      if (productCla.isOffer)
+                                        Text(
+                                            productCla.offerPrice.toString() +
+                                                ' '
+                                                    '$currency',
+                                            style: TextStyle(
+                                                fontFamily: 'Tajawal',
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                                fontSize: w * 0.03)),
+                                      if (!productCla.isOffer)
+                                        Text(
+                                            productCla.price.toString() +
+                                                ' $currency',
+                                            style: TextStyle(
+                                                fontFamily: 'Tajawal',
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                                fontSize: w * 0.03)),
+
                                       if (productCla.isOffer)
                                         Padding(
                                           padding: EdgeInsets.symmetric(
                                               horizontal: w * 0.03),
                                           child: Text(
-                                            productCla.price.toString() +
-                                                ' $currency',
+                                            '${productCla.price}'
+                                            ' $currency',
                                             style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: w * 0.04,
-                                                color: Colors.grey,
-                                                fontFamily: 'Tajawal',
-                                                decorationColor: mainColor,
-                                                decoration:
-                                                    TextDecoration.lineThrough),
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: w * 0.03,
+                                              color: Colors.grey,
+                                              fontFamily: 'Tajawal',
+                                              decorationThickness: w * 0.1,
+                                              decorationColor:
+                                                  const Color(0xff22103D),
+                                            ),
                                           ),
                                         ),
-                                      SizedBox(
-                                        height: h * 0.01,
-                                      ),
                                     ],
                                   ),
                                 ],
@@ -821,27 +809,32 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                           SizedBox(
                             height: h * 0.03,
                           ),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                    text: translate(
-                                        context, 'home', 'seller_name'),
-                                    style: TextStyle(
-                                      fontFamily: 'Tajawal',
-                                      fontSize: w * 0.04,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    )),
-                                TextSpan(
-                                    text: translate(context, 'home', 'seller'),
-                                    style: TextStyle(
-                                      fontSize: w * 0.04,
-                                      fontFamily: 'Tajawal',
-                                      color: mainColor,
-                                      fontWeight: FontWeight.w500,
-                                    )),
-                              ],
+                          Padding(
+                            padding:
+                                EdgeInsets.symmetric(horizontal: h * 0.015),
+                            child: RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                      text: translate(
+                                          context, 'home', 'seller_name'),
+                                      style: TextStyle(
+                                        fontFamily: 'Tajawal',
+                                        fontSize: w * 0.03,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                      )),
+                                  TextSpan(
+                                      text:
+                                          translate(context, 'home', 'seller'),
+                                      style: TextStyle(
+                                        fontSize: w * 0.03,
+                                        fontFamily: 'Tajawal',
+                                        color: mainColor,
+                                        fontWeight: FontWeight.w500,
+                                      )),
+                                ],
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -1167,60 +1160,62 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      width: w,
-                      height: h,
-                      child: productCla.statements.isEmpty
-                          ? Center(
-                              child: Text(
-                                translate(context, 'empty', 'no_details'),
-                                style: TextStyle(
-                                    color: mainColor, fontSize: w * 0.05),
-                              ),
-                            )
-                          : Padding(
-                              padding: EdgeInsets.all(w * 0.025),
-                              child: ListView.builder(
-                                itemCount: productCla.statements.length,
-                                itemBuilder: (ctx, i) {
-                                  return Column(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(w * 0.025),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: w * 0.25,
-                                              child: Text(
-                                                translateString(
-                                                    productCla
-                                                        .statements[i].nameEn,
-                                                    productCla
-                                                        .statements[i].nameAr),
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: w * 0.035),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: w * 0.02,
-                                            ),
-                                            // Container(
-                                            //   child: Text(translateString(productCla.statements[i].valueEn, productCla.statements[i].valueAr),style: TextStyle(color: Colors.grey[400],fontWeight: FontWeight.bold,fontSize: w*0.035),),
-                                            // ),
-                                          ],
-                                        ),
-                                      ),
-                                      Divider(
-                                        color: Colors.grey[300],
-                                        thickness: h * 0.001,
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
-                    ),
+
+                    // SizedBox(
+                    //   width: w,
+                    //   height: h,
+                    //   child: productCla.statements.isEmpty
+                    //       ? Center(
+                    //           child: Text(
+                    //             translate(context, 'empty', 'no_details'),
+                    //             style: TextStyle(
+                    //                 color: mainColor, fontSize: w * 0.05),
+                    //           ),
+                    //         )
+                    //       : Padding(
+                    //           padding: EdgeInsets.all(w * 0.025),
+                    //           child: ListView.builder(
+                    //             itemCount: productCla.statements.length,
+                    //             itemBuilder: (ctx, i) {
+                    //               return Column(
+                    //                 children: [
+                    //                   Padding(
+                    //                     padding: EdgeInsets.all(w * 0.025),
+                    //                     child: Row(
+                    //                       children: [
+                    //                         SizedBox(
+                    //                           width: w * 0.25,
+                    //                           child: Text(
+                    //                             translateString(
+                    //                                 productCla
+                    //                                     .statements[i].nameEn,
+                    //                                 productCla
+                    //                                     .statements[i].nameAr),
+                    //                             style: TextStyle(
+                    //                                 fontWeight: FontWeight.bold,
+                    //                                 fontSize: w * 0.035),
+                    //                           ),
+                    //                         ),
+                    //                         SizedBox(
+                    //                           width: w * 0.02,
+                    //                         ),
+                    //                         // Container(
+                    //                         //   child: Text(translateString(productCla.statements[i].valueEn, productCla.statements[i].valueAr),style: TextStyle(color: Colors.grey[400],fontWeight: FontWeight.bold,fontSize: w*0.035),),
+                    //                         // ),
+                    //                       ],
+                    //                     ),
+                    //                   ),
+                    //                   Divider(
+                    //                     color: Colors.grey[300],
+                    //                     thickness: h * 0.001,
+                    //                   ),
+                    //                 ],
+                    //               );
+                    //             },
+                    //           ),
+                    //         ),
+                    // ),
+
                     Center(
                       child: SizedBox(
                         width: w * 0.9,
@@ -1430,7 +1425,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               ? TextInputType.emailAddress
                                               : index == 4
                                                   ? TextInputType.multiline
-                                                  : TextInputType.text,
+                                                  : (index == 2)
+                                                      ? TextInputType.phone
+                                                      : TextInputType.text,
                                           inputFormatters: index != 1
                                               ? null
                                               : [

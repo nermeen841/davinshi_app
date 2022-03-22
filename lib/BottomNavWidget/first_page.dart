@@ -639,6 +639,8 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                   'Tajawal',
                                                               fontSize:
                                                                   w * 0.035,
+                                                              decorationThickness:
+                                                                  w * 0.1,
                                                               decorationColor:
                                                                   mainColor,
                                                               decoration:
@@ -1032,6 +1034,8 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                     text:
                                                                         '${bestItem.items[i].salePrice} $currency',
                                                                     style: TextStyle(
+                                                                        fontFamily:
+                                                                            'Tajawal',
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .bold,
@@ -1044,6 +1048,8 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                     text:
                                                                         '${bestItem.items[i].price} $currency ',
                                                                     style: TextStyle(
+                                                                        fontFamily:
+                                                                            'Tajawal',
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .bold,
@@ -1074,6 +1080,8 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                             style: TextStyle(
                                                               fontSize:
                                                                   w * 0.035,
+                                                              decorationThickness:
+                                                                  w * 0.1,
                                                               decorationColor:
                                                                   mainColor,
                                                               decoration:
@@ -1461,6 +1469,8 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                     text:
                                                                         '${reItem.items[i].salePrice} $currency ',
                                                                     style: TextStyle(
+                                                                        fontFamily:
+                                                                            'Tajawal',
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .bold,
@@ -1473,6 +1483,8 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                     text:
                                                                         '${reItem.items[i].price} $currency ',
                                                                     style: TextStyle(
+                                                                        fontFamily:
+                                                                            'Tajawal',
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .bold,
@@ -1502,6 +1514,8 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                           Text(
                                                             '${reItem.items[i].price} $currency',
                                                             style: TextStyle(
+                                                              decorationThickness:
+                                                                  w * 0.1,
                                                               fontSize:
                                                                   w * 0.035,
                                                               decorationColor:
@@ -1902,6 +1916,8 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                     text:
                                                                         '${offerItem.items[i].salePrice} $currency ',
                                                                     style: TextStyle(
+                                                                        fontFamily:
+                                                                            'Tajawal',
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .bold,
@@ -1914,6 +1930,8 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                     text:
                                                                         '${offerItem.items[i].price} $currency ',
                                                                     style: TextStyle(
+                                                                        fontFamily:
+                                                                            'Tajawal',
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .bold,
@@ -1927,6 +1945,8 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                           Text(
                                                             '${offerItem.items[i].price} $currency',
                                                             style: TextStyle(
+                                                              decorationThickness:
+                                                                  w * 0.1,
                                                               fontSize:
                                                                   w * 0.035,
                                                               decorationColor:
