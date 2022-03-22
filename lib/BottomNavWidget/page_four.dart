@@ -2,7 +2,6 @@
 
 import 'package:badges/badges.dart';
 import 'package:davinshi_app/BottomNavWidget/search_data.dart';
-import 'package:davinshi_app/BottomNavWidget/user_searchdata.dart';
 import 'package:davinshi_app/screens/sub_categories_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -179,8 +178,8 @@ class _PageFourState extends State<PageFour> {
                             color: Colors.grey[400], fontSize: w * 0.035),
                       ),
                       if (isSearching) SearchDataScreen(keyword: search.text),
-                      if (login && !isSearching) SearchPaginate(),
-                      if (!login && !isSearching)
+                      // if (login && !isSearching) SearchPaginate(),
+                      if (!isSearching)
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: List.generate(catProvider.categories.length,

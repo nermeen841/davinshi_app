@@ -264,211 +264,157 @@ class _ProfileState extends State<Profile> {
                 bottomRight: Radius.circular(w * 0.1),
               ),
             ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Align(
-                    alignment:
-                        (prefs.getString('language_code').toString() == 'en')
-                            ? Alignment.topRight
-                            : Alignment.topLeft,
-                    child: InkWell(
-                        // onTap: () => Navigator.pop(context),
-                        child: (prefs.getString('language_code').toString() ==
-                                'en')
-                            ? const Icon(
-                                Icons.keyboard_arrow_right,
-                                size: 30,
-                                color: Colors.white,
-                              )
-                            : const Icon(
-                                Icons.keyboard_arrow_left,
-                                size: 30,
-                                color: Colors.white,
-                              )),
-                  ),
-                  (login)
-                      ? Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding:
-                                  (prefs.getString('language_code') == 'en')
-                                      ? EdgeInsets.only(left: w * 0.1)
-                                      : EdgeInsets.only(right: w * 0.09),
-                              child: Stack(children: [
-                                Container(
-                                  width: w * 0.24,
-                                  height: h * 0.24,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 4, color: Colors.white),
-                                      shape: BoxShape.circle),
-                                  child: Container(
-                                      width: w * 0.2,
-                                      height: h * 0.2,
-                                      decoration: const BoxDecoration(
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  'assets/icons/Mask Group 1.png'),
-                                              fit: BoxFit.cover),
-                                          shape: BoxShape.circle,
-                                          color: Colors.black)),
-                                ),
-                                InkWell(
-                                  onTap: () async {
-                                    getImage();
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        top: h * 0.12,
-                                        left: w * 0.13,
-                                        right: w * 0.17),
-                                    child: Container(
-                                      width: w * 0.09,
-                                      height: h * 0.09,
-                                      child: Center(
-                                        child: Image.asset(
-                                          "assets/icons/FeatherIconSet-Feather_Controls-edit.png",
-                                          fit: BoxFit.contain,
-                                        ),
-                                      ),
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.white54),
-                                    ),
-                                  ),
-                                ),
-                              ]),
-                            ),
-                            Center(
-                              child: Text(
-                                translate(context, 'language', 'my_account'),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: w * 0.05,
-                                    fontWeight: FontWeight.w700),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Align(
+                  alignment:
+                      (prefs.getString('language_code').toString() == 'en')
+                          ? Alignment.topRight
+                          : Alignment.topLeft,
+                  child: InkWell(
+                      // onTap: () => Navigator.pop(context),
+                      child:
+                          (prefs.getString('language_code').toString() == 'en')
+                              ? const Icon(
+                                  Icons.keyboard_arrow_right,
+                                  size: 30,
+                                  color: Colors.white,
+                                )
+                              : const Icon(
+                                  Icons.keyboard_arrow_left,
+                                  size: 30,
+                                  color: Colors.white,
+                                )),
+                ),
+                (login)
+                    ? Column(
+                        children: [
+                          Padding(
+                            padding: (prefs.getString('language_code') == 'en')
+                                ? EdgeInsets.only(left: w * 0.1)
+                                : EdgeInsets.only(right: w * 0.09),
+                            child: Stack(children: [
+                              Container(
+                                width: w * 0.24,
+                                height: h * 0.24,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 4, color: Colors.white),
+                                    shape: BoxShape.circle),
+                                child: Container(
+                                    width: w * 0.2,
+                                    height: h * 0.2,
+                                    decoration: const BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/icons/Mask Group 1.png'),
+                                            fit: BoxFit.cover),
+                                        shape: BoxShape.circle,
+                                        color: Colors.black)),
                               ),
-                            )
-                          ],
-                        )
-                      : Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding:
-                                  (prefs.getString('language_code') == 'en')
-                                      ? EdgeInsets.only(left: w * 0.1)
-                                      : EdgeInsets.only(right: w * 0.09),
-                              child: Stack(children: [
-                                Container(
-                                  width: w * 0.24,
-                                  height: h * 0.24,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 4, color: Colors.white),
-                                      shape: BoxShape.circle),
-                                  child: Container(
-                                      width: w * 0.2,
-                                      height: h * 0.2,
-                                      decoration: const BoxDecoration(
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  'assets/icons/Mask Group 1.png'),
-                                              fit: BoxFit.cover),
-                                          shape: BoxShape.circle,
-                                          color: Colors.black)),
-                                ),
-                                Padding(
+                              InkWell(
+                                onTap: () async {
+                                  getImage();
+                                },
+                                child: Padding(
                                   padding: EdgeInsets.only(
-                                      top: h * 0.12,
+                                      top: h * 0.1,
                                       left: w * 0.13,
                                       right: w * 0.17),
-                                  child: InkWell(
-                                    onTap: () {
-                                      getImage();
-                                    },
-                                    child: Container(
-                                      width: w * 0.09,
-                                      height: h * 0.09,
-                                      child: Center(
-                                        child: Image.asset(
-                                          "assets/icons/FeatherIconSet-Feather_Controls-edit.png",
-                                          fit: BoxFit.contain,
-                                        ),
+                                  child: Container(
+                                    width: w * 0.09,
+                                    height: h * 0.09,
+                                    child: Center(
+                                      child: Image.asset(
+                                        "assets/icons/FeatherIconSet-Feather_Controls-edit.png",
+                                        fit: BoxFit.contain,
                                       ),
-                                      decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.white54),
                                     ),
+                                    decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white54),
                                   ),
                                 ),
-                              ]),
-                            ),
-                            Center(
-                              child: Text(
-                                translate(context, 'language', 'my_account'),
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w700),
                               ),
-                            )
-                          ],
-                        ),
-                ],
-              ),
+                            ]),
+                          ),
+                          Center(
+                            child: Text(
+                              translate(context, 'language', 'my_account'),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: w * 0.05,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          Padding(
+                            padding: (prefs.getString('language_code') == 'en')
+                                ? EdgeInsets.only(left: w * 0.1)
+                                : EdgeInsets.only(right: w * 0.09),
+                            child: Stack(children: [
+                              Container(
+                                width: w * 0.24,
+                                height: h * 0.24,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 4, color: Colors.white),
+                                    shape: BoxShape.circle),
+                                child: Container(
+                                    width: w * 0.2,
+                                    height: h * 0.2,
+                                    decoration: const BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/icons/Mask Group 1.png'),
+                                            fit: BoxFit.cover),
+                                        shape: BoxShape.circle,
+                                        color: Colors.black)),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: h * 0.1,
+                                    left: w * 0.13,
+                                    right: w * 0.17),
+                                child: InkWell(
+                                  onTap: () {
+                                    getImage();
+                                  },
+                                  child: Container(
+                                    width: w * 0.09,
+                                    height: h * 0.09,
+                                    child: Center(
+                                      child: Image.asset(
+                                        "assets/icons/FeatherIconSet-Feather_Controls-edit.png",
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                    decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white54),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                          ),
+                          Center(
+                            child: Text(
+                              translate(context, 'language', 'my_account'),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                        ],
+                      ),
+              ],
             ),
           ),
-
-          // leading: IconButton(
-          //   padding: EdgeInsets.zero,
-          //   icon: Icon(
-          //     Icons.share,
-          //     size: w * 0.05,
-          //     color: Colors.white,
-          //   ),
-          //   onPressed: () {},
-          // ),
-          // actions: [
-          //   Padding(
-          //     padding: EdgeInsets.symmetric(vertical: w * 0.01),
-          //     child: Badge(
-          //       badgeColor: mainColor,
-          //       child: IconButton(
-          //         icon: const Icon(
-          //           Icons.shopping_cart,
-          //           color: Colors.white,
-          //         ),
-          //         padding: EdgeInsets.zero,
-          //         focusColor: Colors.white,
-          //         onPressed: () {
-          //           Navigator.push(
-          //               context, MaterialPageRoute(builder: (context) => Cart()));
-          //         },
-          //       ),
-          //       animationDuration: const Duration(
-          //         seconds: 1,
-          //       ),
-          //       badgeContent: Text(
-          //         cart.items.length.toString(),
-          //         style: TextStyle(
-          //           color: Colors.white,
-          //           fontSize: w * 0.03,
-          //         ),
-          //       ),
-          //       position: BadgePosition.topStart(start: w * 0.007),
-          //     ),
-          //   ),
-          //   SizedBox(
-          //     width: w * 0.02,
-          //   ),
-          // ],
         ),
         body: Container(
           width: w,

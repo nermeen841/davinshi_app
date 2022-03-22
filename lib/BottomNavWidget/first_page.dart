@@ -49,7 +49,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
     var of3 = Provider.of<ReItemProvider>(context, listen: true);
     var of4 = Provider.of<OfferItemProvider>(context, listen: true);
 
-    tabBarHome!.addListener(() async {
+    tabBarHome?.addListener(() async {
       if (tabBarHome?.index == 1) {
         if (fi1) {
           fi1 = false;

@@ -263,6 +263,7 @@
     "payment": "payment",
     "cash": "Cash on delivery",
     "visa": "VISA",
-    "master": "Master Card"
+    "master": "Master Card",
+    "rate":"Add Rate"
   }
 }
