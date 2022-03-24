@@ -184,7 +184,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     fontWeight: FontWeight.bold),
                               )),
                               successColor: Colors.white,
-                              color: mainColor,
+                              color: const Color(0xff302E2E),
                               borderRadius: w * 0.07,
                               height: h * 0.06,
                               disabledColor: Colors.black,
@@ -304,16 +304,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
             FocusScope.of(context).requestFocus();
           },
-          // validator: (value) {
-          //   if (value!.isEmpty) {
-          //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          //         content: Text(translate(context, 'validation', 'field'))));
-          //     _btnController.error();
-          //     Future.delayed(const Duration(seconds: 1));
-          //     _btnController.stop();
-          //   }
-          //   return null;
-          // },
           decoration: InputDecoration(
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,
@@ -351,21 +341,6 @@ class _SignupScreenState extends State<SignupScreen> {
             focusNode2.unfocus();
             FocusScope.of(context).requestFocus();
           },
-          // validator: (value) {
-          //   if (value!.isNotEmpty) {
-          //     if (email.text.contains("@")) {
-          //       return null;
-          //     } else {
-          //       ScaffoldMessenger.of(context)
-          //           .showSnackBar(SnackBar(content: Text("email is invalid")));
-          //       _btnController.error();
-          //       Future.delayed(const Duration(seconds: 1));
-          //       _btnController.stop();
-          //     }
-          //   } else {
-          //     return null;
-          //   }
-          // },
           decoration: InputDecoration(
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,
@@ -404,16 +379,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
             FocusScope.of(context).requestFocus();
           },
-          // validator: (value) {
-          //   if (value!.isEmpty) {
-          //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          //         content: Text(translate(context, 'validation', 'field'))));
-          //     _btnController.error();
-          //     Future.delayed(const Duration(seconds: 1));
-          //     _btnController.stop();
-          //   }
-          //   return null;
-          // },
           decoration: InputDecoration(
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,
@@ -451,16 +416,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
             FocusScope.of(context).requestFocus();
           },
-          // validator: (value) {
-          //   if (value!.isEmpty) {
-          //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          //         content: Text(translate(context, 'validation', 'field'))));
-          //     _btnController.error();
-          //     Future.delayed(const Duration(seconds: 1));
-          //     _btnController.stop();
-          //   }
-          //   return null;
-          // },
           decoration: InputDecoration(
             suffixIcon: InkWell(
               onTap: () {

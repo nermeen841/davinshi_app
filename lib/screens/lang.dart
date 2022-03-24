@@ -37,27 +37,51 @@ class LangPage extends StatelessWidget {
                   child: InkWell(
                     onTap: () => navPop(context),
                     child: Align(
-                      alignment: Alignment.topRight,
-                      child:
-                          Image.asset("assets/icons/Chevron-chevron-left.png"),
+                      alignment: (lang == 'en')
+                          ? Alignment.topRight
+                          : Alignment.topLeft,
+                      child: Container(
+                        width: w * 0.09,
+                        height: h * 0.04,
+                        color: mainColor,
+                        child: const Center(
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 )
               ],
             ),
             Padding(
-              padding: EdgeInsets.only(top: h * 0.65),
+              padding: EdgeInsets.only(top: h * 0.5),
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(
+                      child: SizedBox(
+                        width: w * 0.3,
+                        child: Image.asset(
+                          "assets/images/multi-app.png",
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: h * 0.015,
+                    ),
+                    Center(
                       child: Text(
                         translate(context, 'language', 'change_language'),
                         style: TextStyle(
                             decoration: TextDecoration.none,
-                            color: Colors.black54,
+                            color: const Color(0xff333333),
+                            fontFamily: 'Tajawal',
                             fontSize: w * 0.05,
                             fontWeight: FontWeight.bold),
                       ),
@@ -72,7 +96,7 @@ class LangPage extends StatelessWidget {
                         InkWell(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: mainColor,
+                              color: Colors.black,
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Padding(
@@ -84,6 +108,7 @@ class LangPage extends StatelessWidget {
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: w * 0.05,
+                                      fontFamily: 'Tajawal',
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
@@ -133,6 +158,7 @@ class LangPage extends StatelessWidget {
                                 'العربية',
                                 style: TextStyle(
                                     color: Colors.white,
+                                    fontFamily: 'Tajawal',
                                     fontSize: w * 0.05,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -176,149 +202,6 @@ class LangPage extends StatelessWidget {
           ],
         ),
       ),
-      // Center(
-      //   child: SizedBox(
-      //     width: w * 0.9,
-      //     height: h,
-      //     child: Column(
-      //       children: [
-      //         SizedBox(
-      //           height: h * 0.05,
-      //         ),
-      //         InkWell(
-      //           child: Material(
-      //             elevation: 3,
-      //             borderRadius: BorderRadius.circular(5),
-      //             child: Container(
-      //               decoration: BoxDecoration(
-      //                 borderRadius: BorderRadius.circular(5),
-      //               ),
-      //               child: Padding(
-      //                 padding: EdgeInsets.all(w * 0.05),
-      //                 child: Row(
-      //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //                   children: [
-      //                     Text(
-      //                       'English',
-      //                       style: TextStyle(
-      //                           color: mainColor,
-      //                           fontSize: w * 0.05,
-      //                           fontWeight: FontWeight.bold),
-      //                     ),
-      //                     CircleAvatar(
-      //                       radius: w * 0.03,
-      //                       child: Icon(
-      //                         Icons.done,
-      //                         color: Colors.white,
-      //                         size: w * 0.04,
-      //                       ),
-      //                       backgroundColor: lang == null
-      //                           ? Colors.white
-      //                           : language == 'en'
-      //                               ? mainColor
-      //                               : Colors.white,
-      //                     ),
-      //                   ],
-      //                 ),
-      //               ),
-      //             ),
-      //           ),
-      //           onTap: () async {
-      //             dialog(context);
-      //             await Provider.of<AppLanguage>(context, listen: false)
-      //                 .changeLanguage(const Locale('en'));
-      //             if (lang == null) {
-      //               if (login) {
-      //                 getLikes();
-      //                 getCountries();
-      //                 await getHomeItems();
-      //                 Navigator.pushAndRemoveUntil(
-      //                     context,
-      //                     MaterialPageRoute(builder: (context) => Home()),
-      //                     (route) => false);
-      //               } else {
-      //                 getCountries();
-      //                 Navigator.pushAndRemoveUntil(
-      //                     context,
-      //                     MaterialPageRoute(builder: (context) => Country(1)),
-      //                     (route) => false);
-      //               }
-      //             } else {
-      //               navPop(context);
-      //             }
-      //           },
-      //         ),
-      //         SizedBox(
-      //           height: h * 0.02,
-      //         ),
-      //         InkWell(
-      //           child: Material(
-      //             elevation: 3,
-      //             borderRadius: BorderRadius.circular(5),
-      //             child: Container(
-      //               decoration: BoxDecoration(
-      //                 borderRadius: BorderRadius.circular(5),
-      //               ),
-      //               child: Padding(
-      //                 padding: EdgeInsets.all(w * 0.05),
-      //                 child: Row(
-      //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //                   children: [
-      //                     Text(
-      //                       'العربية',
-      //                       style: TextStyle(
-      //                           color: mainColor,
-      //                           fontSize: w * 0.05,
-      //                           fontWeight: FontWeight.bold),
-      //                     ),
-      //                     CircleAvatar(
-      //                       radius: w * 0.03,
-      //                       child: Icon(
-      //                         Icons.done,
-      //                         color: Colors.white,
-      //                         size: w * 0.04,
-      //                       ),
-      //                       backgroundColor: lang == null
-      //                           ? Colors.white
-      //                           : language == 'ar'
-      //                               ? mainColor
-      //                               : Colors.white,
-      //                     ),
-      //                   ],
-      //                 ),
-      //               ),
-      //             ),
-      //           ),
-      //           onTap: () async {
-      //             dialog(context);
-      //             await Provider.of<AppLanguage>(context, listen: false)
-      //                 .changeLanguage(const Locale('ar'));
-      //             // navPop(context);
-      //             if (lang == null) {
-      //               if (login) {
-      //                 getLikes();
-      //                 getCountries();
-      //                 await getHomeItems();
-      //                 Navigator.pushAndRemoveUntil(
-      //                     context,
-      //                     MaterialPageRoute(builder: (context) => Home()),
-      //                     (route) => false);
-      //               } else {
-      //                 getCountries();
-      //                 Navigator.pushAndRemoveUntil(
-      //                     context,
-      //                     MaterialPageRoute(builder: (context) => Country(1)),
-      //                     (route) => false);
-      //               }
-      //             } else {
-      //               navPop(context);
-      //             }
-      //           },
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
     );
   }
 }

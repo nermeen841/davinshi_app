@@ -251,13 +251,27 @@ class _ConfirmPhoneState extends State<ConfirmPhone> {
       preferredSize: Size(w, h),
       child: Stack(
         children: [
-          Container(
-            width: w,
-            height: h,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/icons/Mask Group 31.png"),
-                    fit: BoxFit.fill)),
+          Stack(
+            children: [
+              Container(
+                width: w,
+                height: h,
+                decoration: BoxDecoration(
+                  color: mainColor,
+                  image: const DecorationImage(
+                      image: AssetImage("assets/images/143.png"),
+                      fit: BoxFit.contain),
+                ),
+              ),
+              Container(
+                width: w,
+                height: h,
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/Rectangle.png"),
+                        fit: BoxFit.fill)),
+              ),
+            ],
           ),
           Form(
             key: _formKey,
@@ -272,14 +286,31 @@ class _ConfirmPhoneState extends State<ConfirmPhone> {
                     body: Center(
                       child: ListView(
                         children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: InkWell(
-                              onTap: () => Navigator.pop(context),
-                              child: Icon(
-                                Icons.keyboard_arrow_left,
-                                color: Colors.white,
-                                size: w * 0.15,
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: h * 0.01, horizontal: w * 0.02),
+                            child: Align(
+                              alignment: (language == 'en')
+                                  ? Alignment.topLeft
+                                  : Alignment.topRight,
+                              child: InkWell(
+                                onTap: () => Navigator.pop(context),
+                                child: Container(
+                                  width: w * 0.09,
+                                  height: h * 0.04,
+                                  color: Colors.white,
+                                  child: Center(
+                                    child: (language == 'en')
+                                        ? const Icon(
+                                            Icons.arrow_back,
+                                            color: Colors.black,
+                                          )
+                                        : const Icon(
+                                            Icons.arrow_forward,
+                                            color: Colors.black,
+                                          ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -296,16 +327,25 @@ class _ConfirmPhoneState extends State<ConfirmPhone> {
                                   decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.circular(w * 0.07),
-                                    border: Border.all(color: Colors.black),
-                                    color: Colors.white30,
+                                    color: Colors.white,
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      translate(context, 'reset_pass', 'title'),
-                                      style: TextStyle(
-                                          fontSize: w * 0.05,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: w * 0.05,
+                                        vertical: h * 0.005),
+                                    decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius:
+                                            BorderRadius.circular(w * 0.07)),
+                                    child: Center(
+                                      child: Text(
+                                        translate(
+                                            context, 'reset_pass', 'title'),
+                                        style: TextStyle(
+                                            fontSize: w * 0.05,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
                                 ),
