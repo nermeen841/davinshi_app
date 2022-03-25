@@ -1,6 +1,7 @@
 // ignore_for_file: empty_catches, deprecated_member_use, avoid_print
 import 'dart:io';
 import 'package:davinshi_app/screens/auth/login.dart';
+import 'package:davinshi_app/screens/update_profile/profile_setting.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/screens/cart/orders.dart';
@@ -17,8 +18,17 @@ import 'package:davinshi_app/screens/contac_us.dart';
 import 'package:davinshi_app/screens/profile_user.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:simple_star_rating/simple_star_rating.dart';
+
+import '../provider/best_item.dart';
+import '../provider/fav_pro.dart';
+import '../provider/home.dart';
+import '../provider/new_item.dart';
+import '../provider/offer_item.dart';
+import '../provider/recommended_item.dart';
+import '../screens/home_folder/home_page.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -35,127 +45,122 @@ class _ProfileState extends State<Profile> {
   final List<Tile> tile = login
       ? [
           Tile(
-              nameAr: 'العناوين',
+              nameAr: 'عناويني',
               nameEn: 'My address',
               image: 'assets/icons/FeatherIconSet-Feather_Maps-map-pin.png',
               className: Address()),
           Tile(
-              nameAr: 'طلباتي',
-              nameEn: 'My Orders',
-              image:
-                  'assets/icons/FeatherIconSet-Feather_Miscellaneous-box.png',
-              className: const Orders()),
+              nameAr: 'اللغة',
+              nameEn: 'Language',
+              image: 'assets/images/Group 1088.png',
+              className: LangPage()),
           Tile(
               nameAr: 'الدول',
               nameEn: 'Country',
-              image:
-                  'assets/icons/FeatherIconSet-Feather_Miscellaneous-globe.png',
+              image: 'assets/images/Group 1101.png',
               className: Country(2)),
-          Tile(
-              nameAr: 'اللغات',
-              nameEn: 'Language',
-              image:
-                  'assets/icons/FeatherIconSet-Feather_Miscellaneous-book-open.png',
-              className: LangPage()),
           Tile(
               nameAr: 'تواصل معنا',
               nameEn: 'Contact us',
-              image: 'assets/icons/FeatherIconSet-Feather_Music-headphones.png',
+              image: 'assets/images/Group 1098.png',
               className: ContactUs()),
-          Tile(
-              nameAr: 'عن كنوز',
-              nameEn: 'About Konoz',
-              keyApi: 'about',
-              image: 'assets/icons/FeatherIconSet-Feather_Layout-layers.png',
-              className: AboutUs('About Us')),
           Tile(
               nameAr: 'معلومات التوصيل',
               nameEn: 'Delivery Info',
               keyApi: 'delivery',
-              image:
-                  'assets/icons/FeatherIconSet-Feather_Miscellaneous-truck.png',
+              image: 'assets/images/Group 1090.png',
               className: AboutUs('Delivery Info')),
           Tile(
-              nameAr: 'مساعده',
+              nameAr: 'حول تطبيق مالتي',
+              nameEn: 'About Multi',
+              keyApi: 'about',
+              image: 'assets/images/Group 1095.png',
+              className: AboutUs('About Us')),
+          Tile(
+              nameAr: 'سياسة الخصوصية',
+              nameEn: 'Privacy Policy',
+              keyApi: 'PrivacyPolicy',
+              image: 'assets/images/Group 1100.png',
+              className: AboutUs('Privacy Policy')),
+          Tile(
+              nameAr: 'الشروط و الأحكام',
+              nameEn: 'Terms & Condition',
+              keyApi: 'TermsAndConditions',
+              image: 'assets/images/command.png',
+              className: AboutUs('Terms & Condition')),
+          Tile(
+              nameAr: 'المساعدة',
               nameEn: 'Information',
               keyApi: 'information',
-              image:
-                  'assets/icons/FeatherIconSet-Feather_Miscellaneous-pen-tool.png',
+              image: 'assets/images/Group 1099.png',
               className: AboutUs('Information')),
           Tile(
             nameAr: 'تقييم التطبيق',
             nameEn: 'App rate',
             keyApi: 'question',
-            image: 'assets/icons/Health-heart.png',
+            image: 'assets/images/Group 1097.png',
             className: const SizedBox(),
           ),
           Tile(
-              nameAr: 'تسجيل خروج',
-              nameEn: 'Sign up',
-              image: 'assets/icons/FeatherIconSet-Feather_Controls-upload.png',
-              className: const SizedBox()),
+            nameAr: 'تسجيل خروج',
+            nameEn: 'Sign up',
+            image: 'assets/icons/FeatherIconSet-Feather_Controls-upload.png',
+            className: const SizedBox(),
+          ),
         ]
       : [
           Tile(
-              nameAr: 'العناوين',
-              nameEn: 'My address',
-              image: 'assets/icons/FeatherIconSet-Feather_Maps-map-pin.png',
-              className: Address()),
-          Tile(
-              nameAr: 'طلباتي',
-              nameEn: 'My Orders',
-              image:
-                  'assets/icons/FeatherIconSet-Feather_Miscellaneous-box.png',
-              className: const Orders()),
+              nameAr: 'اللغة',
+              nameEn: 'Language',
+              image: 'assets/images/Group 1088.png',
+              className: LangPage()),
           Tile(
               nameAr: 'الدول',
               nameEn: 'Country',
-              image:
-                  'assets/icons/FeatherIconSet-Feather_Miscellaneous-globe.png',
+              image: 'assets/images/Group 1101.png',
               className: Country(2)),
-          Tile(
-              nameAr: 'اللغات',
-              nameEn: 'Language',
-              image:
-                  'assets/icons/FeatherIconSet-Feather_Miscellaneous-book-open.png',
-              className: LangPage()),
           Tile(
               nameAr: 'تواصل معنا',
               nameEn: 'Contact us',
-              image: 'assets/icons/FeatherIconSet-Feather_Music-headphones.png',
+              image: 'assets/images/Group 1098.png',
               className: ContactUs()),
-          Tile(
-              nameAr: 'عن كنوز',
-              nameEn: 'About Konoz',
-              keyApi: 'about',
-              image: 'assets/icons/FeatherIconSet-Feather_Layout-layers.png',
-              className: AboutUs('About Us')),
           Tile(
               nameAr: 'معلومات التوصيل',
               nameEn: 'Delivery Info',
               keyApi: 'delivery',
-              image:
-                  'assets/icons/FeatherIconSet-Feather_Miscellaneous-truck.png',
+              image: 'assets/images/Group 1090.png',
               className: AboutUs('Delivery Info')),
           Tile(
-              nameAr: 'مساعده',
+              nameAr: 'حول تطبيق مالتي',
+              nameEn: 'About Multi',
+              keyApi: 'about',
+              image: 'assets/images/Group 1095.png',
+              className: AboutUs('About Us')),
+          Tile(
+              nameAr: 'سياسة الخصوصية',
+              nameEn: 'Privacy Policy',
+              keyApi: 'PrivacyPolicy',
+              image: 'assets/images/Group 1100.png',
+              className: AboutUs('Privacy Policy')),
+          Tile(
+              nameAr: 'الشروط و الأحكام',
+              nameEn: 'Terms & Condition',
+              keyApi: 'TermsAndConditions',
+              image: 'assets/images/command.png',
+              className: AboutUs('Terms & Condition')),
+          Tile(
+              nameAr: 'المساعدة',
               nameEn: 'Information',
               keyApi: 'information',
-              image:
-                  'assets/icons/FeatherIconSet-Feather_Miscellaneous-pen-tool.png',
+              image: 'assets/images/Group 1099.png',
               className: AboutUs('Information')),
           Tile(
             nameAr: 'تقييم التطبيق',
             nameEn: 'App rate',
             keyApi: 'question',
-            image: 'assets/icons/Health-heart.png',
+            image: 'assets/images/Group 1097.png',
             className: const SizedBox(),
           ),
-          Tile(
-              nameAr: 'تسجيل الدخول',
-              nameEn: 'Log In',
-              image: 'assets/icons/FeatherIconSet-Feather_Controls-upload.png',
-              className: const SizedBox()),
         ];
 
   Future<bool> getInfo(title) async {
@@ -252,203 +257,294 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: showExitPopup,
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: PreferredSize(
-          preferredSize: Size(w, h * 0.32),
-          child: Container(
-            decoration: BoxDecoration(
-              color: mainColor,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(w * 0.1),
-                bottomRight: Radius.circular(w * 0.1),
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Align(
-                  alignment:
-                      (prefs.getString('language_code').toString() == 'en')
-                          ? Alignment.topRight
-                          : Alignment.topLeft,
-                  child: InkWell(
-                      // onTap: () => Navigator.pop(context),
-                      child:
-                          (prefs.getString('language_code').toString() == 'en')
-                              ? const Icon(
-                                  Icons.keyboard_arrow_right,
-                                  size: 30,
-                                  color: Colors.white,
-                                )
-                              : const Icon(
-                                  Icons.keyboard_arrow_left,
-                                  size: 30,
-                                  color: Colors.white,
-                                )),
-                ),
-                (login)
-                    ? Column(
-                        children: [
-                          Padding(
-                            padding: (prefs.getString('language_code') == 'en')
-                                ? EdgeInsets.only(left: w * 0.1)
-                                : EdgeInsets.only(right: w * 0.09),
-                            child: Stack(children: [
-                              Container(
-                                width: w * 0.24,
-                                height: h * 0.24,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 4, color: Colors.white),
-                                    shape: BoxShape.circle),
-                                child: Container(
-                                    width: w * 0.2,
-                                    height: h * 0.2,
-                                    decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/icons/Mask Group 1.png'),
-                                            fit: BoxFit.cover),
-                                        shape: BoxShape.circle,
-                                        color: Colors.black)),
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  getImage();
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top: h * 0.1,
-                                      left: w * 0.13,
-                                      right: w * 0.17),
-                                  child: Container(
-                                    width: w * 0.09,
-                                    height: h * 0.09,
-                                    child: Center(
-                                      child: Image.asset(
-                                        "assets/icons/FeatherIconSet-Feather_Controls-edit.png",
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                    decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white54),
-                                  ),
-                                ),
-                              ),
-                            ]),
-                          ),
-                          Center(
-                            child: Text(
-                              translate(context, 'language', 'my_account'),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: w * 0.05,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ),
-                        ],
-                      )
-                    : Column(
-                        children: [
-                          Padding(
-                            padding: (prefs.getString('language_code') == 'en')
-                                ? EdgeInsets.only(left: w * 0.1)
-                                : EdgeInsets.only(right: w * 0.09),
-                            child: Stack(children: [
-                              Container(
-                                width: w * 0.24,
-                                height: h * 0.24,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 4, color: Colors.white),
-                                    shape: BoxShape.circle),
-                                child: Container(
-                                    width: w * 0.2,
-                                    height: h * 0.2,
-                                    decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/icons/Mask Group 1.png'),
-                                            fit: BoxFit.cover),
-                                        shape: BoxShape.circle,
-                                        color: Colors.black)),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: h * 0.1,
-                                    left: w * 0.13,
-                                    right: w * 0.17),
-                                child: InkWell(
-                                  onTap: () {
-                                    getImage();
-                                  },
-                                  child: Container(
-                                    width: w * 0.09,
-                                    height: h * 0.09,
-                                    child: Center(
-                                      child: Image.asset(
-                                        "assets/icons/FeatherIconSet-Feather_Controls-edit.png",
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                    decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white54),
-                                  ),
-                                ),
-                              ),
-                            ]),
-                          ),
-                          Center(
-                            child: Text(
-                              translate(context, 'language', 'my_account'),
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ),
-                        ],
-                      ),
-              ],
-            ),
-          ),
-        ),
-        body: Container(
-          width: w,
-          height: h,
-          padding: EdgeInsets.only(top: h * 0.15),
-          child: Padding(
-            padding:
-                EdgeInsets.only(right: w * 0.05, left: w * 0.05, top: h * 0.19),
-            child: SingleChildScrollView(
-              child: Column(
+      child: Directionality(
+        textDirection: getDirection(),
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: Column(
+            children: [
+              Stack(
                 children: [
-                  if (userName != null)
-                    Text(
-                      "" +
-                          translate(context, 'language', 'welcom') +
-                          "" +
-                          userName!,
-                      style: TextStyle(
-                          color: mainColor,
-                          fontSize: w * 0.05,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  if (userName == null)
-                    Text(
-                      isLeft() ? 'Guest' : 'زائر',
-                      style: TextStyle(
-                          color: mainColor,
-                          fontSize: w * 0.06,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  SizedBox(
-                    height: h * 0.01,
+                  Container(
+                    width: double.infinity,
+                    height: h * 0.2,
+                    color: mainColor,
                   ),
-                  Column(
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: h * 0.13, left: w * 0.02, right: w * 0.02),
+                    child: Container(
+                      width: double.infinity,
+                      height: h * 0.28,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(w * 0.05),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey.withOpacity(0.2),
+                                offset: const Offset(0, 3),
+                                blurRadius: 3,
+                                spreadRadius: 3)
+                          ]),
+                      child: Padding(
+                        padding: EdgeInsets.only(top: h * 0.13),
+                        child: Column(
+                          children: [
+                            if (userName != null)
+                              Center(
+                                child: Text(
+                                  userName!,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: w * 0.05,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            if (userName == null)
+                              InkWell(
+                                onTap: () => Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Country(1)),
+                                    (route) => false),
+                                child: Center(
+                                  child: Text(
+                                    isLeft() ? 'Login' : 'تسجيل دخول',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: w * 0.06,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            SizedBox(
+                              height: h * 0.02,
+                            ),
+                            Center(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      if (login) {
+                                        navP(context, const Orders());
+                                      } else {
+                                        final snackBar = SnackBar(
+                                          content: Text(translate(
+                                              context, 'snack_bar', 'login')),
+                                          action: SnackBarAction(
+                                            label: translate(
+                                                context, 'buttons', 'login'),
+                                            disabledTextColor: Colors.yellow,
+                                            textColor: Colors.yellow,
+                                            onPressed: () {
+                                              Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const Login()),
+                                                  (route) => false);
+                                            },
+                                          ),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    },
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: h * 0.035,
+                                          child: Image.asset(
+                                            'assets/images/Group 1102.png',
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: h * 0.01,
+                                        ),
+                                        Text(
+                                          (language == 'en')
+                                              ? 'My Orders'
+                                              : 'طلباتي',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: w * 0.04,
+                                              fontFamily: 'Tajawal',
+                                              fontWeight: FontWeight.w500),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      if (login) {
+                                        Provider.of<NewItemProvider>(context,
+                                                listen: false)
+                                            .getItems();
+                                        Provider.of<FavItemProvider>(context,
+                                                listen: false)
+                                            .getItems();
+                                        Provider.of<BestItemProvider>(context,
+                                                listen: false)
+                                            .getItems();
+                                        Provider.of<OfferItemProvider>(context,
+                                                listen: false)
+                                            .getItems();
+                                        Provider.of<ReItemProvider>(context,
+                                                listen: false)
+                                            .getItems();
+                                        Provider.of<BottomProvider>(context,
+                                                listen: false)
+                                            .setIndex(1);
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: ((context) => Home())),
+                                            (route) => false);
+                                      } else {
+                                        final snackBar = SnackBar(
+                                          content: Text(translate(
+                                              context, 'snack_bar', 'login')),
+                                          action: SnackBarAction(
+                                            label: translate(
+                                                context, 'buttons', 'login'),
+                                            disabledTextColor: Colors.yellow,
+                                            textColor: Colors.yellow,
+                                            onPressed: () {
+                                              Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const Login()),
+                                                  (route) => false);
+                                            },
+                                          ),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    },
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: h * 0.035,
+                                          child: Image.asset(
+                                            'assets/images/Group 1103.png',
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: h * 0.01,
+                                        ),
+                                        Text(
+                                          (language == 'en')
+                                              ? 'My favourite'
+                                              : 'مفضلتي',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: w * 0.04,
+                                              fontFamily: 'Tajawal',
+                                              fontWeight: FontWeight.w500),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      if (login) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: ((context) =>
+                                                ProfileSettingScreen()),
+                                          ),
+                                        );
+                                      } else {
+                                        final snackBar = SnackBar(
+                                          content: Text(translate(
+                                              context, 'snack_bar', 'login')),
+                                          action: SnackBarAction(
+                                            label: translate(
+                                                context, 'buttons', 'login'),
+                                            disabledTextColor: Colors.yellow,
+                                            textColor: Colors.yellow,
+                                            onPressed: () {
+                                              Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const Login()),
+                                                  (route) => false);
+                                            },
+                                          ),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    },
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: h * 0.035,
+                                          child: Image.asset(
+                                            'assets/images/Group 1104.png',
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: h * 0.01,
+                                        ),
+                                        Text(
+                                          (language == 'en')
+                                              ? 'Update profile'
+                                              : 'تحديث الحساب',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: w * 0.04,
+                                              fontFamily: 'Tajawal',
+                                              fontWeight: FontWeight.w500),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: h * 0.05),
+                    child: Center(
+                      child: CircleAvatar(
+                        child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            child: Center(
+                              child: Icon(
+                                Icons.insert_photo_outlined,
+                                size: w * 0.15,
+                                color: Colors.black87,
+                              ),
+                            ),
+                            radius: w * 0.13),
+                        backgroundColor: mainColor,
+                        radius: w * 0.15,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: h * 0.01,
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
                     children: List.generate(tile.length, (i) {
                       return Padding(
                         padding: EdgeInsets.only(bottom: h * 0.02),
@@ -456,18 +552,12 @@ class _ProfileState extends State<Profile> {
                           children: [
                             ListTile(
                               leading: SizedBox(
-                                width: w * 0.05,
-                                height: w * 0.05,
-                                // decoration: BoxDecoration(
-                                //   image: DecorationImage(
-                                //     image: AssetImage(),
-                                //     fit: BoxFit.contain,
-                                //   ),
-                                // ),
+                                width: w * 0.07,
+                                height: w * 0.07,
                                 child: Image.asset(
                                   tile[i].image,
                                   fit: BoxFit.contain,
-                                  color: mainColor,
+                                  color: Colors.black,
                                 ),
                               ),
                               trailing: (prefs
@@ -493,12 +583,6 @@ class _ProfileState extends State<Profile> {
                                 if (tile[i].nameEn == 'Edit Profile') {
                                   dialog(context);
                                   getProfile();
-                                } else if (tile[i].nameEn == 'Log In') {
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Country(1)),
-                                      (route) => false);
                                 } else if (tile[i].nameEn == 'Sign up') {
                                   dialog(context);
                                   prefs.setBool('login', false);
@@ -554,9 +638,9 @@ class _ProfileState extends State<Profile> {
                       );
                     }),
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),

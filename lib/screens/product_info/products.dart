@@ -539,9 +539,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                 padding: EdgeInsets.symmetric(vertical: w * 0.01),
                 child: Padding(
                   padding: const EdgeInsets.all(5),
-                  // child: Icon(Icons.search,color: Colors.white,size: w*0.05,),
                   child: Badge(
-                    badgeColor: mainColor,
+                    badgeColor: const Color(0xffFF0921),
                     child: IconButton(
                       icon: const Icon(
                         Icons.shopping_bag_outlined,
@@ -594,7 +593,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                   unselectedLabelColor: Colors.grey,
                   indicatorWeight: 3,
                   automaticIndicatorColorAdjustment: true,
-                  labelColor: mainColor2,
+                  labelColor: mainColor,
+                  indicatorColor: Colors.brown.withOpacity(0.8),
                   isScrollable: true,
                 ),
               ),

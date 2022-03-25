@@ -37,7 +37,7 @@ class LangPage extends StatelessWidget {
                   child: InkWell(
                     onTap: () => navPop(context),
                     child: Align(
-                      alignment: (lang == 'en')
+                      alignment: (lang == 'en' || lang == null)
                           ? Alignment.topRight
                           : Alignment.topLeft,
                       child: Container(
@@ -67,7 +67,7 @@ class LangPage extends StatelessWidget {
                       child: SizedBox(
                         width: w * 0.3,
                         child: Image.asset(
-                          "assets/images/multi-app.png",
+                          "assets/images/logo_multi.png",
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -169,7 +169,6 @@ class LangPage extends StatelessWidget {
                             await Provider.of<AppLanguage>(context,
                                     listen: false)
                                 .changeLanguage(const Locale('ar'));
-                            // navPop(context);
                             if (lang == null) {
                               if (login) {
                                 getLikes();

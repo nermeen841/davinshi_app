@@ -19,8 +19,8 @@ import 'models/bottomnav.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: mainColor,
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.black,
     statusBarIconBrightness: Brightness.light,
     statusBarBrightness: Brightness.light,
   ));

@@ -33,8 +33,8 @@ class AppBarHome {
           height: w * 0.1,
           padding: EdgeInsets.symmetric(horizontal: w * 0.02),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(color: Colors.black38),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: mainColor),
               color: Colors.white),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,7 +50,7 @@ class AppBarHome {
                   style: TextStyle(
                       color: Colors.black45,
                       fontWeight: FontWeight.w500,
-                      fontSize: w * 0.05),
+                      fontSize: w * 0.04),
                 ),
               ),
             ],
@@ -62,20 +62,16 @@ class AppBarHome {
           padding: EdgeInsets.symmetric(vertical: w * 0.01),
           child: Padding(
             padding: const EdgeInsets.all(5),
-            // child: Icon(Icons.search,color: Colors.white,size: w*0.05,),
             child: Badge(
-              badgeColor: mainColor,
+              badgeColor: const Color(0xffFF0921),
               child: IconButton(
-                icon: const Icon(
+                icon: Icon(
                   Icons.notifications_outlined,
-                  color: Colors.black,
+                  color: mainColor,
                 ),
                 padding: EdgeInsets.zero,
                 focusColor: Colors.white,
-                onPressed: () {
-                  // Navigator.push(
-                  //     context, MaterialPageRoute(builder: (context) => Cart()));
-                },
+                onPressed: () {},
               ),
               animationDuration: const Duration(
                 seconds: 2,
@@ -95,13 +91,12 @@ class AppBarHome {
           padding: EdgeInsets.symmetric(vertical: w * 0.01),
           child: Padding(
             padding: const EdgeInsets.all(5),
-            // child: Icon(Icons.search,color: Colors.white,size: w*0.05,),
             child: Badge(
-              badgeColor: mainColor,
+              badgeColor: const Color(0xffFF0921),
               child: InkWell(
-                child: const Icon(
+                child: Icon(
                   Icons.shopping_bag_outlined,
-                  color: Colors.black,
+                  color: mainColor,
                 ),
                 focusColor: Colors.white,
                 onTap: () {
@@ -146,6 +141,7 @@ class AppBarHome {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.transparent,
+                  border: Border.all(color: mainColor),
                 ),
                 child: Center(
                     child: Text(
@@ -158,6 +154,7 @@ class AppBarHome {
                     horizontal: w * 0.03, vertical: h * 0.01),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: mainColor),
                 ),
                 child: Center(
                   child: Text(
@@ -171,6 +168,7 @@ class AppBarHome {
                       horizontal: w * 0.03, vertical: h * 0.01),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: mainColor),
                   ),
                   child: Center(
                       child: Text(
@@ -182,6 +180,7 @@ class AppBarHome {
                     horizontal: w * 0.03, vertical: h * 0.01),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: mainColor),
                 ),
                 child: Center(
                     child: Text(
@@ -194,6 +193,7 @@ class AppBarHome {
                     horizontal: w * 0.03, vertical: h * 0.01),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: mainColor),
                 ),
                 child: Center(
                     child: Text(

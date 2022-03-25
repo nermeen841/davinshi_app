@@ -95,40 +95,24 @@ class _SplachState extends State<Splach> {
         width: w,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/Mask Group 1.png'),
+            image: AssetImage('assets/images/splash.png'),
             fit: BoxFit.cover,
           ),
         ),
         child: Scaffold(
           backgroundColor: Colors.white54,
-          body: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/Rectangle 2.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Image.asset(
-                      'assets/malllll.png',
-                      width: w * 0.6,
-                      height: h * 0.2,
-                      fit: BoxFit.contain,
-                    ),
+          body: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Image.asset(
+                    'assets/images/logo_multi.png',
+                    fit: BoxFit.contain,
                   ),
-                  SizedBox(
-                    height: h * 0.02,
-                  ),
-                  Center(
-                    child: Image.asset('assets/splashtext.png'),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

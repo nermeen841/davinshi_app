@@ -92,48 +92,38 @@ class _SecPageState extends State<SecPage> {
                 style: TextStyle(color: Colors.white, fontSize: w * 0.04),
               ),
               centerTitle: true,
-              backgroundColor: Colors.black,
+              backgroundColor: mainColor,
               automaticallyImplyLeading: false,
               actions: [
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: w * 0.01),
-                  // ignore: avoid_unnecessary_containers
-                  child: Container(
-                    // decoration: BoxDecoration(
-                    //   borderRadius: BorderRadius.circular(10),
-                    //   color: mainColor2,
-                    // ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      // child: Icon(Icons.search,color: Colors.white,size: w*0.05,),
-                      child: Badge(
-                        badgeColor: mainColor,
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.shopping_bag_outlined,
-                            color: Colors.white,
-                          ),
-                          padding: EdgeInsets.zero,
-                          focusColor: Colors.white,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Cart()));
-                          },
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Badge(
+                      badgeColor: const Color(0xffFF0921),
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.shopping_bag_outlined,
+                          color: Colors.white,
                         ),
-                        animationDuration: const Duration(
-                          seconds: 2,
-                        ),
-                        badgeContent: Text(
-                          cart.items.length.toString(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: w * 0.03,
-                          ),
-                        ),
-                        position: BadgePosition.topStart(start: w * 0.007),
+                        padding: EdgeInsets.zero,
+                        focusColor: Colors.white,
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Cart()));
+                        },
                       ),
+                      animationDuration: const Duration(
+                        seconds: 2,
+                      ),
+                      badgeContent: Text(
+                        cart.items.length.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: w * 0.03,
+                        ),
+                      ),
+                      position: BadgePosition.topStart(start: w * 0.007),
                     ),
                   ),
                 ),

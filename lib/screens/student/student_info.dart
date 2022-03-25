@@ -196,7 +196,7 @@ class _StudentInfo extends State<StudentInfo> {
               padding: const EdgeInsets.all(5),
               // child: Icon(Icons.search,color: Colors.white,size: w*0.05,),
               child: Badge(
-                badgeColor: mainColor,
+                badgeColor: const Color(0xffFF0921),
                 child: IconButton(
                   icon: const Icon(
                     Icons.shopping_bag_outlined,

@@ -52,9 +52,8 @@ class _PageFourState extends State<PageFour> {
                 padding: EdgeInsets.symmetric(vertical: w * 0.01),
                 child: Padding(
                   padding: const EdgeInsets.all(5),
-                  // child: Icon(Icons.search,color: Colors.white,size: w*0.05,),
                   child: Badge(
-                    badgeColor: mainColor,
+                    badgeColor: const Color(0xffFF0921),
                     child: IconButton(
                       icon: const Icon(
                         Icons.shopping_bag_outlined,
@@ -85,20 +84,6 @@ class _PageFourState extends State<PageFour> {
                 SizedBox(
                   width: w * 0.05,
                 ),
-              // if (login)
-              //   IconButton(
-              //     icon: const Icon(Icons.location_on_outlined),
-              //     iconSize: w * 0.06,
-              //     color: Colors.white,
-              //     padding: EdgeInsets.zero,
-              //     onPressed: () {
-              //       Navigator.push(
-              //           context, MaterialPageRoute(builder: (ctx) => Address()));
-              //     },
-              //   ),
-              // SizedBox(
-              //   width: w * 0.02,
-              // ),
             ],
           ),
           body: Center(
@@ -224,8 +209,6 @@ class _PageFourState extends State<PageFour> {
                                     Provider.of<NewPackageItemProvider>(context,
                                             listen: false)
                                         .clearList();
-                                    // Provider.of<RePackageItemProvider>(context,listen: false).clearList();
-                                    // Provider.of<BestPackageItemProvider>(context,listen: false).clearList();
                                     await Provider.of<NewPackageItemProvider>(
                                             context,
                                             listen: false)

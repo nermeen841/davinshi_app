@@ -87,27 +87,52 @@ class _ContactUsState extends State<ContactUs> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: mainColor,
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: mainColor,
             systemOverlayStyle: st,
+            automaticallyImplyLeading: false,
             title: Text(
               translate(context, 'page_five', 'contacts'),
               style: TextStyle(
                   fontSize: w * 0.05,
-                  color: mainColor,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
-            leading: BackButton(
-              color: mainColor,
+            leading: InkWell(
+              onTap: (() => Navigator.pop(context)),
+              child: Container(
+                width: w * 0.05,
+                height: h * 0.01,
+                margin: EdgeInsets.symmetric(
+                    horizontal: w * 0.02, vertical: h * 0.017),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(w * 0.01)),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: mainColor,
+                ),
+              ),
             ),
             centerTitle: true,
             elevation: 0,
           ),
-          body: Center(
-            child: SizedBox(
-              width: w * 0.9,
-              child: SingleChildScrollView(
+          body: Container(
+            width: double.infinity,
+            height: h,
+            margin: EdgeInsets.only(top: h * 0.02),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(w * 0.07),
+                topRight: Radius.circular(w * 0.07),
+              ),
+            ),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: w * 0.05, vertical: h * 0.02),
                 child: Column(
                   children: [
                     Column(
@@ -218,8 +243,8 @@ class _ContactUsState extends State<ContactUs> {
 
   InputBorder form() {
     return OutlineInputBorder(
-      borderSide: BorderSide(color: mainColor, width: 1.5),
-      borderRadius: BorderRadius.circular(15),
+      borderSide: const BorderSide(color: Colors.black, width: 1.5),
+      borderRadius: BorderRadius.circular(w * 0.03),
     );
   }
 }

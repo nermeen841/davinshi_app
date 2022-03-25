@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, unnecessary_new, prefer_final_fields
+// ignore_for_file: use_key_in_widget_constructors, unnecessary_new, prefer_final_fields, avoid_print
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +18,54 @@ class _ProfileUserState extends State<ProfileUser> {
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
 
-  List<FocusNode> _listFocus =
-      List<FocusNode>.generate(2, (_) => new FocusNode());
-  List<TextEditingController> _listEd = List<TextEditingController>.generate(2,
-      (_) => new TextEditingController(text: _ == 0 ? user.name : user.email));
+  Future getProfile() async {
+    final String url = domain + 'profile';
+    try {
+      Response response = await Dio().get(
+        url,
+        options: Options(headers: {"auth-token": auth}),
+      );
+      print("user token ------------- " + auth);
+      if (response.statusCode == 200) {
+        Map userData = response.data;
+
+        user = UserClass(
+            id: userData['id'],
+            name: userData['name'] ?? "",
+            phone: userData['phone'] ?? '',
+            email: userData['email'] ?? '');
+        setUserId(userData['id']);
+        setState(() {
+          userName = user.name;
+        });
+      } else {
+        Map userData = response.data;
+        user = UserClass(
+            id: userData['id'],
+            name: userData['name'] ?? "",
+            phone: userData['phone'] ?? "",
+            email: userData['email'] ?? "");
+        userName = user.name;
+        setUserId(userData['id']);
+      }
+    } catch (e) {
+      final snackBar = SnackBar(
+        content: Text(
+          translate(context, 'snack_bar', 'try'),
+        ),
+        action: SnackBarAction(
+          label: translate(context, 'snack_bar', 'undo'),
+          disabledTextColor: Colors.yellow,
+          textColor: Colors.yellow,
+          onPressed: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
   Future updateUser() async {
     final String url = domain + 'edit-profile';
     try {
@@ -80,7 +124,19 @@ class _ProfileUserState extends State<ProfileUser> {
   }
 
   @override
+  void initState() {
+    getProfile();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<FocusNode> _listFocus =
+        List<FocusNode>.generate(2, (_) => new FocusNode());
+    List<TextEditingController> _listEd = List<TextEditingController>.generate(
+        2,
+        (_) =>
+            new TextEditingController(text: _ == 0 ? user.name : user.email));
     return Directionality(
       textDirection: getDirection(),
       child: Scaffold(
