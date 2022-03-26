@@ -198,29 +198,29 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                                                       fit: BoxFit.fitHeight,
                                                     ),
                                                   ),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(
-                                                        w * 0.015),
-                                                    child: Align(
-                                                      alignment: isLeft()
-                                                          ? Alignment.bottomLeft
-                                                          : Alignment
-                                                              .bottomRight,
-                                                      child: CircleAvatar(
-                                                        backgroundColor:
-                                                            mainColor,
-                                                        radius: w * .05,
-                                                        child: Center(
-                                                          child: Icon(
-                                                            Icons
-                                                                .shopping_cart_outlined,
-                                                            color: Colors.white,
-                                                            size: w * 0.05,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
+                                                  // child: Padding(
+                                                  //   padding: EdgeInsets.all(
+                                                  //       w * 0.015),
+                                                  //   child: Align(
+                                                  //     alignment: isLeft()
+                                                  //         ? Alignment.bottomLeft
+                                                  //         : Alignment
+                                                  //             .bottomRight,
+                                                  //     child: CircleAvatar(
+                                                  //       backgroundColor:
+                                                  //           mainColor,
+                                                  //       radius: w * .05,
+                                                  //       child: Center(
+                                                  //         child: Icon(
+                                                  //           Icons
+                                                  //               .shopping_cart_outlined,
+                                                  //           color: Colors.white,
+                                                  //           size: w * 0.05,
+                                                  //         ),
+                                                  //       ),
+                                                  //     ),
+                                                  //   ),
+                                                  // ),
                                                 ),
                                                 SizedBox(
                                                   width: w * 0.45,
@@ -237,8 +237,6 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                                                       Text(snapshot
                                                           .data![i].name
                                                           .toString()),
-                                                      // Text(translateString(snapshot.data![i].name.toString(),
-                                                      //     snapshot.data![i].name.toString()),style: TextStyle(fontSize: w*0.035),),
                                                       SizedBox(
                                                         height: h * 0.005,
                                                       ),

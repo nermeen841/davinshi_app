@@ -26,6 +26,7 @@ void setLogin(bool val) {
 }
 
 String? userName;
+String? userEmail;
 AddressClass? addressGuest;
 void setUserId(int _id) {
   userId = _id;

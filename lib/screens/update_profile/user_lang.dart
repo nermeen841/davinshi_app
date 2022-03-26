@@ -1,23 +1,25 @@
-import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:davinshi_app/lang/change_language.dart';
-import 'package:davinshi_app/models/constants.dart';
-import 'package:davinshi_app/models/country.dart';
-import 'package:davinshi_app/models/fav.dart';
-import 'package:davinshi_app/models/home_item.dart';
-import 'package:davinshi_app/models/user.dart';
-import 'auth/country.dart';
-import 'home_folder/home_page.dart';
 
-class LangPage extends StatefulWidget {
-  const LangPage({Key? key}) : super(key: key);
+import '../../lang/change_language.dart';
+import '../../models/bottomnav.dart';
+import '../../models/constants.dart';
+import '../../provider/best_item.dart';
+import '../../provider/fav_pro.dart';
+import '../../provider/home.dart';
+import '../../provider/new_item.dart';
+import '../../provider/offer_item.dart';
+import '../../provider/recommended_item.dart';
+import '../home_folder/home_page.dart';
+
+class UserLanguageScreen extends StatefulWidget {
+  const UserLanguageScreen({Key? key}) : super(key: key);
 
   @override
-  State<LangPage> createState() => _LangPageState();
+  State<UserLanguageScreen> createState() => _UserLanguageScreenState();
 }
 
-class _LangPageState extends State<LangPage> {
+class _UserLanguageScreenState extends State<UserLanguageScreen> {
   final String? lang = prefs.getString('language_code');
   @override
   Widget build(BuildContext context) {
@@ -40,18 +42,21 @@ class _LangPageState extends State<LangPage> {
                 Padding(
                   padding: EdgeInsets.only(
                       top: h * 0.05, right: w * 0.02, left: w * 0.02),
-                  child: Align(
-                    alignment: (lang == 'en' || lang == null)
-                        ? Alignment.topRight
-                        : Alignment.topLeft,
-                    child: Container(
-                      width: w * 0.09,
-                      height: h * 0.04,
-                      color: mainColor,
-                      child: const Center(
-                        child: Icon(
-                          Icons.arrow_forward,
-                          color: Colors.white,
+                  child: InkWell(
+                    onTap: () => navPop(context),
+                    child: Align(
+                      alignment: (lang == 'en' || lang == null)
+                          ? Alignment.topRight
+                          : Alignment.topLeft,
+                      child: Container(
+                        width: w * 0.09,
+                        height: h * 0.04,
+                        color: mainColor,
+                        child: const Center(
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -122,27 +127,25 @@ class _LangPageState extends State<LangPage> {
                             await Provider.of<AppLanguage>(context,
                                     listen: false)
                                 .changeLanguage(const Locale('en'));
-                            if (lang == null) {
-                              if (login) {
-                                getLikes();
-                                getCountries();
-                                await getHomeItems();
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Home()),
-                                    (route) => false);
-                              } else {
-                                getCountries();
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Country(1)),
-                                    (route) => false);
-                              }
-                            } else {
-                              Navigator.pop(context);
-                            }
+                            Provider.of<NewItemProvider>(context, listen: false)
+                                .getItems();
+                            Provider.of<FavItemProvider>(context, listen: false)
+                                .getItems();
+                            Provider.of<BestItemProvider>(context,
+                                    listen: false)
+                                .getItems();
+                            Provider.of<OfferItemProvider>(context,
+                                    listen: false)
+                                .getItems();
+                            Provider.of<ReItemProvider>(context, listen: false)
+                                .getItems();
+                            Provider.of<BottomProvider>(context, listen: false)
+                                .setIndex(3);
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => Home())),
+                                (route) => false);
                           },
                         ),
                         SizedBox(
@@ -172,27 +175,25 @@ class _LangPageState extends State<LangPage> {
                             await Provider.of<AppLanguage>(context,
                                     listen: false)
                                 .changeLanguage(const Locale('ar'));
-                            if (lang == null) {
-                              if (login) {
-                                getLikes();
-                                getCountries();
-                                await getHomeItems();
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Home()),
-                                    (route) => false);
-                              } else {
-                                getCountries();
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Country(1)),
-                                    (route) => false);
-                              }
-                            } else {
-                              Navigator.pop(context);
-                            }
+                            Provider.of<NewItemProvider>(context, listen: false)
+                                .getItems();
+                            Provider.of<FavItemProvider>(context, listen: false)
+                                .getItems();
+                            Provider.of<BestItemProvider>(context,
+                                    listen: false)
+                                .getItems();
+                            Provider.of<OfferItemProvider>(context,
+                                    listen: false)
+                                .getItems();
+                            Provider.of<ReItemProvider>(context, listen: false)
+                                .getItems();
+                            Provider.of<BottomProvider>(context, listen: false)
+                                .setIndex(3);
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => Home())),
+                                (route) => false);
                           },
                         ),
                       ],

@@ -214,8 +214,8 @@ class _MoreScreenState extends State<MoreScreen>
                                             padding: EdgeInsets.all(w * 0.015),
                                             child: Align(
                                               alignment: isLeft()
-                                                  ? Alignment.bottomLeft
-                                                  : Alignment.bottomRight,
+                                                  ? Alignment.topRight
+                                                  : Alignment.topLeft,
                                               child: InkWell(
                                                 onTap: () async {
                                                   if (cartId == null ||
@@ -346,8 +346,7 @@ class _MoreScreenState extends State<MoreScreen>
                                                   radius: w * .05,
                                                   child: Center(
                                                     child: Icon(
-                                                      Icons
-                                                          .shopping_cart_outlined,
+                                                      Icons.add_outlined,
                                                       color: Colors.white,
                                                       size: w * 0.05,
                                                     ),

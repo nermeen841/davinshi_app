@@ -87,7 +87,7 @@ class MyApp extends StatelessWidget {
                   "change": (ctx) => ChangePass(),
                   "address": (ctx) => Address(),
                   "orders": (ctx) => const Orders(),
-                  "lang": (ctx) => LangPage(),
+                  "lang": (ctx) => const LangPage(),
                 },
               ),
             );

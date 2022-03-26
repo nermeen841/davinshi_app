@@ -54,6 +54,7 @@ class AuthenticationProvider {
       await prefs.setString('auth', response.data['access_token']);
       await prefs.setString('userName', userData['name']);
       userName = userData['name'];
+      userEmail = userData['email'];
       await getHomeItems();
       await dbHelper.deleteAll();
       await Provider.of<CartProvider>(context, listen: false).setItems();
@@ -143,9 +144,9 @@ class AuthenticationProvider {
           await prefs.setString(
               'userName', userData['data']['user']['name'].toString());
           userName = userData['data']['user']['name'];
+          userEmail = userData['data']['user']['email'];
           await getHomeItems();
           setUserId(userData['data']['user']['id']);
-          // setAuth(userData['data']['token']);
           dbHelper.deleteAll();
           fireSms(context, phone.text, controller);
         } catch (e) {
@@ -156,129 +157,4 @@ class AuthenticationProvider {
       print(error.toString());
     }
   }
-
-  /////////////////////////////////////////////////////////////////////////
-//   static Future userRegister(
-//       {required BuildContext context,
-//       required TextEditingController name,
-//       required TextEditingController email,
-//       required TextEditingController phone,
-//       required TextEditingController password,
-//       required TextEditingController confirmPassword,
-//       required RoundedLoadingButtonController controller}) async {
-//     final String url = domain + 'register';
-//     final String lang = prefs.getString('language_code').toString();
-//     print('app langauge -------------------' + lang);
-
-//     Response response = await Dio().post(
-//       url,
-//       options: Options(headers: {
-//         'Content-language': "$lang",
-//         'Content-Type': 'application/json',
-//         'Charset': 'utf-8',
-//         "Accept": 'application/json'
-//       }),
-//       data: {
-//         'name': name.text,
-//         'email': email.text,
-//         'password': password.text,
-//         'password_confirmation': confirmPassword.text,
-//         'phone': phone.text,
-//       },
-//     );
-
-//     if (language == 'ar') {
-//       // var json = jsonDecode(response.data);
-//       if (response.data['status'] == 0) {
-//         var data = '';
-//         controller.error();
-//         await Future.delayed(const Duration(seconds: 1));
-//         controller.stop();
-//         response.data['message'].forEach((e) {
-//           data += e + '\n';
-//         });
-
-//         final snackBar = SnackBar(
-//           content: Text(data),
-//           action: SnackBarAction(
-//             label: translate(context, 'snack_bar', 'undo'),
-//             disabledTextColor: Colors.yellow,
-//             textColor: Colors.yellow,
-//             onPressed: () {
-//               ScaffoldMessenger.of(context).hideCurrentSnackBar();
-//             },
-//           ),
-//         );
-//         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//       } else {
-//         if (response.statusCode == 200) {
-//           try {
-//             Map userData = response.data['data']['user'];
-//             user = UserClass(
-//                 id: userData['id'],
-//                 name: userData['name'],
-//                 phone: userData['phone'],
-//                 email: userData['email']);
-//             await prefs.setInt('id', userData['id']);
-//             await prefs.setString('auth', response.data['data']['token']);
-//             await prefs.setString('userName', userData['name']);
-//             userName = userData['name'];
-//             await getHomeItems();
-//             setUserId(userData['id']);
-//             setAuth(response.data['data']['token']);
-//             dbHelper.deleteAll();
-//             fireSms(context, phone.text, controller);
-//           } catch (e) {
-//             print("register errrrrooooooooooooooooorrrr" + e.toString());
-//           }
-//         }
-//       }
-//     } else {
-//       if (response.data['status'] == 0) {
-//         String value = '';
-//         controller.error();
-//         await Future.delayed(const Duration(seconds: 1));
-//         controller.stop();
-//         response.data['message'].forEach((e) {
-//           value += e + '\n';
-//         });
-//         final snackBar = SnackBar(
-//           content: Text(value),
-//           action: SnackBarAction(
-//             label: translate(context, 'snack_bar', 'undo'),
-//             disabledTextColor: Colors.yellow,
-//             textColor: Colors.yellow,
-//             onPressed: () {
-//               ScaffoldMessenger.of(context).hideCurrentSnackBar();
-//             },
-//           ),
-//         );
-//         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//       } else {}
-
-//       print(response.data);
-//       if (response.statusCode == 200) {
-//         try {
-//           Map userData = response.data['data']['user'];
-//           user = UserClass(
-//               id: userData['id'],
-//               name: userData['name'],
-//               phone: userData['phone'],
-//               email: userData['email']);
-//           await prefs.setInt('id', userData['id']);
-//           await prefs.setString('auth', response.data['data']['token']);
-//           await prefs.setString('userName', userData['name']);
-//           userName = userData['name'];
-//           await getHomeItems();
-//           setUserId(userData['id']);
-//           setAuth(response.data['data']['token']);
-//           dbHelper.deleteAll();
-//           fireSms(context, phone.text, controller);
-//         } catch (e) {
-//           print("register errrrrooooooooooooooooorrrr" + e.toString());
-//         }
-//       }
-//     }
-//   }
-// }
 }

@@ -2,12 +2,9 @@
 
 import 'package:davinshi_app/models/constants.dart';
 import 'package:davinshi_app/models/user.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../BottomNavWidget/change_pass.dart';
-import '../../lang/change_language.dart';
 import '../../models/bottomnav.dart';
 import '../profile_user.dart';
 
@@ -26,58 +23,9 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
     });
   }
 
-  Future getProfile() async {
-    final String url = domain + 'profile';
-    try {
-      Response response = await Dio().get(
-        url,
-        options: Options(headers: {"auth-token": auth}),
-      );
-      print("user token ------------- " + auth);
-      if (response.statusCode == 200) {
-        Map userData = response.data;
-
-        user = UserClass(
-            id: userData['id'],
-            name: userData['name'] ?? "",
-            phone: userData['phone'] ?? '',
-            email: userData['email'] ?? '');
-        setUserId(userData['id']);
-        setState(() {
-          userName = user.name;
-        });
-      } else {
-        Map userData = response.data;
-        user = UserClass(
-            id: userData['id'],
-            name: userData['name'] ?? "",
-            phone: userData['phone'] ?? "",
-            email: userData['email'] ?? "");
-        userName = user.name;
-        setUserId(userData['id']);
-      }
-    } catch (e) {
-      final snackBar = SnackBar(
-        content: Text(
-          translate(context, 'snack_bar', 'try'),
-        ),
-        action: SnackBarAction(
-          label: translate(context, 'snack_bar', 'undo'),
-          disabledTextColor: Colors.yellow,
-          textColor: Colors.yellow,
-          onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          },
-        ),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-  }
-
   @override
   void initState() {
     getLang();
-    getProfile();
     super.initState();
   }
 
@@ -147,7 +95,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
                 height: h * 0.015,
               ),
               Text(
-                user.name,
+                userName ?? "",
                 style: TextStyle(
                     fontFamily: 'Tajawal',
                     fontWeight: FontWeight.w400,
@@ -158,7 +106,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
                 height: h * 0.01,
               ),
               Text(
-                user.email,
+                userEmail ?? '',
                 style: TextStyle(
                     fontFamily: 'Tajawal',
                     fontWeight: FontWeight.w400,

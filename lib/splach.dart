@@ -50,7 +50,7 @@ class _SplachState extends State<Splach> {
         getCountries();
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => LangPage()),
+            MaterialPageRoute(builder: (context) => const LangPage()),
             (route) => false);
       }
     });

@@ -169,7 +169,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                       Divider(
                                         color: mainColor,
                                         thickness: 3,
-                                        endIndent: 100,
+                                        endIndent:
+                                            (language == 'ar') ? 100 : 150,
                                       )
                                     ],
                                   ),
@@ -894,7 +895,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                       Divider(
                                         color: mainColor,
                                         thickness: 3,
-                                        endIndent: 30,
+                                        endIndent:
+                                            (language == 'ar') ? 30 : 100,
                                       ),
                                     ],
                                   ),
@@ -1279,7 +1281,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                         Divider(
                                           color: mainColor,
                                           thickness: 3,
-                                          endIndent: 50,
+                                          endIndent:
+                                              (language == 'ar') ? 50 : 90,
                                         ),
                                       ],
                                     ),
@@ -1809,7 +1812,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                       Divider(
                                         color: mainColor,
                                         thickness: 3,
-                                        endIndent: 60,
+                                        endIndent: (language == 'ar') ? 60 : 10,
                                       ),
                                     ],
                                   ),

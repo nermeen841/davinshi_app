@@ -1089,7 +1089,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                     width: w * 0.02,
                                   ),
                                   Text(
-                                    '${translate(context, 'product', 'why')} Konoz',
+                                    '${translate(context, 'product', 'why')} Multi',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: w * 0.045,

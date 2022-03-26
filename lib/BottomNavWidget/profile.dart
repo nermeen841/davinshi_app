@@ -2,10 +2,10 @@
 import 'dart:io';
 import 'package:davinshi_app/screens/auth/login.dart';
 import 'package:davinshi_app/screens/update_profile/profile_setting.dart';
+import 'package:davinshi_app/screens/update_profile/user_lang.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/screens/cart/orders.dart';
-import 'package:davinshi_app/screens/lang.dart';
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/constants.dart';
@@ -53,7 +53,7 @@ class _ProfileState extends State<Profile> {
               nameAr: 'اللغة',
               nameEn: 'Language',
               image: 'assets/images/Group 1088.png',
-              className: LangPage()),
+              className: const UserLanguageScreen()),
           Tile(
               nameAr: 'الدول',
               nameEn: 'Country',
@@ -113,7 +113,7 @@ class _ProfileState extends State<Profile> {
               nameAr: 'اللغة',
               nameEn: 'Language',
               image: 'assets/images/Group 1088.png',
-              className: LangPage()),
+              className: const UserLanguageScreen()),
           Tile(
               nameAr: 'الدول',
               nameEn: 'Country',
@@ -453,7 +453,7 @@ class _ProfileState extends State<Profile> {
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () {
+                                    onTap: () async {
                                       if (login) {
                                         Navigator.push(
                                           context,

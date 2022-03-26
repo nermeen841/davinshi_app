@@ -17,74 +17,37 @@ class ProfileUser extends StatefulWidget {
 class _ProfileUserState extends State<ProfileUser> {
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
-
-  Future getProfile() async {
-    final String url = domain + 'profile';
-    try {
-      Response response = await Dio().get(
-        url,
-        options: Options(headers: {"auth-token": auth}),
-      );
-      print("user token ------------- " + auth);
-      if (response.statusCode == 200) {
-        Map userData = response.data;
-
-        user = UserClass(
-            id: userData['id'],
-            name: userData['name'] ?? "",
-            phone: userData['phone'] ?? '',
-            email: userData['email'] ?? '');
-        setUserId(userData['id']);
-        setState(() {
-          userName = user.name;
-        });
-      } else {
-        Map userData = response.data;
-        user = UserClass(
-            id: userData['id'],
-            name: userData['name'] ?? "",
-            phone: userData['phone'] ?? "",
-            email: userData['email'] ?? "");
-        userName = user.name;
-        setUserId(userData['id']);
-      }
-    } catch (e) {
-      final snackBar = SnackBar(
-        content: Text(
-          translate(context, 'snack_bar', 'try'),
-        ),
-        action: SnackBarAction(
-          label: translate(context, 'snack_bar', 'undo'),
-          disabledTextColor: Colors.yellow,
-          textColor: Colors.yellow,
-          onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          },
-        ),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-  }
-
+  List<FocusNode> _listFocus =
+      List<FocusNode>.generate(2, (_) => new FocusNode());
+  List<TextEditingController> _listEd = List<TextEditingController>.generate(
+      2,
+      (_) => new TextEditingController(
+          text: _ == 0
+              ? userName
+              : (userEmail != null)
+                  ? userEmail
+                  : ''));
   Future updateUser() async {
     final String url = domain + 'edit-profile';
     try {
       Response response = await Dio().post(
         url,
         data: {
-          "name": user.name,
-          "email": user.email,
+          "name": _listEd[0].text,
+          "email": _listEd[1].text,
         },
         options: Options(headers: {
           'auth-token': auth,
         }),
       );
+      print(response.data);
       if (response.data['status'] == 0) {
         String data = '';
         if (language == 'ar') {
           response.data['message'].forEach((e) {
             data += e + '\n';
           });
+          print(data);
         } else {
           response.data['message'].forEach((e) {
             data += e + '\n';
@@ -111,6 +74,10 @@ class _ProfileUserState extends State<ProfileUser> {
             name: userData['name'],
             phone: userData['phone'],
             email: userData['email']);
+        setState(() {
+          userName = response.data['user']['name'];
+          userEmail = response.data['user']['email'];
+        });
         setUserId(userData['id']);
         _btnController.success();
         await Future.delayed(const Duration(milliseconds: 2500));
@@ -124,19 +91,7 @@ class _ProfileUserState extends State<ProfileUser> {
   }
 
   @override
-  void initState() {
-    getProfile();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    List<FocusNode> _listFocus =
-        List<FocusNode>.generate(2, (_) => new FocusNode());
-    List<TextEditingController> _listEd = List<TextEditingController>.generate(
-        2,
-        (_) =>
-            new TextEditingController(text: _ == 0 ? user.name : user.email));
     return Directionality(
       textDirection: getDirection(),
       child: Scaffold(
