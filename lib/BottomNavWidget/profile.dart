@@ -15,7 +15,6 @@ import 'package:davinshi_app/screens/about.dart';
 import 'package:davinshi_app/screens/address/address.dart';
 import 'package:davinshi_app/screens/auth/country.dart';
 import 'package:davinshi_app/screens/contac_us.dart';
-import 'package:davinshi_app/screens/profile_user.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:provider/provider.dart';
@@ -200,6 +199,7 @@ class _ProfileState extends State<Profile> {
         url,
         options: Options(headers: {"auth-token": auth}),
       );
+      print(response.data);
       if (response.statusCode == 200 && response.data['name'] is String) {
         Map userData = response.data;
         user = UserClass(
@@ -208,7 +208,10 @@ class _ProfileState extends State<Profile> {
             phone: userData['phone'],
             email: userData['email']);
         setUserId(userData['id']);
-        navPR(context, ProfileUser());
+        setState(() {
+          userName = response.data['name'];
+          userEmail = response.data['email'];
+        });
       } else {
         Map userData = response.data;
         user = UserClass(
@@ -217,24 +220,12 @@ class _ProfileState extends State<Profile> {
             phone: userData['phone'],
             email: userData['email']);
         setUserId(userData['id']);
+        setState(() {
+          userName = response.data['name'];
+          userEmail = response.data['email'];
+        });
       }
-    } catch (e) {
-      navPop(context);
-      final snackBar = SnackBar(
-        content: Text(
-          translate(context, 'snack_bar', 'try'),
-        ),
-        action: SnackBarAction(
-          label: translate(context, 'snack_bar', 'undo'),
-          disabledTextColor: Colors.yellow,
-          textColor: Colors.yellow,
-          onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          },
-        ),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
+    } catch (e) {}
   }
 
   late File image;
@@ -251,6 +242,12 @@ class _ProfileState extends State<Profile> {
         print('No image selected.');
       }
     });
+  }
+
+  @override
+  void initState() {
+    getProfile();
+    super.initState();
   }
 
   @override
@@ -455,6 +452,7 @@ class _ProfileState extends State<Profile> {
                                   InkWell(
                                     onTap: () async {
                                       if (login) {
+                                        getProfile();
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(

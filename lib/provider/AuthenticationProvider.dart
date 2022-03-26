@@ -141,8 +141,6 @@ class AuthenticationProvider {
               email: userData['data']['user']['email'] ?? '');
           await prefs.setInt('id', userData['data']['user']['id']);
           await prefs.setString('auth', userData['data']['token'].toString());
-          await prefs.setString(
-              'userName', userData['data']['user']['name'].toString());
           userName = userData['data']['user']['name'];
           userEmail = userData['data']['user']['email'];
           await getHomeItems();
