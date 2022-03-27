@@ -250,8 +250,6 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
       child: DefaultTabController(
         length: 5,
         child: Scaffold(
-          // floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-          // floatingActionButton: floatingActionButton(context),
           appBar: AppBarHome.app_bar_home(context),
           body: TabBarView(
             controller: tabBarHome,

@@ -4,6 +4,7 @@ import 'package:davinshi_app/dbhelper.dart';
 import 'package:davinshi_app/models/cart.dart';
 import 'package:davinshi_app/models/rate.dart';
 import 'package:davinshi_app/provider/cart_provider.dart';
+import 'package:davinshi_app/screens/designes/designe.dart';
 import 'package:davinshi_app/screens/home_folder/more/more.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
@@ -239,7 +240,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     height: h * 0.3,
                                     child: ListView.separated(
                                       primary: true,
-
                                       itemCount: catProvider.categories.length,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index) {
@@ -340,13 +340,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                           ],
                                         );
                                       },
-
-                                      // gridDelegate:
-                                      //     SliverGridDelegateWithFixedCrossAxisCount(
-                                      //         crossAxisCount: 2,
-                                      //         childAspectRatio: 0.9,
-                                      //         crossAxisSpacing: h * 0.001,
-                                      //         mainAxisSpacing: w * 0.015),
                                       separatorBuilder: (context, index) =>
                                           SizedBox(
                                         width: w * 0.03,
@@ -3571,9 +3564,28 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                     //       ),
                     //     ],
                     //   ),
-                    // SizedBox(
-                    //   height: h * 0.01,
-                    // ),
+                    SizedBox(
+                      height: h * 0.03,
+                    ),
+
+                    // ignore: deprecated_member_use
+                    RaisedButton(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => const DesigneScreen()),
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                      color: mainColor,
+                    ),
+
+                    SizedBox(
+                      height: h * 0.03,
+                    ),
                   ],
                 ),
               ),
