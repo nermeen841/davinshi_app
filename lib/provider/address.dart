@@ -110,10 +110,6 @@ class AddressClass {
       required this.long});
 }
 
-// AddressClass? address;
-// void setAddressModel(AddressClass? _address){
-//   address=_address;
-// }
 double late = 0.0;
 double longe = 0.0;
 void setLocation(lat, long) {

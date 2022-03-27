@@ -4,7 +4,6 @@ import 'package:davinshi_app/dbhelper.dart';
 import 'package:davinshi_app/models/cart.dart';
 import 'package:davinshi_app/models/rate.dart';
 import 'package:davinshi_app/provider/cart_provider.dart';
-import 'package:davinshi_app/screens/designes/designe.dart';
 import 'package:davinshi_app/screens/home_folder/more/more.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
@@ -138,6 +137,81 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                     SizedBox(
                       height: h * 0.03,
                     ),
+                    if (getAds(1).isNotEmpty)
+                      SizedBox(
+                        height: h * 0.08,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: w * 0.025),
+                          child: Swiper(
+                            itemCount: getAds(1).length,
+                            itemBuilder: (BuildContext context, int i) {
+                              Ads _ads = getAds(1)[i];
+                              return InkWell(
+                                child: Container(
+                                  width: w * 0.95,
+                                  height: h * 0.08,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    image: DecorationImage(
+                                      image: NetworkImage(_ads.image),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                focusColor: Colors.transparent,
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  if (_ads.inApp) {
+                                    if (_ads.type) {
+                                      dialog(context);
+                                      await getItem(int.parse(_ads.link));
+                                      Navigator.pushReplacementNamed(
+                                          context, 'pro');
+                                    } else {
+                                      dialog(context);
+                                      Provider.of<NewPackageItemProvider>(
+                                              context,
+                                              listen: false)
+                                          .clearList();
+                                      Provider.of<RePackageItemProvider>(
+                                              context,
+                                              listen: false)
+                                          .clearList();
+                                      Provider.of<BestPackageItemProvider>(
+                                              context,
+                                              listen: false)
+                                          .clearList();
+                                      await Provider.of<RePackageItemProvider>(
+                                              context,
+                                              listen: false)
+                                          .getItems(int.parse(_ads.link));
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (ctx) =>
+                                                  MultiplePackages(
+                                                    id: int.parse(_ads.link),
+                                                  )));
+                                    }
+                                  } else {
+                                    await canLaunch(_ads.link)
+                                        ? await launch(_ads.link)
+                                        : throw 'Could not launch ${_ads.link}';
+                                  }
+                                },
+                              );
+                            },
+                            autoplay: true,
+                            autoplayDelay: 5000,
+                          ),
+                        ),
+                      ),
+                    (getAds(1).isNotEmpty)
+                        ? SizedBox(
+                            height: h * 0.03,
+                          )
+                        : Container(),
                     Container(
                       width: w,
                       color: Colors.white,
@@ -1241,6 +1315,81 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                     SizedBox(
                       height: h * 0.03,
                     ),
+                    if (getAds(2).isNotEmpty)
+                      SizedBox(
+                        height: h * 0.2,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: w * 0.025),
+                          child: Swiper(
+                            itemCount: getAds(2).length,
+                            itemBuilder: (BuildContext context, int i) {
+                              Ads _ads = getAds(2)[i];
+                              return InkWell(
+                                child: Container(
+                                  width: w * 0.95,
+                                  height: h * 0.2,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(_ads.image),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                focusColor: Colors.transparent,
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  if (_ads.inApp) {
+                                    if (_ads.type) {
+                                      dialog(context);
+                                      await getItem(int.parse(_ads.link));
+                                      Navigator.pushReplacementNamed(
+                                          context, 'pro');
+                                    } else {
+                                      dialog(context);
+                                      Provider.of<NewPackageItemProvider>(
+                                              context,
+                                              listen: false)
+                                          .clearList();
+                                      Provider.of<RePackageItemProvider>(
+                                              context,
+                                              listen: false)
+                                          .clearList();
+                                      Provider.of<BestPackageItemProvider>(
+                                              context,
+                                              listen: false)
+                                          .clearList();
+                                      await Provider.of<RePackageItemProvider>(
+                                              context,
+                                              listen: false)
+                                          .getItems(int.parse(_ads.link));
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (ctx) =>
+                                                  MultiplePackages(
+                                                    id: int.parse(_ads.link),
+                                                  )));
+                                    }
+                                  } else {
+                                    await canLaunch(_ads.link)
+                                        ? await launch(_ads.link)
+                                        : throw 'Could not launch ${_ads.link}';
+                                  }
+                                },
+                              );
+                            },
+                            autoplay: true,
+                            autoplayDelay: 5000,
+                          ),
+                        ),
+                      ),
+
+                    (getAds(2).isNotEmpty)
+                        ? SizedBox(
+                            height: h * 0.03,
+                          )
+                        : Container(),
                     Container(
                       width: w,
                       color: Colors.white,
@@ -3564,25 +3713,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                     //       ),
                     //     ],
                     //   ),
-                    SizedBox(
-                      height: h * 0.03,
-                    ),
-
-                    // ignore: deprecated_member_use
-                    RaisedButton(
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: ((context) => const DesigneScreen()),
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                      ),
-                      color: mainColor,
-                    ),
-
                     SizedBox(
                       height: h * 0.03,
                     ),

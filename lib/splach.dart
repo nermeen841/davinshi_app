@@ -5,6 +5,7 @@ import 'package:davinshi_app/provider/best_item.dart';
 import 'package:davinshi_app/provider/fav_pro.dart';
 import 'package:davinshi_app/provider/new_item.dart';
 import 'package:davinshi_app/provider/offer_item.dart';
+import 'package:davinshi_app/provider/social.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/models/constants.dart';
@@ -33,6 +34,7 @@ class _SplachState extends State<Splach> {
           FavItemProvider();
           BestItemProvider();
           OfferItemProvider();
+          await SocialIcons().getSocialIcons();
           getCountries();
           await getHomeItems();
           Navigator.pushAndRemoveUntil(
@@ -41,6 +43,7 @@ class _SplachState extends State<Splach> {
               (route) => false);
         } else {
           await getCountries();
+          await SocialIcons().getSocialIcons();
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => Country(1)),

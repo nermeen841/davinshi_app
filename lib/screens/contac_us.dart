@@ -1,12 +1,15 @@
 // ignore_for_file: prefer_final_fields, avoid_print, use_key_in_widget_constructors
 
+import 'package:davinshi_app/provider/social.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactUs extends StatefulWidget {
   @override
@@ -76,10 +79,12 @@ class _ContactUsState extends State<ContactUs> {
   List<FocusNode> _listFocus = List<FocusNode>.generate(5, (_) => FocusNode());
   List<TextEditingController> _listEd =
       List<TextEditingController>.generate(5, (_) => TextEditingController());
+
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
+    Provider.of<SocialIcons>(context, listen: false).getSocialIcons();
     return Form(
       key: _formKey,
       child: GestureDetector(
@@ -197,6 +202,56 @@ class _ContactUsState extends State<ContactUs> {
                           ],
                         );
                       }),
+                    ),
+                    SizedBox(
+                      height: h * .04,
+                    ),
+                    Center(
+                      child: Text(
+                        (language == 'en')
+                            ? "Contact us thruogh Social media"
+                            : "تواصل عن طريق السوشيال ميديا",
+                        style: TextStyle(
+                            color: mainColor,
+                            fontFamily: 'Tajawal',
+                            fontSize: w * 0.04,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    SizedBox(
+                      height: h * .04,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(
+                        SocialIcons.socialModel!.data!.length,
+                        (index) => InkWell(
+                          onTap: () async {
+                            if (SocialIcons.socialModel!.data![index].title! ==
+                                'whatsapp') {
+                              await launch(
+                                  "whatsapp://send?phone=${SocialIcons.socialModel!.data![index].link!}&text=");
+                            } else if (SocialIcons
+                                    .socialModel!.data![index].title! ==
+                                'phone') {
+                              await launch(
+                                  'tel:${SocialIcons.socialModel!.data![index].link!}');
+                            } else {
+                              await launch(
+                                  SocialIcons.socialModel!.data![index].link!);
+                            }
+                          },
+                          child: CircleAvatar(
+                            radius: w * 0.06,
+                            backgroundColor: Colors.white,
+                            backgroundImage: NetworkImage(
+                                SocialIcons.socialModel!.data![index].src! +
+                                    '/' +
+                                    SocialIcons.socialModel!.data![index].img!),
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(
                       height: h * .04,

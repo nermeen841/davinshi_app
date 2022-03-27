@@ -126,9 +126,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
     try {
       dio.Response response = await dio.Dio()
           .get(url, queryParameters: {'product_id': productCla.id.toString()});
+      print(productCla.id.toString());
+      rate = [];
       if (response.statusCode == 200 && response.data['status'] == 1) {
-        rate = [];
-
         setState(() {
           response.data['data'].forEach((e) {
             rate.add(Rate(rate: e['rating'], comment: e['comment']));
@@ -209,7 +209,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
     // des = _des;
     _tabBar = TabController(length: 3, vsync: this);
     _tabBar.addListener(() {
-      if (_tabBar.index == 3) {
+      if (_tabBar.index == 1) {
         if (finishTab) {
           finishTab = false;
           dialog(context);
@@ -1274,7 +1274,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                           child: ListTile(
                                             leading: CircleAvatar(
                                               backgroundImage: const AssetImage(
-                                                  'assets/logo2.png'),
+                                                  'assets/images/logo_multi.png'),
                                               radius: w * 0.07,
                                               backgroundColor:
                                                   Colors.transparent,
@@ -1310,7 +1310,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                             subtitle: SizedBox(
                                                 width: w * 0.37,
                                                 child: Text(
-                                                  rate[i].comment!,
+                                                  rate[i].comment ?? "",
                                                   style: TextStyle(
                                                       color: Colors.grey,
                                                       fontSize: w * 0.04),

@@ -10,6 +10,7 @@ import 'package:davinshi_app/provider/offer_item.dart';
 import 'package:davinshi_app/provider/package_provider.dart';
 import 'package:davinshi_app/provider/recommended_item.dart';
 import 'package:davinshi_app/provider/scroll_up_home.dart';
+import 'package:davinshi_app/provider/social.dart';
 import 'package:davinshi_app/provider/student_product.dart';
 import 'package:davinshi_app/provider/student_provider.dart';
 import 'package:provider/provider.dart';
@@ -33,5 +34,6 @@ class ProvidersList {
     ChangeNotifierProvider(create: (context) => CartProvider()),
     ChangeNotifierProvider(create: (context) => MapProvider()),
     ChangeNotifierProvider(create: (context) => AddressProvider()),
+    ChangeNotifierProvider(create: (context) => SocialIcons()),
   ];
 }

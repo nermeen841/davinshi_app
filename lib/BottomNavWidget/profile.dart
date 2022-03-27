@@ -1,6 +1,7 @@
 // ignore_for_file: empty_catches, deprecated_member_use, avoid_print
 import 'dart:io';
 import 'package:davinshi_app/screens/auth/login.dart';
+import 'package:davinshi_app/screens/designes/designe.dart';
 import 'package:davinshi_app/screens/update_profile/profile_setting.dart';
 import 'package:davinshi_app/screens/update_profile/user_lang.dart';
 import 'package:dio/dio.dart';
@@ -27,6 +28,7 @@ import '../provider/home.dart';
 import '../provider/new_item.dart';
 import '../provider/offer_item.dart';
 import '../provider/recommended_item.dart';
+import '../provider/social.dart';
 import '../screens/home_folder/home_page.dart';
 
 class Profile extends StatefulWidget {
@@ -58,6 +60,11 @@ class _ProfileState extends State<Profile> {
               nameEn: 'Country',
               image: 'assets/images/Group 1101.png',
               className: Country(2)),
+          Tile(
+              nameAr: 'تصاميمكم',
+              nameEn: 'Your Designe',
+              image: 'assets/images/ي77.png',
+              className: const DesigneScreen()),
           Tile(
               nameAr: 'تواصل معنا',
               nameEn: 'Contact us',
@@ -118,6 +125,11 @@ class _ProfileState extends State<Profile> {
               nameEn: 'Country',
               image: 'assets/images/Group 1101.png',
               className: Country(2)),
+          Tile(
+              nameAr: 'تصاميمكم',
+              nameEn: 'Your Designe',
+              image: 'assets/images/ي77.png',
+              className: const DesigneScreen()),
           Tile(
               nameAr: 'تواصل معنا',
               nameEn: 'Contact us',
@@ -607,6 +619,13 @@ class _ProfileState extends State<Profile> {
                                   }
                                 } else if (tile[i].nameEn == 'Share App') {
                                   // navPRRU(context, const Country(1));
+                                } else if (tile[i].nameEn == 'Contact us') {
+                                  SocialIcons().getSocialIcons().then((value) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ContactUs()));
+                                  });
                                 } else {
                                   if (tile[i].keyApi != null) {
                                     dialog(context);

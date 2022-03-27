@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:davinshi_app/dbhelper.dart';
 import 'package:davinshi_app/models/cart.dart';
+import 'package:davinshi_app/screens/designes/designe.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/elements/app_bar.dart';
 import 'package:davinshi_app/provider/CatProvider.dart';
@@ -251,6 +252,24 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
         length: 5,
         child: Scaffold(
           appBar: AppBarHome.app_bar_home(context),
+          floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.white,
+            child: Column(
+              children: [
+                Image.asset(
+                  "assets/images/ي77.png",
+                  fit: BoxFit.cover,
+                ),
+              ],
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DesigneScreen()));
+            },
+          ),
           body: TabBarView(
             controller: tabBarHome,
             children: [
