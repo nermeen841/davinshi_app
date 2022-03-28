@@ -2,14 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>want to access youe photo</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location is required to get product relateed to your location</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your location is required to get product relateed to your location</string>
-	<key>NSCameraUsageDescription</key>
-	<string>want to access your camerea</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
@@ -44,9 +36,17 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>want to access your camerea</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your location is required to get product relateed to your location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your location is required to get product relateed to your location</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>want to access youe photo</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
