@@ -7,6 +7,7 @@ import 'package:davinshi_app/provider/home.dart';
 import 'package:davinshi_app/provider/map.dart';
 import 'package:davinshi_app/provider/new_item.dart';
 import 'package:davinshi_app/provider/offer_item.dart';
+import 'package:davinshi_app/provider/one_designe.dart';
 import 'package:davinshi_app/provider/package_provider.dart';
 import 'package:davinshi_app/provider/recommended_item.dart';
 import 'package:davinshi_app/provider/scroll_up_home.dart';
@@ -35,5 +36,6 @@ class ProvidersList {
     ChangeNotifierProvider(create: (context) => MapProvider()),
     ChangeNotifierProvider(create: (context) => AddressProvider()),
     ChangeNotifierProvider(create: (context) => SocialIcons()),
+    ChangeNotifierProvider(create: (context) => OneDesigne()),
   ];
 }

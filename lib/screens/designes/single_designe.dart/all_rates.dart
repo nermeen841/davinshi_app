@@ -1,4 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'package:davinshi_app/models/bottomnav.dart';
+import 'package:davinshi_app/models/designe_rate.dart';
+import 'package:davinshi_app/models/user.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_star_rating/simple_star_rating.dart';
@@ -6,7 +11,8 @@ import 'package:simple_star_rating/simple_star_rating.dart';
 import '../../../models/constants.dart';
 
 class AllRatesScreen extends StatefulWidget {
-  const AllRatesScreen({Key? key}) : super(key: key);
+  final String designeID;
+  const AllRatesScreen({Key? key, required this.designeID}) : super(key: key);
 
   @override
   State<AllRatesScreen> createState() => _AllRatesScreenState();
@@ -14,6 +20,84 @@ class AllRatesScreen extends StatefulWidget {
 
 class _AllRatesScreenState extends State<AllRatesScreen> {
   String lang = '';
+  int page = 1;
+  bool hasNextPage = true;
+  bool isFirstLoadRunning = false;
+  bool isLoadMoreRunning = false;
+  List searchData = [];
+  // This function will be called when the app launches (see the initState function)
+  void firstLoad() async {
+    setState(() {
+      isFirstLoadRunning = true;
+    });
+    try {
+      final String url = domain + "designs/get-ratings/${widget.designeID}";
+      Response response = await Dio().get(url,
+          queryParameters: {'page': page},
+          options: Options(
+            headers: {
+              'auth-token': auth,
+            },
+          ));
+      DesigneRatingModel designeRatingModel =
+          DesigneRatingModel.fromJson(response.data);
+      setState(() {
+        searchData = designeRatingModel.data!.data!;
+      });
+    } catch (err) {
+      print(err.toString());
+    }
+
+    setState(() {
+      isFirstLoadRunning = false;
+    });
+  }
+
+  void loadMore() async {
+    if (hasNextPage == true &&
+        isFirstLoadRunning == false &&
+        isLoadMoreRunning == false &&
+        _controller.position.extentAfter < 400) {
+      setState(() {
+        isLoadMoreRunning = true;
+        page++; // Display a progress indicator at the bottom
+      });
+      // Increase _page by 1
+      try {
+        final String url = domain + "designs/get-ratings/${widget.designeID}";
+        Response response = await Dio().get(url,
+            queryParameters: {'page': page},
+            options: Options(
+              headers: {
+                'auth-token': auth,
+              },
+            ));
+
+        DesigneRatingModel designeRatingModel =
+            DesigneRatingModel.fromJson(response.data);
+        final List<RatingData>? fetchedPosts = designeRatingModel.data?.data;
+        if (fetchedPosts!.isNotEmpty) {
+          setState(() {
+            searchData.addAll(fetchedPosts);
+          });
+        } else {
+          // This means there is no more data
+          // and therefore, we will not send another GET request
+          setState(() {
+            hasNextPage = false;
+          });
+        }
+      } catch (err) {
+        print(err.toString());
+      }
+
+      setState(() {
+        isLoadMoreRunning = false;
+      });
+    }
+  }
+
+  late ScrollController _controller;
 
   getLang() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -25,6 +109,8 @@ class _AllRatesScreenState extends State<AllRatesScreen> {
   @override
   void initState() {
     getLang();
+    firstLoad();
+    _controller = ScrollController()..addListener(loadMore);
     super.initState();
   }
 
@@ -76,63 +162,92 @@ class _AllRatesScreenState extends State<AllRatesScreen> {
               topRight: Radius.circular(w * 0.05),
             ),
           ),
-          child: ListView.separated(
-              primary: true,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: isFirstLoadRunning
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: mainColor,
+                  ),
+                )
+              : Column(
                   children: [
-                    Text(
-                      "اسم صاحب التعليق",
-                      overflow: TextOverflow.fade,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: w * 0.04,
-                          fontFamily: 'Tajawal',
-                          fontWeight: FontWeight.w500),
+                    SizedBox(
+                      height: h * 0.55,
+                      child: ListView.separated(
+                          controller: _controller,
+                          itemBuilder: (context, index) {
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  searchData[index].user.name,
+                                  overflow: TextOverflow.fade,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: w * 0.04,
+                                      fontFamily: 'Tajawal',
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Text(
+                                  searchData[index].comment ?? "",
+                                  overflow: TextOverflow.fade,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: w * 0.04,
+                                      fontFamily: 'Tajawal',
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SimpleStarRating(
+                                  isReadOnly: true,
+                                  starCount: 5,
+                                  rating: double.parse(
+                                      searchData[index].rating.toString()),
+                                  size: w * 0.05,
+                                  allowHalfRating: true,
+                                  filledIcon: Icon(
+                                    Icons.star,
+                                    color: mainColor,
+                                    size: w * 0.05,
+                                  ),
+                                )
+                              ],
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                SizedBox(
+                                  height: h * 0.02,
+                                ),
+                                const Divider(
+                                  thickness: 1,
+                                ),
+                                SizedBox(
+                                  height: h * 0.02,
+                                ),
+                              ],
+                            );
+                          },
+                          itemCount: searchData.length),
                     ),
-                    Text(
-                      "جميل جدا ",
-                      overflow: TextOverflow.fade,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: w * 0.04,
-                          fontFamily: 'Tajawal',
-                          fontWeight: FontWeight.w500),
-                    ),
-                    SimpleStarRating(
-                      isReadOnly: true,
-                      starCount: 5,
-                      rating: 3,
-                      size: w * 0.05,
-                      allowHalfRating: true,
-                      filledIcon: Icon(
-                        Icons.star,
-                        color: mainColor,
-                        size: w * 0.05,
+                    if (isLoadMoreRunning == true)
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: h * 0.01, bottom: h * 0.01),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: mainColor,
+                          ),
+                        ),
                       ),
-                    )
+                    if (hasNextPage == false)
+                      Container(
+                        padding:
+                            EdgeInsets.only(top: h * 0.01, bottom: h * 0.01),
+                        color: Colors.white,
+                      ),
                   ],
-                );
-              },
-              separatorBuilder: (context, index) {
-                return Column(
-                  children: [
-                    SizedBox(
-                      height: h * 0.02,
-                    ),
-                    const Divider(
-                      thickness: 1,
-                    ),
-                    SizedBox(
-                      height: h * 0.02,
-                    ),
-                  ],
-                );
-              },
-              itemCount: 10),
+                ),
         ),
       ),
     );

@@ -1,5 +1,11 @@
+// ignore_for_file: deprecated_member_use, avoid_print
+
+import 'dart:io';
+
+import 'package:davinshi_app/provider/add_designe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../../lang/change_language.dart';
@@ -17,6 +23,7 @@ class _SendDesigneScreenState extends State<SendDesigneScreen> {
   final formKey = GlobalKey<FormState>();
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
+  List<String> images = [];
   List<String> hint = language == 'en'
       ? [
           'Full name',
@@ -119,7 +126,9 @@ class _SendDesigneScreenState extends State<SendDesigneScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () async {
+                      getImage1();
+                    },
                     child: Container(
                       width: w * 0.27,
                       height: h * 0.15,
@@ -129,16 +138,23 @@ class _SendDesigneScreenState extends State<SendDesigneScreen> {
                         borderRadius: BorderRadius.circular(w * 0.04),
                       ),
                       child: Center(
-                        child: Icon(
-                          Icons.cloud_download,
-                          color: mainColor,
-                          size: w * 0.2,
-                        ),
+                        child: (image1 == null)
+                            ? Icon(
+                                Icons.cloud_download,
+                                color: mainColor,
+                                size: w * 0.2,
+                              )
+                            : Image.file(
+                                image1!,
+                                fit: BoxFit.contain,
+                              ),
                       ),
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () async {
+                      getImage2();
+                    },
                     child: Container(
                       width: w * 0.27,
                       height: h * 0.15,
@@ -148,16 +164,23 @@ class _SendDesigneScreenState extends State<SendDesigneScreen> {
                         borderRadius: BorderRadius.circular(w * 0.04),
                       ),
                       child: Center(
-                        child: Icon(
-                          Icons.cloud_download,
-                          color: mainColor,
-                          size: w * 0.2,
-                        ),
+                        child: (image2 == null)
+                            ? Icon(
+                                Icons.cloud_download,
+                                color: mainColor,
+                                size: w * 0.2,
+                              )
+                            : Image.file(
+                                image2!,
+                                fit: BoxFit.contain,
+                              ),
                       ),
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () async {
+                      getImage3();
+                    },
                     child: Container(
                       width: w * 0.27,
                       height: h * 0.15,
@@ -167,11 +190,16 @@ class _SendDesigneScreenState extends State<SendDesigneScreen> {
                         borderRadius: BorderRadius.circular(w * 0.04),
                       ),
                       child: Center(
-                        child: Icon(
-                          Icons.cloud_download,
-                          color: mainColor,
-                          size: w * 0.2,
-                        ),
+                        child: (image3 == null)
+                            ? Icon(
+                                Icons.cloud_download,
+                                color: mainColor,
+                                size: w * 0.2,
+                              )
+                            : Image.file(
+                                image3!,
+                                fit: BoxFit.contain,
+                              ),
                       ),
                     ),
                   ),
@@ -198,9 +226,18 @@ class _SendDesigneScreenState extends State<SendDesigneScreen> {
                 onPressed: () async {
                   FocusScope.of(context).requestFocus(FocusNode());
                   if (formKey.currentState!.validate()) {
+                    addDesigne(
+                        context: context,
+                        name: listEd[0].text,
+                        email: listEd[1].text,
+                        controller: btnController,
+                        phone: listEd[2].text,
+                        designeName: listEd[3].text,
+                        images: images,
+                        note: listEd[4].text);
                   } else {
                     btnController.error();
-                    await Future.delayed(const Duration(seconds: 2));
+                    await Future.delayed(const Duration(seconds: 1));
                     btnController.stop();
                   }
                 },
@@ -220,5 +257,54 @@ class _SendDesigneScreenState extends State<SendDesigneScreen> {
       borderSide: const BorderSide(color: Colors.black, width: 1.5),
       borderRadius: BorderRadius.circular(w * 0.03),
     );
+  }
+
+  File? image1;
+  File? image2;
+  File? image3;
+  String imagePath1 = "";
+  String imagePath2 = "";
+  String imagePath3 = "";
+
+  Future getImage1() async {
+    ImagePicker picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        image1 = File(pickedFile.path);
+        imagePath1 = pickedFile.path;
+        images.add(imagePath1);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future getImage2() async {
+    ImagePicker picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        image2 = File(pickedFile.path);
+        imagePath2 = pickedFile.path;
+        images.add(imagePath2);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future getImage3() async {
+    ImagePicker picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        image3 = File(pickedFile.path);
+        imagePath3 = pickedFile.path;
+        images.add(imagePath3);
+      } else {
+        print('No image selected.');
+      }
+    });
   }
 }

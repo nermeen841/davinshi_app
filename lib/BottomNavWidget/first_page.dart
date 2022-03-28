@@ -258,7 +258,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
             child: Column(
               children: [
                 Image.asset(
-                  "assets/images/ي77.png",
+                  "assets/images/Group 1204.png",
                   fit: BoxFit.cover,
                 ),
               ],
