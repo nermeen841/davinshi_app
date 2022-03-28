@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>771393052029-evaruoj4m9d7hv01h648nvjb23v9o7r2.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.771393052029-evaruoj4m9d7hv01h648nvjb23v9o7r2</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>771393052029-1cplucvbk0ig161eld8t1bihbfjqba3k.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD4xjz9UGo0FFxcmq2fMnTnPETl_nEkO4c</string>
+	<key>GCM_SENDER_ID</key>
+	<string>771393052029</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.davinshiApp</string>
+	<key>PROJECT_ID</key>
+	<string>davinshi-d4cc5</string>
+	<key>STORAGE_BUCKET</key>
+	<string>davinshi-d4cc5.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:771393052029:ios:fffc29b15de26b5efc4014</string>
+</dict>
+</plist>
