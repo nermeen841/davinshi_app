@@ -199,120 +199,62 @@ class _MoreScreenState extends State<MoreScreen>
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Container(
-                                          width: w * 0.5,
-                                          height: h * 0.25,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[200],
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                  allProduct[i].img),
-                                              fit: BoxFit.cover,
+                                        Expanded(
+                                          child: Container(
+                                            width: w * 0.5,
+                                            height: h * 0.25,
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey[200],
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    allProduct[i].img),
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
-                                          ),
-                                          child: Padding(
-                                            padding: EdgeInsets.all(w * 0.015),
-                                            child: Align(
-                                              alignment: isLeft()
-                                                  ? Alignment.topRight
-                                                  : Alignment.topLeft,
-                                              child: InkWell(
-                                                onTap: () async {
-                                                  if (cartId == null ||
-                                                      cartId == studentId) {
-                                                    try {
-                                                      if (!cart.idp.contains(
-                                                          bestDis[i].id)) {
-                                                        await helper.createCar(
-                                                            CartProducts(
-                                                                id: null,
-                                                                studentId:
-                                                                    studentId,
-                                                                image:
-                                                                    allProduct[
-                                                                            i]
-                                                                        .img,
-                                                                titleAr:
-                                                                    allProduct[
-                                                                            i]
-                                                                        .nameAr,
-                                                                titleEn:
-                                                                    allProduct[
-                                                                            i]
-                                                                        .nameEn,
-                                                                price: allProduct[
-                                                                        i]
-                                                                    .regularPrice
-                                                                    .toDouble(),
-                                                                quantity: 1,
-                                                                att: att,
-                                                                des: des,
-                                                                idp: allProduct[
-                                                                        i]
-                                                                    .id,
-                                                                idc: 0,
-                                                                catNameEn: "",
-                                                                catNameAr: "",
-                                                                catSVG: ""));
-                                                      } else {
-                                                        int quantity = cart
-                                                            .items
-                                                            .firstWhere(
-                                                                (element) =>
-                                                                    element
-                                                                        .idp ==
-                                                                    allProduct[
-                                                                            i]
-                                                                        .id)
-                                                            .quantity;
-                                                        await helper
-                                                            .updateProduct(
-                                                                1 + quantity,
-                                                                allProduct[i]
-                                                                    .id,
-                                                                allProduct[i]
-                                                                    .regularPrice
-                                                                    .toDouble(),
-                                                                jsonEncode(att),
-                                                                jsonEncode(
-                                                                    des));
-                                                      }
-                                                      await cart.setItems();
-                                                    } catch (e) {
-                                                      print('e');
-                                                      print(e);
-                                                    }
-                                                  } else {
+                                            child: Padding(
+                                              padding: EdgeInsets.all(w * 0.015),
+                                              child: Align(
+                                                alignment: isLeft()
+                                                    ? Alignment.topRight
+                                                    : Alignment.topLeft,
+                                                child: InkWell(
+                                                  onTap: () async {
                                                     if (cartId == null ||
                                                         cartId == studentId) {
                                                       try {
                                                         if (!cart.idp.contains(
-                                                            topRate[i].id)) {
-                                                          await helper.createCar(CartProducts(
-                                                              id: null,
-                                                              studentId: 0,
-                                                              image:
-                                                                  allProduct[i]
-                                                                      .img,
-                                                              titleAr:
-                                                                  allProduct[i]
-                                                                      .nameAr,
-                                                              titleEn:
-                                                                  allProduct[i]
-                                                                      .nameEn,
-                                                              price: allProduct[i]
-                                                                  .regularPrice
-                                                                  .toDouble(),
-                                                              quantity: 1,
-                                                              att: att,
-                                                              des: des,
-                                                              idp: allProduct[i]
-                                                                  .id,
-                                                              idc: allProduct[i]
-                                                                  .id,
-                                                              catNameEn: "",
-                                                              catNameAr: "",
-                                                              catSVG: ""));
+                                                            bestDis[i].id)) {
+                                                          await helper.createCar(
+                                                              CartProducts(
+                                                                  id: null,
+                                                                  studentId:
+                                                                      studentId,
+                                                                  image:
+                                                                      allProduct[
+                                                                              i]
+                                                                          .img,
+                                                                  titleAr:
+                                                                      allProduct[
+                                                                              i]
+                                                                          .nameAr,
+                                                                  titleEn:
+                                                                      allProduct[
+                                                                              i]
+                                                                          .nameEn,
+                                                                  price: allProduct[
+                                                                          i]
+                                                                      .regularPrice
+                                                                      .toDouble(),
+                                                                  quantity: 1,
+                                                                  att: att,
+                                                                  des: des,
+                                                                  idp: allProduct[
+                                                                          i]
+                                                                      .id,
+                                                                  idc: 0,
+                                                                  catNameEn: "",
+                                                                  catNameAr: "",
+                                                                  catSVG: ""));
                                                         } else {
                                                           int quantity = cart
                                                               .items
@@ -324,31 +266,91 @@ class _MoreScreenState extends State<MoreScreen>
                                                                               i]
                                                                           .id)
                                                               .quantity;
-                                                          await helper.updateProduct(
-                                                              1 + quantity,
-                                                              allProduct[i].id,
-                                                              allProduct[i]
-                                                                  .regularPrice
-                                                                  .toDouble(),
-                                                              jsonEncode(att),
-                                                              jsonEncode(des));
+                                                          await helper
+                                                              .updateProduct(
+                                                                  1 + quantity,
+                                                                  allProduct[i]
+                                                                      .id,
+                                                                  allProduct[i]
+                                                                      .regularPrice
+                                                                      .toDouble(),
+                                                                  jsonEncode(att),
+                                                                  jsonEncode(
+                                                                      des));
                                                         }
                                                         await cart.setItems();
                                                       } catch (e) {
                                                         print('e');
                                                         print(e);
                                                       }
-                                                    } else {}
-                                                  }
-                                                },
-                                                child: CircleAvatar(
-                                                  backgroundColor: mainColor,
-                                                  radius: w * .05,
-                                                  child: Center(
-                                                    child: Icon(
-                                                      Icons.add_outlined,
-                                                      color: Colors.white,
-                                                      size: w * 0.05,
+                                                    } else {
+                                                      if (cartId == null ||
+                                                          cartId == studentId) {
+                                                        try {
+                                                          if (!cart.idp.contains(
+                                                              topRate[i].id)) {
+                                                            await helper.createCar(CartProducts(
+                                                                id: null,
+                                                                studentId: 0,
+                                                                image:
+                                                                    allProduct[i]
+                                                                        .img,
+                                                                titleAr:
+                                                                    allProduct[i]
+                                                                        .nameAr,
+                                                                titleEn:
+                                                                    allProduct[i]
+                                                                        .nameEn,
+                                                                price: allProduct[i]
+                                                                    .regularPrice
+                                                                    .toDouble(),
+                                                                quantity: 1,
+                                                                att: att,
+                                                                des: des,
+                                                                idp: allProduct[i]
+                                                                    .id,
+                                                                idc: allProduct[i]
+                                                                    .id,
+                                                                catNameEn: "",
+                                                                catNameAr: "",
+                                                                catSVG: ""));
+                                                          } else {
+                                                            int quantity = cart
+                                                                .items
+                                                                .firstWhere(
+                                                                    (element) =>
+                                                                        element
+                                                                            .idp ==
+                                                                        allProduct[
+                                                                                i]
+                                                                            .id)
+                                                                .quantity;
+                                                            await helper.updateProduct(
+                                                                1 + quantity,
+                                                                allProduct[i].id,
+                                                                allProduct[i]
+                                                                    .regularPrice
+                                                                    .toDouble(),
+                                                                jsonEncode(att),
+                                                                jsonEncode(des));
+                                                          }
+                                                          await cart.setItems();
+                                                        } catch (e) {
+                                                          print('e');
+                                                          print(e);
+                                                        }
+                                                      } else {}
+                                                    }
+                                                  },
+                                                  child: CircleAvatar(
+                                                    backgroundColor: mainColor,
+                                                    radius: w * .05,
+                                                    child: Center(
+                                                      child: Icon(
+                                                        Icons.add_outlined,
+                                                        color: Colors.white,
+                                                        size: w * 0.05,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),

@@ -18,6 +18,7 @@ import 'lang/localizations.dart';
 import 'models/bottomnav.dart';
 
 void main() async {
+  
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.black,
