@@ -86,8 +86,11 @@ class _DesigneScreenState extends State<DesigneScreen> {
             Container(
               height: h,
               width: w,
-              padding: EdgeInsets.symmetric(
-                  vertical: h * 0.05, horizontal: w * 0.02),
+              padding: EdgeInsets.only(
+                  top: h * 0.07,
+                  left: w * 0.02,
+                  right: w * 0.02,
+                  bottom: h * 0.02),
               margin: EdgeInsets.only(top: h * 0.04),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -108,10 +111,13 @@ class _DesigneScreenState extends State<DesigneScreen> {
                     return screens[index];
                   }),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(
-                  contText.length, (index) => buildDot(index: index)),
+            Padding(
+              padding: EdgeInsets.only(top: h * 0.015),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: List.generate(
+                    contText.length, (index) => buildDot(index: index)),
+              ),
             ),
           ],
         ),

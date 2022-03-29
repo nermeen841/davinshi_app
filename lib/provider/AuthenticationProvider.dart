@@ -39,10 +39,14 @@ class AuthenticationProvider {
       print(response.data);
       Map userData = response.data['user'];
       user = UserClass(
-          id: userData['id'],
-          name: userData['name'],
-          phone: userData['phone'],
-          email: userData['email'] ?? "");
+        id: userData['id'],
+        name: userData['name'],
+        phone: userData['phone'],
+        email: userData['email'] ?? "",
+        userName: userData['surname'],
+        image: userData['img'],
+        gender: userData['gender'],
+      );
       Provider.of<AddressProvider>(context, listen: false).getAddress();
       setUserId(userData['id']);
       setLogin(true);
@@ -135,10 +139,14 @@ class AuthenticationProvider {
       if (response.statusCode == 200) {
         try {
           user = UserClass(
-              id: userData['data']['user']['id'],
-              name: userData['data']['user']['name'],
-              phone: userData['data']['user']['phone'],
-              email: userData['data']['user']['email'] ?? '');
+            id: userData['data']['user']['id'],
+            name: userData['data']['user']['name'],
+            phone: userData['data']['user']['phone'],
+            email: userData['data']['user']['email'] ?? '',
+            userName: userData['data']['user']['surname'],
+            image: userData['data']['user']['img'],
+            gender: userData['data']['user']['gender'],
+          );
           await prefs.setInt('id', userData['data']['user']['id']);
           await prefs.setString('auth', userData['data']['token'].toString());
           userName = userData['data']['user']['name'];

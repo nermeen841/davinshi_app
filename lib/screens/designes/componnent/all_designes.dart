@@ -168,11 +168,12 @@ class _AllDesignesState extends State<AllDesignes> {
                                 height: h * 0.015,
                               ),
                               Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Text(
                                     searchData[index].designName,
                                     textAlign: TextAlign.start,
-                                    maxLines: 2,
                                     overflow: TextOverflow.fade,
                                     style: TextStyle(
                                         fontFamily: 'Tajawal',
@@ -180,14 +181,15 @@ class _AllDesignesState extends State<AllDesignes> {
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500),
                                   ),
-                                  SizedBox(
-                                    width: w * 0.015,
-                                  ),
                                   SimpleStarRating(
                                     isReadOnly: true,
                                     starCount: 5,
-                                    rating: double.parse(
-                                        searchData[index].countRate.toString()),
+                                    rating:
+                                        (searchData[index].countRate != null)
+                                            ? double.parse(searchData[index]
+                                                .countRate
+                                                .toString())
+                                            : 0.0,
                                     size: w * 0.03,
                                     allowHalfRating: true,
                                     filledIcon: Icon(

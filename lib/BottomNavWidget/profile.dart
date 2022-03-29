@@ -215,26 +215,36 @@ class _ProfileState extends State<Profile> {
       if (response.statusCode == 200 && response.data['name'] is String) {
         Map userData = response.data;
         user = UserClass(
-            id: userData['id'],
-            name: userData['name'],
-            phone: userData['phone'],
-            email: userData['email']);
+          id: userData['id'],
+          name: userData['name'],
+          phone: userData['phone'],
+          email: userData['email'],
+          userName: userData['surname'],
+          image: userData['img'],
+          gender: userData['gender'],
+        );
         setUserId(userData['id']);
         setState(() {
           userName = response.data['name'];
           userEmail = response.data['email'];
+          userImage = response.data['img'];
         });
       } else {
         Map userData = response.data;
         user = UserClass(
-            id: userData['id'],
-            name: userData['name'],
-            phone: userData['phone'],
-            email: userData['email']);
+          id: userData['id'],
+          name: userData['name'],
+          phone: userData['phone'],
+          email: userData['email'],
+          userName: userData['surname'],
+          image: userData['img'],
+          gender: userData['gender'],
+        );
         setUserId(userData['id']);
         setState(() {
           userName = response.data['name'];
           userEmail = response.data['email'];
+          userImage = response.data['user']['img'];
         });
       }
     } catch (e) {}
@@ -532,16 +542,88 @@ class _ProfileState extends State<Profile> {
                     padding: EdgeInsets.only(top: h * 0.05),
                     child: Center(
                       child: CircleAvatar(
-                        child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: Center(
-                              child: Icon(
-                                Icons.insert_photo_outlined,
-                                size: w * 0.15,
-                                color: Colors.black87,
+                        child: (userImage == null)
+                            ? InkWell(
+                                onTap: () async {
+                                  if (login) {
+                                    await getImage();
+                                    updateProfileImage(
+                                            context: context, image: image1)
+                                        .then((value) {
+                                      getProfile();
+                                    });
+                                  } else {
+                                    final snackBar = SnackBar(
+                                      content: Text(translate(
+                                          context, 'snack_bar', 'login')),
+                                      action: SnackBarAction(
+                                        label: translate(
+                                            context, 'buttons', 'login'),
+                                        disabledTextColor: Colors.yellow,
+                                        textColor: Colors.yellow,
+                                        onPressed: () {
+                                          Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const Login()),
+                                              (route) => false);
+                                        },
+                                      ),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  }
+                                },
+                                child: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.insert_photo_outlined,
+                                        size: w * 0.15,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                    radius: w * 0.13),
+                              )
+                            : InkWell(
+                                onTap: () async {
+                                  if (login) {
+                                    await getImage();
+                                    updateProfileImage(
+                                            context: context, image: image1)
+                                        .then((value) {
+                                      getProfile();
+                                    });
+                                  } else {
+                                    final snackBar = SnackBar(
+                                      content: Text(translate(
+                                          context, 'snack_bar', 'login')),
+                                      action: SnackBarAction(
+                                        label: translate(
+                                            context, 'buttons', 'login'),
+                                        disabledTextColor: Colors.yellow,
+                                        textColor: Colors.yellow,
+                                        onPressed: () {
+                                          Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const Login()),
+                                              (route) => false);
+                                        },
+                                      ),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                  }
+                                },
+                                child: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    backgroundImage: NetworkImage(
+                                        "https://davinshi.net/" + userImage!),
+                                    radius: w * 0.13),
                               ),
-                            ),
-                            radius: w * 0.13),
                         backgroundColor: mainColor,
                         radius: w * 0.15,
                       ),

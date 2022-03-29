@@ -1,6 +1,7 @@
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/constants.dart';
+import 'package:davinshi_app/models/user.dart';
 import 'package:davinshi_app/screens/designes/single_designe.dart/all_rates.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
@@ -10,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_star_rating/simple_star_rating.dart';
 
 import '../../../provider/one_designe.dart';
+import '../../auth/login.dart';
 
 class SingleDesigneScreen extends StatefulWidget {
   final String designID;
@@ -150,25 +152,31 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
                                     alignment: (lang == 'ar')
                                         ? Alignment.topLeft
                                         : Alignment.topRight,
-                                    child: Container(
-                                      height: h * 0.04,
-                                      width: w * 0.2,
-                                      decoration: BoxDecoration(
-                                          color: mainColor,
-                                          borderRadius:
-                                              BorderRadius.circular(w * 0.01)),
-                                      child: Center(
-                                        child: Text(
-                                          "${OneDesigne.oneItemModel!.data![0].countRate.toString().substring(0, 1).toString()} + تقييم",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: 'Tajawal',
-                                              fontSize: w * 0.03,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ),
-                                    ),
+                                    child: (OneDesigne.oneItemModel!.data![0]
+                                                .countRate !=
+                                            null)
+                                        ? Container(
+                                            height: h * 0.04,
+                                            width: w * 0.2,
+                                            decoration: BoxDecoration(
+                                                color: mainColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        w * 0.01)),
+                                            child: Center(
+                                              child: Text(
+                                                "${OneDesigne.oneItemModel!.data![0].countRate.toString().substring(0, 1).toString()} + تقييم",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'Tajawal',
+                                                    fontSize: w * 0.03,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ),
+                                          )
+                                        : Container(),
                                   ),
                                 ),
                               ),
@@ -291,14 +299,40 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
                           color: mainColor,
                           disabledColor: mainColor,
                           errorColor: Colors.red,
-                          onPressed: () {
-                            addRate(
-                                controller: btnController,
-                                rating: ratingVal,
-                                comment: comment.text,
-                                context: context,
-                                designeID: OneDesigne.oneItemModel!.data![0].id
-                                    .toString());
+                          onPressed: () async {
+                            if (login) {
+                              addRate(
+                                  controller: btnController,
+                                  rating: ratingVal,
+                                  comment: comment.text,
+                                  context: context,
+                                  designeID: OneDesigne
+                                      .oneItemModel!.data![0].id
+                                      .toString());
+                            } else {
+                              btnController.error();
+                              await Future.delayed(const Duration(seconds: 1));
+                              btnController.stop();
+                              final snackBar = SnackBar(
+                                content: Text(
+                                    translate(context, 'snack_bar', 'login')),
+                                action: SnackBarAction(
+                                  label: translate(context, 'buttons', 'login'),
+                                  disabledTextColor: Colors.yellow,
+                                  textColor: Colors.yellow,
+                                  onPressed: () {
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Login()),
+                                        (route) => false);
+                                  },
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
                           },
                         ),
                       ],

@@ -10,6 +10,8 @@ class ProductCla {
   String nameAr;
   String nameEn;
   String slug;
+  String? sellerName;
+  String? brandName;
   String descriptionAr;
   String descriptionEn;
   String? aboutAr;
@@ -35,6 +37,8 @@ class ProductCla {
       {required this.id,
       required this.nameAr,
       required this.nameEn,
+      required this.sellerName,
+      required this.brandName,
       required this.slug,
       required this.descriptionAr,
       required this.descriptionEn,
@@ -270,6 +274,8 @@ Future setProduct(Map e) async {
           isRec: e['is_recommended'],
           isBest: e['is_best'],
           hasOptions: e['has_options'],
+          sellerName: e['seller_name'],
+          brandName: e['brand_name'],
           quantity: e['quantity'],
           aboutAr: e['about_brand_ar'] == null
               ? null

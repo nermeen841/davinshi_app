@@ -750,16 +750,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      // TextSpan(
-                                      //   text: translate(context,
-                                      //           'product', 'price') +
-                                      //       " :  ",
-                                      //   style: TextStyle(
-                                      //       fontWeight: FontWeight.bold,
-                                      //       fontFamily: 'Tajawal',
-                                      //       fontSize: w * 0.045,
-                                      //       color: Colors.black),
-                                      // ),
                                       if (productCla.isOffer)
                                         Text(
                                             productCla.offerPrice.toString() +
@@ -768,8 +758,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                             style: TextStyle(
                                                 fontFamily: 'Tajawal',
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.black,
-                                                fontSize: w * 0.03)),
+                                                color: mainColor,
+                                                fontSize: w * 0.04)),
                                       if (!productCla.isOffer)
                                         Text(
                                             productCla.price.toString() +
@@ -777,9 +767,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                             style: TextStyle(
                                                 fontFamily: 'Tajawal',
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.black,
-                                                fontSize: w * 0.03)),
-
+                                                color: mainColor,
+                                                fontSize: w * 0.04)),
                                       if (productCla.isOffer)
                                         Padding(
                                           padding: EdgeInsets.symmetric(
@@ -791,12 +780,11 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               decoration:
                                                   TextDecoration.lineThrough,
                                               fontWeight: FontWeight.bold,
-                                              fontSize: w * 0.03,
+                                              fontSize: w * 0.04,
                                               color: Colors.grey,
                                               fontFamily: 'Tajawal',
                                               decorationThickness: w * 0.1,
-                                              decorationColor:
-                                                  const Color(0xff22103D),
+                                              decorationColor: mainColor,
                                             ),
                                           ),
                                         ),
@@ -815,24 +803,29 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                             child: RichText(
                               text: TextSpan(
                                 children: [
-                                  TextSpan(
-                                      text: translate(
-                                          context, 'home', 'seller_name'),
-                                      style: TextStyle(
-                                        fontFamily: 'Tajawal',
-                                        fontSize: w * 0.03,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                      )),
-                                  TextSpan(
-                                      text:
-                                          translate(context, 'home', 'seller'),
-                                      style: TextStyle(
-                                        fontSize: w * 0.03,
-                                        fontFamily: 'Tajawal',
-                                        color: mainColor,
-                                        fontWeight: FontWeight.w500,
-                                      )),
+                                  if (productCla.isOffer &&
+                                      productCla.percentage != null)
+                                    TextSpan(
+                                        text: translate(
+                                            context, 'home', 'seller_name'),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                            fontSize: w * 0.03)),
+                                  if (productCla.isOffer &&
+                                      productCla.percentage != null)
+                                    TextSpan(
+                                        text: (productCla.sellerName != null)
+                                            ? productCla.sellerName.toString()
+                                            : (productCla.brandName != null)
+                                                ? productCla.brandName
+                                                    .toString()
+                                                : translateString(
+                                                    'Multi', 'مالتي'),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                            fontSize: w * 0.03)),
                                 ],
                               ),
                             ),
@@ -1217,184 +1210,230 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                     // ),
 
                     Center(
-                      child: SizedBox(
-                        width: w * 0.9,
-                        height: h,
-                        child: rate.isNotEmpty
-                            ? SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: h * 0.02,
-                                    ),
-                                    Center(
-                                      child: InkWell(
-                                        onTap: () => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AddRateScreen(
-                                                    productId: productCla.id
-                                                        .toString(),
-                                                  )),
+                      child: Stack(
+                        children: [
+                          SizedBox(
+                            width: w * 0.9,
+                            height: h,
+                            child: rate.isNotEmpty
+                                ? SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        // SizedBox(
+                                        //   height: h * 0.02,
+                                        // ),
+                                        // Center(
+                                        //   child: InkWell(
+                                        //     onTap: () => Navigator.push(
+                                        //       context,
+                                        //       MaterialPageRoute(
+                                        //           builder: (context) =>
+                                        //               AddRateScreen(
+                                        //                 productId: productCla.id
+                                        //                     .toString(),
+                                        //               )),
+                                        //     ),
+                                        //     child: Container(
+                                        //       width: double.infinity,
+                                        //       height: h * 0.08,
+                                        //       decoration: BoxDecoration(
+                                        //           color: mainColor,
+                                        //           borderRadius:
+                                        //               BorderRadius.circular(
+                                        //                   w * 0.05)),
+                                        //       child: Center(
+                                        //         child: Text(
+                                        //           translate(context,
+                                        //               "check_out", "rate"),
+                                        //           style: TextStyle(
+                                        //               color: Colors.white,
+                                        //               fontSize: w * 0.05,
+                                        //               fontFamily: 'Tajawal',
+                                        //               fontWeight:
+                                        //                   FontWeight.bold),
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
+
+                                        SizedBox(
+                                          height: h * 0.02,
                                         ),
-                                        child: Container(
-                                          width: double.infinity,
-                                          height: h * 0.08,
-                                          decoration: BoxDecoration(
-                                              color: mainColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      w * 0.05)),
-                                          child: Center(
-                                            child: Text(
-                                              translate(
-                                                  context, "check_out", "rate"),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: w * 0.05,
-                                                  fontFamily: 'Tajawal',
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: h * 0.02,
-                                    ),
-                                    ListView.builder(
-                                      primary: false,
-                                      shrinkWrap: true,
-                                      itemCount: rate.length,
-                                      itemBuilder: (context, i) {
-                                        return Padding(
-                                          padding:
-                                              EdgeInsets.only(bottom: h * 0.05),
-                                          child: ListTile(
-                                            leading: CircleAvatar(
-                                              backgroundImage: const AssetImage(
-                                                  'assets/images/logo_multi.png'),
-                                              radius: w * 0.07,
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                            ),
-                                            title: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                SizedBox(
-                                                  width: w * 0.25,
-                                                  height: h * 0.02,
-                                                  child: RatingBarIndicator(
-                                                    rating: double.parse(rate[i]
-                                                        .rate
-                                                        .toString()),
-                                                    itemBuilder:
-                                                        (context, index) =>
-                                                            Icon(
-                                                      Icons.star,
-                                                      size: w * 0.045,
-                                                      color: const Color(
-                                                          0xffEE5A30),
-                                                    ),
-                                                    itemCount: 5,
-                                                    itemSize: w * 0.045,
-                                                    direction: Axis.horizontal,
-                                                  ),
+                                        ListView.builder(
+                                          primary: false,
+                                          shrinkWrap: true,
+                                          itemCount: rate.length,
+                                          itemBuilder: (context, i) {
+                                            return Padding(
+                                              padding: EdgeInsets.only(
+                                                  bottom: h * 0.05),
+                                              child: ListTile(
+                                                leading: CircleAvatar(
+                                                  backgroundImage: const AssetImage(
+                                                      'assets/images/logo_multi.png'),
+                                                  radius: w * 0.07,
+                                                  backgroundColor:
+                                                      Colors.transparent,
                                                 ),
-                                              ],
-                                            ),
-                                            subtitle: SizedBox(
-                                                width: w * 0.37,
-                                                child: Text(
-                                                  rate[i].comment ?? "",
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: w * 0.04),
-                                                )),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Center(
-                                    child: Text(
-                                      translate(context, 'empty', 'no_rate'),
-                                      style: TextStyle(
-                                          color: mainColor, fontSize: w * 0.05),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: h * 0.03,
-                                  ),
-                                  Center(
-                                    child: InkWell(
-                                      onTap: () {
-                                        if (login) {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AddRateScreen(
-                                                      productId: productCla.id
-                                                          .toString(),
+                                                title: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: w * 0.25,
+                                                      height: h * 0.02,
+                                                      child: RatingBarIndicator(
+                                                        rating: double.parse(
+                                                            rate[i]
+                                                                .rate
+                                                                .toString()),
+                                                        itemBuilder:
+                                                            (context, index) =>
+                                                                Icon(
+                                                          Icons.star,
+                                                          size: w * 0.045,
+                                                          color: const Color(
+                                                              0xffEE5A30),
+                                                        ),
+                                                        itemCount: 5,
+                                                        itemSize: w * 0.045,
+                                                        direction:
+                                                            Axis.horizontal,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                subtitle: SizedBox(
+                                                    width: w * 0.37,
+                                                    child: Text(
+                                                      rate[i].comment ?? "",
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontSize: w * 0.04),
                                                     )),
-                                          );
-                                        } else {
-                                          final snackBar = SnackBar(
-                                            content: Text(translate(
-                                                context, 'snack_bar', 'login')),
-                                            action: SnackBarAction(
-                                              label: translate(
-                                                  context, 'buttons', 'login'),
-                                              disabledTextColor: Colors.yellow,
-                                              textColor: Colors.yellow,
-                                              onPressed: () {
-                                                Navigator.pushAndRemoveUntil(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const Login()),
-                                                    (route) => false);
-                                              },
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                          translate(
+                                              context, 'empty', 'no_rate'),
+                                          style: TextStyle(
+                                              color: mainColor,
+                                              fontSize: w * 0.05),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: h * 0.03,
+                                      ),
+                                      Center(
+                                        child: InkWell(
+                                          onTap: () {
+                                            if (login) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AddRateScreen(
+                                                          productId: productCla
+                                                              .id
+                                                              .toString(),
+                                                        )),
+                                              );
+                                            } else {
+                                              final snackBar = SnackBar(
+                                                content: Text(translate(context,
+                                                    'snack_bar', 'login')),
+                                                action: SnackBarAction(
+                                                  label: translate(context,
+                                                      'buttons', 'login'),
+                                                  disabledTextColor:
+                                                      Colors.yellow,
+                                                  textColor: Colors.yellow,
+                                                  onPressed: () {
+                                                    Navigator.pushAndRemoveUntil(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                const Login()),
+                                                        (route) => false);
+                                                  },
+                                                ),
+                                              );
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                            }
+                                          },
+                                          child: Container(
+                                            width: double.infinity,
+                                            height: h * 0.08,
+                                            decoration: BoxDecoration(
+                                                color: mainColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        w * 0.05)),
+                                            child: Center(
+                                              child: Text(
+                                                translate(context, "check_out",
+                                                    "rate"),
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: w * 0.05,
+                                                    fontFamily: 'Tajawal',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
                                             ),
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar);
-                                        }
-                                      },
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: h * 0.08,
-                                        decoration: BoxDecoration(
-                                            color: mainColor,
-                                            borderRadius: BorderRadius.circular(
-                                                w * 0.05)),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                          ),
+                          (rate.isNotEmpty)
+                              ? Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: w * 0.03, vertical: h * 0.02),
+                                  child: Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: InkWell(
+                                      onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => AddRateScreen(
+                                            productId: productCla.id.toString(),
+                                          ),
+                                        ),
+                                      ),
+                                      child: CircleAvatar(
+                                        radius: w * 0.08,
+                                        backgroundColor: mainColor,
                                         child: Center(
-                                          child: Text(
-                                            translate(
-                                                context, "check_out", "rate"),
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: w * 0.05,
-                                                fontFamily: 'Tajawal',
-                                                fontWeight: FontWeight.bold),
+                                          child: Icon(
+                                            Icons.add,
+                                            color: Colors.white,
+                                            size: w * 0.1,
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
+                                )
+                              : Container(),
+                        ],
                       ),
                     ),
                     Form(

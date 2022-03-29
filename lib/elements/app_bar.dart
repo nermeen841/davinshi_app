@@ -2,6 +2,7 @@
 
 import 'package:badges/badges.dart';
 import 'package:davinshi_app/provider/home.dart';
+import 'package:davinshi_app/provider/new_item.dart';
 import 'package:davinshi_app/screens/home_folder/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/BottomNavWidget/first_page.dart';
@@ -10,6 +11,11 @@ import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/provider/cart_provider.dart';
 import 'package:davinshi_app/screens/cart/cart.dart';
 import 'package:provider/provider.dart';
+
+import '../provider/best_item.dart';
+import '../provider/fav_pro.dart';
+import '../provider/offer_item.dart';
+import '../provider/recommended_item.dart';
 
 class AppBarHome {
   late int currentindex;
@@ -22,7 +28,12 @@ class AppBarHome {
       automaticallyImplyLeading: false,
       title: InkWell(
         onTap: () {
-          Provider.of<BottomProvider>(context, listen: false).setIndex(3);
+          Provider.of<NewItemProvider>(context, listen: false).getItems();
+          Provider.of<FavItemProvider>(context, listen: false).getItems();
+          Provider.of<BestItemProvider>(context, listen: false).getItems();
+          Provider.of<OfferItemProvider>(context, listen: false).getItems();
+          Provider.of<ReItemProvider>(context, listen: false).getItems();
+          Provider.of<BottomProvider>(context, listen: false).setIndex(2);
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => Home()),

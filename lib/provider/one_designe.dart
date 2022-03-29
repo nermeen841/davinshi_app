@@ -37,13 +37,14 @@ Future addRate(
     required context,
     required String comment,
     required String designeID}) async {
-  final String url = domain + 'save-rating';
+  final String url = domain + 'designs/save-rating';
+  final int ratingValue = rating.toInt();
   try {
     dio.Response response = await dio.Dio().post(
       url,
       data: {
         "design_id": designeID,
-        "rating": rating,
+        "rating": ratingValue,
         'comment': comment,
       },
       options: dio.Options(headers: {"auth-token": auth}),
@@ -52,14 +53,13 @@ Future addRate(
       alertSuccessData(context, translate(context, 'home', 'review'));
       controller.success();
       await Future.delayed(const Duration(milliseconds: 2500));
-      controller.stop();
     } else {
       controller.error();
       await Future.delayed(const Duration(milliseconds: 2500));
       controller.stop();
     }
   } catch (e) {
-    print(e.toString());
+    print("errrrrrrrrrrrrrrrro ratiiiiiiiiiiiiiiiiiiing : " + e.toString());
     controller.error();
     await Future.delayed(const Duration(milliseconds: 2500));
     controller.stop();
