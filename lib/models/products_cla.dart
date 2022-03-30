@@ -307,6 +307,7 @@ String parseHtmlString(String htmlString) {
 
 Future<bool> getItem(int id) async {
   final String url = domain + 'get-product/${id.toString()}';
+  print("product id :" + id.toString());
   try {
     Response response = await Dio().get(url);
     if (response.data['status'] == 1) {

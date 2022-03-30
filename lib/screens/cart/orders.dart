@@ -43,7 +43,7 @@ class Orders extends StatelessWidget {
                 Provider.of<OfferItemProvider>(context, listen: false)
                     .getItems();
                 Provider.of<ReItemProvider>(context, listen: false).getItems();
-                Provider.of<BottomProvider>(context, listen: false).setIndex(4);
+                Provider.of<BottomProvider>(context, listen: false).setIndex(3);
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => Home()),

@@ -1408,7 +1408,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: w * 0.03, vertical: h * 0.02),
                                   child: Align(
-                                    alignment: Alignment.bottomLeft,
+                                    alignment: (language == 'ar')
+                                        ? Alignment.bottomLeft
+                                        : Alignment.bottomRight,
                                     child: InkWell(
                                       onTap: () => Navigator.push(
                                         context,
