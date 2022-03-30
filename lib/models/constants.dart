@@ -351,3 +351,19 @@ TextDirection getDirection({bool normal = true}) {
 bool isLeft() {
   return language == 'en' ? true : false;
 }
+//////////////////////////////////////////////////////////////////////////////////////
+
+homeBottomSheet({context, child}) {
+  var w = MediaQuery.of(context).size.width;
+
+  return showModalBottomSheet(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+          topRight: Radius.circular(w * 0.07),
+          topLeft: Radius.circular(w * 0.07)),
+    ),
+    isDismissible: true,
+    context: context,
+    builder: (context) => child,
+  );
+}

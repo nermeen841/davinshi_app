@@ -109,14 +109,14 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   List<Rate> rate = [];
   List<int> att = [];
   List<String> des = [];
-
+  int? selectedItem;
   bool check = false, error = false;
   bool finish = false;
   num finalPrice =
       productCla.isOffer ? productCla.offerPrice! : productCla.price;
   final RoundedLoadingButtonController _btnController2 =
       RoundedLoadingButtonController();
-  late TabController _tabBar;
+  TabController? _tabBar;
   // String text='Humidity is one of the most important factors that determine a comfortable indoor environment. I will introduce a dehumidifier in the living workshop that will catch the damp moisture all over the house. If you gently place it in a closet, chest of drawers, shelf, or shoe cabinet, it collects moisture enough to fill a bucket full of water. Thanks to the neat achromatic package design, it does not pop out no matter where you put it, so please put it in every corner.';
   // String text2='The more everyday items you use, the longer you need to focus on the basics. Under the slogan of Keep the basics, create life, Life Workshop is a brand that makes household items that can be used comfortably in everyday life. In order to satisfy all of the unique designs, reasonable prices, and good ingredients, we are developing daily products by communicating with consumers as well as researching data. Thanks to this, we can find products that improve the quality of life in the closest places to our lives, such as rubber gloves made of latex, durable hangers, disposable loofahs, and wool dryer balls. Now, try using the various household items of the living workshop through Curly. You can experience a daily life that makes cleaning up all over the house more enjoyable and makes washing and washing dishes easier.';
   // String text3='Strict Products Committee';
@@ -195,7 +195,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
+    selectedItem = null;
     for (int i = 0; i < productCla.attributes.length; i++) {
       // _list.add(productCla.attributes[i].options[0].id);
       // _des.add(productCla.attributes[i].options[0].nameEn);
@@ -207,9 +207,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
     }
     // att = _list;
     // des = _des;
-    _tabBar = TabController(length: 3, vsync: this);
-    _tabBar.addListener(() {
-      if (_tabBar.index == 1) {
+    _tabBar = TabController(length: 3, vsync: this, initialIndex: 0);
+    _tabBar?.addListener(() {
+      if (_tabBar?.index == 1) {
         if (finishTab) {
           finishTab = false;
           dialog(context);
@@ -833,128 +833,113 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                           SizedBox(
                             height: h * 0.04,
                           ),
-                          for (int q = 0; q < productCla.attributes.length; q++)
+                          if (productCla.attributes.isNotEmpty)
                             Padding(
                               padding:
                                   EdgeInsets.symmetric(horizontal: w * 0.025),
-                              child: Column(
+                              child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        translateString(
-                                            productCla.attributes[q].nameEn,
-                                            productCla.attributes[q].nameAr),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: w * 0.04,
-                                            color: mainColor),
-                                      ),
-                                      Wrap(
-                                        children: [
-                                          for (int i = 0;
-                                              i <
-                                                  productCla.attributes[q]
-                                                      .options.length;
-                                              i++)
-                                            Padding(
-                                              padding: isLeft()
-                                                  ? EdgeInsets.only(
-                                                      right: w * 0.025)
-                                                  : EdgeInsets.only(
-                                                      left: w * 0.025),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  // if(q==productCla.attributes.length-1){
-                                                  //   finalPrice = productCla.attributes[q].options[i].price;
-                                                  // }
-                                                  if (att[q] !=
-                                                      productCla.attributes[q]
-                                                          .options[i].id) {
-                                                    finalPrice = productCla
-                                                        .attributes[q]
-                                                        .options[i]
-                                                        .price;
-                                                  }
-                                                  setState(() {
-                                                    att[q] = productCla
-                                                        .attributes[q]
-                                                        .options[i]
-                                                        .id;
-                                                    if (language == 'en') {
-                                                      des[q] = productCla
-                                                          .attributes[q]
-                                                          .options[i]
-                                                          .nameEn;
-                                                    } else {
-                                                      des[q] = productCla
-                                                          .attributes[q]
-                                                          .options[i]
-                                                          .nameAr;
-                                                    }
-                                                  });
-                                                  print(att);
-                                                  print(des);
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                      color: att[q] ==
-                                                              productCla
-                                                                  .attributes[q]
-                                                                  .options[i]
-                                                                  .id
-                                                          ? mainColor
-                                                          : Colors.white),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(
-                                                        w * 0.03),
-                                                    child: Text(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: List.generate(
+                                  productCla.attributes.length,
+                                  (index) => InkWell(
+                                    onTap: () {
+                                      homeBottomSheet(
+                                        context: context,
+                                        child: ListView.builder(
+                                            primary: true,
+                                            shrinkWrap: true,
+                                            itemCount: productCla
+                                                .attributes[index]
+                                                .options
+                                                .length,
+                                            itemBuilder: (context, i) {
+                                              return Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: w * 0.02,
+                                                    vertical: h * 0.02),
+                                                child: RadioListTile(
+                                                    activeColor: mainColor,
+                                                    title: Text(
                                                       translateString(
                                                           productCla
-                                                              .attributes[q]
+                                                              .attributes[index]
                                                               .options[i]
                                                               .nameEn,
                                                           productCla
-                                                              .attributes[q]
+                                                              .attributes[index]
                                                               .options[i]
                                                               .nameAr),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          fontSize: w * 0.035,
-                                                          color: att[q] ==
-                                                                  productCla
-                                                                      .attributes[
-                                                                          q]
-                                                                      .options[
-                                                                          i]
-                                                                      .id
-                                                              ? Colors.white
-                                                              : mainColor),
+                                                          fontSize: w * 0.05,
+                                                          color: Colors.black),
                                                     ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: h * 0.01,
-                                      ),
-                                    ],
+                                                    value: i,
+                                                    groupValue: selectedItem,
+                                                    onChanged: (int? value) {
+                                                      setState(
+                                                        () {
+                                                          selectedItem = value!;
+                                                          att[index] =
+                                                              productCla
+                                                                  .attributes[
+                                                                      index]
+                                                                  .options[i]
+                                                                  .id;
+                                                          if (language ==
+                                                              'en') {
+                                                            des[index] =
+                                                                productCla
+                                                                    .attributes[
+                                                                        index]
+                                                                    .options[i]
+                                                                    .nameEn;
+                                                          } else {
+                                                            des[index] =
+                                                                productCla
+                                                                    .attributes[
+                                                                        index]
+                                                                    .options[i]
+                                                                    .nameAr;
+                                                          }
+                                                        },
+                                                      );
+                                                      Navigator.pop(context);
+                                                    }),
+                                              );
+                                            }),
+                                      );
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          translateString(
+                                              productCla
+                                                  .attributes[index].nameEn,
+                                              productCla
+                                                  .attributes[index].nameAr),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: w * 0.05,
+                                              fontFamily: 'Tajawal',
+                                              color: mainColor),
+                                        ),
+                                        Icon(
+                                          Icons.keyboard_arrow_down,
+                                          color: mainColor,
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                  SizedBox(
-                                    height: h * 0.01,
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
+                          SizedBox(
+                            height: h * 0.05,
+                          ),
                           if (productCla.hasOptions)
                             SizedBox(
                               height: h * 0.01,
@@ -1153,67 +1138,10 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                         ],
                       ),
                     ),
-
-                    // SizedBox(
-                    //   width: w,
-                    //   height: h,
-                    //   child: productCla.statements.isEmpty
-                    //       ? Center(
-                    //           child: Text(
-                    //             translate(context, 'empty', 'no_details'),
-                    //             style: TextStyle(
-                    //                 color: mainColor, fontSize: w * 0.05),
-                    //           ),
-                    //         )
-                    //       : Padding(
-                    //           padding: EdgeInsets.all(w * 0.025),
-                    //           child: ListView.builder(
-                    //             itemCount: productCla.statements.length,
-                    //             itemBuilder: (ctx, i) {
-                    //               return Column(
-                    //                 children: [
-                    //                   Padding(
-                    //                     padding: EdgeInsets.all(w * 0.025),
-                    //                     child: Row(
-                    //                       children: [
-                    //                         SizedBox(
-                    //                           width: w * 0.25,
-                    //                           child: Text(
-                    //                             translateString(
-                    //                                 productCla
-                    //                                     .statements[i].nameEn,
-                    //                                 productCla
-                    //                                     .statements[i].nameAr),
-                    //                             style: TextStyle(
-                    //                                 fontWeight: FontWeight.bold,
-                    //                                 fontSize: w * 0.035),
-                    //                           ),
-                    //                         ),
-                    //                         SizedBox(
-                    //                           width: w * 0.02,
-                    //                         ),
-                    //                         // Container(
-                    //                         //   child: Text(translateString(productCla.statements[i].valueEn, productCla.statements[i].valueAr),style: TextStyle(color: Colors.grey[400],fontWeight: FontWeight.bold,fontSize: w*0.035),),
-                    //                         // ),
-                    //                       ],
-                    //                     ),
-                    //                   ),
-                    //                   Divider(
-                    //                     color: Colors.grey[300],
-                    //                     thickness: h * 0.001,
-                    //                   ),
-                    //                 ],
-                    //               );
-                    //             },
-                    //           ),
-                    //         ),
-                    // ),
-
                     Center(
                       child: Stack(
                         children: [
                           SizedBox(
-                            width: w * 0.9,
                             height: h,
                             child: rate.isNotEmpty
                                 ? SingleChildScrollView(
@@ -1378,8 +1306,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                             }
                                           },
                                           child: Container(
-                                            width: double.infinity,
                                             height: h * 0.08,
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: h * 0.04),
                                             decoration: BoxDecoration(
                                                 color: mainColor,
                                                 borderRadius:
@@ -1593,7 +1522,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize:
-                                    language == 'en' ? w * 0.05 : w * 0.06),
+                                    language == 'en' ? w * 0.05 : w * 0.05),
                           )),
                         ),
                         onTap: () {
