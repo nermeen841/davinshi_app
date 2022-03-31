@@ -34,46 +34,12 @@ class MapProvider extends ChangeNotifier {
         _serviceEnabled = await location.serviceEnabled();
         if (!_serviceEnabled) {
           _serviceEnabled = await location.requestService();
-          if (!_serviceEnabled) {
-            // final snackBar = language=='العربية'?SnackBar(
-            //   content: Text('يجب منح الاذن للتطبيق بالوصول الى الموقع من الاعدادات'),
-            //   action: SnackBarAction(
-            //     label: 'تراجع',
-            //     disabledTextColor: Colors.yellow,
-            //     textColor: Colors.yellow,
-            //     onPressed: () {
-            //       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            //     },
-            //   ),
-            // ):
-            // SnackBar(
-            //     content: Text('Permission must be given to the app to access the location from the settings'),
-            //     action: SnackBarAction(
-            //       label: 'Undo',
-            //       disabledTextColor: Colors.yellow,
-            //       textColor: Colors.yellow,
-            //       onPressed: () {
-            //         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            //       },
-            //     ));
-            // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          }
+          if (!_serviceEnabled) {}
         }
         _permissionGranted = await location.hasPermission();
         if (_permissionGranted == lo.PermissionStatus.denied) {
           _permissionGranted = await location.requestPermission();
           if (_permissionGranted != lo.PermissionStatus.granted) {
-            // final snackBar = SnackBar(
-            //     content: Text('جاري الحصول عل الموقع'),
-            //     action: SnackBarAction(
-            //       label: 'Undo',
-            //       disabledTextColor: Colors.yellow,
-            //       textColor: Colors.yellow,
-            //       onPressed: () {
-            //         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            //       },
-            //     ));
-            // ScaffoldMessenger.of(context).showSnackBar(snackBar);
             _locationData = await location.getLocation();
             if (_locationData.longitude != null) {
               latLng =
@@ -86,17 +52,6 @@ class MapProvider extends ChangeNotifier {
         if (latLng == null) {
           if (_permissionGranted == lo.PermissionStatus.granted ||
               _permissionGranted == lo.PermissionStatus.grantedLimited) {
-            // final snackBar = SnackBar(
-            //     content: Text('جاري الحصول عل الموقع'),
-            //     action: SnackBarAction(
-            //       label: 'Undo',
-            //       disabledTextColor: Colors.yellow,
-            //       textColor: Colors.yellow,
-            //       onPressed: () {
-            //         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            //       },
-            //     ));
-            // ScaffoldMessenger.of(context).showSnackBar(snackBar);
             _locationData = await location.getLocation();
             if (_locationData.longitude != null) {
               latLng =
@@ -108,95 +63,7 @@ class MapProvider extends ChangeNotifier {
           }
         }
       }
-      if (latLng == null) {
-        // LocationPermission permission;
-        // permission = await Geolocator.checkPermission();
-        // if (permission == LocationPermission.denied) {
-        //   permission = await Geolocator.requestPermission();
-        //   if (permission == LocationPermission.denied) {
-        //     // final snackBar = language=='العربية'?SnackBar(
-        //     //   content: Text('يجب منح الاذن للتطبيق بالوصول الى الموقع من الاعدادات'),
-        //     //   action: SnackBarAction(
-        //     //     label: 'تراجع',
-        //     //     disabledTextColor: Colors.yellow,
-        //     //     textColor: Colors.yellow,
-        //     //     onPressed: () {
-        //     //       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        //     //     },
-        //     //   ),
-        //     // ):
-        //     // SnackBar(
-        //     //     content: Text('Permission must be given to the app to access the location from the settings'),
-        //     //     action: SnackBarAction(
-        //     //       label: 'Undo',
-        //     //       disabledTextColor: Colors.yellow,
-        //     //       textColor: Colors.yellow,
-        //     //       onPressed: () {
-        //     //         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        //     //       },
-        //     //     ));
-        //     // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        //   }
-        //   if(permission == LocationPermission.whileInUse || permission == LocationPermission.always){
-        //     // final snackBar = SnackBar(
-        //     //     content: Text('جاري الحصول عل الموقع'),
-        //     //     action: SnackBarAction(
-        //     //       label: 'Undo',
-        //     //       disabledTextColor: Colors.yellow,
-        //     //       textColor: Colors.yellow,
-        //     //       onPressed: () {
-        //     //         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        //     //       },
-        //     //     ));
-        //     // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        //     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
-        //     latLng= LatLng(position.latitude, position.longitude);
-        //     read = false;
-        //     op=1;
-        //   }
-        // }
-        // if (permission == LocationPermission.deniedForever) {
-        //   // final snackBar = language=='العربية'?SnackBar(
-        //   //   content: Text('يجب منح الاذن للتطبيق بالوصول الى الموقع من الاعدادات'),
-        //   //   action: SnackBarAction(
-        //   //     label: 'تراجع',
-        //   //     disabledTextColor: Colors.yellow,
-        //   //     textColor: Colors.yellow,
-        //   //     onPressed: () {
-        //   //       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        //   //     },
-        //   //   ),
-        //   // ):
-        //   // SnackBar(
-        //   //     content: Text('Permission must be given to the app to access the location from the settings'),
-        //   //     action: SnackBarAction(
-        //   //       label: 'Undo',
-        //   //       disabledTextColor: Colors.yellow,
-        //   //       textColor: Colors.yellow,
-        //   //       onPressed: () {
-        //   //         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        //   //       },
-        //   //     ));
-        //   // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // } else {
-        //   // final snackBar = SnackBar(
-        //   //     content: Text('جاري الحصول عل الموقع'),
-        //   //     action: SnackBarAction(
-        //   //       label: 'Undo',
-        //   //       disabledTextColor: Colors.yellow,
-        //   //       textColor: Colors.yellow,
-        //   //       onPressed: () {
-        //   //         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        //   //       },
-        //   //     ));
-        //   // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        //   Position position = await Geolocator.getCurrentPosition(
-        //       desiredAccuracy: LocationAccuracy.lowest);
-        //   latLng = LatLng(position.latitude, position.longitude);
-        //   read = false;
-        //   op = 1;
-        // }
-      }
+      if (latLng == null) {}
     } catch (e) {
       latLng = const LatLng(29.3057, 48.0308);
       read = false;
@@ -246,31 +113,10 @@ class MapProvider extends ChangeNotifier {
           this.street = administrativeArea;
         }
         this.country = country + ', ' + administrativeArea;
-        // if(subLocality!=''){
-        //   this.country = subLocality;
-        // }else if(locality!=''){
-        //   this.country = locality;
-        // }else if(subArea!=''){
-        //   this.country = subArea;
-        // }else if(administrativeArea!=''){
-        //   this.country = administrativeArea;
-        // }else{
-        //   this.country = country;
-        // }
         notifyListeners();
       } catch (e) {}
     }
     notifyListeners();
-    // if(Platform.isAndroid){
-    //   final coordinates =  Coordinates(latLng!.latitude,latLng!.longitude);
-    //   List<Address> addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    //   print(addresses[0].addressLine);//الشارع
-    //   print(addresses[0].locality);//الشارع
-    //   setState(() {
-    //     street = addresses[0].addressLine;
-    //     area = addresses[0].locality;
-    //   });
-    // }
   }
 
   void autoCompleteSearch(String value) async {

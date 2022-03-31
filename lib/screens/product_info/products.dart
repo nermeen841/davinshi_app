@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:badges/badges.dart';
 import 'package:davinshi_app/screens/product%20rating/addRate.dart';
+import 'package:davinshi_app/screens/product_info/similar.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -197,16 +198,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
     super.initState();
     selectedItem = null;
     for (int i = 0; i < productCla.attributes.length; i++) {
-      // _list.add(productCla.attributes[i].options[0].id);
-      // _des.add(productCla.attributes[i].options[0].nameEn);
-      // if(i==productCla.attributes.length-1){
-      //   finalPrice = productCla.attributes[i].options[0].price;
-      // }
       des.add('');
       att.add(0);
     }
-    // att = _list;
-    // des = _des;
     _tabBar = TabController(length: 3, vsync: this, initialIndex: 0);
     _tabBar?.addListener(() {
       if (_tabBar?.index == 1) {
@@ -606,13 +600,12 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                 child: TabBarView(
                   controller: _tabBar,
                   children: [
-                    SizedBox(
-                      width: w,
-                      height: h,
-                      child: ListView(
-                        scrollDirection: Axis.vertical,
-                        children: [
-                          Stack(
+                    Stack(
+                      children: [
+                        SizedBox(
+                          width: w,
+                          height: h,
+                          child: Stack(
                             children: [
                               (productCla.images.isEmpty)
                                   ? InkWell(
@@ -696,7 +689,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               horizontal: w * 0.01,
                                               vertical: h * 0.01),
                                           child: CircleAvatar(
-                                            radius: w * 0.08,
+                                            radius: w * 0.07,
                                             backgroundColor: mainColor,
                                             child: Center(
                                               child: Text(
@@ -709,7 +702,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                     fontFamily: 'Tajawal',
                                                     fontSize: w * 0.04,
                                                     fontWeight:
-                                                        FontWeight.bold),
+                                                        FontWeight.w500),
                                               ),
                                             ),
                                           ),
@@ -719,424 +712,545 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: h * 0.01,
+                        ),
+                        Container(
+                          width: w,
+                          height: h,
+                          margin: EdgeInsets.only(top: h * 0.3),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(w * 0.03),
+                              topRight: Radius.circular(w * 0.03),
+                            ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: w * 0.02),
-                            child: SizedBox(
-                              width: w,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: w * 0.6,
-                                    child: Text(
-                                      translateString(
-                                          productCla.nameEn, productCla.nameAr),
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: w * 0.04),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: w * 0.01,
-                                  ),
-                                  Row(
+                          child: ListView(
+                            primary: true,
+                            shrinkWrap: true,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: w * 0.02, vertical: h * 0.02),
+                                child: SizedBox(
+                                  width: w,
+                                  child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      if (productCla.isOffer)
-                                        Text(
-                                            productCla.offerPrice.toString() +
-                                                ' '
-                                                    '$currency',
-                                            style: TextStyle(
-                                                fontFamily: 'Tajawal',
-                                                fontWeight: FontWeight.bold,
-                                                color: mainColor,
-                                                fontSize: w * 0.04)),
-                                      if (!productCla.isOffer)
-                                        Text(
-                                            productCla.price.toString() +
-                                                ' $currency',
-                                            style: TextStyle(
-                                                fontFamily: 'Tajawal',
-                                                fontWeight: FontWeight.bold,
-                                                color: mainColor,
-                                                fontSize: w * 0.04)),
-                                      if (productCla.isOffer)
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: w * 0.03),
-                                          child: Text(
-                                            '${productCla.price}'
-                                            ' $currency',
-                                            style: TextStyle(
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: w * 0.04,
-                                              color: Colors.grey,
-                                              fontFamily: 'Tajawal',
-                                              decorationThickness: w * 0.1,
-                                              decorationColor: mainColor,
-                                            ),
-                                          ),
+                                      SizedBox(
+                                        width: w * 0.55,
+                                        child: Text(
+                                          translateString(productCla.nameEn,
+                                              productCla.nameAr),
+                                          maxLines: 3,
+                                          overflow: TextOverflow.fade,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: w * 0.04),
                                         ),
+                                      ),
+                                      SizedBox(
+                                        width: w * 0.01,
+                                      ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          if (productCla.isOffer)
+                                            Text(
+                                                productCla.offerPrice
+                                                        .toString() +
+                                                    ' '
+                                                        '$currency',
+                                                style: TextStyle(
+                                                    fontFamily: 'Tajawal',
+                                                    fontWeight: FontWeight.bold,
+                                                    color: mainColor,
+                                                    fontSize: w * 0.05)),
+                                          if (!productCla.isOffer)
+                                            Text(
+                                                productCla.price.toString() +
+                                                    ' $currency',
+                                                style: TextStyle(
+                                                    fontFamily: 'Tajawal',
+                                                    fontWeight: FontWeight.bold,
+                                                    color: mainColor,
+                                                    fontSize: w * 0.05)),
+                                          if (productCla.isOffer)
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: w * 0.03),
+                                              child: Text(
+                                                '${productCla.price}'
+                                                ' $currency',
+                                                style: TextStyle(
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: w * 0.05,
+                                                  color: Colors.grey,
+                                                  fontFamily: 'Tajawal',
+                                                  decorationThickness: w * 0.1,
+                                                  decorationColor: mainColor,
+                                                ),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: h * 0.03,
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: h * 0.015),
-                            child: RichText(
-                              text: TextSpan(
-                                children: [
-                                  if (productCla.isOffer &&
-                                      productCla.percentage != null)
-                                    TextSpan(
-                                        text: translate(
-                                            context, 'home', 'seller_name'),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                            fontSize: w * 0.03)),
-                                  if (productCla.isOffer &&
-                                      productCla.percentage != null)
-                                    TextSpan(
-                                        text: (productCla.sellerName != null)
-                                            ? productCla.sellerName.toString()
-                                            : (productCla.brandName != null)
-                                                ? productCla.brandName
-                                                    .toString()
-                                                : translateString(
-                                                    'Multi', 'مالتي'),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                            fontSize: w * 0.03)),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: h * 0.04,
-                          ),
-                          if (productCla.attributes.isNotEmpty)
-                            Padding(
-                              padding:
-                                  EdgeInsets.symmetric(horizontal: w * 0.025),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: List.generate(
-                                  productCla.attributes.length,
-                                  (index) => InkWell(
-                                    onTap: () {
-                                      homeBottomSheet(
-                                        context: context,
-                                        child: ListView.builder(
-                                            primary: true,
-                                            shrinkWrap: true,
-                                            itemCount: productCla
-                                                .attributes[index]
-                                                .options
-                                                .length,
-                                            itemBuilder: (context, i) {
-                                              return Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: w * 0.02,
-                                                    vertical: h * 0.02),
-                                                child: RadioListTile(
-                                                    activeColor: mainColor,
-                                                    title: Text(
-                                                      translateString(
-                                                          productCla
-                                                              .attributes[index]
-                                                              .options[i]
-                                                              .nameEn,
-                                                          productCla
-                                                              .attributes[index]
-                                                              .options[i]
-                                                              .nameAr),
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: w * 0.05,
-                                                          color: Colors.black),
-                                                    ),
-                                                    value: i,
-                                                    groupValue: selectedItem,
-                                                    onChanged: (int? value) {
-                                                      setState(
-                                                        () {
-                                                          selectedItem = value!;
-                                                          att[index] =
-                                                              productCla
-                                                                  .attributes[
-                                                                      index]
-                                                                  .options[i]
-                                                                  .id;
-                                                          if (language ==
-                                                              'en') {
-                                                            des[index] =
-                                                                productCla
-                                                                    .attributes[
-                                                                        index]
-                                                                    .options[i]
-                                                                    .nameEn;
-                                                          } else {
-                                                            des[index] =
-                                                                productCla
-                                                                    .attributes[
-                                                                        index]
-                                                                    .options[i]
-                                                                    .nameAr;
-                                                          }
-                                                        },
-                                                      );
-                                                      Navigator.pop(context);
-                                                    }),
-                                              );
-                                            }),
-                                      );
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          translateString(
-                                              productCla
-                                                  .attributes[index].nameEn,
-                                              productCla
-                                                  .attributes[index].nameAr),
+                              Padding(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: h * 0.015),
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                          text: translate(
+                                              context, 'home', 'seller_name'),
                                           style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: w * 0.05,
-                                              fontFamily: 'Tajawal',
-                                              color: mainColor),
-                                        ),
-                                        Icon(
-                                          Icons.keyboard_arrow_down,
-                                          color: mainColor,
-                                        )
-                                      ],
-                                    ),
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black,
+                                              fontSize: w * 0.035)),
+                                      TextSpan(
+                                          text: (productCla.sellerName != null)
+                                              ? productCla.sellerName.toString()
+                                              : (productCla.brandName != null)
+                                                  ? productCla.brandName
+                                                      .toString()
+                                                  : translateString(
+                                                      'Multi', 'مالتي'),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black,
+                                              fontSize: w * 0.035)),
+                                    ],
                                   ),
                                 ),
                               ),
-                            ),
-                          SizedBox(
-                            height: h * 0.05,
-                          ),
-                          if (productCla.hasOptions)
-                            SizedBox(
-                              height: h * 0.01,
-                            ),
-                          Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: w * 0.025),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    child: SizedBox(
-                                        width: 1,
-                                        child: Divider(
-                                          color: Colors.grey,
-                                          thickness: h * 0.001,
-                                        ))),
-                                SizedBox(
-                                  width: w * 0.02,
-                                ),
-                                Text(
-                                  translate(context, 'product', 'des'),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: w * 0.045,
-                                      color: mainColor),
-                                ),
-                                SizedBox(
-                                  width: w * 0.02,
-                                ),
-                                Expanded(
-                                    child: SizedBox(
-                                        width: 1,
-                                        child: Divider(
-                                          color: Colors.grey,
-                                          thickness: h * 0.001,
-                                        ))),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: h * 0.04,
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: w * 0.025),
-                            child: Text(
-                              translateString(productCla.descriptionEn,
-                                  productCla.descriptionAr),
-                              style: TextStyle(
-                                  color: Colors.grey, fontSize: w * 0.03),
-                            ),
-                          ),
-                          SizedBox(
-                            height: h * 0.02,
-                          ),
-                          if (productCla.aboutEn != null)
-                            Padding(
-                              padding:
-                                  EdgeInsets.symmetric(horizontal: w * 0.025),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: SizedBox(
-                                          width: 1,
-                                          child: Divider(
-                                            color: Colors.grey,
-                                            thickness: h * 0.001,
-                                          ))),
-                                  SizedBox(
-                                    width: w * 0.02,
-                                  ),
-                                  Text(
-                                    translate(context, 'product', 'about'),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: w * 0.045,
-                                        color: mainColor),
-                                  ),
-                                  SizedBox(
-                                    width: w * 0.02,
-                                  ),
-                                  Expanded(
-                                      child: SizedBox(
-                                          width: 1,
-                                          child: Divider(
-                                            color: Colors.grey,
-                                            thickness: h * 0.001,
-                                          ))),
-                                ],
+                              SizedBox(
+                                height: h * 0.04,
                               ),
-                            ),
-                          if (productCla.aboutEn != null)
-                            SizedBox(
-                              height: h * 0.04,
-                            ),
-                          if (productCla.aboutEn != null)
-                            Padding(
-                              padding:
-                                  EdgeInsets.symmetric(horizontal: w * 0.025),
-                              child: Text(
-                                translateString(
-                                    productCla.aboutEn!, productCla.aboutAr!),
-                                style: TextStyle(
-                                    color: Colors.grey, fontSize: w * 0.03),
-                              ),
-                            ),
-                          if (productCla.aboutEn != null)
-                            SizedBox(
-                              height: h * 0.04,
-                            ),
-                          if (productCla.about.isNotEmpty)
-                            Padding(
-                              padding:
-                                  EdgeInsets.symmetric(horizontal: w * 0.025),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: SizedBox(
-                                          width: 1,
-                                          child: Divider(
-                                            color: Colors.grey,
-                                            thickness: h * 0.001,
-                                          ))),
-                                  SizedBox(
-                                    width: w * 0.02,
-                                  ),
-                                  Text(
-                                    '${translate(context, 'product', 'why')} Multi',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: w * 0.045,
-                                        color: mainColor),
-                                  ),
-                                  SizedBox(
-                                    width: w * 0.02,
-                                  ),
-                                  Expanded(
-                                      child: SizedBox(
-                                          width: 1,
-                                          child: Divider(
-                                            color: Colors.grey,
-                                            thickness: h * 0.001,
-                                          ))),
-                                ],
-                              ),
-                            ),
-                          if (productCla.about.isNotEmpty)
-                            SizedBox(
-                              height: h * 0.02,
-                            ),
-                          Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: w * 0.025),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: List.generate(productCla.about.length,
-                                  (index) {
-                                return SizedBox(
-                                  width: w * 0.9,
-                                  child: ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundColor: mainColor,
-                                      radius: w * 0.05,
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.assignment_outlined,
-                                          color: Colors.white,
-                                          size: w * 0.06,
+                              if (productCla.attributes.isNotEmpty)
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: w * 0.025),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: List.generate(
+                                      productCla.attributes.length,
+                                      (index) => InkWell(
+                                        onTap: () {
+                                          homeBottomSheet(
+                                            context: context,
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: w * 0.04,
+                                                  vertical: h * 0.04),
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    translateString(
+                                                        productCla
+                                                            .attributes[index]
+                                                            .nameEn,
+                                                        productCla
+                                                            .attributes[index]
+                                                            .nameAr),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: w * 0.05,
+                                                        fontFamily: 'Tajawal',
+                                                        color: Colors.black),
+                                                  ),
+                                                  ListView.builder(
+                                                      primary: true,
+                                                      shrinkWrap: true,
+                                                      itemCount: productCla
+                                                          .attributes[index]
+                                                          .options
+                                                          .length,
+                                                      itemBuilder:
+                                                          (context, i) {
+                                                        return Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: h *
+                                                                          0.02),
+                                                              child: Text(
+                                                                translateString(
+                                                                    productCla
+                                                                        .attributes[
+                                                                            index]
+                                                                        .options[
+                                                                            i]
+                                                                        .nameEn,
+                                                                    productCla
+                                                                        .attributes[
+                                                                            index]
+                                                                        .options[
+                                                                            i]
+                                                                        .nameAr),
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                    fontSize: w *
+                                                                        0.05,
+                                                                    color: Colors
+                                                                        .black),
+                                                              ),
+                                                            ),
+                                                            Radio(
+                                                                activeColor:
+                                                                    mainColor,
+                                                                value: i,
+                                                                groupValue:
+                                                                    selectedItem,
+                                                                onChanged: (int?
+                                                                    value) {
+                                                                  setState(
+                                                                    () {
+                                                                      selectedItem =
+                                                                          value!;
+                                                                      att[index] = productCla
+                                                                          .attributes[
+                                                                              index]
+                                                                          .options[
+                                                                              i]
+                                                                          .id;
+                                                                      if (language ==
+                                                                          'en') {
+                                                                        des[index] = productCla
+                                                                            .attributes[index]
+                                                                            .options[i]
+                                                                            .nameEn;
+                                                                      } else {
+                                                                        des[index] = productCla
+                                                                            .attributes[index]
+                                                                            .options[i]
+                                                                            .nameAr;
+                                                                      }
+                                                                    },
+                                                                  );
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                }),
+                                                          ],
+                                                        );
+                                                      }),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              translateString(
+                                                  productCla
+                                                      .attributes[index].nameEn,
+                                                  productCla.attributes[index]
+                                                      .nameAr),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: w * 0.05,
+                                                  fontFamily: 'Tajawal',
+                                                  color: Colors.black),
+                                            ),
+                                            SizedBox(
+                                              width: w * 0.01,
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          w * 0.01),
+                                                  color: Colors.black),
+                                              child: Center(
+                                                child: Icon(
+                                                  Icons.keyboard_arrow_down,
+                                                  color: mainColor,
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         ),
                                       ),
                                     ),
-                                    title: Text(
-                                      translateString(
-                                          productCla.about[index].nameEn,
-                                          productCla.about[index].nameAr),
-                                      style: TextStyle(
-                                          color: mainColor, fontSize: w * 0.04),
-                                    ),
-                                    subtitle: Text(
-                                      translateString(
-                                          productCla.about[index].valueEn,
-                                          productCla.about[index].valueEn),
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: w * 0.035),
-                                    ),
-                                    minVerticalPadding: h * 0.02,
                                   ),
-                                );
-                              }),
-                            ),
+                                ),
+                              if (productCla.attributes.isNotEmpty)
+                                SizedBox(
+                                  height: h * 0.05,
+                                ),
+                              if (productCla.hasOptions)
+                                SizedBox(
+                                  height: h * 0.01,
+                                ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: w * 0.025),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        child: SizedBox(
+                                            width: 1,
+                                            child: Divider(
+                                              color: Colors.grey,
+                                              thickness: h * 0.001,
+                                            ))),
+                                    SizedBox(
+                                      width: w * 0.02,
+                                    ),
+                                    Text(
+                                      translate(context, 'product', 'des'),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: w * 0.045,
+                                          color: mainColor),
+                                    ),
+                                    SizedBox(
+                                      width: w * 0.02,
+                                    ),
+                                    Expanded(
+                                        child: SizedBox(
+                                            width: 1,
+                                            child: Divider(
+                                              color: Colors.grey,
+                                              thickness: h * 0.001,
+                                            ))),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: h * 0.04,
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.symmetric(horizontal: w * 0.025),
+                                child: Text(
+                                  translateString(productCla.descriptionEn,
+                                      productCla.descriptionAr),
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: w * 0.03),
+                                ),
+                              ),
+                              SizedBox(
+                                height: h * 0.02,
+                              ),
+                              if (productCla.aboutEn != null)
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: w * 0.025),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                          child: SizedBox(
+                                              width: 1,
+                                              child: Divider(
+                                                color: Colors.grey,
+                                                thickness: h * 0.001,
+                                              ))),
+                                      SizedBox(
+                                        width: w * 0.02,
+                                      ),
+                                      Text(
+                                        translate(context, 'product', 'about'),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: w * 0.045,
+                                            color: mainColor),
+                                      ),
+                                      SizedBox(
+                                        width: w * 0.02,
+                                      ),
+                                      Expanded(
+                                          child: SizedBox(
+                                              width: 1,
+                                              child: Divider(
+                                                color: Colors.grey,
+                                                thickness: h * 0.001,
+                                              ))),
+                                    ],
+                                  ),
+                                ),
+                              if (productCla.aboutEn != null)
+                                SizedBox(
+                                  height: h * 0.04,
+                                ),
+                              if (productCla.aboutEn != null)
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: w * 0.025),
+                                  child: Text(
+                                    translateString(productCla.aboutEn!,
+                                        productCla.aboutAr!),
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: w * 0.03),
+                                  ),
+                                ),
+                              if (productCla.aboutEn != null)
+                                SizedBox(
+                                  height: h * 0.04,
+                                ),
+                              if (productCla.about.isNotEmpty)
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: w * 0.025),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                          child: SizedBox(
+                                              width: 1,
+                                              child: Divider(
+                                                color: Colors.grey,
+                                                thickness: h * 0.001,
+                                              ))),
+                                      SizedBox(
+                                        width: w * 0.02,
+                                      ),
+                                      Text(
+                                        '${translate(context, 'product', 'why')} Multi',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: w * 0.045,
+                                            color: mainColor),
+                                      ),
+                                      SizedBox(
+                                        width: w * 0.02,
+                                      ),
+                                      Expanded(
+                                          child: SizedBox(
+                                              width: 1,
+                                              child: Divider(
+                                                color: Colors.grey,
+                                                thickness: h * 0.001,
+                                              ))),
+                                    ],
+                                  ),
+                                ),
+                              if (productCla.about.isNotEmpty)
+                                SizedBox(
+                                  height: h * 0.02,
+                                ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: w * 0.025,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: List.generate(
+                                      productCla.about.length, (index) {
+                                    return SizedBox(
+                                      width: w * 0.9,
+                                      child: ListTile(
+                                        leading: CircleAvatar(
+                                          backgroundColor: mainColor,
+                                          radius: w * 0.05,
+                                          child: Center(
+                                            child: Icon(
+                                              Icons.assignment_outlined,
+                                              color: Colors.white,
+                                              size: w * 0.06,
+                                            ),
+                                          ),
+                                        ),
+                                        title: Text(
+                                          translateString(
+                                              productCla.about[index].nameEn,
+                                              productCla.about[index].nameAr),
+                                          style: TextStyle(
+                                              color: mainColor,
+                                              fontSize: w * 0.04),
+                                        ),
+                                        subtitle: Text(
+                                          translateString(
+                                              productCla.about[index].valueEn,
+                                              productCla.about[index].valueEn),
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: w * 0.035),
+                                        ),
+                                        minVerticalPadding: h * 0.02,
+                                      ),
+                                    );
+                                  }),
+                                ),
+                              ),
+                              SizedBox(
+                                height: h * 0.03,
+                              ),
+                              (productCla.similar.isNotEmpty)
+                                  ? Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: w * 0.025),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                              child: SizedBox(
+                                                  width: 1,
+                                                  child: Divider(
+                                                    color: Colors.grey,
+                                                    thickness: h * 0.001,
+                                                  ))),
+                                          SizedBox(
+                                            width: w * 0.02,
+                                          ),
+                                          Text(
+                                            translateString("Similar Product",
+                                                "المنتجات المشابه"),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: w * 0.045,
+                                                color: mainColor),
+                                          ),
+                                          SizedBox(
+                                            width: w * 0.02,
+                                          ),
+                                          Expanded(
+                                              child: SizedBox(
+                                                  width: 1,
+                                                  child: Divider(
+                                                    color: Colors.grey,
+                                                    thickness: h * 0.001,
+                                                  ))),
+                                        ],
+                                      ),
+                                    )
+                                  : Container(),
+                              (productCla.similar.isNotEmpty)
+                                  ? SizedBox(
+                                      height: h * 0.03,
+                                    )
+                                  : Container(),
+                              (productCla.similar.isNotEmpty)
+                                  ? SimilarProductScreen(
+                                      similar: productCla.similar)
+                                  : Container(),
+                              SizedBox(
+                                height: h * 0.05,
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: h * 0.1,
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     Center(
                       child: Stack(
@@ -1526,28 +1640,27 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                           )),
                         ),
                         onTap: () {
-                          // if (login) {
-                          show(context);
-                          // } else {
-                          //   final snackBar = SnackBar(
-                          //     content: Text(
-                          //         translate(context, 'snack_bar', 'login')),
-                          //     action: SnackBarAction(
-                          //       label: translate(context, 'buttons', 'login'),
-                          //       disabledTextColor: Colors.yellow,
-                          //       textColor: Colors.yellow,
-                          //       onPressed: () {
-                          //         Navigator.pushAndRemoveUntil(
-                          //             context,
-                          //             MaterialPageRoute(
-                          //                 builder: (context) => const Login()),
-                          //             (route) => false);
-                          //       },
-                          //     ),
-                          //   );
-                          //   ScaffoldMessenger.of(context)
-                          //       .showSnackBar(snackBar);
-                          // }
+                          if (productCla.attributes.isNotEmpty) {
+                            if (selectedItem != null) {
+                              show(context);
+                            } else {
+                              final snackBar = SnackBar(
+                                content: Text(translateString(
+                                    'Select product options',
+                                    'يجب تحديد الاختيارات اولا')),
+                                action: SnackBarAction(
+                                  label: translateString("Undo", "تراجع"),
+                                  disabledTextColor: Colors.yellow,
+                                  textColor: Colors.yellow,
+                                  onPressed: () {},
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          } else {
+                            show(context);
+                          }
                         },
                       ),
                       const SizedBox(

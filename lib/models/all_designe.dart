@@ -40,6 +40,7 @@ class DesigneData {
   int? status;
   String? countRate;
   List<Images>? images;
+  String? img;
 
   DesigneData(
       {this.id,
@@ -50,7 +51,8 @@ class DesigneData {
       this.note,
       this.status,
       this.countRate,
-      this.images});
+      this.images,
+      this.img});
 
   DesigneData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -67,6 +69,7 @@ class DesigneData {
         images!.add(Images.fromJson(v));
       });
     }
+    img = json['img'];
   }
 }
 

@@ -118,7 +118,7 @@ class _AllDesignesState extends State<AllDesignes> {
           : Column(
               children: [
                 SizedBox(
-                  height: h * 0.55,
+                  height: h * 0.7,
                   child: GridView.builder(
                       controller: _controller,
                       itemCount: searchData.length,
@@ -130,10 +130,10 @@ class _AllDesignesState extends State<AllDesignes> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () async {
-                            OneDesigne().getoneDesigne(
+                            OneDesigne()
+                                .getoneDesigne(
                               id: searchData[index].id.toString(),
-                            );
-                            await Future.delayed(const Duration(seconds: 1))
+                            )
                                 .then((value) {
                               Navigator.push(
                                 context,
@@ -148,22 +148,36 @@ class _AllDesignesState extends State<AllDesignes> {
                           },
                           child: Column(
                             children: [
-                              Container(
-                                width: 180,
-                                height: 180,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            "https://davinshi.net/" +
-                                                searchData[index]
-                                                    .images[0]
-                                                    .src),
-                                        fit: BoxFit.cover),
-                                    borderRadius:
-                                        BorderRadius.circular(w * 0.05),
-                                    border: Border.all(color: mainColor)),
-                              ),
+                              (searchData[index].img != null)
+                                  ? Container(
+                                      width: 180,
+                                      height: 180,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                "https://davinshi.net/" +
+                                                    searchData[index].img),
+                                            fit: BoxFit.cover),
+                                        borderRadius:
+                                            BorderRadius.circular(w * 0.05),
+                                        border: Border.all(color: mainColor),
+                                      ),
+                                    )
+                                  : Container(
+                                      width: 180,
+                                      height: 180,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        image: const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/logo_multi.png"),
+                                            fit: BoxFit.cover),
+                                        borderRadius:
+                                            BorderRadius.circular(w * 0.05),
+                                        border: Border.all(color: mainColor),
+                                      ),
+                                    ),
                               SizedBox(
                                 height: h * 0.015,
                               ),

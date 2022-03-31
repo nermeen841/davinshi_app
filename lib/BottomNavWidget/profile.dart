@@ -1,5 +1,6 @@
 // ignore_for_file: empty_catches, deprecated_member_use, avoid_print
 import 'dart:io';
+import 'package:davinshi_app/screens/about%20multi/about_multi.dart';
 import 'package:davinshi_app/screens/auth/login.dart';
 import 'package:davinshi_app/screens/designes/designe.dart';
 import 'package:davinshi_app/screens/update_profile/profile_setting.dart';
@@ -71,29 +72,10 @@ class _ProfileState extends State<Profile> {
               image: 'assets/images/Group 1098.png',
               className: ContactUs()),
           Tile(
-              nameAr: 'معلومات التوصيل',
-              nameEn: 'Delivery Info',
-              keyApi: 'delivery',
-              image: 'assets/images/Group 1090.png',
-              className: AboutUs('Delivery Info')),
-          Tile(
-              nameAr: 'حول تطبيق مالتي',
+              nameAr: 'حول مالتي',
               nameEn: 'About Multi',
-              keyApi: 'about',
               image: 'assets/images/Group 1095.png',
-              className: AboutUs('About Us')),
-          Tile(
-              nameAr: 'سياسة الخصوصية',
-              nameEn: 'Privacy Policy',
-              keyApi: 'PrivacyPolicy',
-              image: 'assets/images/Group 1100.png',
-              className: AboutUs('Privacy Policy')),
-          Tile(
-              nameAr: 'الشروط و الأحكام',
-              nameEn: 'Terms & Condition',
-              keyApi: 'TermsAndConditions',
-              image: 'assets/images/command.png',
-              className: AboutUs('Terms & Condition')),
+              className: const AboutMultiScreen()),
           Tile(
               nameAr: 'المساعدة',
               nameEn: 'Information',
@@ -136,29 +118,10 @@ class _ProfileState extends State<Profile> {
               image: 'assets/images/Group 1098.png',
               className: ContactUs()),
           Tile(
-              nameAr: 'معلومات التوصيل',
-              nameEn: 'Delivery Info',
-              keyApi: 'delivery',
-              image: 'assets/images/Group 1090.png',
-              className: AboutUs('Delivery Info')),
-          Tile(
-              nameAr: 'حول تطبيق مالتي',
+              nameAr: 'حول مالتي',
               nameEn: 'About Multi',
-              keyApi: 'about',
               image: 'assets/images/Group 1095.png',
-              className: AboutUs('About Us')),
-          Tile(
-              nameAr: 'سياسة الخصوصية',
-              nameEn: 'Privacy Policy',
-              keyApi: 'PrivacyPolicy',
-              image: 'assets/images/Group 1100.png',
-              className: AboutUs('Privacy Policy')),
-          Tile(
-              nameAr: 'الشروط و الأحكام',
-              nameEn: 'Terms & Condition',
-              keyApi: 'TermsAndConditions',
-              image: 'assets/images/command.png',
-              className: AboutUs('Terms & Condition')),
+              className: const AboutMultiScreen()),
           Tile(
               nameAr: 'المساعدة',
               nameEn: 'Information',
@@ -731,7 +694,7 @@ class _ProfileState extends State<Profile> {
                             ),
                             Divider(
                               color: Colors.grey.withOpacity(0.5),
-                            )
+                            ),
                           ],
                         ),
                       );

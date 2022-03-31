@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, avoid_print
+// ignore_for_file: non_constant_identifier_names, avoid_print, empty_catches
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -33,9 +33,11 @@ class ProductCla {
   List<Attributes> attributes;
   List<ProCategory> categories;
   List<About3D> about;
+  List<SimilarProduct> similar;
   ProductCla(
       {required this.id,
       required this.nameAr,
+      required this.similar,
       required this.nameEn,
       required this.sellerName,
       required this.brandName,
@@ -61,6 +63,28 @@ class ProductCla {
       required this.aboutAr,
       required this.aboutEn,
       required this.about});
+}
+
+class SimilarProduct {
+  int? id;
+  String? nameEn;
+  String? nameAr;
+  String? image;
+  num? regularPrice;
+  num? salePrice;
+  String? discountPercentage;
+  bool? inSale;
+  String? imageSrc;
+  SimilarProduct(
+      {required this.discountPercentage,
+      required this.id,
+      required this.image,
+      required this.imageSrc,
+      required this.inSale,
+      required this.nameAr,
+      required this.nameEn,
+      required this.regularPrice,
+      required this.salePrice});
 }
 
 class ProductsModel {
@@ -170,10 +194,10 @@ late ProductCla productCla;
 
 Future setProduct(Map e) async {
   try {
-    bool inOffer = e['in_sale'];
+    bool inOffer = e['product']['in_sale'];
     List<ProCategory> _proCat = [];
     try {
-      e['categories'].forEach((c) {
+      e['product']['categories'].forEach((c) {
         _proCat.add(ProCategory(
             nameAr: c['name_ar'] ?? '',
             nameEn: c['name_en'] ?? '',
@@ -184,7 +208,7 @@ Future setProduct(Map e) async {
     }
     List<String> _images = [];
     try {
-      e['images'].forEach((img) {
+      e['product']['images'].forEach((img) {
         _images.add(imagePath2 + img['src']);
       });
     } catch (e) {
@@ -192,7 +216,7 @@ Future setProduct(Map e) async {
     }
     List<Statement> _statement = [];
     try {
-      e['statements'].forEach((s) {
+      e['product']['statements'].forEach((s) {
         _statement.add(Statement(
             id: s['id'],
             nameAr: s['name_ar'] ?? '',
@@ -205,7 +229,7 @@ Future setProduct(Map e) async {
     }
     List<Attributes> _att = [];
     try {
-      e['attributes'].forEach((a) {
+      e['product']['attributes'].forEach((a) {
         List<OptionsModel> _options = [];
         a['options'].forEach((o) {
           if (o['values'].length == 0) {
@@ -230,7 +254,7 @@ Future setProduct(Map e) async {
     }
     late Cat _cat;
     try {
-      e['categories'].forEach((c) {
+      e['product']['categories'].forEach((c) {
         if (c['parent_id'] != 0) {
           _cat = Cat(
               id: c['id'],
@@ -243,8 +267,9 @@ Future setProduct(Map e) async {
       print('t');
     }
     List<About3D> _about3d = [];
+    List<SimilarProduct> _similarProduct = [];
     try {
-      e['kurly'].forEach((s) {
+      e['product']['kurly'].forEach((s) {
         _about3d.add(About3D(
             id: s['id'],
             nameAr: s['name_ar'] ?? '',
@@ -256,47 +281,62 @@ Future setProduct(Map e) async {
       print('y');
     }
     try {
+      e['r_products'].forEach((r) {
+        _similarProduct.add(
+          SimilarProduct(
+            discountPercentage: r['discount_percentage'],
+            id: r['id'],
+            image: r['img'],
+            imageSrc: r['img_src'],
+            inSale: r['in_sale'],
+            nameAr: r['name_ar'],
+            nameEn: r['name_en'],
+            regularPrice: r['regular_price'],
+            salePrice: r['sale_price'],
+          ),
+        );
+      });
+    } catch (e) {
+      print(e);
+    }
+    try {
       productCla = ProductCla(
-          id: e['id'],
-          nameAr: e['name_ar'],
-          nameEn: e['name_en'],
-          slug: e['slug'],
-          descriptionAr: e['description_ar'],
-          descriptionEn: e['description_en'],
-          percentage: e['discount_percentage'],
-          image: imagePath + e['img'],
+          id: e['product']['id'],
+          nameAr: e['product']['name_ar'],
+          nameEn: e['product']['name_en'],
+          slug: e['product']['slug'],
+          descriptionAr: e['product']['description_ar'],
+          descriptionEn: e['product']['description_en'],
+          percentage: e['product']['discount_percentage'],
+          image: imagePath + e['product']['img'],
           about: _about3d,
-          price: num.parse(e['regular_price'].toString()),
-          offerPrice: e['sale_price'] == null
+          price: num.parse(e['product']['regular_price'].toString()),
+          offerPrice: e['product']['sale_price'] == null
               ? null
-              : num.parse(e['sale_price'].toString()),
+              : num.parse(e['product']['sale_price'].toString()),
           isOffer: inOffer,
-          isRec: e['is_recommended'],
-          isBest: e['is_best'],
-          hasOptions: e['has_options'],
-          sellerName: e['seller_name'],
-          brandName: e['brand_name'],
-          quantity: e['quantity'],
-          aboutAr: e['about_brand_ar'] == null
+          isRec: e['product']['is_recommended'],
+          isBest: e['product']['is_best'],
+          hasOptions: e['product']['has_options'],
+          sellerName: e['product']['seller_name'],
+          brandName: e['product']['brand_name'],
+          quantity: e['product']['quantity'],
+          aboutAr: e['product']['about_brand_ar'] == null
               ? null
-              : parseHtmlString(e['about_brand_ar']),
-          rating: num.parse(e['ratings'].toString()),
-          aboutEn: e['about_brand_en'] == null
+              : parseHtmlString(e['product']['about_brand_ar']),
+          rating: num.parse(e['product']['ratings'].toString()),
+          aboutEn: e['product']['about_brand_en'] == null
               ? null
-              : parseHtmlString(e['about_brand_en']),
-          likes: e['likes_count'],
+              : parseHtmlString(e['product']['about_brand_en']),
+          likes: e['product']['likes_count'],
           images: _images,
           statements: _statement,
           attributes: _att,
           categories: _proCat,
+          similar: _similarProduct,
           cat: _cat);
-    } catch (e) {
-      print('u');
-    }
-  } catch (e) {
-    print('fuck');
-    print(e);
-  }
+    } catch (e) {}
+  } catch (e) {}
 }
 
 String parseHtmlString(String htmlString) {
@@ -315,7 +355,6 @@ Future<bool> getItem(int id) async {
       return true;
     }
   } catch (e) {
-    print('e');
     print(e);
   }
   return false;

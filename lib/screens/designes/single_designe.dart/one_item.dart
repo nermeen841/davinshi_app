@@ -3,6 +3,7 @@ import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/constants.dart';
 import 'package:davinshi_app/models/user.dart';
 import 'package:davinshi_app/screens/designes/single_designe.dart/all_rates.dart';
+import 'package:davinshi_app/screens/designes/single_designe.dart/show_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 import 'package:provider/provider.dart';
@@ -108,54 +109,90 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
                           width: double.infinity,
                           child: Stack(
                             children: [
-                              Swiper(
-                                pagination: SwiperPagination(
-                                    builder: DotSwiperPaginationBuilder(
-                                        color: mainColor.withOpacity(0.3),
-                                        activeColor: mainColor),
-                                    alignment: Alignment.bottomCenter),
-                                itemBuilder: (BuildContext context, int i) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius:
-                                          BorderRadius.circular(w * 0.05),
-                                      border: Border.all(color: mainColor),
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                            "https://davinshi.net/" +
-                                                OneDesigne.oneItemModel!
-                                                    .data![0].images![i].src!),
-                                        fit: BoxFit.cover,
+                              (OneDesigne.oneItemModel!.data![0].images!
+                                      .isNotEmpty)
+                                  ? Swiper(
+                                      pagination: SwiperPagination(
+                                          builder: DotSwiperPaginationBuilder(
+                                              color: mainColor.withOpacity(0.3),
+                                              activeColor: mainColor),
+                                          alignment: Alignment.bottomCenter),
+                                      itemBuilder:
+                                          (BuildContext context, int i) {
+                                        return InkWell(
+                                          onTap: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ShowDesigneImage(
+                                                          images: OneDesigne
+                                                              .oneItemModel!
+                                                              .data![0]
+                                                              .images!))),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      w * 0.05),
+                                              border:
+                                                  Border.all(color: mainColor),
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    "https://davinshi.net/" +
+                                                        OneDesigne
+                                                            .oneItemModel!
+                                                            .data![0]
+                                                            .images![i]
+                                                            .src!),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      itemCount: OneDesigne.oneItemModel!
+                                          .data![0].images!.length,
+                                      autoplay: true,
+                                      autoplayDelay: 5000,
+                                    )
+                                  : Container(
+                                      width: double.infinity,
+                                      height: h * 0.3,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        image: const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/logo_multi.png"),
+                                            fit: BoxFit.contain),
+                                        borderRadius:
+                                            BorderRadius.circular(w * 0.05),
+                                        border: Border.all(color: mainColor),
                                       ),
                                     ),
-                                  );
-                                },
-                                itemCount: OneDesigne
-                                    .oneItemModel!.data![0].images!.length,
-                                autoplay: true,
-                                autoplayDelay: 5000,
-                              ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     vertical: h * 0.03, horizontal: w * 0.02),
-                                child: InkWell(
-                                  onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => AllRatesScreen(
-                                                designeID: OneDesigne
-                                                    .oneItemModel!.data![0].id
-                                                    .toString(),
-                                              ))),
-                                  child: Align(
-                                    alignment: (lang == 'ar')
-                                        ? Alignment.topLeft
-                                        : Alignment.topRight,
-                                    child: (OneDesigne.oneItemModel!.data![0]
-                                                .countRate !=
-                                            null)
-                                        ? Container(
+                                child: Align(
+                                  alignment: (lang == 'ar')
+                                      ? Alignment.topLeft
+                                      : Alignment.topRight,
+                                  child: (OneDesigne.oneItemModel!.data![0]
+                                              .countRate !=
+                                          null)
+                                      ? InkWell(
+                                          onTap: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AllRatesScreen(
+                                                        designeID: OneDesigne
+                                                            .oneItemModel!
+                                                            .data![0]
+                                                            .id
+                                                            .toString(),
+                                                      ))),
+                                          child: Container(
                                             height: h * 0.04,
                                             width: w * 0.2,
                                             decoration: BoxDecoration(
@@ -175,9 +212,9 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
                                                         FontWeight.w600),
                                               ),
                                             ),
-                                          )
-                                        : Container(),
-                                  ),
+                                          ),
+                                        )
+                                      : Container(),
                                 ),
                               ),
                             ],

@@ -219,8 +219,8 @@ class _AddAddressState extends State<AddAddress> {
                                 ),
                               if (map.street != null)
                                 Text(
-                                  map.street!.length > 35
-                                      ? map.street!.substring(0, 35)
+                                  map.street!.length > 50
+                                      ? map.street!.substring(0, 50)
                                       : map.street!,
                                   style: TextStyle(
                                       color: mainColor,

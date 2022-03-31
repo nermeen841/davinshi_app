@@ -50,7 +50,7 @@ class AboutUs extends StatelessWidget {
           width: w,
           padding:
               EdgeInsets.symmetric(vertical: h * 0.02, horizontal: w * 0.02),
-          margin: EdgeInsets.only(top: h * 0.04),
+          margin: EdgeInsets.only(top: h * 0.02),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(

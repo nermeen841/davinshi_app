@@ -24,7 +24,7 @@ class Splach extends StatefulWidget {
 
 class _SplachState extends State<Splach> {
   Future go() async {
-    await Future.delayed(const Duration(seconds: 5), () async {
+    await Future.delayed(const Duration(seconds: 3), () async {
       String? lang = prefs.getString('language_code');
       if (lang != null) {
         if (login) {
