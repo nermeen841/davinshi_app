@@ -201,6 +201,7 @@ class _AllRatesScreenState extends State<AllRatesScreen> {
                                       child: Text(
                                         searchData[index].comment ?? "",
                                         overflow: TextOverflow.fade,
+                                        maxLines: 1,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: w * 0.044,
