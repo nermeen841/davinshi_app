@@ -1,3 +1,4 @@
+import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/screens/designes/componnent/all_designes.dart';
 import 'package:davinshi_app/screens/designes/componnent/send_designe.dart';
@@ -30,18 +31,18 @@ class _DesigneScreenState extends State<DesigneScreen> {
 
   late PageController pageController;
   List<String> contText = [
-    "Designe",
     "Send Designe",
+    "Designe",
   ];
 
   List<String> contTextAr = [
-    "التصميم",
     "أرسل تصاميمك",
+    "التصميم",
   ];
 
   bool isTapped = true;
   int currentIndex = 0;
-  List<Widget> screens = [const AllDesignes(), const SendDesigneScreen()];
+  List<Widget> screens = [const SendDesigneScreen(), const AllDesignes()];
 
   @override
   void initState() {
@@ -60,13 +61,21 @@ class _DesigneScreenState extends State<DesigneScreen> {
         backgroundColor: mainColor,
         automaticallyImplyLeading: false,
         elevation: 0.0,
-        title: Text(
-          (lang == 'en') ? "Designe" : "التصاميم",
-          style: TextStyle(
-              fontSize: w * 0.05,
-              fontFamily: 'Tajawal',
-              fontWeight: FontWeight.bold),
-        ),
+        title: (currentIndex == 0)
+            ? Text(
+                translateString("Our clients' designs", "تصاميم عملائنا"),
+                style: TextStyle(
+                    fontSize: w * 0.05,
+                    fontFamily: 'Tajawal',
+                    fontWeight: FontWeight.bold),
+              )
+            : Text(
+                translateString("Designe", "التصاميم"),
+                style: TextStyle(
+                    fontSize: w * 0.05,
+                    fontFamily: 'Tajawal',
+                    fontWeight: FontWeight.bold),
+              ),
         centerTitle: true,
         leading: InkWell(
           onTap: () {

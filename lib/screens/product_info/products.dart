@@ -118,10 +118,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   final RoundedLoadingButtonController _btnController2 =
       RoundedLoadingButtonController();
   TabController? _tabBar;
-  // String text='Humidity is one of the most important factors that determine a comfortable indoor environment. I will introduce a dehumidifier in the living workshop that will catch the damp moisture all over the house. If you gently place it in a closet, chest of drawers, shelf, or shoe cabinet, it collects moisture enough to fill a bucket full of water. Thanks to the neat achromatic package design, it does not pop out no matter where you put it, so please put it in every corner.';
-  // String text2='The more everyday items you use, the longer you need to focus on the basics. Under the slogan of Keep the basics, create life, Life Workshop is a brand that makes household items that can be used comfortably in everyday life. In order to satisfy all of the unique designs, reasonable prices, and good ingredients, we are developing daily products by communicating with consumers as well as researching data. Thanks to this, we can find products that improve the quality of life in the closest places to our lives, such as rubber gloves made of latex, durable hangers, disposable loofahs, and wool dryer balls. Now, try using the various household items of the living workshop through Curly. You can experience a daily life that makes cleaning up all over the house more enjoyable and makes washing and washing dishes easier.';
-  // String text3='Strict Products Committee';
-  // String text4='With the heart of choosing products for me and my family to eat and use, I try and experience the products myself every week, and only sell products that pass various standards such as ingredients, taste, and stability.';
   Future getRates() async {
     final String url = domain + 'product/get-ratings';
     try {
@@ -542,7 +538,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
     return Directionality(
       textDirection: getDirection(),
       child: DefaultTabController(
-        length: 5,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             elevation: 0,

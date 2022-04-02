@@ -57,7 +57,9 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
         automaticallyImplyLeading: false,
         elevation: 0.0,
         title: Text(
-          (lang == 'en') ? "Designer name" : "اسم المصمم",
+          (lang == 'en')
+              ? OneDesigne.oneItemModel!.data![0].userName!
+              : OneDesigne.oneItemModel!.data![0].userName!,
           style: TextStyle(
               fontSize: w * 0.05,
               fontFamily: 'Tajawal',

@@ -130,11 +130,13 @@ class _AllDesignesState extends State<AllDesignes> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () async {
+                            dialog(context);
                             OneDesigne()
                                 .getoneDesigne(
                               id: searchData[index].id.toString(),
                             )
                                 .then((value) {
+                              navPop(context);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
