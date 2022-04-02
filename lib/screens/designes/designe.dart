@@ -31,18 +31,21 @@ class _DesigneScreenState extends State<DesigneScreen> {
 
   late PageController pageController;
   List<String> contText = [
-    "Send Designe",
     "Designe",
+    "Send Designe",
   ];
 
   List<String> contTextAr = [
+    "تصاميمكم",
     "أرسل تصاميمك",
-    "التصميم",
   ];
 
   bool isTapped = true;
   int currentIndex = 0;
-  List<Widget> screens = [const SendDesigneScreen(), const AllDesignes()];
+  List<Widget> screens = [
+    const AllDesignes(),
+    const SendDesigneScreen(),
+  ];
 
   @override
   void initState() {
@@ -61,7 +64,7 @@ class _DesigneScreenState extends State<DesigneScreen> {
         backgroundColor: mainColor,
         automaticallyImplyLeading: false,
         elevation: 0.0,
-        title: (currentIndex == 0)
+        title: (currentIndex == 1)
             ? Text(
                 translateString("Our clients' designs", "تصاميم عملائنا"),
                 style: TextStyle(

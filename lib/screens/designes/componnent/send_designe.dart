@@ -130,8 +130,8 @@ class _SendDesigneScreenState extends State<SendDesigneScreen> {
                       getImage1();
                     },
                     child: Container(
-                      width: w * 0.27,
-                      height: h * 0.15,
+                      width: w * 0.25,
+                      height: h * 0.1,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(color: Colors.black),
@@ -142,7 +142,7 @@ class _SendDesigneScreenState extends State<SendDesigneScreen> {
                             ? Icon(
                                 Icons.cloud_download,
                                 color: mainColor,
-                                size: w * 0.2,
+                                size: w * 0.15,
                               )
                             : Image.file(
                                 image1!,
@@ -156,8 +156,8 @@ class _SendDesigneScreenState extends State<SendDesigneScreen> {
                       getImage2();
                     },
                     child: Container(
-                      width: w * 0.27,
-                      height: h * 0.15,
+                      width: w * 0.25,
+                      height: h * 0.1,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(color: Colors.black),
@@ -168,7 +168,7 @@ class _SendDesigneScreenState extends State<SendDesigneScreen> {
                             ? Icon(
                                 Icons.cloud_download,
                                 color: mainColor,
-                                size: w * 0.2,
+                                size: w * 0.15,
                               )
                             : Image.file(
                                 image2!,
@@ -182,8 +182,8 @@ class _SendDesigneScreenState extends State<SendDesigneScreen> {
                       getImage3();
                     },
                     child: Container(
-                      width: w * 0.27,
-                      height: h * 0.15,
+                      width: w * 0.25,
+                      height: h * 0.1,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(color: Colors.black),
@@ -194,7 +194,7 @@ class _SendDesigneScreenState extends State<SendDesigneScreen> {
                             ? Icon(
                                 Icons.cloud_download,
                                 color: mainColor,
-                                size: w * 0.2,
+                                size: w * 0.15,
                               )
                             : Image.file(
                                 image3!,

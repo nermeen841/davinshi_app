@@ -3,6 +3,8 @@
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/designe_rate.dart';
 import 'package:davinshi_app/models/user.dart';
+import 'package:davinshi_app/provider/one_designe.dart';
+import 'package:davinshi_app/screens/designes/single_designe.dart/one_item.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -171,45 +173,113 @@ class _AllRatesScreenState extends State<AllRatesScreen> {
               : Column(
                   children: [
                     SizedBox(
-                      height: h * 0.55,
+                      height: h * 0.75,
                       child: ListView.separated(
                           controller: _controller,
                           itemBuilder: (context, index) {
-                            return Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            return Column(
                               children: [
-                                Text(
-                                  searchData[index].user.name,
-                                  overflow: TextOverflow.fade,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: w * 0.04,
-                                      fontFamily: 'Tajawal',
-                                      fontWeight: FontWeight.w500),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(top: h * 0.01),
+                                      child: Text(
+                                        searchData[index].user.name,
+                                        overflow: TextOverflow.fade,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: w * 0.044,
+                                            fontFamily: 'Tajawal',
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: h * 0.01),
+                                      child: Text(
+                                        searchData[index].comment ?? "",
+                                        overflow: TextOverflow.fade,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: w * 0.044,
+                                            fontFamily: 'Tajawal',
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: h * 0.01),
+                                      child: SimpleStarRating(
+                                        isReadOnly: true,
+                                        starCount: 5,
+                                        rating: double.parse(searchData[index]
+                                            .rating
+                                            .toString()),
+                                        size: w * 0.05,
+                                        allowHalfRating: true,
+                                        filledIcon: Icon(
+                                          Icons.star,
+                                          color: mainColor,
+                                          size: w * 0.05,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  searchData[index].comment ?? "",
-                                  overflow: TextOverflow.fade,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: w * 0.04,
-                                      fontFamily: 'Tajawal',
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                SimpleStarRating(
-                                  isReadOnly: true,
-                                  starCount: 5,
-                                  rating: double.parse(
-                                      searchData[index].rating.toString()),
-                                  size: w * 0.05,
-                                  allowHalfRating: true,
-                                  filledIcon: Icon(
-                                    Icons.star,
-                                    color: mainColor,
-                                    size: w * 0.05,
-                                  ),
-                                )
+                                (searchData[index].user.id == userId)
+                                    ? Row(
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: ((context) =>
+                                                      SingleDesigneScreen(
+                                                        ratingId:
+                                                            searchData[index]
+                                                                .id
+                                                                .toString(),
+                                                        designID:
+                                                            widget.designeID,
+                                                        comment:
+                                                            searchData[index]
+                                                                    .comment ??
+                                                                "",
+                                                      )),
+                                                ),
+                                              );
+                                            },
+                                            icon: Icon(
+                                              Icons.edit,
+                                              color: mainColor,
+                                            ),
+                                          ),
+                                          IconButton(
+                                            onPressed: () async {
+                                              deleteDesigneRating(
+                                                      ratingId:
+                                                          searchData[index]
+                                                              .id
+                                                              .toString(),
+                                                      context: context)
+                                                  .then((value) async {
+                                                dialog(context);
+                                                await Future.delayed(
+                                                    const Duration(seconds: 1));
+                                                firstLoad();
+                                                navPop(context);
+                                              });
+                                            },
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: mainColor,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : Container(),
                               ],
                             );
                           },

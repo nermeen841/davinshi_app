@@ -16,7 +16,10 @@ import '../../auth/login.dart';
 
 class SingleDesigneScreen extends StatefulWidget {
   final String designID;
-  const SingleDesigneScreen({Key? key, required this.designID})
+  final String? comment;
+  final String? ratingId;
+  const SingleDesigneScreen(
+      {Key? key, required this.designID, this.comment, this.ratingId})
       : super(key: key);
 
   @override
@@ -26,11 +29,11 @@ class SingleDesigneScreen extends StatefulWidget {
 class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
   String lang = '';
   double ratingVal = 0;
+  String comment = '';
   final formKey = GlobalKey<FormState>();
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
-  TextEditingController comment = TextEditingController();
-
+  FocusNode commentFocus = FocusNode();
   getLang() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
@@ -41,6 +44,7 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
   @override
   void initState() {
     getLang();
+
     super.initState();
   }
 
@@ -297,11 +301,21 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
                         ),
                         TextFormField(
                           keyboardType: TextInputType.multiline,
-                          textInputAction: TextInputAction.newline,
+                          textInputAction: TextInputAction.done,
                           cursorColor: Colors.grey,
-                          controller: comment,
+                          initialValue:
+                              (widget.comment != null) ? widget.comment : '',
+                          focusNode: commentFocus,
                           minLines: 1,
                           maxLines: 5,
+                          onEditingComplete: () {
+                            commentFocus.unfocus();
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              comment = value;
+                            });
+                          },
                           decoration: InputDecoration(
                               hintText: '',
                               hintStyle: TextStyle(
@@ -340,14 +354,23 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
                           errorColor: Colors.red,
                           onPressed: () async {
                             if (login) {
-                              addRate(
-                                  controller: btnController,
-                                  rating: ratingVal,
-                                  comment: comment.text,
-                                  context: context,
-                                  designeID: OneDesigne
-                                      .oneItemModel!.data![0].id
-                                      .toString());
+                              if (widget.comment != null) {
+                                editDesigneRating(
+                                    controller: btnController,
+                                    rating: ratingVal,
+                                    context: context,
+                                    comment: comment,
+                                    ratingId: widget.ratingId!);
+                              } else {
+                                addRate(
+                                    controller: btnController,
+                                    rating: ratingVal,
+                                    comment: comment,
+                                    context: context,
+                                    designeID: OneDesigne
+                                        .oneItemModel!.data![0].id
+                                        .toString());
+                              }
                             } else {
                               btnController.error();
                               await Future.delayed(const Duration(seconds: 1));
