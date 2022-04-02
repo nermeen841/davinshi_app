@@ -1051,7 +1051,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
-                                        
+
                                             // child: Padding(
                                             //   padding: EdgeInsets.all(w * 0.015),
                                             //   child: Align(
@@ -1694,11 +1694,12 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                                   image:
                                                                       bestDis[i]
                                                                           .image,
-                                                                  titleAr:
-                                                                      bestDis[i]
-                                                                          .nameAr,
+                                                                  titleAr: bestDis[
+                                                                          i]
+                                                                      .nameAr,
                                                                   titleEn:
-                                                                      bestDis[i]
+                                                                      bestDis[
+                                                                              i]
                                                                           .nameEn,
                                                                   price: bestDis[
                                                                           i]
@@ -1707,8 +1708,9 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                                   quantity: 1,
                                                                   att: att,
                                                                   des: des,
-                                                                  idp: bestDis[i]
-                                                                      .id,
+                                                                  idp:
+                                                                      bestDis[i]
+                                                                          .id,
                                                                   idc: 0,
                                                                   catNameEn: "",
                                                                   catNameAr: "",
@@ -1730,7 +1732,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                                   bestDis[i]
                                                                       .finalPrice
                                                                       .toDouble(),
-                                                                  jsonEncode(att),
+                                                                  jsonEncode(
+                                                                      att),
                                                                   jsonEncode(
                                                                       des));
                                                         }
@@ -1743,8 +1746,10 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       if (cartId == null ||
                                                           cartId == studentId) {
                                                         try {
-                                                          if (!cart.idp.contains(
-                                                              bestDis[i].id)) {
+                                                          if (!cart.idp
+                                                              .contains(
+                                                                  bestDis[i]
+                                                                      .id)) {
                                                             await helper.createCar(CartProducts(
                                                                 id: null,
                                                                 studentId:
@@ -1752,24 +1757,27 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                                         .brands![
                                                                             i]
                                                                         .id,
-                                                                image: bestDis[i]
+                                                                image: bestDis[
+                                                                        i]
                                                                     .image,
                                                                 titleAr:
                                                                     bestDis[i]
                                                                         .nameAr,
                                                                 titleEn:
-                                                                    bestDis[i]
+                                                                    bestDis[
+                                                                            i]
                                                                         .nameEn,
-                                                                price: bestDis[i]
+                                                                price: bestDis[
+                                                                        i]
                                                                     .price
                                                                     .toDouble(),
                                                                 quantity: 1,
                                                                 att: att,
                                                                 des: des,
-                                                                idp:
-                                                                    bestDis[i].id,
-                                                                idc:
-                                                                    bestDis[i].id,
+                                                                idp: bestDis[i]
+                                                                    .id,
+                                                                idc: bestDis[i]
+                                                                    .id,
                                                                 catNameEn: "",
                                                                 catNameAr: "",
                                                                 catSVG: ""));
@@ -1783,17 +1791,15 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                                         bestDis[i]
                                                                             .id)
                                                                 .quantity;
-                                                            await helper
-                                                                .updateProduct(
-                                                                    1 + quantity,
-                                                                    bestDis[i].id,
-                                                                    bestDis[i]
-                                                                        .finalPrice
-                                                                        .toDouble(),
-                                                                    jsonEncode(
-                                                                        att),
-                                                                    jsonEncode(
-                                                                        des));
+                                                            await helper.updateProduct(
+                                                                1 + quantity,
+                                                                bestDis[i].id,
+                                                                bestDis[i]
+                                                                    .finalPrice
+                                                                    .toDouble(),
+                                                                jsonEncode(att),
+                                                                jsonEncode(
+                                                                    des));
                                                           }
                                                           await cart.setItems();
                                                         } catch (e) {
@@ -3724,28 +3730,28 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                 ),
               ),
             ),
-            mask
-                ? Positioned(
-                    bottom: h * 0.03,
-                    right: w * 0.08,
-                    child: CircleAvatar(
-                      radius: w * 0.06,
-                      backgroundColor: mainColor.withOpacity(0.7),
-                      child: InkWell(
-                        child: const Center(
-                            child: Icon(
-                          Icons.arrow_upward_outlined,
-                          color: Colors.white,
-                        )),
-                        onTap: () {
-                          controller.animateTo(0,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.ease);
-                        },
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
+            // mask
+            //     ? Positioned(
+            //         bottom: h * 0.03,
+            //         right: w * 0.08,
+            //         child: CircleAvatar(
+            //           radius: w * 0.06,
+            //           backgroundColor: mainColor.withOpacity(0.7),
+            //           child: InkWell(
+            //             child: const Center(
+            //                 child: Icon(
+            //               Icons.arrow_upward_outlined,
+            //               color: Colors.white,
+            //             )),
+            //             onTap: () {
+            //               controller.animateTo(0,
+            //                   duration: const Duration(milliseconds: 500),
+            //                   curve: Curves.ease);
+            //             },
+            //           ),
+            //         ),
+            //       )
+            //     : const SizedBox(),
           ],
         ),
       ),

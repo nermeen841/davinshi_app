@@ -63,17 +63,17 @@ class _AddRateScreenState extends State<AddRateScreen> {
         automaticallyImplyLeading: true,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding:
-              EdgeInsets.symmetric(vertical: h * 0.2, horizontal: w * 0.03),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Directionality(
-                textDirection: getDirection(),
-                child: SimpleStarRating(
+      body: Directionality(
+        textDirection: getDirection(),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding:
+                EdgeInsets.symmetric(vertical: h * 0.2, horizontal: w * 0.03),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SimpleStarRating(
                   starCount: 5,
                   rating: 5,
                   allowHalfRating: true,
@@ -86,70 +86,70 @@ class _AddRateScreenState extends State<AddRateScreen> {
                   },
                   spacing: 10,
                 ),
-              ),
 
-              SizedBox(
-                height: h * 0.03,
-              ),
-
-              TextFormField(
-                cursorColor: Colors.black,
-                minLines: 1,
-                maxLines: 5,
-                decoration: InputDecoration(
-                  focusedBorder: form2(),
-                  enabledBorder: form2(),
-                  errorBorder: form2(),
-                  focusedErrorBorder: form2(),
-                  hintText: translate(context, 'inputs', 'comment'),
-                  hintStyle: const TextStyle(color: Colors.grey),
-                  errorMaxLines: 1,
-                  errorStyle: TextStyle(fontSize: w * 0.03),
+                SizedBox(
+                  height: h * 0.03,
                 ),
-                onChanged: (val) {
-                  setState(() {
-                    rating = val;
-                  });
-                },
-              ),
 
-              SizedBox(
-                height: h * 0.03,
-              ),
-
-              RoundedLoadingButton(
-                borderRadius: 15,
-                child: Container(
-                  height: h * 0.08,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: mainColor,
+                TextFormField(
+                  cursorColor: Colors.black,
+                  minLines: 1,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    focusedBorder: form2(),
+                    enabledBorder: form2(),
+                    errorBorder: form2(),
+                    focusedErrorBorder: form2(),
+                    hintText: translate(context, 'inputs', 'comment'),
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    errorMaxLines: 1,
+                    errorStyle: TextStyle(fontSize: w * 0.03),
                   ),
-                  child: Center(
-                    child: Text(
-                      translate(context, 'buttons', 'send'),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: w * 0.045,
-                          fontWeight: FontWeight.bold),
+                  onChanged: (val) {
+                    setState(() {
+                      rating = val;
+                    });
+                  },
+                ),
+
+                SizedBox(
+                  height: h * 0.03,
+                ),
+
+                RoundedLoadingButton(
+                  borderRadius: 15,
+                  child: Container(
+                    height: h * 0.08,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: mainColor,
+                    ),
+                    child: Center(
+                      child: Text(
+                        translate(context, 'buttons', 'send'),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: w * 0.045,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
+                  controller: _btnController,
+                  successColor: mainColor,
+                  color: mainColor,
+                  disabledColor: mainColor,
+                  onPressed: () async {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    saveRate();
+                  },
                 ),
-                controller: _btnController,
-                successColor: mainColor,
-                color: mainColor,
-                disabledColor: mainColor,
-                onPressed: () async {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  saveRate();
-                },
-              ),
 
-              // if (login)
-              SizedBox(
-                height: h * 0.03,
-              ),
-            ],
+                // if (login)
+                SizedBox(
+                  height: h * 0.03,
+                ),
+              ],
+            ),
           ),
         ),
       ),

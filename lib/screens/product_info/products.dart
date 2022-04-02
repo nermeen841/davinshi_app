@@ -110,7 +110,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   List<Rate> rate = [];
   List<int> att = [];
   List<String> des = [];
-  int? selectedItem;
+  List<int> selectedItem = [];
   bool check = false, error = false;
   bool finish = false;
   num finalPrice =
@@ -196,7 +196,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    selectedItem = null;
+    selectedItem = [];
     for (int i = 0; i < productCla.attributes.length; i++) {
       des.add('');
       att.add(0);
@@ -335,7 +335,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                               if (!widget.fromFav) {
                                 if (cartId == null || cartId == studentId) {
                                   try {
-                                    if (!cart.idp.contains(productCla.id)) {
+                                    if (selectedItem.isNotEmpty) {
                                       await helper.createCar(CartProducts(
                                           id: null,
                                           studentId: studentId,
@@ -351,19 +351,38 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                           catNameEn: productCla.cat.nameEn,
                                           catNameAr: productCla.cat.nameAr,
                                           catSVG: productCla.cat.svg));
+                                      await cart.setItems();
                                     } else {
-                                      int quantity = cart.items
-                                          .firstWhere((element) =>
-                                              element.idp == productCla.id)
-                                          .quantity;
-                                      await helper.updateProduct(
-                                          _counter + quantity,
-                                          productCla.id,
-                                          finalPrice.toDouble(),
-                                          jsonEncode(att),
-                                          jsonEncode(des));
+                                      if (!cart.idp.contains(productCla.id)) {
+                                        await helper.createCar(CartProducts(
+                                            id: null,
+                                            studentId: studentId,
+                                            image: productCla.image,
+                                            titleAr: productCla.nameAr,
+                                            titleEn: productCla.nameEn,
+                                            price: finalPrice.toDouble(),
+                                            quantity: _counter,
+                                            att: att,
+                                            des: des,
+                                            idp: productCla.id,
+                                            idc: productCla.cat.id,
+                                            catNameEn: productCla.cat.nameEn,
+                                            catNameAr: productCla.cat.nameAr,
+                                            catSVG: productCla.cat.svg));
+                                      } else {
+                                        int quantity = cart.items
+                                            .firstWhere((element) =>
+                                                element.idp == productCla.id)
+                                            .quantity;
+                                        await helper.updateProduct(
+                                            _counter + quantity,
+                                            productCla.id,
+                                            finalPrice.toDouble(),
+                                            jsonEncode(att),
+                                            jsonEncode(des));
+                                      }
+                                      await cart.setItems();
                                     }
-                                    await cart.setItems();
                                   } catch (e) {
                                     print('e');
                                     print(e);
@@ -920,21 +939,26 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                             Radio(
                                                                 activeColor:
                                                                     mainColor,
-                                                                value: i,
+                                                                value: productCla
+                                                                    .attributes[
+                                                                        index]
+                                                                    .options[i]
+                                                                    .id,
                                                                 groupValue:
-                                                                    selectedItem,
+                                                                    att[index],
                                                                 onChanged: (int?
                                                                     value) {
                                                                   setState(
                                                                     () {
-                                                                      selectedItem =
-                                                                          value!;
                                                                       att[index] = productCla
                                                                           .attributes[
                                                                               index]
                                                                           .options[
                                                                               i]
                                                                           .id;
+                                                                      selectedItem
+                                                                          .add(att[
+                                                                              index]);
                                                                       if (language ==
                                                                           'en') {
                                                                         des[index] = productCla
@@ -1641,13 +1665,18 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                         ),
                         onTap: () {
                           if (productCla.attributes.isNotEmpty) {
-                            if (selectedItem != null) {
+                            if (selectedItem.isNotEmpty) {
                               show(context);
                             } else {
                               final snackBar = SnackBar(
-                                content: Text(translateString(
-                                    'Select product options',
-                                    'يجب تحديد الاختيارات اولا')),
+                                content: Text(
+                                  translateString('Select product options',
+                                      'يجب تحديد الاختيارات اولا'),
+                                  style: TextStyle(
+                                      fontFamily: 'Tajawal',
+                                      fontSize: w * 0.04,
+                                      fontWeight: FontWeight.w500),
+                                ),
                                 action: SnackBarAction(
                                   label: translateString("Undo", "تراجع"),
                                   disabledTextColor: Colors.yellow,
