@@ -96,7 +96,7 @@ Future editDesigneRating(
       controller.stop();
       final snackBar = SnackBar(
         content: Text(translateString(
-            "you can't edit this comment", 'لا يمكنك التعديل علي هذا التقييم')),
+            "please enter your rate", 'من فضلك قم بادخال تقييمك')),
         action: SnackBarAction(
           label: translateString('Undo', 'تراجع'),
           disabledTextColor: Colors.yellow,

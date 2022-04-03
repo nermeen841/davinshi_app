@@ -261,22 +261,25 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
                           height: h * 0.02,
                         ),
                         Center(
-                          child: SimpleStarRating(
-                            isReadOnly: false,
-                            starCount: 5,
-                            rating: ratingVal,
-                            size: w * 0.1,
-                            allowHalfRating: true,
-                            filledIcon: Icon(
-                              Icons.star,
-                              color: mainColor,
+                          child: Directionality(
+                            textDirection: TextDirection.ltr,
+                            child: SimpleStarRating(
+                              isReadOnly: false,
+                              starCount: 5,
+                              rating: ratingVal,
                               size: w * 0.1,
+                              allowHalfRating: true,
+                              filledIcon: Icon(
+                                Icons.star,
+                                color: mainColor,
+                                size: w * 0.1,
+                              ),
+                              onRated: (value) {
+                                setState(() {
+                                  ratingVal = value!;
+                                });
+                              },
                             ),
-                            onRated: (value) {
-                              setState(() {
-                                ratingVal = value!;
-                              });
-                            },
                           ),
                         ),
                         SizedBox(
@@ -316,6 +319,12 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
                               comment = value;
                             });
                           },
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return translateString("please write a comment",
+                                  "من فضلك اترك تعليقك");
+                            }
+                          },
                           decoration: InputDecoration(
                               hintText: '',
                               hintStyle: TextStyle(
@@ -354,22 +363,29 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
                           errorColor: Colors.red,
                           onPressed: () async {
                             if (login) {
-                              if (widget.comment != null) {
-                                editDesigneRating(
-                                    controller: btnController,
-                                    rating: ratingVal,
-                                    context: context,
-                                    comment: comment,
-                                    ratingId: widget.ratingId!);
+                              if (formKey.currentState!.validate()) {
+                                if (widget.comment != null) {
+                                  editDesigneRating(
+                                      controller: btnController,
+                                      rating: ratingVal,
+                                      context: context,
+                                      comment: comment,
+                                      ratingId: widget.ratingId!);
+                                } else {
+                                  addRate(
+                                      controller: btnController,
+                                      rating: ratingVal,
+                                      comment: comment,
+                                      context: context,
+                                      designeID: OneDesigne
+                                          .oneItemModel!.data![0].id
+                                          .toString());
+                                }
                               } else {
-                                addRate(
-                                    controller: btnController,
-                                    rating: ratingVal,
-                                    comment: comment,
-                                    context: context,
-                                    designeID: OneDesigne
-                                        .oneItemModel!.data![0].id
-                                        .toString());
+                                btnController.error();
+                                await Future.delayed(
+                                    const Duration(seconds: 1));
+                                btnController.stop();
                               }
                             } else {
                               btnController.error();

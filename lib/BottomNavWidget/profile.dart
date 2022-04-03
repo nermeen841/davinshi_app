@@ -191,6 +191,9 @@ class _ProfileState extends State<Profile> {
           userName = response.data['name'];
           userEmail = response.data['email'];
           userImage = response.data['img'];
+          userPhone = response.data['phone'];
+          gender = response.data['gender'];
+          familyName = response.data['surname'];
         });
       } else {
         Map userData = response.data;

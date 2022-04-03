@@ -29,9 +29,14 @@ class _OrderInfoState extends State<OrderInfo> {
             elevation: 0,
             title: SizedBox(
               width: w * 0.7,
-              child: Text(widget.orderClass.title),
+              child: (language == 'en')
+                  ? Text(widget.orderClass.titleEn)
+                  : Text(
+                      widget.orderClass.titleAr,
+                    ),
             ),
-            titleTextStyle: TextStyle(color: Colors.white, fontSize: w * 0.04),
+            titleTextStyle: TextStyle(
+                color: Colors.white, fontSize: w * 0.04, fontFamily: 'Tajawal'),
             centerTitle: false,
             backgroundColor: mainColor,
             leading: const BackButton(

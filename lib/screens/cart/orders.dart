@@ -164,9 +164,13 @@ class Orders extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  orders[i].title +
-                                                      ' #' +
-                                                      orders[i].id.toString(),
+                                                  (language == 'en')
+                                                      ? orders[i].titleEn
+                                                      : orders[i].titleAr +
+                                                          ' #' +
+                                                          orders[i]
+                                                              .id
+                                                              .toString(),
                                                   style: TextStyle(
                                                     fontSize: w * 0.03,
                                                     fontWeight: FontWeight.bold,

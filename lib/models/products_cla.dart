@@ -158,6 +158,7 @@ class Attributes {
 
 class OptionsModel {
   int id;
+  int quantity;
   String nameAr;
   String nameEn;
   num price;
@@ -166,6 +167,7 @@ class OptionsModel {
     required this.nameAr,
     required this.nameEn,
     required this.price,
+    required this.quantity,
   });
 }
 
@@ -240,7 +242,8 @@ Future setProduct(Map e) async {
                 nameEn: o['name_en'] ?? '',
                 price: num.parse(inOffer
                     ? o['values'][0]['sale_price']
-                    : o['values'][0]['regular_price'])));
+                    : o['values'][0]['regular_price']),
+                quantity: o['values'][0]['quantity']));
           }
         });
         _att.add(Attributes(

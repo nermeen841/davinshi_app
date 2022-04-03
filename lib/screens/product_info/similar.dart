@@ -121,6 +121,7 @@ class _SimilarProductScreenState extends State<SimilarProductScreen> {
               });
         },
         shrinkWrap: true,
+        primary: false,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisSpacing: h * 0.001,
             mainAxisSpacing: w * 0.05,

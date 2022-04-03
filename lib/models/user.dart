@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_typing_uninitialized_variables
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
@@ -34,6 +34,9 @@ void setLogin(bool val) {
 
 String? userName;
 String? userEmail;
+String? userPhone;
+var gender;
+String? familyName;
 String? userImage;
 AddressClass? addressGuest;
 void setUserId(int _id) {

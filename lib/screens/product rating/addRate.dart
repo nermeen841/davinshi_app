@@ -73,18 +73,21 @@ class _AddRateScreenState extends State<AddRateScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SimpleStarRating(
-                  starCount: 5,
-                  rating: 5,
-                  allowHalfRating: true,
-                  size: w * 0.08,
-                  isReadOnly: false,
-                  onRated: (rate) {
-                    setState(() {
-                      stars = rate!;
-                    });
-                  },
-                  spacing: 10,
+                Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: SimpleStarRating(
+                    starCount: 5,
+                    rating: 5,
+                    allowHalfRating: true,
+                    size: w * 0.08,
+                    isReadOnly: false,
+                    onRated: (rate) {
+                      setState(() {
+                        stars = rate!;
+                      });
+                    },
+                    spacing: 10,
+                  ),
                 ),
 
                 SizedBox(

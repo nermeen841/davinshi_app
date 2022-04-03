@@ -21,15 +21,15 @@ class _ProfileUserState extends State<ProfileUser> {
   FocusNode userNameFocus = FocusNode();
   FocusNode emailFocus = FocusNode();
   FocusNode phoneFocus = FocusNode();
-  int selectedval = 0;
+  int? selectedval;
   late int genderType;
   String? daySelected;
   String? monthSelected;
   String? yearSelected;
-  TextEditingController userName = TextEditingController();
-  TextEditingController name = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController phone = TextEditingController();
+  TextEditingController serName = TextEditingController(text: familyName ?? '');
+  TextEditingController name = TextEditingController(text: userName ?? "");
+  TextEditingController email = TextEditingController(text: userEmail ?? "");
+  TextEditingController phone = TextEditingController(text: userPhone ?? "");
   List radio = [
     translateString("Female", "انثي"),
     translateString("Male", "ذكر"),
@@ -42,14 +42,13 @@ class _ProfileUserState extends State<ProfileUser> {
         url,
         data: {
           "name": name.text,
-          "surname": userName.text,
+          "surname": serName.text,
           "email": email.text,
           "gender": genderType,
           "birth_day":
               yearSelected! + "/" + monthSelected! + "/" + daySelected!,
         },
-        options: Options(
-            headers: {'auth-token': auth, "Content-Language": language}),
+        options: Options(headers: {'auth-token': auth}),
       );
       print(response.data);
       if (response.data['status'] == 0) {
@@ -76,6 +75,8 @@ class _ProfileUserState extends State<ProfileUser> {
           ),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        _btnController.error();
+        await Future.delayed(const Duration(milliseconds: 1000));
         _btnController.stop();
       }
       if (response.data['status'] == 1) {
@@ -93,10 +94,13 @@ class _ProfileUserState extends State<ProfileUser> {
           userName = response.data['user']['name'];
           userEmail = response.data['user']['email'];
           userImage = response.data['user']['img'];
+          userPhone = response.data['user']['phone'];
+          gender = response.data['user']['gender'];
+          familyName = response.data['user']['surname'];
         });
         setUserId(userData['id']);
         _btnController.success();
-        await Future.delayed(const Duration(milliseconds: 2500));
+        await Future.delayed(const Duration(milliseconds: 1000));
         _btnController.stop();
         Navigator.pop(context);
       }
@@ -104,6 +108,7 @@ class _ProfileUserState extends State<ProfileUser> {
       _btnController.error();
       await Future.delayed(const Duration(milliseconds: 1000));
       _btnController.stop();
+      print("error while update user data : " + e.toString());
     }
   }
 
@@ -226,13 +231,12 @@ class _ProfileUserState extends State<ProfileUser> {
                                   height: w * 0.13,
                                   child: TextFormField(
                                     cursorColor: Colors.black,
-                                    controller: userName,
+                                    controller: serName,
                                     focusNode: userNameFocus,
                                     textInputAction: TextInputAction.next,
                                     keyboardType: TextInputType.text,
                                     onEditingComplete: () {
                                       userNameFocus.unfocus();
-
                                       FocusScope.of(context)
                                           .requestFocus(emailFocus);
                                     },
@@ -575,6 +579,7 @@ class _ProfileUserState extends State<ProfileUser> {
                           successColor: mainColor,
                           color: mainColor,
                           disabledColor: mainColor,
+                          errorColor: Colors.red,
                           onPressed: () async {
                             updateUser();
                           },

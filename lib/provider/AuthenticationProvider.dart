@@ -59,6 +59,10 @@ class AuthenticationProvider {
       await prefs.setString('userName', userData['name']);
       userName = userData['name'];
       userEmail = userData['email'];
+      userPhone = userData['phone'];
+      gender = userData['gender'];
+      familyName = userData['surname'];
+
       await getHomeItems();
       await dbHelper.deleteAll();
       await Provider.of<CartProvider>(context, listen: false).setItems();
@@ -151,6 +155,9 @@ class AuthenticationProvider {
           await prefs.setString('auth', userData['data']['token'].toString());
           userName = userData['data']['user']['name'];
           userEmail = userData['data']['user']['email'];
+          userPhone = userData['data']['user']['phone'];
+          gender = userData['data']['user']['gender'];
+          familyName = userData['data']['user']['surname'];
           await getHomeItems();
           setUserId(userData['data']['user']['id']);
           dbHelper.deleteAll();

@@ -12,7 +12,8 @@ class OrderClass {
   int addressId;
   String date;
   String orderStatus;
-  String title;
+  String titleEn;
+  String titleAr;
   String image;
   String? note;
   num subTotal;
@@ -33,7 +34,8 @@ class OrderClass {
       required this.date,
       required this.orderStatus,
       required this.dis,
-      required this.title,
+      required this.titleEn,
+      required this.titleAr,
       required this.image,
       required this.userAddress});
 }
@@ -100,7 +102,8 @@ Future setOrder(List list) async {
         date: date,
         orderStatus: e['status'],
         dis: e['discount'],
-        title: _items[0].titleEn,
+        titleEn: _items[0].titleEn,
+        titleAr: _items[0].titleAr,
         image: _items[0].image));
   });
 }
