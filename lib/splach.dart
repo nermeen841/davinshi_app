@@ -98,12 +98,12 @@ class _SplachState extends State<Splach> {
         width: w,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/splash.png'),
+            image: AssetImage('assets/images/splash_image.png'),
             fit: BoxFit.cover,
           ),
         ),
         child: Scaffold(
-          backgroundColor: Colors.white54,
+          backgroundColor: Colors.white.withOpacity(0.85),
           body: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,6 +112,8 @@ class _SplachState extends State<Splach> {
                 Center(
                   child: Image.asset(
                     'assets/images/logo_multi.png',
+                    width: w * 0.9,
+                    height: h * 0.3,
                     fit: BoxFit.contain,
                   ),
                 ),

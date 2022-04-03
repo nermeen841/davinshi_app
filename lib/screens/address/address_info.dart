@@ -37,7 +37,7 @@ class _AddressInfoState extends State<AddressInfo> {
           'phone number',
           '',
           'Country',
-          'Address',
+          'Street',
           'Note (optional)'
         ]
       : [
@@ -47,7 +47,7 @@ class _AddressInfoState extends State<AddressInfo> {
           'رقم الهاتف',
           '',
           'الدولة',
-          'المنطقة',
+          'اسم الشارع',
           'ملاحظات (اختياري)'
         ];
   final List<FocusNode> _listFocus =
@@ -236,7 +236,7 @@ class _AddressInfoState extends State<AddressInfo> {
                                           FilteringTextInputFormatter.allow(
                                               RegExp(r"[0-9 a-z  @ .]")),
                                         ],
-                                  maxLines: index == 7 || index == 6 ? 6 : 1,
+                                  maxLines: index == 7 ? 6 : 1,
                                   onEditingComplete: () {
                                     _listFocus[index].unfocus();
                                     if (index < _listEd.length - 1) {
