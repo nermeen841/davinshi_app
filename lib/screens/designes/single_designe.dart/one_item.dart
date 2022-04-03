@@ -324,6 +324,7 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
                               return translateString("please write a comment",
                                   "من فضلك اترك تعليقك");
                             }
+                            return null;
                           },
                           decoration: InputDecoration(
                               hintText: '',
