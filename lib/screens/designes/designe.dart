@@ -36,8 +36,8 @@ class _DesigneScreenState extends State<DesigneScreen> {
   ];
 
   List<String> contTextAr = [
-    "تصاميمكم",
-    "أرسل تصاميمك",
+    "التصاميم",
+    "أرسل تصميمك",
   ];
 
   bool isTapped = true;

@@ -955,12 +955,12 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                       selectedItem
                                                                           .add(att[
                                                                               index]);
-                                                                      finalPrice += productCla
-                                                                          .attributes[
-                                                                              index]
-                                                                          .options[
-                                                                              i]
-                                                                          .price;
+                                                                      finalPrice = productCla
+                                                                              .price +
+                                                                          productCla
+                                                                              .attributes[index]
+                                                                              .options[i]
+                                                                              .price;
 
                                                                       if (language ==
                                                                           'en') {
