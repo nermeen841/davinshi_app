@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls
+// ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls, unrelated_type_equality_checks
 
 import 'dart:convert';
 import 'package:badges/badges.dart';
@@ -113,7 +113,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   List<String> des = [];
   List<int> selectedItem = [];
   List<num> optionsPrice = [];
-  Map<int, num> attPrice = {};
+  Map<String, num> attPrice = {};
   List<int> optionsQuantity = [];
   bool check = false, error = false;
   bool finish = false;
@@ -202,7 +202,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       att.add(0);
       optionsPrice.add(0);
       optionsQuantity.add(0);
-      attPrice[0] = 0;
+      attPrice[''] = 0;
     }
     _tabBar = TabController(length: 3, vsync: this, initialIndex: 0);
     _tabBar?.addListener(() {
@@ -985,12 +985,21 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                       value) {
                                                                     setState(
                                                                       () {
-                                                                        attPrice[
-                                                                            productCla
-                                                                                .attributes[index].id] = productCla
-                                                                            .attributes[index]
-                                                                            .options[i]
-                                                                            .price;
+                                                                        print(
+                                                                            attPrice);
+                                                                        if (productCla.attributes[index].nameEn ==
+                                                                            attPrice[productCla.attributes[index].nameEn]) {
+                                                                          attPrice.updateAll(((key, value) => productCla
+                                                                              .attributes[index]
+                                                                              .options[i]
+                                                                              .price));
+                                                                        } else {
+                                                                          attPrice
+                                                                              .addAll({
+                                                                            productCla.attributes[index].nameEn:
+                                                                                productCla.attributes[index].options[i].price
+                                                                          });
+                                                                        }
                                                                         optionsPrice[index] = productCla
                                                                             .attributes[index]
                                                                             .options[i]
@@ -1005,10 +1014,10 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                             .id;
                                                                         selectedItem
                                                                             .add(att[index]);
-
-                                                                        finalPrice +=
-                                                                            productCla.price +
-                                                                                attPrice[productCla.attributes[index].id]!;
+                                                                        finalPrice = productCla.price +
+                                                                            attPrice.values.reduce((sum, element) =>
+                                                                                sum +
+                                                                                element);
 
                                                                         print(
                                                                             optionsPrice);
@@ -1855,6 +1864,10 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       ),
     );
   }
+}
+
+getFinalPrice({required Map<String, num> optionsPrice}) {
+  optionsPrice.values.forEach((element) {});
 }
 
 InputBorder form() {
