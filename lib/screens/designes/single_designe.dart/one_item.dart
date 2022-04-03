@@ -17,9 +17,14 @@ import '../../auth/login.dart';
 class SingleDesigneScreen extends StatefulWidget {
   final String designID;
   final String? comment;
+  final double? rateVal;
   final String? ratingId;
   const SingleDesigneScreen(
-      {Key? key, required this.designID, this.comment, this.ratingId})
+      {Key? key,
+      required this.designID,
+      this.comment,
+      this.ratingId,
+      this.rateVal})
       : super(key: key);
 
   @override
@@ -266,7 +271,9 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
                             child: SimpleStarRating(
                               isReadOnly: false,
                               starCount: 5,
-                              rating: ratingVal,
+                              rating: (widget.rateVal != null)
+                                  ? widget.rateVal!
+                                  : ratingVal,
                               size: w * 0.1,
                               allowHalfRating: true,
                               filledIcon: Icon(

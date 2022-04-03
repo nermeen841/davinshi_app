@@ -22,7 +22,7 @@ class _ProfileUserState extends State<ProfileUser> {
   FocusNode emailFocus = FocusNode();
   FocusNode phoneFocus = FocusNode();
   int? selectedval;
-  late int genderType;
+  int? genderType;
   String? daySelected;
   String? monthSelected;
   String? yearSelected;
@@ -44,9 +44,10 @@ class _ProfileUserState extends State<ProfileUser> {
           "name": name.text,
           "surname": serName.text,
           "email": email.text,
-          "gender": genderType,
-          "birth_day":
-              yearSelected! + "/" + monthSelected! + "/" + daySelected!,
+          "gender": genderType ?? '',
+          "birth_day": (daySelected != null)
+              ? yearSelected! + "/" + monthSelected! + "/" + daySelected!
+              : '',
         },
         options: Options(headers: {'auth-token': auth}),
       );

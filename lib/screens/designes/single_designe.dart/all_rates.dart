@@ -238,6 +238,10 @@ class _AllRatesScreenState extends State<AllRatesScreen> {
                                                 MaterialPageRoute(
                                                   builder: ((context) =>
                                                       SingleDesigneScreen(
+                                                        rateVal: double.parse(
+                                                            searchData[index]
+                                                                .rating
+                                                                .toString()),
                                                         ratingId:
                                                             searchData[index]
                                                                 .id

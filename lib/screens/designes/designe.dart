@@ -36,7 +36,7 @@ class _DesigneScreenState extends State<DesigneScreen> {
   ];
 
   List<String> contTextAr = [
-    "التصاميم",
+    "تصاميمكم",
     "أرسل تصميمك",
   ];
 
@@ -73,7 +73,7 @@ class _DesigneScreenState extends State<DesigneScreen> {
                     fontWeight: FontWeight.bold),
               )
             : Text(
-                translateString("Designe", "التصاميم"),
+                translateString("Designe", "تصاميمكم"),
                 style: TextStyle(
                     fontSize: w * 0.05,
                     fontFamily: 'Tajawal',
