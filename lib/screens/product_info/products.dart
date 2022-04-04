@@ -478,7 +478,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                 Text(
                                   translate(context, 'product', 'error_cart'),
                                   style: TextStyle(
-                                      color: mainColor2, fontSize: w * 0.035),
+                                      color: mainColor, fontSize: w * 0.035),
                                 ),
                                 InkWell(
                                   child: Text(
@@ -488,7 +488,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                       'error_cart',
                                     ),
                                     style: TextStyle(
-                                        color: mainColor2, fontSize: w * 0.035),
+                                        color: mainColor, fontSize: w * 0.035),
                                   ),
                                   onTap: () async {
                                     await dbHelper.deleteAll();

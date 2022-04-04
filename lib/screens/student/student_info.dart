@@ -25,6 +25,9 @@ class _StudentInfo extends State<StudentInfo> {
   final ScrollController _controller = ScrollController();
   final ScrollController _controller2 = ScrollController();
   bool f1 = true, finish = false;
+  var currency = (prefs.getString('language_code').toString() == 'en')
+      ? prefs.getString('currencyEn').toString()
+      : prefs.getString('currencyAr').toString();
   void start(context) {
     studentId = widget.studentClass.id;
     var of1 = Provider.of<StudentItemProvider>(context, listen: true);
@@ -408,59 +411,56 @@ class _StudentInfo extends State<StudentInfo> {
                                                 SizedBox(
                                                   height: h * 0.005,
                                                 ),
-                                                RichText(
-                                                  text: TextSpan(
-                                                    children: [
-                                                      if (item.offers[i].isSale)
-                                                        TextSpan(
-                                                            text:
-                                                                '${item.offers[i].salePrice}'
-                                                                ' ${prefs.getString("currency").toString()} ',
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .black)),
-                                                      if (!item
-                                                          .offers[i].isSale)
-                                                        TextSpan(
-                                                            text:
-                                                                '${item.offers[i].price} '
-                                                                '${prefs.getString("currency").toString()} ',
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .black)),
-                                                      if (item.offers[i]
-                                                              .isSale &&
-                                                          item.offers[i]
-                                                                  .disPer !=
-                                                              null)
-                                                        TextSpan(
-                                                            text:
-                                                                item.offers[i]
-                                                                        .disPer! +
-                                                                    '%',
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .red)),
-                                                    ],
-                                                  ),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        children: [
+                                                          if (item
+                                                              .offers[i].isSale)
+                                                            TextSpan(
+                                                                text:
+                                                                    '${item.offers[i].salePrice}' +
+                                                                        currency,
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color:
+                                                                        mainColor)),
+                                                          if (!item
+                                                              .offers[i].isSale)
+                                                            TextSpan(
+                                                                text:
+                                                                    '${item.offers[i].price} '
+                                                                    '$currency',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color:
+                                                                        mainColor)),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                                 if (item.offers[i].isSale)
                                                   Text(
                                                     '${item.offers[i].price} '
-                                                    '${prefs.getString("currency").toString()}',
+                                                    '$currency',
                                                     style: TextStyle(
                                                       fontSize: w * 0.035,
                                                       decoration: TextDecoration
                                                           .lineThrough,
+                                                      decorationColor:
+                                                          mainColor,
+                                                      decorationThickness: 20,
                                                       color: Colors.grey,
                                                     ),
                                                   ),
@@ -546,25 +546,25 @@ class _StudentInfo extends State<StudentInfo> {
                                           fit: BoxFit.fitHeight,
                                         ),
                                       ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(w * 0.015),
-                                        child: Align(
-                                          alignment: isLeft()
-                                              ? Alignment.bottomLeft
-                                              : Alignment.bottomRight,
-                                          child: CircleAvatar(
-                                            backgroundColor: mainColor,
-                                            radius: w * .05,
-                                            child: Center(
-                                              child: Icon(
-                                                Icons.shopping_cart_outlined,
-                                                color: Colors.white,
-                                                size: w * 0.05,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                      // child: Padding(
+                                      //   padding: EdgeInsets.all(w * 0.015),
+                                      //   child: Align(
+                                      //     alignment: isLeft()
+                                      //         ? Alignment.bottomLeft
+                                      //         : Alignment.bottomRight,
+                                      //     child: CircleAvatar(
+                                      //       backgroundColor: mainColor,
+                                      //       radius: w * .05,
+                                      //       child: Center(
+                                      //         child: Icon(
+                                      //           Icons.shopping_cart_outlined,
+                                      //           color: Colors.white,
+                                      //           size: w * 0.05,
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
                                     ),
                                     SizedBox(
                                       width: w * 0.45,
@@ -590,51 +590,58 @@ class _StudentInfo extends State<StudentInfo> {
                                           SizedBox(
                                             height: h * 0.005,
                                           ),
-                                          RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                if (item.items[i].isSale)
-                                                  TextSpan(
-                                                      text:
-                                                          '${item.items[i].salePrice}'
-                                                          ' ${prefs.getString("currency").toString()} ',
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black)),
-                                                if (!item.items[i].isSale)
-                                                  TextSpan(
-                                                      text:
-                                                          '${item.items[i].price}'
-                                                          ' ${prefs.getString("currency").toString()} ',
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black)),
-                                                if (item.items[i].isSale &&
-                                                    item.items[i].disPer !=
-                                                        null)
-                                                  TextSpan(
-                                                      text: item.items[i]
-                                                              .disPer! +
-                                                          '%',
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.red)),
-                                              ],
-                                            ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              RichText(
+                                                text: TextSpan(
+                                                  children: [
+                                                    if (item.items[i].isSale)
+                                                      TextSpan(
+                                                          text:
+                                                              '${item.items[i].salePrice}'
+                                                              ' $currency',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'Tajawal',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  mainColor)),
+                                                    if (!item.items[i].isSale)
+                                                      TextSpan(
+                                                          text:
+                                                              '${item.items[i].price}'
+                                                              ' $currency',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'Tajawal',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  mainColor)),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                           if (item.items[i].isSale)
                                             Text(
                                               '${item.items[i].price} '
-                                              '${prefs.getString("currency").toString()}',
+                                              '$currency',
                                               style: TextStyle(
-                                                fontSize: w * 0.035,
-                                                decoration:
-                                                    TextDecoration.lineThrough,
-                                                color: Colors.grey,
-                                              ),
+                                                  fontSize: w * 0.035,
+                                                  fontFamily: 'Tajawal',
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
+                                                  color: Colors.grey,
+                                                  decorationColor: mainColor,
+                                                  decorationThickness: 20),
                                             ),
                                         ],
                                       ),

@@ -34,7 +34,7 @@ class SingleDesigneScreen extends StatefulWidget {
 class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
   String lang = '';
   double ratingVal = 0;
-  String comment = '';
+  String? comment;
   final formKey = GlobalKey<FormState>();
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
@@ -282,9 +282,12 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
                                 size: w * 0.1,
                               ),
                               onRated: (value) {
-                                setState(() {
-                                  ratingVal = value!;
-                                });
+                                if (widget.rateVal != null) {
+                                } else {
+                                  setState(() {
+                                    ratingVal = value!;
+                                  });
+                                }
                               },
                             ),
                           ),
@@ -375,15 +378,19 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
                                 if (widget.comment != null) {
                                   editDesigneRating(
                                       controller: btnController,
-                                      rating: ratingVal,
+                                      rating: (widget.rateVal == null)
+                                          ? ratingVal
+                                          : widget.rateVal!,
                                       context: context,
-                                      comment: comment,
+                                      comment: (comment != null)
+                                          ? comment!
+                                          : widget.comment!,
                                       ratingId: widget.ratingId!);
                                 } else {
                                   addRate(
                                       controller: btnController,
                                       rating: ratingVal,
-                                      comment: comment,
+                                      comment: comment!,
                                       context: context,
                                       designeID: OneDesigne
                                           .oneItemModel!.data![0].id

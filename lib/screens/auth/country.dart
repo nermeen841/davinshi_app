@@ -112,6 +112,7 @@ class _CountryState extends State<Country> {
                                 ),
                                 onTap: () {
                                   setState(() {
+                                    prefs.setBool('country_selected', true);
                                     setCountryId(list[index].id,
                                         list[index].code, list[index].number);
                                     print(
