@@ -11,15 +11,18 @@ import 'package:davinshi_app/provider/address.dart';
 import 'add_address.dart';
 
 class Address extends StatelessWidget {
-  Future deleteAddress(context, id) async {
+  Future deleteAddress(context, String id) async {
     final String url = domain + 'delete-myShipping-address';
     try {
       Response response = await Dio().post(
         url,
         data: {
-          "shippingAddress_id": "$id",
+          "shippingAddress_id": id,
         },
-        options: Options(followRedirects: false, headers: {"auth-token": auth}),
+        options: Options(
+            followRedirects: false,
+            validateStatus: (status) => true,
+            headers: {"auth-token": auth}),
       );
       if (response.data['status'] == 1) {
         print(response.data);
@@ -122,7 +125,8 @@ class Address extends StatelessWidget {
                                           iconSize: w * 0.05,
                                           onPressed: () {
                                             dialog(context);
-                                            deleteAddress(context, _list[i].id);
+                                            deleteAddress(context,
+                                                _list[i].id.toString());
                                           },
                                         ),
                                         IconButton(

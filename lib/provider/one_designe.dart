@@ -54,6 +54,17 @@ Future addRate(
       controller.success();
       await Future.delayed(const Duration(milliseconds: 2500));
     } else {
+      final snackBar = SnackBar(
+        content: Text(translateString(
+            "I already evaluated the design", 'لقد قمت بتقييم التصميم مسبقا')),
+        action: SnackBarAction(
+          label: translateString('Undo', 'تراجع'),
+          disabledTextColor: Colors.yellow,
+          textColor: Colors.yellow,
+          onPressed: () => navPop(context),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       controller.error();
       await Future.delayed(const Duration(milliseconds: 2500));
       controller.stop();
@@ -128,7 +139,7 @@ Future deleteDesigneRating({required String ratingId, required context}) async {
       options: dio.Options(headers: {"auth-token": auth}),
     );
     print(response.data);
-    if (response.statusCode == 200 && response.data['status'] == 1) {
+    if (response.data['status'] == 1) {
     } else {
       final snackBar = SnackBar(
         content: Text(translateString(
