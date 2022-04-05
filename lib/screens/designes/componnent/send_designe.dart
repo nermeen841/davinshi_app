@@ -225,16 +225,37 @@ class _SendDesigneScreenState extends State<SendDesigneScreen> {
                 errorColor: Colors.red,
                 onPressed: () async {
                   FocusScope.of(context).requestFocus(FocusNode());
+
                   if (formKey.currentState!.validate()) {
-                    addDesigne(
-                        context: context,
-                        name: listEd[0].text,
-                        email: listEd[1].text,
-                        controller: btnController,
-                        phone: listEd[2].text,
-                        designeName: listEd[3].text,
-                        images: images,
-                        note: listEd[4].text);
+                    if (image1 != null || image2 != null || image3 != null) {
+                      addDesigne(
+                          context: context,
+                          name: listEd[0].text,
+                          email: listEd[1].text,
+                          controller: btnController,
+                          phone: listEd[2].text,
+                          designeName: listEd[3].text,
+                          images: images,
+                          note: listEd[4].text);
+                    } else {
+                      final snackBar = SnackBar(
+                        content: Text(translateString(
+                            "must upload at least 3 images",
+                            "يجب ارفاق 3 صور علي الاقل")),
+                        action: SnackBarAction(
+                          label: translate(context, 'snack_bar', 'undo'),
+                          disabledTextColor: Colors.yellow,
+                          textColor: Colors.yellow,
+                          onPressed: () {
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          },
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      btnController.error();
+                      await Future.delayed(const Duration(seconds: 1));
+                      btnController.stop();
+                    }
                   } else {
                     btnController.error();
                     await Future.delayed(const Duration(seconds: 1));
