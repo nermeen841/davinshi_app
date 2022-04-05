@@ -424,10 +424,15 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                       context: context,
                                       builder: (context) {
                                         return AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(w * 0.05),
+                                          ),
                                           title: const Text(''),
                                           content: Text(
-                                            translate(context, 'product',
-                                                'error_cart'),
+                                            translateString(
+                                                "you can't order from different brands",
+                                                "لا يمكنك الطلب من اكثر من متجر"),
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontFamily: 'Tajawal',

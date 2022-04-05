@@ -55,6 +55,7 @@ class _ConfirmCartState extends State<ConfirmCart> {
             "lat_and_long":
                 address.lat.toString() + ',' + address.long.toString(),
             "coupon_code": widget.couponName,
+            "payment_method": (isCash == 1) ? "cash" : "knet"
           }
         : {
             "name": addressGuest!.name,
@@ -73,6 +74,7 @@ class _ConfirmCartState extends State<ConfirmCart> {
                 ',' +
                 addressGuest!.long.toString(),
             "coupon_code": widget.couponName,
+            "payment_method": (isCash == 1) ? "cash" : "knet"
           };
     print(data);
     if (widget.couponName == null) {
