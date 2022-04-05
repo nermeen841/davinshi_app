@@ -14,9 +14,14 @@ import '../../provider/new_item.dart';
 import '../../provider/recommended_item.dart';
 import 'order_info.dart';
 
-class Orders extends StatelessWidget {
+class Orders extends StatefulWidget {
   const Orders({Key? key}) : super(key: key);
 
+  @override
+  State<Orders> createState() => _OrdersState();
+}
+
+class _OrdersState extends State<Orders> {
   @override
   Widget build(BuildContext context) {
     orders = orders.reversed.toList();
@@ -177,7 +182,9 @@ class Orders extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Text(
-                                                  orders[i].orderStatus,
+                                                  translateStutse(
+                                                      statuse: orders[i]
+                                                          .orderStatus),
                                                   style: TextStyle(
                                                     fontSize: w * 0.03,
                                                     color: mainColor,
@@ -257,5 +264,19 @@ class Orders extends StatelessWidget {
                   },
                 )),
     );
+  }
+
+  translateStutse({required String statuse}) {
+    if (statuse == 'pending') {
+      return translateString("pendeing", "قيد الانتظار ");
+    } else if (statuse == 'accept') {
+      return translateString("accept", "تم الموافقه");
+    } else if (statuse == 'reject') {
+      return translateString("reject", "تم رفض الطلب");
+    } else if (statuse == 'done') {
+      return translateString("done", "تم التسليم");
+    } else if (statuse == 'shipping') {
+      return translateString("shipping", "جاري الشحن");
+    }
   }
 }
