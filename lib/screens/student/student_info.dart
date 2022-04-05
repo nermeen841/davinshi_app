@@ -2,6 +2,7 @@
 
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:davinshi_app/lang/change_language.dart';
@@ -10,11 +11,12 @@ import 'package:davinshi_app/models/constants.dart';
 import 'package:davinshi_app/models/products_cla.dart';
 import 'package:davinshi_app/provider/cart_provider.dart';
 import 'package:davinshi_app/provider/student_product.dart';
-import 'package:davinshi_app/provider/student_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../models/home_item.dart';
 import '../cart/cart.dart';
 
 class StudentInfo extends StatefulWidget {
-  final StudentClass studentClass;
+  final dynamic studentClass;
   StudentInfo({Key? key, required this.studentClass}) : super(key: key);
   @override
   _StudentInfo createState() => _StudentInfo();
@@ -25,6 +27,9 @@ class _StudentInfo extends State<StudentInfo> {
   final ScrollController _controller = ScrollController();
   final ScrollController _controller2 = ScrollController();
   bool f1 = true, finish = false;
+  var currency = (prefs.getString('language_code').toString() == 'en')
+      ? prefs.getString('currencyEn').toString()
+      : prefs.getString('currencyAr').toString();
   void start(context) {
     studentId = widget.studentClass.id;
     var of1 = Provider.of<StudentItemProvider>(context, listen: true);
@@ -189,12 +194,26 @@ class _StudentInfo extends State<StudentInfo> {
             style: TextStyle(color: Colors.white, fontSize: w * 0.04),
           ),
           centerTitle: true,
-          elevation: 5,
-          leading: const BackButton(color: Colors.white),
+          leading: InkWell(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              width: w * 0.05,
+              height: h * 0.01,
+              margin: EdgeInsets.symmetric(
+                  horizontal: w * 0.02, vertical: h * 0.017),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(w * 0.01)),
+              child: Icon(
+                Icons.arrow_back,
+                color: mainColor,
+              ),
+            ),
+          ),
+          elevation: 0.0,
           actions: [
             Padding(
               padding: const EdgeInsets.all(5),
-              // child: Icon(Icons.search,color: Colors.white,size: w*0.05,),
               child: Badge(
                 badgeColor: const Color(0xffFF0921),
                 child: IconButton(
@@ -227,7 +246,6 @@ class _StudentInfo extends State<StudentInfo> {
             ),
           ],
           backgroundColor: mainColor,
-          iconTheme: IconThemeData(color: mainColor),
         ),
         body: Center(
           child: SizedBox(
@@ -237,24 +255,75 @@ class _StudentInfo extends State<StudentInfo> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  if (getAds(9).isNotEmpty)
+                    SizedBox(
+                      height: h * 0.3,
+                      child: Swiper(
+                        pagination: const SwiperPagination(
+                            builder: DotSwiperPaginationBuilder(
+                                color: Colors.white54,
+                                activeColor: Colors.white),
+                            alignment: Alignment.bottomCenter),
+                        itemCount: getAds(9).length,
+                        itemBuilder: (BuildContext context, int i) {
+                          Ads _ads = getAds(9)[i];
+                          return InkWell(
+                            child: Container(
+                              height: h * 0.2 + 5,
+                              width: w,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(_ads.image),
+                                  fit: BoxFit.cover,
+                                ),
+                                color: Colors.grey[200],
+                              ),
+                            ),
+                            focusColor: Colors.transparent,
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              if (_ads.inApp) {
+                                if (_ads.type) {
+                                  dialog(context);
+                                  await getItem(int.parse(_ads.link));
+                                  Navigator.pushReplacementNamed(
+                                      context, 'pro');
+                                }
+                              } else {
+                                await canLaunch(_ads.link)
+                                    ? await launch(_ads.link)
+                                    : throw 'Could not launch ${_ads.link}';
+                              }
+                            },
+                          );
+                        },
+                        autoplay: true,
+                        autoplayDelay: 5000,
+                      ),
+                    ),
                   SizedBox(
                     height: h * 0.01,
                   ),
-                  if (widget.studentClass.cover != null)
-                    Container(
-                      height: h * 0.2,
-                      width: w,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(widget.studentClass.cover!),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                  if (widget.studentClass.cover != null)
-                    SizedBox(
-                      height: h * 0.01,
-                    ),
+
+                  SizedBox(
+                    height: h * 0.01,
+                  ),
+                  // if (widget.studentClass.cover != null)
+                  //   Container(
+                  //     height: h * 0.2,
+                  //     width: w,
+                  //     decoration: BoxDecoration(
+                  //       image: DecorationImage(
+                  //         image: NetworkImage(widget.studentClass.cover!),
+                  //         fit: BoxFit.fill,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // if (widget.studentClass.cover != null)
+                  //   SizedBox(
+                  //     height: h * 0.01,
+                  //   ),
                   Material(
                     elevation: 1,
                     child: SizedBox(
@@ -408,59 +477,56 @@ class _StudentInfo extends State<StudentInfo> {
                                                 SizedBox(
                                                   height: h * 0.005,
                                                 ),
-                                                RichText(
-                                                  text: TextSpan(
-                                                    children: [
-                                                      if (item.offers[i].isSale)
-                                                        TextSpan(
-                                                            text:
-                                                                '${item.offers[i].salePrice}'
-                                                                ' ${prefs.getString("currency").toString()} ',
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .black)),
-                                                      if (!item
-                                                          .offers[i].isSale)
-                                                        TextSpan(
-                                                            text:
-                                                                '${item.offers[i].price} '
-                                                                '${prefs.getString("currency").toString()} ',
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .black)),
-                                                      if (item.offers[i]
-                                                              .isSale &&
-                                                          item.offers[i]
-                                                                  .disPer !=
-                                                              null)
-                                                        TextSpan(
-                                                            text:
-                                                                item.offers[i]
-                                                                        .disPer! +
-                                                                    '%',
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .red)),
-                                                    ],
-                                                  ),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        children: [
+                                                          if (item
+                                                              .offers[i].isSale)
+                                                            TextSpan(
+                                                                text:
+                                                                    '${item.offers[i].salePrice}' +
+                                                                        currency,
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color:
+                                                                        mainColor)),
+                                                          if (!item
+                                                              .offers[i].isSale)
+                                                            TextSpan(
+                                                                text:
+                                                                    '${item.offers[i].price} '
+                                                                    '$currency',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color:
+                                                                        mainColor)),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                                 if (item.offers[i].isSale)
                                                   Text(
                                                     '${item.offers[i].price} '
-                                                    '${prefs.getString("currency").toString()}',
+                                                    '$currency',
                                                     style: TextStyle(
                                                       fontSize: w * 0.035,
                                                       decoration: TextDecoration
                                                           .lineThrough,
+                                                      decorationColor:
+                                                          mainColor,
+                                                      decorationThickness: 20,
                                                       color: Colors.grey,
                                                     ),
                                                   ),
@@ -492,7 +558,8 @@ class _StudentInfo extends State<StudentInfo> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: w * 0.025),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -503,8 +570,16 @@ class _StudentInfo extends State<StudentInfo> {
                             fontFamily: 'Tajawal',
                           ),
                         ),
+                        Divider(
+                          color: mainColor,
+                          thickness: 3,
+                          endIndent: 250,
+                        ),
                       ],
                     ),
+                  ),
+                  SizedBox(
+                    height: h * 0.03,
                   ),
                   SizedBox(
                     width: w * 0.95,
@@ -531,115 +606,141 @@ class _StudentInfo extends State<StudentInfo> {
                                     right: i.isOdd ? w * 0.025 : 0,
                                     bottom: h * 0.02,
                                     left: i.isOdd ? w * 0.025 : 0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Container(
-                                      width: w * 0.45,
-                                      height: h * 0.28,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        image: DecorationImage(
-                                          image:
-                                              NetworkImage(item.items[i].image),
-                                          // image: AssetImage('assets/food${i+1}.png'),
-                                          fit: BoxFit.fitHeight,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(w * 0.015),
-                                        child: Align(
-                                          alignment: isLeft()
-                                              ? Alignment.bottomLeft
-                                              : Alignment.bottomRight,
-                                          child: CircleAvatar(
-                                            backgroundColor: mainColor,
-                                            radius: w * .05,
-                                            child: Center(
-                                              child: Icon(
-                                                Icons.shopping_cart_outlined,
-                                                color: Colors.white,
-                                                size: w * 0.05,
-                                              ),
-                                            ),
+                                child: Container(
+                                  width: w * 0.45,
+                                  height: h * 0.28,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius:
+                                          BorderRadius.circular(w * 0.05),
+                                      border: Border.all(
+                                          color: const Color(0xff707070))),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        width: w * 0.45,
+                                        height: h * 0.2,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[200],
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                                item.items[i].image),
+                                            // image: AssetImage('assets/food${i+1}.png'),
+                                            fit: BoxFit.fitHeight,
                                           ),
                                         ),
+                                        // child: Padding(
+                                        //   padding: EdgeInsets.all(w * 0.015),
+                                        //   child: Align(
+                                        //     alignment: isLeft()
+                                        //         ? Alignment.bottomLeft
+                                        //         : Alignment.bottomRight,
+                                        //     child: CircleAvatar(
+                                        //       backgroundColor: mainColor,
+                                        //       radius: w * .05,
+                                        //       child: Center(
+                                        //         child: Icon(
+                                        //           Icons.shopping_cart_outlined,
+                                        //           color: Colors.white,
+                                        //           size: w * 0.05,
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: w * 0.45,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            height: h * 0.01,
-                                          ),
-                                          Container(
-                                              constraints: BoxConstraints(
-                                                maxHeight: h * 0.07,
+                                      SizedBox(
+                                        width: w * 0.45,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: w * 0.02),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              SizedBox(
+                                                height: h * 0.01,
                                               ),
-                                              child: Text(
-                                                  translateString(
-                                                      item.items[i].nameEn,
-                                                      item.items[i].nameAr),
+                                              Container(
+                                                  constraints: BoxConstraints(
+                                                    maxHeight: h * 0.07,
+                                                  ),
+                                                  child: Text(
+                                                      translateString(
+                                                          item.items[i].nameEn,
+                                                          item.items[i].nameAr),
+                                                      style: TextStyle(
+                                                          fontSize: w * 0.035),
+                                                      overflow:
+                                                          TextOverflow.fade)),
+                                              SizedBox(
+                                                height: h * 0.005,
+                                              ),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  RichText(
+                                                    text: TextSpan(
+                                                      children: [
+                                                        if (item
+                                                            .items[i].isSale)
+                                                          TextSpan(
+                                                              text:
+                                                                  '${item.items[i].salePrice}'
+                                                                  ' $currency',
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'Tajawal',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color:
+                                                                      mainColor)),
+                                                        if (!item
+                                                            .items[i].isSale)
+                                                          TextSpan(
+                                                              text:
+                                                                  '${item.items[i].price}'
+                                                                  ' $currency',
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'Tajawal',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color:
+                                                                      mainColor)),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              if (item.items[i].isSale)
+                                                Text(
+                                                  '${item.items[i].price} '
+                                                  '$currency',
                                                   style: TextStyle(
-                                                      fontSize: w * 0.035),
-                                                  overflow: TextOverflow.fade)),
-                                          SizedBox(
-                                            height: h * 0.005,
+                                                      fontSize: w * 0.035,
+                                                      fontFamily: 'Tajawal',
+                                                      decoration: TextDecoration
+                                                          .lineThrough,
+                                                      color: Colors.grey,
+                                                      decorationColor:
+                                                          mainColor,
+                                                      decorationThickness: 20),
+                                                ),
+                                            ],
                                           ),
-                                          RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                if (item.items[i].isSale)
-                                                  TextSpan(
-                                                      text:
-                                                          '${item.items[i].salePrice}'
-                                                          ' ${prefs.getString("currency").toString()} ',
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black)),
-                                                if (!item.items[i].isSale)
-                                                  TextSpan(
-                                                      text:
-                                                          '${item.items[i].price}'
-                                                          ' ${prefs.getString("currency").toString()} ',
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.black)),
-                                                if (item.items[i].isSale &&
-                                                    item.items[i].disPer !=
-                                                        null)
-                                                  TextSpan(
-                                                      text: item.items[i]
-                                                              .disPer! +
-                                                          '%',
-                                                      style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.red)),
-                                              ],
-                                            ),
-                                          ),
-                                          if (item.items[i].isSale)
-                                            Text(
-                                              '${item.items[i].price} '
-                                              '${prefs.getString("currency").toString()}',
-                                              style: TextStyle(
-                                                fontSize: w * 0.035,
-                                                decoration:
-                                                    TextDecoration.lineThrough,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                               onTap: () async {

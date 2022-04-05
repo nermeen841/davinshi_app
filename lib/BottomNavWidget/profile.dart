@@ -91,7 +91,7 @@ class _ProfileState extends State<Profile> {
           ),
           Tile(
             nameAr: 'تسجيل خروج',
-            nameEn: 'Sign up',
+            nameEn: 'Sign out',
             image: 'assets/icons/FeatherIconSet-Feather_Controls-upload.png',
             className: const SizedBox(),
           ),

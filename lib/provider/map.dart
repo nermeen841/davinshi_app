@@ -103,14 +103,15 @@ class MapProvider extends ChangeNotifier {
         String? address =
             "1-$name\n2-$subLocality\n3-$locality\n4-$administrativeArea\n5-$postalCode\n6-$country\n7-$street\n8-$subArea\n9-$thoroughfare";
         print(address);
-        if (name != '') {
-          this.street = name;
-        } else if (thoroughfare != '') {
-          this.street = thoroughfare;
-        } else if (street != '') {
+        // if (name != '') {
+        //   this.street = name;
+        // } else if (thoroughfare != '') {
+        //   this.street = thoroughfare;
+        // } else
+        if (street != '') {
           this.street = street;
         } else {
-          this.street = administrativeArea;
+          this.street = name;
         }
         this.country = country + ', ' + administrativeArea;
         notifyListeners();

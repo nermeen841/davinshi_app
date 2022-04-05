@@ -6,6 +6,7 @@ import 'package:davinshi_app/provider/fav_pro.dart';
 import 'package:davinshi_app/provider/new_item.dart';
 import 'package:davinshi_app/provider/offer_item.dart';
 import 'package:davinshi_app/provider/social.dart';
+import 'package:davinshi_app/screens/auth/login.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/models/constants.dart';
@@ -26,6 +27,7 @@ class _SplachState extends State<Splach> {
   Future go() async {
     await Future.delayed(const Duration(seconds: 3), () async {
       String? lang = prefs.getString('language_code');
+      bool countrySelected = prefs.getBool('country_selected') ?? false;
       if (lang != null) {
         if (login) {
           getLikes();
@@ -42,12 +44,19 @@ class _SplachState extends State<Splach> {
               MaterialPageRoute(builder: (context) => Home()),
               (route) => false);
         } else {
-          await getCountries();
-          await SocialIcons().getSocialIcons();
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => Country(1)),
-              (route) => false);
+          if (countrySelected) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const Login()),
+                (route) => false);
+          } else {
+            await getCountries();
+            await SocialIcons().getSocialIcons();
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => Country(1)),
+                (route) => false);
+          }
         }
       } else {
         getCountries();

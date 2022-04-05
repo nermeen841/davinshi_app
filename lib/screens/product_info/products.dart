@@ -420,6 +420,103 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                   setState2(() {
                                     error = true;
                                   });
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text(''),
+                                          content: Text(
+                                            translate(context, 'product',
+                                                'error_cart'),
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontFamily: 'Tajawal',
+                                                fontSize: w * 0.035),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              child: Text(
+                                                translateString(
+                                                    "Cancel", "الغاء"),
+                                                style: const TextStyle(
+                                                  fontFamily: 'Tajawal',
+                                                ),
+                                              ),
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                            ),
+                                            InkWell(
+                                              child: Text(
+                                                translate(
+                                                  context,
+                                                  'buttons',
+                                                  'error_cart',
+                                                ),
+                                                style: TextStyle(
+                                                    fontFamily: 'Tajawal',
+                                                    fontSize: w * 0.035),
+                                              ),
+                                              onTap: () async {
+                                                await dbHelper.deleteAll();
+                                                await cart.setItems();
+                                                try {
+                                                  if (!cart.idp.contains(
+                                                      productCla.id)) {
+                                                    await helper.createCar(
+                                                        CartProducts(
+                                                            id: null,
+                                                            studentId: widget
+                                                                    .fromFav
+                                                                ? widget.brandId
+                                                                : studentId,
+                                                            image: productCla
+                                                                .image,
+                                                            titleAr: productCla
+                                                                .nameAr,
+                                                            titleEn: productCla
+                                                                .nameEn,
+                                                            price: finalPrice
+                                                                .toDouble(),
+                                                            quantity: _counter,
+                                                            att: att,
+                                                            des: des,
+                                                            idp: productCla.id,
+                                                            idc: productCla
+                                                                .cat.id,
+                                                            catNameEn:
+                                                                productCla
+                                                                    .cat.nameEn,
+                                                            catNameAr:
+                                                                productCla
+                                                                    .cat.nameAr,
+                                                            catSVG: productCla
+                                                                .cat.svg));
+                                                  } else {
+                                                    int quantity = cart.items
+                                                        .firstWhere((element) =>
+                                                            element.idp ==
+                                                            productCla.id)
+                                                        .quantity;
+                                                    await helper.updateProduct(
+                                                        counter + quantity,
+                                                        productCla.id,
+                                                        finalPrice.toDouble(),
+                                                        jsonEncode(att),
+                                                        jsonEncode(des));
+                                                  }
+                                                  await cart.setItems();
+                                                  error = false;
+                                                } catch (e) {
+                                                  print('e');
+                                                  print(e);
+                                                  error = false;
+                                                }
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      });
                                 }
                               } else {
                                 if (cartId == null ||
@@ -467,78 +564,79 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                               }
                             },
                           ),
+                          SizedBox(
+                            height: h * 0.02,
+                          ),
+                          // if (error)
+
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     Text(
+                          //       translate(context, 'product', 'error_cart'),
+                          //       style: TextStyle(
+                          //           color: mainColor, fontSize: w * 0.035),
+                          //     ),
+                          //     InkWell(
+                          //       child: Text(
+                          //         translate(
+                          //           context,
+                          //           'buttons',
+                          //           'error_cart',
+                          //         ),
+                          //         style: TextStyle(
+                          //             color: mainColor, fontSize: w * 0.035),
+                          //       ),
+                          //       onTap: () async {
+                          //         await dbHelper.deleteAll();
+                          //         await cart.setItems();
+                          //         try {
+                          //           if (!cart.idp.contains(productCla.id)) {
+                          //             await helper.createCar(CartProducts(
+                          //                 id: null,
+                          //                 studentId: widget.fromFav
+                          //                     ? widget.brandId
+                          //                     : studentId,
+                          //                 image: productCla.image,
+                          //                 titleAr: productCla.nameAr,
+                          //                 titleEn: productCla.nameEn,
+                          //                 price: finalPrice.toDouble(),
+                          //                 quantity: _counter,
+                          //                 att: att,
+                          //                 des: des,
+                          //                 idp: productCla.id,
+                          //                 idc: productCla.cat.id,
+                          //                 catNameEn: productCla.cat.nameEn,
+                          //                 catNameAr: productCla.cat.nameAr,
+                          //                 catSVG: productCla.cat.svg));
+                          //           } else {
+                          //             int quantity = cart.items
+                          //                 .firstWhere((element) =>
+                          //                     element.idp == productCla.id)
+                          //                 .quantity;
+                          //             await helper.updateProduct(
+                          //                 _counter + quantity,
+                          //                 productCla.id,
+                          //                 finalPrice.toDouble(),
+                          //                 jsonEncode(att),
+                          //                 jsonEncode(des));
+                          //           }
+                          //           await cart.setItems();
+                          //           error = false;
+                          //         } catch (e) {
+                          //           print('e');
+                          //           print(e);
+                          //           error = false;
+                          //         }
+                          //         Navigator.pop(context);
+                          //       },
+                          //     ),
+                          //   ],
+                          // ),
                           if (error)
                             SizedBox(
-                              height: h * 0.02,
+                              height: h * 0.05,
                             ),
-                          if (error)
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  translate(context, 'product', 'error_cart'),
-                                  style: TextStyle(
-                                      color: mainColor2, fontSize: w * 0.035),
-                                ),
-                                InkWell(
-                                  child: Text(
-                                    translate(
-                                      context,
-                                      'buttons',
-                                      'error_cart',
-                                    ),
-                                    style: TextStyle(
-                                        color: mainColor2, fontSize: w * 0.035),
-                                  ),
-                                  onTap: () async {
-                                    await dbHelper.deleteAll();
-                                    await cart.setItems();
-                                    try {
-                                      if (!cart.idp.contains(productCla.id)) {
-                                        await helper.createCar(CartProducts(
-                                            id: null,
-                                            studentId: widget.fromFav
-                                                ? widget.brandId
-                                                : studentId,
-                                            image: productCla.image,
-                                            titleAr: productCla.nameAr,
-                                            titleEn: productCla.nameEn,
-                                            price: finalPrice.toDouble(),
-                                            quantity: _counter,
-                                            att: att,
-                                            des: des,
-                                            idp: productCla.id,
-                                            idc: productCla.cat.id,
-                                            catNameEn: productCla.cat.nameEn,
-                                            catNameAr: productCla.cat.nameAr,
-                                            catSVG: productCla.cat.svg));
-                                      } else {
-                                        int quantity = cart.items
-                                            .firstWhere((element) =>
-                                                element.idp == productCla.id)
-                                            .quantity;
-                                        await helper.updateProduct(
-                                            _counter + quantity,
-                                            productCla.id,
-                                            finalPrice.toDouble(),
-                                            jsonEncode(att),
-                                            jsonEncode(des));
-                                      }
-                                      await cart.setItems();
-                                      error = false;
-                                    } catch (e) {
-                                      print('e');
-                                      print(e);
-                                      error = false;
-                                    }
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-                            ),
-                          SizedBox(
-                            height: h * 0.05,
-                          ),
                         ],
                       ),
                     ),

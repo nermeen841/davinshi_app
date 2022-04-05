@@ -206,52 +206,152 @@ class _ContactUsState extends State<ContactUs> {
                     SizedBox(
                       height: h * .04,
                     ),
-                    Center(
-                      child: Text(
-                        (language == 'en')
-                            ? "Contact us thruogh Social media"
-                            : "تواصل عن طريق السوشيال ميديا",
-                        style: TextStyle(
-                            color: mainColor,
-                            fontFamily: 'Tajawal',
-                            fontSize: w * 0.04,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    SizedBox(
-                      height: h * .04,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List.generate(
-                        SocialIcons.socialModel!.data!.length,
-                        (index) => InkWell(
-                          onTap: () async {
-                            if (SocialIcons.socialModel!.data![index].title! ==
-                                'whatsapp') {
-                              await launch(
-                                  "whatsapp://send?phone=${SocialIcons.socialModel!.data![index].link!}&text=");
-                            } else if (SocialIcons
-                                    .socialModel!.data![index].title! ==
-                                'phone') {
-                              await launch(
-                                  'tel:${SocialIcons.socialModel!.data![index].link!}');
-                            } else {
-                              await launch(
-                                  SocialIcons.socialModel!.data![index].link!);
-                            }
-                          },
-                          child: CircleAvatar(
-                            radius: w * 0.06,
-                            backgroundColor: Colors.white,
-                            backgroundImage: NetworkImage(
-                                SocialIcons.socialModel!.data![index].src! +
-                                    '/' +
-                                    SocialIcons.socialModel!.data![index].img!),
+                    Column(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: List.generate(
+                            SocialIcons.socialModel!.data!.iconsSp!.length,
+                            (index) => InkWell(
+                              onTap: () async {
+                                if (SocialIcons.socialModel!.data!
+                                        .iconsSp![index].title! ==
+                                    'whatsapp') {
+                                  await launch(
+                                      "whatsapp://send?phone=${SocialIcons.socialModel!.data!.icons![index].link!}&text=");
+                                } else if (SocialIcons.socialModel!.data!
+                                        .iconsSp![index].title! ==
+                                    'phone') {
+                                  await launch(
+                                      'tel:${SocialIcons.socialModel!.data!.iconsSp![index].link!}');
+                                }
+                              },
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: w * 0.1,
+                                        height: h * 0.05,
+                                        child: Image(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(SocialIcons
+                                                  .socialModel!
+                                                  .data!
+                                                  .iconsSp![index]
+                                                  .src! +
+                                              '/' +
+                                              SocialIcons.socialModel!.data!
+                                                  .iconsSp![index].img!),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: w * 0.025,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: (SocialIcons
+                                                          .socialModel!
+                                                          .data!
+                                                          .iconsSp![index]
+                                                          .title! ==
+                                                      'whatsapp')
+                                                  ? translateString(
+                                                          "Chatting with us",
+                                                          "دردش معنا") +
+                                                      '\n'
+                                                  : translateString(
+                                                          "Talk to us",
+                                                          "تواصل معنا") +
+                                                      '\n',
+                                              style: TextStyle(
+                                                  overflow: TextOverflow.fade,
+                                                  fontFamily: 'Tajawal',
+                                                  fontSize: w * 0.04,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Colors.black),
+                                            ),
+                                            TextSpan(
+                                              text: (SocialIcons
+                                                          .socialModel!
+                                                          .data!
+                                                          .iconsSp![index]
+                                                          .title! ==
+                                                      'whatsapp')
+                                                  ? translateString(
+                                                      "7 days a week 24 hours a day",
+                                                      " علي مدار أيام الأسبوع 24 ساعة في اليوم")
+                                                  : translateString(
+                                                      "Get the answers you need. We are here to help",
+                                                      " أحصل علي الإجابات التي تحتاجها نحن موجودون هنا للمساعدة"),
+                                              style: TextStyle(
+                                                  fontFamily: 'Tajawal',
+                                                  overflow: TextOverflow.fade,
+                                                  fontSize: (language == 'en')
+                                                      ? w * 0.035
+                                                      : w * 0.03,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.black54),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: h * 0.02,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        SizedBox(
+                          height: h * .04,
+                        ),
+                        Center(
+                          child: Text(
+                            (language == 'en')
+                                ? "Contact us thruogh Social media"
+                                : "تواصل عن طريق السوشيال ميديا",
+                            style: TextStyle(
+                                color: mainColor,
+                                fontFamily: 'Tajawal',
+                                fontSize: w * 0.04,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        SizedBox(
+                          height: h * .02,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: List.generate(
+                            SocialIcons.socialModel!.data!.icons!.length,
+                            (index) => InkWell(
+                              onTap: () async {
+                                await launch(SocialIcons
+                                    .socialModel!.data!.icons![index].link!);
+                              },
+                              child: SizedBox(
+                                width: w * 0.1,
+                                height: h * 0.05,
+                                child: Image(
+                                  fit: BoxFit.contain,
+                                  image: NetworkImage(SocialIcons.socialModel!
+                                          .data!.icons![index].src! +
+                                      '/' +
+                                      SocialIcons.socialModel!.data!
+                                          .icons![index].img!),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: h * .04,
