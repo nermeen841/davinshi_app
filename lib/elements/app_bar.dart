@@ -4,6 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:davinshi_app/provider/home.dart';
 import 'package:davinshi_app/provider/new_item.dart';
 import 'package:davinshi_app/screens/home_folder/home_page.dart';
+import 'package:davinshi_app/screens/student/view_all.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/BottomNavWidget/first_page.dart';
 import 'package:davinshi_app/lang/change_language.dart';
@@ -38,6 +39,7 @@ class AppBarHome {
               context,
               MaterialPageRoute(builder: (context) => Home()),
               (route) => false);
+          ViewAll.brandsSearch = false;
         },
         child: Container(
           width: w * 0.8,
