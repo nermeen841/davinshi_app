@@ -26,7 +26,7 @@ class _AddAddressState extends State<AddAddress> {
   GoogleMapController? _controller;
 
   void _updatePosition(CameraPosition _position, context) {
-    _controller!.animateCamera(CameraUpdate.newCameraPosition(_position));
+    // _controller!.animateCamera(CameraUpdate.newCameraPosition(_position));
     Provider.of<MapProvider>(context, listen: false)
         .updateLat(_position.target);
   }
