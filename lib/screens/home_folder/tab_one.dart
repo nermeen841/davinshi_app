@@ -1,10 +1,9 @@
 // ignore_for_file: unnecessary_string_interpolations, avoid_print, use_key_in_widget_constructors
-import 'dart:convert';
+
 import 'package:davinshi_app/dbhelper.dart';
-import 'package:davinshi_app/models/cart.dart';
 import 'package:davinshi_app/models/rate.dart';
-import 'package:davinshi_app/provider/cart_provider.dart';
 import 'package:davinshi_app/screens/home_folder/more/more.dart';
+import 'package:davinshi_app/screens/student/view_all.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 import 'package:davinshi_app/BottomNavWidget/first_page.dart';
@@ -17,12 +16,12 @@ import 'package:davinshi_app/models/products_cla.dart';
 import 'package:davinshi_app/provider/CatProvider.dart';
 import 'package:davinshi_app/provider/package_provider.dart';
 import 'package:davinshi_app/screens/multiple_packages.dart';
-import 'package:davinshi_app/screens/student/student.dart';
 import 'package:davinshi_app/screens/student/student_info.dart';
 import 'package:davinshi_app/screens/sub_categories_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../BottomNavWidget/third_page.dart';
+import '../../provider/student_provider.dart';
 
 class TabOne extends StatefulWidget {
   @override
@@ -49,7 +48,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
         ? prefs.getString('currencyEn').toString()
         : prefs.getString('currencyAr').toString();
     CatProvider catProvider = Provider.of<CatProvider>(context, listen: false);
-    CartProvider cart = Provider.of<CartProvider>(context, listen: true);
     return WillPopScope(
       onWillPop: showExitPopup,
       child: Container(
@@ -1469,8 +1467,17 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                         ),
                                       ),
                                     ),
-                                    onTap: () {
-                                      navP(context, Student());
+                                    onTap: () async {
+                                      dialog(context);
+                                      var st = Provider.of<StudentProvider>(
+                                          context,
+                                          listen: false);
+                                      st.clearList();
+                                      await st.getStudents();
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => ViewAll()));
                                     },
                                   ),
                                 ],
@@ -1519,6 +1526,18 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                           StudentInfo(
                                             studentClass: stu[i],
                                           ));
+                                      // dialog(context);
+                                      // StudentItemProvider st =
+                                      //     Provider.of<StudentItemProvider>(context,
+                                      //         listen: false);
+                                      // st.clearList();
+                                      // await st.getItems(_st.id);
+                                      // Navigator.pushReplacement(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) => StudentInfo(
+                                      //               studentClass: _st,
+                                      //             )));
                                     },
                                   );
                                 },
@@ -1671,158 +1690,158 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: w * 0.02,
-                                                  vertical: h * 0.01),
-                                              child: Align(
-                                                alignment: isLeft()
-                                                    ? Alignment.topRight
-                                                    : Alignment.topLeft,
-                                                child: InkWell(
-                                                  onTap: () async {
-                                                    if (cartId == null ||
-                                                        cartId == studentId) {
-                                                      try {
-                                                        if (!cart.idp.contains(
-                                                            bestDis[i].id)) {
-                                                          await helper.createCar(
-                                                              CartProducts(
-                                                                  id: null,
-                                                                  studentId:
-                                                                      studentId,
-                                                                  image:
-                                                                      bestDis[i]
-                                                                          .image,
-                                                                  titleAr: bestDis[
-                                                                          i]
-                                                                      .nameAr,
-                                                                  titleEn:
-                                                                      bestDis[
-                                                                              i]
-                                                                          .nameEn,
-                                                                  price: bestDis[
-                                                                          i]
-                                                                      .finalPrice
-                                                                      .toDouble(),
-                                                                  quantity: 1,
-                                                                  att: att,
-                                                                  des: des,
-                                                                  idp:
-                                                                      bestDis[i]
-                                                                          .id,
-                                                                  idc: 0,
-                                                                  catNameEn: "",
-                                                                  catNameAr: "",
-                                                                  catSVG: ""));
-                                                        } else {
-                                                          int quantity = cart
-                                                              .items
-                                                              .firstWhere(
-                                                                  (element) =>
-                                                                      element
-                                                                          .idp ==
-                                                                      bestDis[i]
-                                                                          .id)
-                                                              .quantity;
-                                                          await helper
-                                                              .updateProduct(
-                                                                  1 + quantity,
-                                                                  bestDis[i].id,
-                                                                  bestDis[i]
-                                                                      .finalPrice
-                                                                      .toDouble(),
-                                                                  jsonEncode(
-                                                                      att),
-                                                                  jsonEncode(
-                                                                      des));
-                                                        }
-                                                        await cart.setItems();
-                                                      } catch (e) {
-                                                        print('e');
-                                                        print(e);
-                                                      }
-                                                    } else {
-                                                      if (cartId == null ||
-                                                          cartId == studentId) {
-                                                        try {
-                                                          if (!cart.idp
-                                                              .contains(
-                                                                  bestDis[i]
-                                                                      .id)) {
-                                                            await helper.createCar(CartProducts(
-                                                                id: null,
-                                                                studentId:
-                                                                    bestDis[i]
-                                                                        .brands![
-                                                                            i]
-                                                                        .id,
-                                                                image: bestDis[
-                                                                        i]
-                                                                    .image,
-                                                                titleAr:
-                                                                    bestDis[i]
-                                                                        .nameAr,
-                                                                titleEn:
-                                                                    bestDis[
-                                                                            i]
-                                                                        .nameEn,
-                                                                price: bestDis[
-                                                                        i]
-                                                                    .price
-                                                                    .toDouble(),
-                                                                quantity: 1,
-                                                                att: att,
-                                                                des: des,
-                                                                idp: bestDis[i]
-                                                                    .id,
-                                                                idc: bestDis[i]
-                                                                    .id,
-                                                                catNameEn: "",
-                                                                catNameAr: "",
-                                                                catSVG: ""));
-                                                          } else {
-                                                            int quantity = cart
-                                                                .items
-                                                                .firstWhere(
-                                                                    (element) =>
-                                                                        element
-                                                                            .idp ==
-                                                                        bestDis[i]
-                                                                            .id)
-                                                                .quantity;
-                                                            await helper.updateProduct(
-                                                                1 + quantity,
-                                                                bestDis[i].id,
-                                                                bestDis[i]
-                                                                    .finalPrice
-                                                                    .toDouble(),
-                                                                jsonEncode(att),
-                                                                jsonEncode(
-                                                                    des));
-                                                          }
-                                                          await cart.setItems();
-                                                        } catch (e) {
-                                                          print('e');
-                                                          print(e);
-                                                        }
-                                                      } else {}
-                                                    }
-                                                  },
-                                                  child: CircleAvatar(
-                                                    backgroundColor: mainColor,
-                                                    radius: w * .05,
-                                                    child: Center(
-                                                      child: Icon(
-                                                        Icons.add_outlined,
-                                                        color: Colors.white,
-                                                        size: w * 0.05,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                            // child: Padding(
+                                            //   padding: EdgeInsets.symmetric(
+                                            //       horizontal: w * 0.02,
+                                            //       vertical: h * 0.01),
+                                            //   child: Align(
+                                            //     alignment: isLeft()
+                                            //         ? Alignment.topRight
+                                            //         : Alignment.topLeft,
+                                            //     child: InkWell(
+                                            //       onTap: () async {
+                                            //         if (cartId == null ||
+                                            //             cartId == studentId) {
+                                            //           try {
+                                            //             if (!cart.idp.contains(
+                                            //                 bestDis[i].id)) {
+                                            //               await helper.createCar(
+                                            //                   CartProducts(
+                                            //                       id: null,
+                                            //                       studentId:
+                                            //                           studentId,
+                                            //                       image:
+                                            //                           bestDis[i]
+                                            //                               .image,
+                                            //                       titleAr: bestDis[
+                                            //                               i]
+                                            //                           .nameAr,
+                                            //                       titleEn:
+                                            //                           bestDis[
+                                            //                                   i]
+                                            //                               .nameEn,
+                                            //                       price: bestDis[
+                                            //                               i]
+                                            //                           .finalPrice
+                                            //                           .toDouble(),
+                                            //                       quantity: 1,
+                                            //                       att: att,
+                                            //                       des: des,
+                                            //                       idp:
+                                            //                           bestDis[i]
+                                            //                               .id,
+                                            //                       idc: 0,
+                                            //                       catNameEn: "",
+                                            //                       catNameAr: "",
+                                            //                       catSVG: ""));
+                                            //             } else {
+                                            //               int quantity = cart
+                                            //                   .items
+                                            //                   .firstWhere(
+                                            //                       (element) =>
+                                            //                           element
+                                            //                               .idp ==
+                                            //                           bestDis[i]
+                                            //                               .id)
+                                            //                   .quantity;
+                                            //               await helper
+                                            //                   .updateProduct(
+                                            //                       1 + quantity,
+                                            //                       bestDis[i].id,
+                                            //                       bestDis[i]
+                                            //                           .finalPrice
+                                            //                           .toDouble(),
+                                            //                       jsonEncode(
+                                            //                           att),
+                                            //                       jsonEncode(
+                                            //                           des));
+                                            //             }
+                                            //             await cart.setItems();
+                                            //           } catch (e) {
+                                            //             print('e');
+                                            //             print(e);
+                                            //           }
+                                            //         } else {
+                                            //           if (cartId == null ||
+                                            //               cartId == studentId) {
+                                            //             try {
+                                            //               if (!cart.idp
+                                            //                   .contains(
+                                            //                       bestDis[i]
+                                            //                           .id)) {
+                                            //                 await helper.createCar(CartProducts(
+                                            //                     id: null,
+                                            //                     studentId:
+                                            //                         bestDis[i]
+                                            //                             .brands![
+                                            //                                 i]
+                                            //                             .id,
+                                            //                     image: bestDis[
+                                            //                             i]
+                                            //                         .image,
+                                            //                     titleAr:
+                                            //                         bestDis[i]
+                                            //                             .nameAr,
+                                            //                     titleEn:
+                                            //                         bestDis[
+                                            //                                 i]
+                                            //                             .nameEn,
+                                            //                     price: bestDis[
+                                            //                             i]
+                                            //                         .price
+                                            //                         .toDouble(),
+                                            //                     quantity: 1,
+                                            //                     att: att,
+                                            //                     des: des,
+                                            //                     idp: bestDis[i]
+                                            //                         .id,
+                                            //                     idc: bestDis[i]
+                                            //                         .id,
+                                            //                     catNameEn: "",
+                                            //                     catNameAr: "",
+                                            //                     catSVG: ""));
+                                            //               } else {
+                                            //                 int quantity = cart
+                                            //                     .items
+                                            //                     .firstWhere(
+                                            //                         (element) =>
+                                            //                             element
+                                            //                                 .idp ==
+                                            //                             bestDis[i]
+                                            //                                 .id)
+                                            //                     .quantity;
+                                            //                 await helper.updateProduct(
+                                            //                     1 + quantity,
+                                            //                     bestDis[i].id,
+                                            //                     bestDis[i]
+                                            //                         .finalPrice
+                                            //                         .toDouble(),
+                                            //                     jsonEncode(att),
+                                            //                     jsonEncode(
+                                            //                         des));
+                                            //               }
+                                            //               await cart.setItems();
+                                            //             } catch (e) {
+                                            //               print('e');
+                                            //               print(e);
+                                            //             }
+                                            //           } else {}
+                                            //         }
+                                            //       },
+                                            //       child: CircleAvatar(
+                                            //         backgroundColor: mainColor,
+                                            //         radius: w * .05,
+                                            //         child: Center(
+                                            //           child: Icon(
+                                            //             Icons.add_outlined,
+                                            //             color: Colors.white,
+                                            //             size: w * 0.05,
+                                            //           ),
+                                            //         ),
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // ),
                                           ),
                                         ),
                                         SizedBox(
