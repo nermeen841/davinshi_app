@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls
+// ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls, prefer_typing_uninitialized_variables
 
 import 'package:dio/dio.dart';
 
@@ -12,11 +12,13 @@ class Countries {
   String code;
   String image;
   String currencyName;
+  var currencyRatio;
   String currencyCodeEn;
   String currencyCodeAr;
 
   List<Area> areas;
   Countries({
+    required this.currencyRatio,
     required this.number,
     required this.id,
     required this.nameAr,
@@ -56,6 +58,7 @@ void setCountries(List country) {
         currencyName: e['currency']['name'],
         currencyCodeEn: e['currency']['code_en'],
         currencyCodeAr: e['currency']['code_ar'],
+        currencyRatio: e['currency']['rate'],
         areas: _area));
   });
   int cId = prefs.getInt('countryId') ?? 0;

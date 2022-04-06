@@ -606,8 +606,13 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                   .items[i]
                                                                   .isSale)
                                                                 TextSpan(
-                                                                    text:
-                                                                        '${newItem.items[i].salePrice} $currency',
+                                                                    text: getProductprice(
+                                                                        currency:
+                                                                            currency,
+                                                                        productPrice: newItem
+                                                                            .items[
+                                                                                i]
+                                                                            .salePrice!),
                                                                     style: TextStyle(
                                                                         fontFamily:
                                                                             'Tajawal',
@@ -620,8 +625,13 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                   .items[i]
                                                                   .isSale)
                                                                 TextSpan(
-                                                                    text:
-                                                                        '${newItem.items[i].price} $currency ',
+                                                                    text: getProductprice(
+                                                                        currency:
+                                                                            currency,
+                                                                        productPrice: newItem
+                                                                            .items[
+                                                                                i]
+                                                                            .price),
                                                                     style: TextStyle(
                                                                         fontFamily:
                                                                             'Tajawal',
@@ -651,7 +661,14 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                         if (newItem
                                                             .items[i].isSale)
                                                           Text(
-                                                            '${newItem.items[i].price} $currency',
+                                                            getProductprice(
+                                                                currency:
+                                                                    currency,
+                                                                productPrice:
+                                                                    newItem
+                                                                        .items[
+                                                                            i]
+                                                                        .price),
                                                             style: TextStyle(
                                                               fontFamily:
                                                                   'Tajawal',
@@ -1050,8 +1067,13 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                   .items[i]
                                                                   .isSale)
                                                                 TextSpan(
-                                                                    text:
-                                                                        '${bestItem.items[i].salePrice} $currency',
+                                                                    text: getProductprice(
+                                                                        currency:
+                                                                            currency,
+                                                                        productPrice: bestItem
+                                                                            .items[
+                                                                                i]
+                                                                            .salePrice!),
                                                                     style: TextStyle(
                                                                         fontFamily:
                                                                             'Tajawal',
@@ -1064,8 +1086,13 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                   .items[i]
                                                                   .isSale)
                                                                 TextSpan(
-                                                                    text:
-                                                                        '${bestItem.items[i].price} $currency ',
+                                                                    text: getProductprice(
+                                                                        currency:
+                                                                            currency,
+                                                                        productPrice: bestItem
+                                                                            .items[
+                                                                                i]
+                                                                            .price),
                                                                     style: TextStyle(
                                                                         fontFamily:
                                                                             'Tajawal',
@@ -1095,7 +1122,14 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                         if (bestItem
                                                             .items[i].isSale)
                                                           Text(
-                                                            '${bestItem.items[i].price} $currency',
+                                                            getProductprice(
+                                                                currency:
+                                                                    currency,
+                                                                productPrice:
+                                                                    bestItem
+                                                                        .items[
+                                                                            i]
+                                                                        .price),
                                                             style: TextStyle(
                                                               fontSize:
                                                                   w * 0.035,
@@ -1486,8 +1520,13 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                   .items[i]
                                                                   .isSale)
                                                                 TextSpan(
-                                                                    text:
-                                                                        '${reItem.items[i].salePrice} $currency ',
+                                                                    text: getProductprice(
+                                                                        currency:
+                                                                            currency,
+                                                                        productPrice: reItem
+                                                                            .items[
+                                                                                i]
+                                                                            .salePrice!),
                                                                     style: TextStyle(
                                                                         fontFamily:
                                                                             'Tajawal',
@@ -1500,8 +1539,13 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                   .items[i]
                                                                   .isSale)
                                                                 TextSpan(
-                                                                    text:
-                                                                        '${reItem.items[i].price} $currency ',
+                                                                    text: getProductprice(
+                                                                        currency:
+                                                                            currency,
+                                                                        productPrice: reItem
+                                                                            .items[
+                                                                                i]
+                                                                            .price),
                                                                     style: TextStyle(
                                                                         fontFamily:
                                                                             'Tajawal',
@@ -1532,7 +1576,14 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                         if (reItem
                                                             .items[i].isSale)
                                                           Text(
-                                                            '${reItem.items[i].price} $currency',
+                                                            getProductprice(
+                                                                currency:
+                                                                    currency,
+                                                                productPrice:
+                                                                    reItem
+                                                                        .items[
+                                                                            i]
+                                                                        .price),
                                                             style: TextStyle(
                                                               decorationThickness:
                                                                   w * 0.1,
@@ -1932,8 +1983,13 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                   .items[i]
                                                                   .isSale)
                                                                 TextSpan(
-                                                                    text:
-                                                                        '${offerItem.items[i].salePrice} $currency ',
+                                                                    text: getProductprice(
+                                                                        currency:
+                                                                            currency,
+                                                                        productPrice: offerItem
+                                                                            .items[
+                                                                                i]
+                                                                            .salePrice!),
                                                                     style: TextStyle(
                                                                         fontFamily:
                                                                             'Tajawal',
@@ -1946,8 +2002,13 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                   .items[i]
                                                                   .isSale)
                                                                 TextSpan(
-                                                                    text:
-                                                                        '${offerItem.items[i].price} $currency ',
+                                                                    text: getProductprice(
+                                                                        currency:
+                                                                            currency,
+                                                                        productPrice: offerItem
+                                                                            .items[
+                                                                                i]
+                                                                            .price),
                                                                     style: TextStyle(
                                                                         fontFamily:
                                                                             'Tajawal',
@@ -1962,7 +2023,14 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                         if (offerItem
                                                             .items[i].isSale)
                                                           Text(
-                                                            '${offerItem.items[i].price} $currency',
+                                                            getProductprice(
+                                                                currency:
+                                                                    currency,
+                                                                productPrice:
+                                                                    offerItem
+                                                                        .items[
+                                                                            i]
+                                                                        .price),
                                                             style: TextStyle(
                                                               decorationThickness:
                                                                   w * 0.1,

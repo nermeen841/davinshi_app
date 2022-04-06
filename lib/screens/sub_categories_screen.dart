@@ -257,9 +257,14 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                                                                         .in_sale ==
                                                                     true)
                                                                   TextSpan(
-                                                                      text:
-                                                                          '${snapshot.data![i].sale_price} '
-                                                                          '$currency ',
+                                                                      text: getProductprice(
+                                                                          currency:
+                                                                              currency,
+                                                                          productPrice: num.parse(snapshot
+                                                                              .data![
+                                                                                  i]
+                                                                              .sale_price
+                                                                              .toString())),
                                                                       style: TextStyle(
                                                                           fontFamily:
                                                                               'Tajawal',

@@ -939,24 +939,26 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                           children: [
                                             if (productCla.isOffer)
                                               Text(
-                                                  productCla.offerPrice
-                                                          .toString() +
-                                                      ' '
-                                                          '$currency',
+                                                  getProductprice(
+                                                      currency: currency,
+                                                      productPrice: productCla
+                                                          .offerPrice!),
                                                   style: TextStyle(
                                                       fontFamily: 'Tajawal',
                                                       fontWeight:
-                                                          FontWeight.bold,
+                                                          FontWeight.w500,
                                                       color: mainColor,
                                                       fontSize: w * 0.05)),
                                             if (!productCla.isOffer)
                                               Text(
-                                                  productCla.price.toString() +
-                                                      ' $currency',
+                                                  getProductprice(
+                                                      currency: currency,
+                                                      productPrice:
+                                                          productCla.price),
                                                   style: TextStyle(
                                                       fontFamily: 'Tajawal',
                                                       fontWeight:
-                                                          FontWeight.bold,
+                                                          FontWeight.w500,
                                                       color: mainColor,
                                                       fontSize: w * 0.05)),
                                             if (productCla.isOffer)
@@ -964,12 +966,14 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                 padding: EdgeInsets.symmetric(
                                                     horizontal: w * 0.03),
                                                 child: Text(
-                                                  '${productCla.price}'
-                                                  ' $currency',
+                                                  getProductprice(
+                                                      currency: currency,
+                                                      productPrice:
+                                                          productCla.price),
                                                   style: TextStyle(
                                                     decoration: TextDecoration
                                                         .lineThrough,
-                                                    fontWeight: FontWeight.bold,
+                                                    fontWeight: FontWeight.w500,
                                                     fontSize: w * 0.05,
                                                     color: Colors.grey,
                                                     fontFamily: 'Tajawal',
@@ -1023,190 +1027,187 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                   Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: w * 0.025),
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: List.generate(
-                                          productCla.attributes.length,
-                                          (index) => InkWell(
-                                            onTap: () {
-                                              homeBottomSheet(
-                                                context: context,
-                                                child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: w * 0.04,
-                                                      vertical: h * 0.04),
-                                                  child: Column(
-                                                    children: [
-                                                      Text(
-                                                        translateString(
-                                                            productCla
-                                                                .attributes[
-                                                                    index]
-                                                                .nameEn,
-                                                            productCla
-                                                                .attributes[
-                                                                    index]
-                                                                .nameAr),
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: w * 0.05,
-                                                            fontFamily:
-                                                                'Tajawal',
-                                                            color:
-                                                                Colors.black),
-                                                      ),
-                                                      ListView.builder(
-                                                          primary: true,
-                                                          shrinkWrap: true,
-                                                          itemCount: productCla
-                                                              .attributes[index]
-                                                              .options
-                                                              .length,
-                                                          itemBuilder:
-                                                              (context, i) {
-                                                            return Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsets.only(
-                                                                      top: h *
-                                                                          0.02),
-                                                                  child: Text(
-                                                                    translateString(
-                                                                        productCla
-                                                                            .attributes[
-                                                                                index]
-                                                                            .options[
-                                                                                i]
-                                                                            .nameEn,
-                                                                        productCla
-                                                                            .attributes[index]
-                                                                            .options[i]
-                                                                            .nameAr),
-                                                                    style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w700,
-                                                                        fontSize: w *
-                                                                            0.05,
-                                                                        color: Colors
-                                                                            .black),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: List.generate(
+                                        productCla.attributes.length,
+                                        (index) => Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                homeBottomSheet(
+                                                  context: context,
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal:
+                                                                w * 0.04,
+                                                            vertical: h * 0.04),
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                          translateString(
+                                                              productCla
+                                                                  .attributes[
+                                                                      index]
+                                                                  .nameEn,
+                                                              productCla
+                                                                  .attributes[
+                                                                      index]
+                                                                  .nameAr),
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize:
+                                                                  w * 0.05,
+                                                              fontFamily:
+                                                                  'Tajawal',
+                                                              color:
+                                                                  Colors.black),
+                                                        ),
+                                                        ListView.builder(
+                                                            primary: true,
+                                                            shrinkWrap: true,
+                                                            itemCount:
+                                                                productCla
+                                                                    .attributes[
+                                                                        index]
+                                                                    .options
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context, i) {
+                                                              return Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        top: h *
+                                                                            0.02),
+                                                                    child: Text(
+                                                                      translateString(
+                                                                          productCla
+                                                                              .attributes[
+                                                                                  index]
+                                                                              .options[
+                                                                                  i]
+                                                                              .nameEn,
+                                                                          productCla
+                                                                              .attributes[index]
+                                                                              .options[i]
+                                                                              .nameAr),
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w700,
+                                                                          fontSize: w *
+                                                                              0.05,
+                                                                          color:
+                                                                              Colors.black),
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                                Radio(
-                                                                    activeColor:
-                                                                        mainColor,
-                                                                    value: productCla
-                                                                        .attributes[
-                                                                            index]
-                                                                        .options[
-                                                                            i]
-                                                                        .id,
-                                                                    groupValue:
-                                                                        att[
-                                                                            index],
-                                                                    onChanged: (int?
-                                                                        value) {
-                                                                      setState(
-                                                                        () {
-                                                                          print(
-                                                                              attPrice);
-                                                                          if (productCla.attributes[index].nameEn ==
-                                                                              attPrice[productCla.attributes[index].nameEn]) {
-                                                                            attPrice.updateAll(((key, value) =>
-                                                                                productCla.attributes[index].options[i].price));
-                                                                          } else {
-                                                                            attPrice.addAll({
-                                                                              productCla.attributes[index].nameEn: productCla.attributes[index].options[i].price
-                                                                            });
-                                                                          }
-                                                                          optionsPrice[index] = productCla
-                                                                              .attributes[index]
-                                                                              .options[i]
-                                                                              .price;
-                                                                          optionsQuantity[index] = productCla
-                                                                              .attributes[index]
-                                                                              .options[i]
-                                                                              .id;
-                                                                          att[index] = productCla
-                                                                              .attributes[index]
-                                                                              .options[i]
-                                                                              .id;
-                                                                          selectedItem
-                                                                              .add(att[index]);
-                                                                          finalPrice =
-                                                                              productCla.price + attPrice.values.reduce((sum, element) => sum + element);
+                                                                  Radio(
+                                                                      activeColor:
+                                                                          mainColor,
+                                                                      value: productCla
+                                                                          .attributes[
+                                                                              index]
+                                                                          .options[
+                                                                              i]
+                                                                          .id,
+                                                                      groupValue:
+                                                                          att[
+                                                                              index],
+                                                                      onChanged:
+                                                                          (int?
+                                                                              value) {
+                                                                        setState(
+                                                                          () {
+                                                                            print(attPrice);
+                                                                            if (productCla.attributes[index].nameEn ==
+                                                                                attPrice[productCla.attributes[index].nameEn]) {
+                                                                              attPrice.updateAll(((key, value) => productCla.attributes[index].options[i].price));
+                                                                            } else {
+                                                                              attPrice.addAll({
+                                                                                productCla.attributes[index].nameEn: productCla.attributes[index].options[i].price
+                                                                              });
+                                                                            }
+                                                                            optionsPrice[index] =
+                                                                                productCla.attributes[index].options[i].price;
+                                                                            optionsQuantity[index] =
+                                                                                productCla.attributes[index].options[i].id;
+                                                                            att[index] =
+                                                                                productCla.attributes[index].options[i].id;
+                                                                            selectedItem.add(att[index]);
+                                                                            finalPrice =
+                                                                                productCla.price + attPrice.values.reduce((sum, element) => sum + element);
 
-                                                                          print(
-                                                                              optionsPrice);
-                                                                          if (language ==
-                                                                              'en') {
-                                                                            des[index] =
-                                                                                productCla.attributes[index].options[i].nameEn;
-                                                                          } else {
-                                                                            des[index] =
-                                                                                productCla.attributes[index].options[i].nameAr;
-                                                                          }
-                                                                        },
-                                                                      );
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    }),
-                                                              ],
-                                                            );
-                                                          }),
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  translateString(
-                                                      productCla
-                                                          .attributes[index]
-                                                          .nameEn,
-                                                      productCla
-                                                          .attributes[index]
-                                                          .nameAr),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: w * 0.05,
-                                                      fontFamily: 'Tajawal',
-                                                      color: Colors.black),
-                                                ),
-                                                SizedBox(
-                                                  width: w * 0.01,
-                                                ),
-                                                Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              w * 0.01),
-                                                      color: Colors.black),
-                                                  child: Center(
-                                                    child: Icon(
-                                                      Icons.keyboard_arrow_down,
-                                                      color: mainColor,
+                                                                            print(optionsPrice);
+                                                                            if (language ==
+                                                                                'en') {
+                                                                              des[index] = productCla.attributes[index].options[i].nameEn;
+                                                                            } else {
+                                                                              des[index] = productCla.attributes[index].options[i].nameAr;
+                                                                            }
+                                                                          },
+                                                                        );
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      }),
+                                                                ],
+                                                              );
+                                                            }),
+                                                      ],
                                                     ),
                                                   ),
-                                                )
-                                              ],
+                                                );
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    translateString(
+                                                        productCla
+                                                            .attributes[index]
+                                                            .nameEn,
+                                                        productCla
+                                                            .attributes[index]
+                                                            .nameAr),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: w * 0.05,
+                                                        fontFamily: 'Tajawal',
+                                                        color: Colors.black),
+                                                  ),
+                                                  SizedBox(
+                                                    width: w * 0.01,
+                                                  ),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    w * 0.01),
+                                                        color: Colors.black),
+                                                    child: Center(
+                                                      child: Icon(
+                                                        Icons
+                                                            .keyboard_arrow_down,
+                                                        color: mainColor,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         ),
                                       ),
                                     ),

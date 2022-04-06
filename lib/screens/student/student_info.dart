@@ -691,9 +691,12 @@ class _StudentInfo extends State<StudentInfo> {
                                                         if (item
                                                             .items[i].isSale)
                                                           TextSpan(
-                                                              text:
-                                                                  '${item.items[i].salePrice}'
-                                                                  ' $currency',
+                                                              text: getProductprice(
+                                                                  currency:
+                                                                      currency,
+                                                                  productPrice: item
+                                                                      .items[i]
+                                                                      .salePrice!),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'Tajawal',
@@ -705,9 +708,12 @@ class _StudentInfo extends State<StudentInfo> {
                                                         if (!item
                                                             .items[i].isSale)
                                                           TextSpan(
-                                                              text:
-                                                                  '${item.items[i].price}'
-                                                                  ' $currency',
+                                                              text: getProductprice(
+                                                                  currency:
+                                                                      currency,
+                                                                  productPrice: item
+                                                                      .items[i]
+                                                                      .price),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'Tajawal',
@@ -723,8 +729,10 @@ class _StudentInfo extends State<StudentInfo> {
                                               ),
                                               if (item.items[i].isSale)
                                                 Text(
-                                                  '${item.items[i].price} '
-                                                  '$currency',
+                                                  getProductprice(
+                                                      currency: currency,
+                                                      productPrice:
+                                                          item.items[i].price),
                                                   style: TextStyle(
                                                       fontSize: w * 0.035,
                                                       fontFamily: 'Tajawal',

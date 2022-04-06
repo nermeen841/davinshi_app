@@ -3,6 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'constants.dart';
 
 class ProductCla {
@@ -362,4 +363,24 @@ Future<bool> getItem(int id) async {
     print(e);
   }
   return false;
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+
+getProductprice({required String currency, required num productPrice}) {
+  String ratio = prefs.getString("ratio").toString();
+  num ratioPrice = num.parse(ratio);
+  String price = "";
+  print(ratio);
+
+  if (currency != 'KWD' || currency != 'د.ك') {
+    num finalPrice = productPrice / ratioPrice;
+    print("product price : " + finalPrice.toString());
+    price = finalPrice.toString() + " " + currency;
+    return price;
+  } else {
+    num finalPrice = productPrice;
+    price = finalPrice.toString() + " " + currency;
+    return finalPrice.toString();
+  }
 }

@@ -1237,8 +1237,12 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       children: [
                                                         if (newItem[i].isSale)
                                                           TextSpan(
-                                                              text:
-                                                                  '${newItem[i].salePrice} $currency ',
+                                                              text: getProductprice(
+                                                                  currency:
+                                                                      currency,
+                                                                  productPrice:
+                                                                      newItem[i]
+                                                                          .salePrice!),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'Tajawal',
@@ -1249,8 +1253,12 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                                       mainColor)),
                                                         if (!newItem[i].isSale)
                                                           TextSpan(
-                                                              text:
-                                                                  '${newItem[i].price} $currency',
+                                                              text: getProductprice(
+                                                                  currency:
+                                                                      currency,
+                                                                  productPrice:
+                                                                      newItem[i]
+                                                                          .price),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'Tajawal',
@@ -1271,7 +1279,10 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                   //           color: Colors.red)),
                                                   if (newItem[i].isSale)
                                                     Text(
-                                                      '${newItem[i].price} $currency',
+                                                      getProductprice(
+                                                          currency: currency,
+                                                          productPrice:
+                                                              newItem[i].price),
                                                       style: TextStyle(
                                                         fontSize: w * 0.035,
                                                         decorationThickness:
@@ -1883,8 +1894,12 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                       children: [
                                                         if (bestDis[i].isSale)
                                                           TextSpan(
-                                                              text:
-                                                                  '${bestDis[i].salePrice} $currency ',
+                                                              text: getProductprice(
+                                                                  currency:
+                                                                      currency,
+                                                                  productPrice:
+                                                                      bestDis[i]
+                                                                          .salePrice!),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'Tajawal',
@@ -1895,8 +1910,12 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                                       mainColor)),
                                                         if (!bestDis[i].isSale)
                                                           TextSpan(
-                                                              text:
-                                                                  '${bestDis[i].price} $currency',
+                                                              text: getProductprice(
+                                                                  currency:
+                                                                      currency,
+                                                                  productPrice:
+                                                                      bestDis[i]
+                                                                          .price),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'Tajawal',
@@ -1918,7 +1937,10 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
 
                                                   if (bestDis[i].isSale)
                                                     Text(
-                                                      '${bestDis[i].price} $currency',
+                                                      getProductprice(
+                                                          currency: currency,
+                                                          productPrice:
+                                                              bestDis[i].price),
                                                       style: TextStyle(
                                                           fontSize: w * 0.035,
                                                           decorationThickness:
@@ -2139,8 +2161,12 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                         children: [
                                                           if (reItem[i].isSale)
                                                             TextSpan(
-                                                                text:
-                                                                    '${reItem[i].salePrice} $currency ',
+                                                                text: getProductprice(
+                                                                    currency:
+                                                                        currency,
+                                                                    productPrice:
+                                                                        reItem[i]
+                                                                            .salePrice!),
                                                                 style:
                                                                     TextStyle(
                                                                   fontWeight:
@@ -2153,8 +2179,12 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                                 )),
                                                           if (!reItem[i].isSale)
                                                             TextSpan(
-                                                                text:
-                                                                    '${reItem[i].price} $currency',
+                                                                text: getProductprice(
+                                                                    currency:
+                                                                        currency,
+                                                                    productPrice:
+                                                                        reItem[i]
+                                                                            .price),
                                                                 style: const TextStyle(
                                                                     fontFamily:
                                                                         'Tajawal',
@@ -2168,7 +2198,11 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                     ),
                                                     if (reItem[i].isSale)
                                                       Text(
-                                                        '${reItem[i].price} $currency',
+                                                        getProductprice(
+                                                            currency: currency,
+                                                            productPrice:
+                                                                reItem[i]
+                                                                    .price),
                                                         style: TextStyle(
                                                             fontSize: w * 0.035,
                                                             decoration:

@@ -115,6 +115,8 @@ class _CountryState extends State<Country> {
                                     prefs.setBool('country_selected', true);
                                     setCountryId(list[index].id,
                                         list[index].code, list[index].number);
+                                    prefs.setString("ratio",
+                                        list[index].currencyRatio.toString());
                                     print(
                                         "\n ${list[index].currencyName.toString()}");
                                     prefs.setString('currencyEn',

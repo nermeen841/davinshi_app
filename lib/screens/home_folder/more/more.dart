@@ -212,7 +212,8 @@ class _MoreScreenState extends State<MoreScreen>
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.all(w * 0.015),
+                                              padding:
+                                                  EdgeInsets.all(w * 0.015),
                                               child: Align(
                                                 alignment: isLeft()
                                                     ? Alignment.topRight
@@ -224,37 +225,32 @@ class _MoreScreenState extends State<MoreScreen>
                                                       try {
                                                         if (!cart.idp.contains(
                                                             bestDis[i].id)) {
-                                                          await helper.createCar(
-                                                              CartProducts(
-                                                                  id: null,
-                                                                  studentId:
-                                                                      studentId,
-                                                                  image:
-                                                                      allProduct[
-                                                                              i]
-                                                                          .img,
-                                                                  titleAr:
-                                                                      allProduct[
-                                                                              i]
-                                                                          .nameAr,
-                                                                  titleEn:
-                                                                      allProduct[
-                                                                              i]
-                                                                          .nameEn,
-                                                                  price: allProduct[
-                                                                          i]
-                                                                      .regularPrice
-                                                                      .toDouble(),
-                                                                  quantity: 1,
-                                                                  att: att,
-                                                                  des: des,
-                                                                  idp: allProduct[
-                                                                          i]
-                                                                      .id,
-                                                                  idc: 0,
-                                                                  catNameEn: "",
-                                                                  catNameAr: "",
-                                                                  catSVG: ""));
+                                                          await helper.createCar(CartProducts(
+                                                              id: null,
+                                                              studentId:
+                                                                  studentId,
+                                                              image:
+                                                                  allProduct[i]
+                                                                      .img,
+                                                              titleAr:
+                                                                  allProduct[i]
+                                                                      .nameAr,
+                                                              titleEn:
+                                                                  allProduct[i]
+                                                                      .nameEn,
+                                                              price: allProduct[
+                                                                      i]
+                                                                  .regularPrice
+                                                                  .toDouble(),
+                                                              quantity: 1,
+                                                              att: att,
+                                                              des: des,
+                                                              idp: allProduct[i]
+                                                                  .id,
+                                                              idc: 0,
+                                                              catNameEn: "",
+                                                              catNameAr: "",
+                                                              catSVG: ""));
                                                         } else {
                                                           int quantity = cart
                                                               .items
@@ -266,17 +262,14 @@ class _MoreScreenState extends State<MoreScreen>
                                                                               i]
                                                                           .id)
                                                               .quantity;
-                                                          await helper
-                                                              .updateProduct(
-                                                                  1 + quantity,
-                                                                  allProduct[i]
-                                                                      .id,
-                                                                  allProduct[i]
-                                                                      .regularPrice
-                                                                      .toDouble(),
-                                                                  jsonEncode(att),
-                                                                  jsonEncode(
-                                                                      des));
+                                                          await helper.updateProduct(
+                                                              1 + quantity,
+                                                              allProduct[i].id,
+                                                              allProduct[i]
+                                                                  .regularPrice
+                                                                  .toDouble(),
+                                                              jsonEncode(att),
+                                                              jsonEncode(des));
                                                         }
                                                         await cart.setItems();
                                                       } catch (e) {
@@ -287,29 +280,36 @@ class _MoreScreenState extends State<MoreScreen>
                                                       if (cartId == null ||
                                                           cartId == studentId) {
                                                         try {
-                                                          if (!cart.idp.contains(
-                                                              topRate[i].id)) {
+                                                          if (!cart.idp
+                                                              .contains(
+                                                                  topRate[i]
+                                                                      .id)) {
                                                             await helper.createCar(CartProducts(
                                                                 id: null,
                                                                 studentId: 0,
-                                                                image:
-                                                                    allProduct[i]
-                                                                        .img,
+                                                                image: allProduct[
+                                                                        i]
+                                                                    .img,
                                                                 titleAr:
-                                                                    allProduct[i]
+                                                                    allProduct[
+                                                                            i]
                                                                         .nameAr,
                                                                 titleEn:
-                                                                    allProduct[i]
+                                                                    allProduct[
+                                                                            i]
                                                                         .nameEn,
-                                                                price: allProduct[i]
+                                                                price: allProduct[
+                                                                        i]
                                                                     .regularPrice
                                                                     .toDouble(),
                                                                 quantity: 1,
                                                                 att: att,
                                                                 des: des,
-                                                                idp: allProduct[i]
+                                                                idp: allProduct[
+                                                                        i]
                                                                     .id,
-                                                                idc: allProduct[i]
+                                                                idc: allProduct[
+                                                                        i]
                                                                     .id,
                                                                 catNameEn: "",
                                                                 catNameAr: "",
@@ -321,18 +321,19 @@ class _MoreScreenState extends State<MoreScreen>
                                                                     (element) =>
                                                                         element
                                                                             .idp ==
-                                                                        allProduct[
-                                                                                i]
+                                                                        allProduct[i]
                                                                             .id)
                                                                 .quantity;
                                                             await helper.updateProduct(
                                                                 1 + quantity,
-                                                                allProduct[i].id,
+                                                                allProduct[i]
+                                                                    .id,
                                                                 allProduct[i]
                                                                     .regularPrice
                                                                     .toDouble(),
                                                                 jsonEncode(att),
-                                                                jsonEncode(des));
+                                                                jsonEncode(
+                                                                    des));
                                                           }
                                                           await cart.setItems();
                                                         } catch (e) {
@@ -397,8 +398,13 @@ class _MoreScreenState extends State<MoreScreen>
                                                         if (allProduct[i]
                                                             .inSale)
                                                           TextSpan(
-                                                              text:
-                                                                  '${allProduct[i].salePrice} $currency ',
+                                                              text: getProductprice(
+                                                                  currency:
+                                                                      currency,
+                                                                  productPrice:
+                                                                      allProduct[
+                                                                              i]
+                                                                          .salePrice),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'Tajawal',
@@ -411,8 +417,13 @@ class _MoreScreenState extends State<MoreScreen>
                                                                 i]
                                                             .inSale)
                                                           TextSpan(
-                                                              text:
-                                                                  '${allProduct[i].regularPrice} $currency',
+                                                              text: getProductprice(
+                                                                  currency:
+                                                                      currency,
+                                                                  productPrice:
+                                                                      allProduct[
+                                                                              i]
+                                                                          .regularPrice),
                                                               style: TextStyle(
                                                                   fontFamily:
                                                                       'Tajawal',
@@ -426,7 +437,11 @@ class _MoreScreenState extends State<MoreScreen>
                                                   ),
                                                   if (allProduct[i].inSale)
                                                     Text(
-                                                      '${allProduct[i].salePrice} $currency',
+                                                      getProductprice(
+                                                          currency: currency,
+                                                          productPrice:
+                                                              allProduct[i]
+                                                                  .salePrice),
                                                       style: TextStyle(
                                                         fontSize: w * 0.035,
                                                         decorationThickness:
