@@ -241,7 +241,7 @@ Future setProduct(Map e) async {
                 nameAr: o['name_ar'] ?? '',
                 nameEn: o['name_en'] ?? '',
                 price: num.parse(inOffer
-                    ? o['values'][0]['sale_price']
+                    ? o['values'][0]['sale_price'] ?? "0"
                     : o['values'][0]['regular_price']),
                 quantity: o['values'][0]['quantity']));
           }
@@ -254,6 +254,7 @@ Future setProduct(Map e) async {
       });
     } catch (e) {
       print('r');
+      print("......................................" + e.toString());
     }
     late Cat _cat;
     try {

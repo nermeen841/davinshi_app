@@ -641,7 +641,7 @@ class _ProfileState extends State<Profile> {
                                 if (tile[i].nameEn == 'Edit Profile') {
                                   dialog(context);
                                   getProfile();
-                                } else if (tile[i].nameEn == 'Sign up') {
+                                } else if (tile[i].nameEn == 'Sign out') {
                                   dialog(context);
                                   prefs.setBool('login', false);
                                   userName = null;
