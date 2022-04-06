@@ -38,6 +38,7 @@ class Products extends StatefulWidget {
 
 class _ProductsState extends State<Products> with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   DbHelper helper = DbHelper();
   String selectefCat = '';
@@ -219,11 +220,74 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
     });
   }
 
+  int _counter = 1;
+
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     CartProvider cart = Provider.of<CartProvider>(context, listen: true);
+
+    checkProductquantity({
+      required String productId,
+      required String quantity,
+      required List attributes,
+      required List options,
+      required context,
+    }) async {
+      final String url = domain + "check-product";
+      String attrib = jsonEncode(attributes);
+      String optionsId = jsonEncode(options);
+
+      try {
+        Response response = await Dio().post(url, data: {
+          "product_id": productId,
+          "quantity": quantity,
+          "attributes[$attrib]": optionsId,
+        });
+        print(response.data);
+        if (response.data['status'] == 1) {
+          await helper.createCar(CartProducts(
+              id: null,
+              studentId: studentId,
+              image: productCla.image,
+              titleAr: productCla.nameAr,
+              titleEn: productCla.nameEn,
+              price: finalPrice.toDouble(),
+              quantity: _counter,
+              att: att,
+              des: des,
+              idp: productCla.id,
+              idc: productCla.cat.id,
+              catNameEn: productCla.cat.nameEn,
+              catNameAr: productCla.cat.nameAr,
+              catSVG: productCla.cat.svg));
+          await cart.setItems();
+        } else if (response.data['status'] == 0) {
+          final snackBar = SnackBar(
+            content: Text(
+              translateString('product amount not available',
+                  'كمية المنتج غير متاحة حاليا '),
+              style: TextStyle(
+                  fontFamily: 'Tajawal',
+                  fontSize: w * 0.04,
+                  fontWeight: FontWeight.w500),
+            ),
+            action: SnackBarAction(
+              label: translateString("Undo", "تراجع"),
+              disabledTextColor: Colors.yellow,
+              textColor: Colors.yellow,
+              onPressed: () {},
+            ),
+          );
+          ScaffoldMessenger.of(scaffoldKey.currentContext!)
+              .showSnackBar(snackBar);
+        }
+      } catch (e) {
+        print("error product quantity : " + e.toString());
+      }
+    }
+
     void show(context) {
       showModalBottomSheet(
         context: context,
@@ -236,7 +300,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
           ),
         ),
         builder: (context) {
-          int _counter = 1;
           return StatefulBuilder(
             builder: (context, setState2) {
               return Directionality(
@@ -339,47 +402,12 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                 if (cartId == null || cartId == studentId) {
                                   try {
                                     if (selectedItem.isNotEmpty) {
-                                      optionsQuantity.forEach((element) async {
-                                        if (element >= counter) {
-                                          await helper.createCar(CartProducts(
-                                              id: null,
-                                              studentId: studentId,
-                                              image: productCla.image,
-                                              titleAr: productCla.nameAr,
-                                              titleEn: productCla.nameEn,
-                                              price: finalPrice.toDouble(),
-                                              quantity: _counter,
-                                              att: att,
-                                              des: des,
-                                              idp: productCla.id,
-                                              idc: productCla.cat.id,
-                                              catNameEn: productCla.cat.nameEn,
-                                              catNameAr: productCla.cat.nameAr,
-                                              catSVG: productCla.cat.svg));
-                                          await cart.setItems();
-                                        } else {
-                                          final snackBar = SnackBar(
-                                            content: Text(
-                                              translateString(
-                                                  'product amount not available',
-                                                  'كمية المنتج غير متاحة حاليا '),
-                                              style: TextStyle(
-                                                  fontFamily: 'Tajawal',
-                                                  fontSize: w * 0.04,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            action: SnackBarAction(
-                                              label: translateString(
-                                                  "Undo", "تراجع"),
-                                              disabledTextColor: Colors.yellow,
-                                              textColor: Colors.yellow,
-                                              onPressed: () {},
-                                            ),
-                                          );
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(snackBar);
-                                        }
-                                      });
+                                      checkProductquantity(
+                                          productId: productCla.id.toString(),
+                                          quantity: _counter.toString(),
+                                          attributes: att,
+                                          options: optionsQuantity,
+                                          context: context);
                                     } else {
                                       if (!cart.idp.contains(productCla.id)) {
                                         await helper.createCar(CartProducts(
@@ -675,6 +703,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       child: DefaultTabController(
         length: 3,
         child: Scaffold(
+          key: scaffoldKey,
           appBar: AppBar(
             elevation: 0,
             backgroundColor: mainColor,
@@ -1110,7 +1139,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                         optionsQuantity[index] = productCla
                                                                             .attributes[index]
                                                                             .options[i]
-                                                                            .quantity;
+                                                                            .id;
                                                                         att[index] = productCla
                                                                             .attributes[index]
                                                                             .options[i]
@@ -1967,10 +1996,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       ),
     );
   }
-}
-
-getFinalPrice({required Map<String, num> optionsPrice}) {
-  optionsPrice.values.forEach((element) {});
 }
 
 InputBorder form() {
