@@ -3,7 +3,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'constants.dart';
 
 class ProductCla {
