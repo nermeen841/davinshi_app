@@ -145,7 +145,9 @@ class _MoreScreenState extends State<MoreScreen>
             appBar: AppBar(
               elevation: 0,
               backgroundColor: mainColor,
-              centerTitle: true,
+              centerTitle: false,
+              titleTextStyle:
+                  const TextStyle(color: Colors.white, fontFamily: 'Tajawal'),
               title: DropdownButton<String>(
                 isDense: true,
                 underline: const SizedBox(),

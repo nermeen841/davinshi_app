@@ -20,7 +20,7 @@ class _ImgState extends State<Img> with SingleTickerProviderStateMixin {
   TransformationController? transformationController;
 
   AnimationController? animationController;
-
+  TapDownDetails? tapDownDetails;
   Animation<Matrix4>? animation;
   @override
   void initState() {
@@ -48,22 +48,43 @@ class _ImgState extends State<Img> with SingleTickerProviderStateMixin {
         body: (widget.images!.isEmpty)
             ? Stack(
                 children: [
-                  InteractiveViewer(
-                    clipBehavior: Clip.none,
-                    maxScale: 4,
-                    minScale: 1,
-                    panEnabled: false,
-                    transformationController: transformationController,
-                    onInteractionEnd: (details) {
-                      resetAnimation();
+                  GestureDetector(
+                    onDoubleTap: () {
+                      final position = tapDownDetails!.localPosition;
+                      const double scale = 3.0;
+                      final x = -position.dx * (scale - 1);
+                      final y = -position.dy * (scale - 1);
+                      final zoomed = Matrix4.identity()
+                        ..translate(x, y)
+                        ..scale(scale);
+                      final end = transformationController!.value.isIdentity()
+                          ? zoomed
+                          : Matrix4.identity();
+                      animation = Matrix4Tween(
+                        begin: transformationController!.value,
+                        end: end,
+                      ).animate(
+                        CurveTween(curve: Curves.easeOut)
+                            .animate(animationController!),
+                      );
+                      animationController!.forward(from: 0);
                     },
-                    child: Container(
-                      width: w,
-                      height: h,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        image: DecorationImage(
-                            image: NetworkImage(widget.src), fit: BoxFit.contain),
+                    onDoubleTapDown: (details) => tapDownDetails = details,
+                    child: InteractiveViewer(
+                      clipBehavior: Clip.none,
+                      // maxScale: 4,
+                      // minScale: 1,
+                      panEnabled: false,
+                      transformationController: transformationController,
+                      child: Container(
+                        width: w,
+                        height: h,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          image: DecorationImage(
+                              image: NetworkImage(widget.src),
+                              fit: BoxFit.contain),
+                        ),
                       ),
                     ),
                   ),
@@ -87,35 +108,55 @@ class _ImgState extends State<Img> with SingleTickerProviderStateMixin {
               )
             : Stack(
                 children: [
-                  InteractiveViewer(
-                    clipBehavior: Clip.none,
-                    maxScale: 4,
-                    minScale: 1,
-                    panEnabled: false,
-                    transformationController: transformationController,
-                    onInteractionEnd: (details) {
-                      resetAnimation();
+                  GestureDetector(
+                    onDoubleTap: () {
+                      final position = tapDownDetails!.localPosition;
+                      const double scale = 3.0;
+                      final x = -position.dx * (scale - 1);
+                      final y = -position.dy * (scale - 1);
+                      final zoomed = Matrix4.identity()
+                        ..translate(x, y)
+                        ..scale(scale);
+                      final end = transformationController!.value.isIdentity()
+                          ? zoomed
+                          : Matrix4.identity();
+                      animation = Matrix4Tween(
+                        begin: transformationController!.value,
+                        end: end,
+                      ).animate(
+                        CurveTween(curve: Curves.easeOut)
+                            .animate(animationController!),
+                      );
+                      animationController!.forward(from: 0);
                     },
-                    child: Swiper(
-                      autoplayDelay: 5000,
-                      pagination: SwiperPagination(
-                          builder: DotSwiperPaginationBuilder(
-                              color: mainColor.withOpacity(0.3),
-                              activeColor: mainColor),
-                          alignment: Alignment.bottomCenter),
-                      itemCount: widget.images!.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: w,
-                          height: h,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            image: DecorationImage(
-                                image: NetworkImage(widget.images![index]),
-                                fit: BoxFit.contain),
-                          ),
-                        );
-                      },
+                    onDoubleTapDown: (details) => tapDownDetails = details,
+                    child: InteractiveViewer(
+                      clipBehavior: Clip.none,
+                      // maxScale: 4,
+                      // minScale: 1,
+                      panEnabled: false,
+                      transformationController: transformationController,
+                      child: Swiper(
+                        autoplayDelay: 5000,
+                        pagination: SwiperPagination(
+                            builder: DotSwiperPaginationBuilder(
+                                color: mainColor.withOpacity(0.3),
+                                activeColor: mainColor),
+                            alignment: Alignment.bottomCenter),
+                        itemCount: widget.images!.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            width: w,
+                            height: h,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              image: DecorationImage(
+                                  image: NetworkImage(widget.images![index]),
+                                  fit: BoxFit.contain),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                   Padding(
@@ -139,15 +180,5 @@ class _ImgState extends State<Img> with SingleTickerProviderStateMixin {
               ),
       ),
     );
-  }
-
-  void resetAnimation() {
-    animation = Matrix4Tween(
-      begin: transformationController!.value,
-      end: Matrix4.identity(),
-    ).animate(
-      CurvedAnimation(parent: animationController!, curve: Curves.ease),
-    );
-    animationController!.forward(from: 0);
   }
 }

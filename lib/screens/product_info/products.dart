@@ -865,7 +865,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                 productCla
                                                                         .images[
                                                                     index]),
-                                                            fit: BoxFit.contain),
+                                                            fit:
+                                                                BoxFit.contain),
                                                       ),
                                                     );
                                                   },
@@ -921,7 +922,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: w * 0.02, vertical: h * 0.02),
+                                      horizontal: w * 0.015,
+                                      vertical: h * 0.02),
                                   child: SizedBox(
                                     width: w,
                                     child: Row(
@@ -931,14 +933,14 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         SizedBox(
-                                          width: w * 0.55,
+                                          width: w * 0.53,
                                           child: Text(
                                             translateString(productCla.nameEn,
                                                 productCla.nameAr),
                                             maxLines: 3,
                                             overflow: TextOverflow.fade,
                                             style: TextStyle(
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w500,
                                                 fontSize: w * 0.04),
                                           ),
                                         ),
@@ -958,9 +960,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                   style: TextStyle(
                                                       fontFamily: 'Tajawal',
                                                       fontWeight:
-                                                          FontWeight.bold,
+                                                          FontWeight.w500,
                                                       color: mainColor,
-                                                      fontSize: w * 0.05)),
+                                                      fontSize: w * 0.04)),
                                             if (!productCla.isOffer)
                                               Text(
                                                   getProductprice(
@@ -970,9 +972,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                   style: TextStyle(
                                                       fontFamily: 'Tajawal',
                                                       fontWeight:
-                                                          FontWeight.bold,
+                                                          FontWeight.w500,
                                                       color: mainColor,
-                                                      fontSize: w * 0.05)),
+                                                      fontSize: w * 0.04)),
                                             if (productCla.isOffer)
                                               Padding(
                                                 padding: EdgeInsets.symmetric(
@@ -985,8 +987,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                   style: TextStyle(
                                                     decoration: TextDecoration
                                                         .lineThrough,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: w * 0.05,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: w * 0.04,
                                                     color: Colors.grey,
                                                     fontFamily: 'Tajawal',
                                                     decorationThickness:
