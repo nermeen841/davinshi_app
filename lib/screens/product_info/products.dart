@@ -1265,7 +1265,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                     translateString(productCla.descriptionEn,
                                         productCla.descriptionAr),
                                     style: TextStyle(
-                                        color: Colors.grey, fontSize: w * 0.03),
+                                        color: Colors.black,
+                                        fontSize: w * 0.03),
                                   ),
                                 ),
                                 SizedBox(
@@ -1320,7 +1321,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                       translateString(productCla.aboutEn!,
                                           productCla.aboutAr!),
                                       style: TextStyle(
-                                          color: Colors.grey,
+                                          color: Colors.black,
                                           fontSize: w * 0.03),
                                     ),
                                   ),
@@ -1405,7 +1406,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                 productCla
                                                     .about[index].valueEn),
                                             style: TextStyle(
-                                                color: Colors.grey,
+                                                color: Colors.black,
                                                 fontSize: w * 0.035),
                                           ),
                                           minVerticalPadding: h * 0.02,
