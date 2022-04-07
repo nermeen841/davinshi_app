@@ -44,6 +44,7 @@ class _SplachState extends State<Splach> {
               MaterialPageRoute(builder: (context) => Home()),
               (route) => false);
         } else {
+          await getCountries();
           if (countrySelected) {
             Navigator.pushAndRemoveUntil(
                 context,
