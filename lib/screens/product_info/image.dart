@@ -1,6 +1,4 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
-
-import 'package:davinshi_app/BottomNavWidget/first_page.dart';
 import 'package:davinshi_app/models/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
