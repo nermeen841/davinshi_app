@@ -63,7 +63,7 @@ class _ImgState extends State<Img> with SingleTickerProviderStateMixin {
                       decoration: BoxDecoration(
                         color: Colors.black,
                         image: DecorationImage(
-                            image: NetworkImage(widget.src), fit: BoxFit.cover),
+                            image: NetworkImage(widget.src), fit: BoxFit.contain),
                       ),
                     ),
                   ),
@@ -112,7 +112,7 @@ class _ImgState extends State<Img> with SingleTickerProviderStateMixin {
                             color: Colors.black,
                             image: DecorationImage(
                                 image: NetworkImage(widget.images![index]),
-                                fit: BoxFit.cover),
+                                fit: BoxFit.contain),
                           ),
                         );
                       },

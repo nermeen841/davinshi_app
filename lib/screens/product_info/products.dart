@@ -798,7 +798,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                               children: [
                                 SizedBox(
                                   width: w,
-                                  height: h * 0.3,
+                                  height: h * 0.6,
                                   child: Stack(
                                     children: [
                                       (productCla.images.isEmpty)
@@ -815,18 +815,18 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               },
                                               child: Container(
                                                 width: w,
-                                                height: h * 0.4,
+                                                // height: h * 0.4,
                                                 decoration: BoxDecoration(
                                                   color: Colors.grey[200],
                                                   image: DecorationImage(
                                                       image: NetworkImage(
                                                           productCla.image),
-                                                      fit: BoxFit.cover),
+                                                      fit: BoxFit.contain),
                                                 ),
                                               ),
                                             )
                                           : SizedBox(
-                                              height: h * 0.4,
+                                              // height: h * 0.4,
                                               child: InkWell(
                                                 onTap: () {
                                                   Navigator.push(
@@ -865,7 +865,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                 productCla
                                                                         .images[
                                                                     index]),
-                                                            fit: BoxFit.cover),
+                                                            fit: BoxFit.contain),
                                                       ),
                                                     );
                                                   },
