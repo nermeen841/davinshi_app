@@ -370,11 +370,9 @@ getProductprice({required String currency, required num productPrice}) {
   String ratio = prefs.getString("ratio").toString();
   num ratioPrice = num.parse(ratio);
   String price = "";
-  print(ratio);
 
   if (currency != 'KWD' || currency != 'د.ك') {
     num finalPrice = productPrice / ratioPrice;
-    print("product price : " + finalPrice.toString());
     price = finalPrice.toString() + " " + currency;
     return price;
   } else {
