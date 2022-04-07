@@ -145,52 +145,44 @@ class _MoreScreenState extends State<MoreScreen>
             appBar: AppBar(
               elevation: 0,
               backgroundColor: mainColor,
-              centerTitle: false,
+              centerTitle: true,
               titleTextStyle:
                   const TextStyle(color: Colors.white, fontFamily: 'Tajawal'),
-              title: DropdownButton<String>(
-                isDense: true,
-                underline: const SizedBox(),
-                iconEnabledColor: Colors.white,
-                iconDisabledColor: Colors.white,
-                iconSize: w * 0.08,
-                value: value,
-                hint: Text(
-                  translate(context, 'home', 'sort'),
-                  style: const TextStyle(
-                      color: Colors.white, fontFamily: 'Tajawal'),
-                ),
-                items: List.generate(sorts.length, (index) {
-                  return DropdownMenuItem(
-                    value: sorts[index],
-                    child: Column(
-                      children: [
-                        (prefs.getString('language_code') == 'en')
-                            ? Text(
-                                sorts[index],
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontFamily: 'Tajawal',
-                                ),
-                              )
-                            : Text(
-                                sortsAr[index],
-                                style: TextStyle(
-                                  fontFamily: 'Tajawal',
-                                  color: Colors.grey[600],
-                                ),
-                              ),
-                        Divider(
-                          color: mainColor,
-                        )
-                      ],
+              title: PopupMenuButton(
+                itemBuilder: (context) {
+                  return (language == 'en')
+                      ? sorts.map((str) {
+                          return PopupMenuItem(
+                            value: str,
+                            child: Text(str),
+                          );
+                        }).toList()
+                      : sortsAr.map((str) {
+                          return PopupMenuItem(
+                            value: str,
+                            child: Text(str),
+                          );
+                        }).toList();
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      translate(context, 'student', 'sort'),
+                      style: TextStyle(
+                          fontSize: w * 0.04,
+                          fontFamily: 'Tajawal',
+                          color: Colors.white),
                     ),
-                    onTap: () {},
-                  );
-                }),
-                onChanged: (val) {
+                    const Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+                onSelected: (v) {
                   setState(() {
-                    value = val!;
+                    print('!!!===== $v');
                   });
                 },
               ),
