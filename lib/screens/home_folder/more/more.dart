@@ -145,6 +145,53 @@ class _MoreScreenState extends State<MoreScreen>
             appBar: AppBar(
               elevation: 0,
               backgroundColor: mainColor,
+              centerTitle: true,
+              title: DropdownButton<String>(
+                isDense: true,
+                underline: const SizedBox(),
+                iconEnabledColor: Colors.white,
+                iconDisabledColor: Colors.white,
+                iconSize: w * 0.08,
+                value: value,
+                hint: Text(
+                  translate(context, 'home', 'sort'),
+                  style: const TextStyle(
+                      color: Colors.white, fontFamily: 'Tajawal'),
+                ),
+                items: List.generate(sorts.length, (index) {
+                  return DropdownMenuItem(
+                    value: sorts[index],
+                    child: Column(
+                      children: [
+                        (prefs.getString('language_code') == 'en')
+                            ? Text(
+                                sorts[index],
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontFamily: 'Tajawal',
+                                ),
+                              )
+                            : Text(
+                                sortsAr[index],
+                                style: TextStyle(
+                                  fontFamily: 'Tajawal',
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                        Divider(
+                          color: mainColor,
+                        )
+                      ],
+                    ),
+                    onTap: () {},
+                  );
+                }),
+                onChanged: (val) {
+                  setState(() {
+                    value = val!;
+                  });
+                },
+              ),
               actions: [
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: w * 0.01),
@@ -191,107 +238,117 @@ class _MoreScreenState extends State<MoreScreen>
                         color: mainColor,
                       ),
                     )
-                  : Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: w * 0.015, vertical: h * 0.015),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          DropdownButton<String>(
-                            isDense: true,
-                            underline: const SizedBox(),
-                            iconEnabledColor: mainColor,
-                            iconDisabledColor: mainColor,
-                            iconSize: w * 0.08,
-                            value: value,
-                            hint: Text(translate(context, 'home', 'sort')),
-                            items: List.generate(sorts.length, (index) {
-                              return DropdownMenuItem(
-                                value: sorts[index],
-                                child: Column(
-                                  children: [
-                                    (prefs.getString('language_code') == 'en')
-                                        ? Text(
-                                            sorts[index],
-                                            style: TextStyle(
-                                              color: Colors.grey[600],
-                                              fontFamily: 'Tajawal',
-                                            ),
-                                          )
-                                        : Text(
-                                            sortsAr[index],
-                                            style: TextStyle(
-                                              fontFamily: 'Tajawal',
-                                              color: Colors.grey[600],
-                                            ),
-                                          ),
-                                    Divider(
-                                      color: mainColor,
-                                    )
-                                  ],
-                                ),
-                                onTap: () {},
-                              );
-                            }),
-                            onChanged: (val) {
-                              setState(() {
-                                value = val!;
-                              });
-                            },
-                          ),
-                          SizedBox(
-                            height: h * 0.03,
-                          ),
-                          SizedBox(
-                            height: h * 0.78,
-                            child: GridView.builder(
-                              controller: _controller,
-                              itemCount: allProduct.length,
-                              itemBuilder: (ctx, i) {
-                                return InkWell(
-                                    child: Padding(
-                                      padding: isLeft()
-                                          ? EdgeInsets.only(left: w * 0.025)
-                                          : EdgeInsets.only(right: w * 0.025),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              width: w * 0.5,
-                                              height: h * 0.25,
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey[200],
-                                                image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      allProduct[i].img),
-                                                  fit: BoxFit.cover,
-                                                ),
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: h * 0.03,
+                        ),
+                        SizedBox(
+                          height: h * 0.78,
+                          child: GridView.builder(
+                            controller: _controller,
+                            itemCount: allProduct.length,
+                            itemBuilder: (ctx, i) {
+                              return InkWell(
+                                  child: Padding(
+                                    padding: isLeft()
+                                        ? EdgeInsets.only(left: w * 0.025)
+                                        : EdgeInsets.only(right: w * 0.025),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            width: w * 0.5,
+                                            height: h * 0.25,
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey[200],
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    allProduct[i].img),
+                                                fit: BoxFit.cover,
                                               ),
-                                              child: Padding(
-                                                padding:
-                                                    EdgeInsets.all(w * 0.015),
-                                                child: Align(
-                                                  alignment: isLeft()
-                                                      ? Alignment.topRight
-                                                      : Alignment.topLeft,
-                                                  child: InkWell(
-                                                    onTap: () async {
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  EdgeInsets.all(w * 0.015),
+                                              child: Align(
+                                                alignment: isLeft()
+                                                    ? Alignment.topRight
+                                                    : Alignment.topLeft,
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    if (cartId == null ||
+                                                        cartId == studentId) {
+                                                      try {
+                                                        if (!cart.idp.contains(
+                                                            bestDis[i].id)) {
+                                                          await helper.createCar(CartProducts(
+                                                              id: null,
+                                                              studentId:
+                                                                  studentId,
+                                                              image:
+                                                                  allProduct[i]
+                                                                      .img,
+                                                              titleAr:
+                                                                  allProduct[i]
+                                                                      .nameAr,
+                                                              titleEn:
+                                                                  allProduct[i]
+                                                                      .nameEn,
+                                                              price: allProduct[
+                                                                      i]
+                                                                  .regularPrice
+                                                                  .toDouble(),
+                                                              quantity: 1,
+                                                              att: att,
+                                                              des: des,
+                                                              idp: allProduct[i]
+                                                                  .id,
+                                                              idc: 0,
+                                                              catNameEn: "",
+                                                              catNameAr: "",
+                                                              catSVG: ""));
+                                                        } else {
+                                                          int quantity = cart
+                                                              .items
+                                                              .firstWhere(
+                                                                  (element) =>
+                                                                      element
+                                                                          .idp ==
+                                                                      allProduct[
+                                                                              i]
+                                                                          .id)
+                                                              .quantity;
+                                                          await helper.updateProduct(
+                                                              1 + quantity,
+                                                              allProduct[i].id,
+                                                              allProduct[i]
+                                                                  .regularPrice
+                                                                  .toDouble(),
+                                                              jsonEncode(att),
+                                                              jsonEncode(des));
+                                                        }
+                                                        await cart.setItems();
+                                                      } catch (e) {
+                                                        print('e');
+                                                        print(e);
+                                                      }
+                                                    } else {
                                                       if (cartId == null ||
                                                           cartId == studentId) {
                                                         try {
                                                           if (!cart.idp
                                                               .contains(
-                                                                  bestDis[i]
+                                                                  topRate[i]
                                                                       .id)) {
                                                             await helper.createCar(CartProducts(
                                                                 id: null,
-                                                                studentId:
-                                                                    studentId,
-                                                                image:
-                                                                    allProduct[
-                                                                            i]
-                                                                        .img,
+                                                                studentId: 0,
+                                                                image: allProduct[
+                                                                        i]
+                                                                    .img,
                                                                 titleAr:
                                                                     allProduct[
                                                                             i]
@@ -310,7 +367,9 @@ class _MoreScreenState extends State<MoreScreen>
                                                                 idp: allProduct[
                                                                         i]
                                                                     .id,
-                                                                idc: 0,
+                                                                idc: allProduct[
+                                                                        i]
+                                                                    .id,
                                                                 catNameEn: "",
                                                                 catNameAr: "",
                                                                 catSVG: ""));
@@ -340,89 +399,17 @@ class _MoreScreenState extends State<MoreScreen>
                                                           print('e');
                                                           print(e);
                                                         }
-                                                      } else {
-                                                        if (cartId == null ||
-                                                            cartId ==
-                                                                studentId) {
-                                                          try {
-                                                            if (!cart.idp
-                                                                .contains(
-                                                                    topRate[i]
-                                                                        .id)) {
-                                                              await helper.createCar(CartProducts(
-                                                                  id: null,
-                                                                  studentId: 0,
-                                                                  image:
-                                                                      allProduct[
-                                                                              i]
-                                                                          .img,
-                                                                  titleAr:
-                                                                      allProduct[
-                                                                              i]
-                                                                          .nameAr,
-                                                                  titleEn:
-                                                                      allProduct[
-                                                                              i]
-                                                                          .nameEn,
-                                                                  price: allProduct[
-                                                                          i]
-                                                                      .regularPrice
-                                                                      .toDouble(),
-                                                                  quantity: 1,
-                                                                  att: att,
-                                                                  des: des,
-                                                                  idp:
-                                                                      allProduct[
-                                                                              i]
-                                                                          .id,
-                                                                  idc:
-                                                                      allProduct[
-                                                                              i]
-                                                                          .id,
-                                                                  catNameEn: "",
-                                                                  catNameAr: "",
-                                                                  catSVG: ""));
-                                                            } else {
-                                                              int quantity = cart
-                                                                  .items
-                                                                  .firstWhere((element) =>
-                                                                      element
-                                                                          .idp ==
-                                                                      allProduct[
-                                                                              i]
-                                                                          .id)
-                                                                  .quantity;
-                                                              await helper.updateProduct(
-                                                                  1 + quantity,
-                                                                  allProduct[i]
-                                                                      .id,
-                                                                  allProduct[i]
-                                                                      .regularPrice
-                                                                      .toDouble(),
-                                                                  jsonEncode(
-                                                                      att),
-                                                                  jsonEncode(
-                                                                      des));
-                                                            }
-                                                            await cart
-                                                                .setItems();
-                                                          } catch (e) {
-                                                            print('e');
-                                                            print(e);
-                                                          }
-                                                        } else {}
-                                                      }
-                                                    },
-                                                    child: CircleAvatar(
-                                                      backgroundColor:
-                                                          mainColor,
-                                                      radius: w * .05,
-                                                      child: Center(
-                                                        child: Icon(
-                                                          Icons.add_outlined,
-                                                          color: Colors.white,
-                                                          size: w * 0.05,
-                                                        ),
+                                                      } else {}
+                                                    }
+                                                  },
+                                                  child: CircleAvatar(
+                                                    backgroundColor: mainColor,
+                                                    radius: w * .05,
+                                                    child: Center(
+                                                      child: Icon(
+                                                        Icons.add_outlined,
+                                                        color: Colors.white,
+                                                        size: w * 0.05,
                                                       ),
                                                     ),
                                                   ),
@@ -430,155 +417,155 @@ class _MoreScreenState extends State<MoreScreen>
                                               ),
                                             ),
                                           ),
-                                          SizedBox(
-                                            width: w * 0.4,
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  height: h * 0.01,
-                                                ),
-                                                Container(
-                                                    width: w * 0.45,
-                                                    constraints: BoxConstraints(
-                                                      maxHeight: h * 0.07,
+                                        ),
+                                        SizedBox(
+                                          width: w * 0.4,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                height: h * 0.01,
+                                              ),
+                                              Container(
+                                                  width: w * 0.45,
+                                                  constraints: BoxConstraints(
+                                                    maxHeight: h * 0.07,
+                                                  ),
+                                                  child: Text(
+                                                      translateString(
+                                                          allProduct[i].nameEn,
+                                                          allProduct[i].nameAr),
+                                                      style: TextStyle(
+                                                          fontSize: w * 0.035),
+                                                      overflow: TextOverflow
+                                                          .ellipsis)),
+                                              SizedBox(
+                                                height: h * 0.005,
+                                              ),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  RichText(
+                                                    text: TextSpan(
+                                                      children: [
+                                                        if (allProduct[i]
+                                                            .inSale)
+                                                          TextSpan(
+                                                              text: getProductprice(
+                                                                  currency:
+                                                                      currency,
+                                                                  productPrice:
+                                                                      allProduct[
+                                                                              i]
+                                                                          .salePrice),
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'Tajawal',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color:
+                                                                      mainColor)),
+                                                        if (!allProduct[
+                                                                i]
+                                                            .inSale)
+                                                          TextSpan(
+                                                              text: getProductprice(
+                                                                  currency:
+                                                                      currency,
+                                                                  productPrice:
+                                                                      allProduct[
+                                                                              i]
+                                                                          .regularPrice),
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'Tajawal',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color:
+                                                                      mainColor)),
+                                                      ],
                                                     ),
-                                                    child: Text(
-                                                        translateString(
-                                                            allProduct[i]
-                                                                .nameEn,
-                                                            allProduct[i]
-                                                                .nameAr),
-                                                        style: TextStyle(
-                                                            fontSize:
-                                                                w * 0.035),
-                                                        overflow: TextOverflow
-                                                            .ellipsis)),
-                                                SizedBox(
-                                                  height: h * 0.005,
-                                                ),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    RichText(
-                                                      text: TextSpan(
-                                                        children: [
-                                                          if (allProduct[i]
-                                                              .inSale)
-                                                            TextSpan(
-                                                                text: getProductprice(
-                                                                    currency:
-                                                                        currency,
-                                                                    productPrice:
-                                                                        allProduct[i]
-                                                                            .salePrice),
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Tajawal',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    color:
-                                                                        mainColor)),
-                                                          if (!allProduct[i]
-                                                              .inSale)
-                                                            TextSpan(
-                                                                text: getProductprice(
-                                                                    currency:
-                                                                        currency,
-                                                                    productPrice:
-                                                                        allProduct[i]
-                                                                            .regularPrice),
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Tajawal',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    color:
-                                                                        mainColor)),
-                                                        ],
+                                                  ),
+                                                  if (allProduct[i].inSale)
+                                                    Text(
+                                                      getProductprice(
+                                                          currency: currency,
+                                                          productPrice:
+                                                              allProduct[i]
+                                                                  .salePrice),
+                                                      style: TextStyle(
+                                                        fontSize: w * 0.035,
+                                                        decorationThickness:
+                                                            w * 0.1,
+                                                        decorationColor:
+                                                            mainColor,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .lineThrough,
+                                                        color: Colors.grey,
                                                       ),
                                                     ),
-                                                    if (allProduct[i].inSale)
-                                                      Text(
-                                                        getProductprice(
-                                                            currency: currency,
-                                                            productPrice:
-                                                                allProduct[i]
-                                                                    .salePrice),
-                                                        style: TextStyle(
-                                                          fontSize: w * 0.035,
-                                                          decorationThickness:
-                                                              w * 0.1,
-                                                          decorationColor:
-                                                              mainColor,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .lineThrough,
-                                                          color: Colors.grey,
-                                                        ),
-                                                      ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                    onTap: () async {
-                                      dialog(context);
-                                      await getItem(allProduct[i].id);
-                                      Navigator.pushReplacementNamed(
-                                          context, 'pro');
-                                    });
-                              },
-                              primary: false,
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisSpacing: h * 0.001,
-                                      mainAxisSpacing: w * 0.05,
-                                      crossAxisCount: 2,
-                                      childAspectRatio: 0.8),
+                                  ),
+                                  onTap: () async {
+                                    dialog(context);
+                                    await getItem(allProduct[i].id);
+                                    Navigator.pushReplacementNamed(
+                                        context, 'pro');
+                                  });
+                            },
+                            primary: false,
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisSpacing: h * 0.001,
+                                    mainAxisSpacing: w * 0.05,
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 0.8),
+                          ),
+                        ),
+
+                        if (isLoadMoreRunning == true)
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: h * 0.01, bottom: h * 0.01),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: mainColor,
+                              ),
                             ),
                           ),
 
-                          if (isLoadMoreRunning == true)
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: h * 0.01, bottom: h * 0.01),
-                              child: Center(
-                                child: CircularProgressIndicator(
+                        // When nothing else to load
+                        if (hasNextPage == false)
+                          Container(
+                            padding: EdgeInsets.only(
+                                top: h * 0.01, bottom: h * 0.01),
+                            color: Colors.white,
+                            child: Text(
+                              translate(context, 'contac_us', 'paginate'),
+                              style: TextStyle(
+                                  fontFamily: 'Tajawal',
+                                  fontSize: w * 0.04,
                                   color: mainColor,
-                                ),
-                              ),
+                                  fontWeight: FontWeight.bold),
                             ),
-
-                          // When nothing else to load
-                          if (hasNextPage == false)
-                            Container(
-                              padding: EdgeInsets.only(
-                                  top: h * 0.01, bottom: h * 0.01),
-                              color: Colors.white,
-                              child: Text(
-                                translate(context, 'contac_us', 'paginate'),
-                                style: TextStyle(
-                                    fontFamily: 'Tajawal',
-                                    fontSize: w * 0.04,
-                                    color: mainColor,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                        ],
-                      ),
+                          ),
+                      ],
                     ),
             )),
       ),

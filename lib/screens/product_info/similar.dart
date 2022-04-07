@@ -78,16 +78,20 @@ class _SimilarProductScreenState extends State<SimilarProductScreen> {
                                   children: [
                                     if (widget.similar[i].inSale)
                                       TextSpan(
-                                          text:
-                                              '${widget.similar[i].salePrice} $currency ',
+                                          text: getProductprice(
+                                              currency: currency,
+                                              productPrice:
+                                                  widget.similar[i].salePrice),
                                           style: TextStyle(
                                               fontFamily: 'Tajawal',
                                               fontWeight: FontWeight.bold,
                                               color: mainColor)),
                                     if (!widget.similar[i].inSale)
                                       TextSpan(
-                                          text:
-                                              '${widget.similar[i].regularPrice} $currency',
+                                          text: getProductprice(
+                                              currency: currency,
+                                              productPrice: widget
+                                                  .similar[i].regularPrice),
                                           style: TextStyle(
                                               fontFamily: 'Tajawal',
                                               fontWeight: FontWeight.bold,
@@ -97,7 +101,10 @@ class _SimilarProductScreenState extends State<SimilarProductScreen> {
                               ),
                               if (widget.similar[i].inSale)
                                 Text(
-                                  '${widget.similar[i].salePrice} $currency',
+                                  getProductprice(
+                                      currency: currency,
+                                      productPrice:
+                                          widget.similar[i].salePrice),
                                   style: TextStyle(
                                     fontSize: w * 0.035,
                                     decorationThickness: w * 0.1,

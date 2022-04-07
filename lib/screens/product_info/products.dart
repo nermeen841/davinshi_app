@@ -951,10 +951,10 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                           children: [
                                             if (productCla.isOffer)
                                               Text(
-                                                  productCla.offerPrice
-                                                          .toString() +
-                                                      ' '
-                                                          '$currency',
+                                                  getProductprice(
+                                                      currency: currency,
+                                                      productPrice: productCla
+                                                          .offerPrice!),
                                                   style: TextStyle(
                                                       fontFamily: 'Tajawal',
                                                       fontWeight:
@@ -963,8 +963,10 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                       fontSize: w * 0.05)),
                                             if (!productCla.isOffer)
                                               Text(
-                                                  productCla.price.toString() +
-                                                      ' $currency',
+                                                  getProductprice(
+                                                      currency: currency,
+                                                      productPrice:
+                                                          productCla.price),
                                                   style: TextStyle(
                                                       fontFamily: 'Tajawal',
                                                       fontWeight:
@@ -976,8 +978,10 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                 padding: EdgeInsets.symmetric(
                                                     horizontal: w * 0.03),
                                                 child: Text(
-                                                  '${productCla.price}'
-                                                  ' $currency',
+                                                  getProductprice(
+                                                      currency: currency,
+                                                      productPrice:
+                                                          productCla.price),
                                                   style: TextStyle(
                                                     decoration: TextDecoration
                                                         .lineThrough,
