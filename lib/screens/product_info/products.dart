@@ -798,7 +798,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                               children: [
                                 SizedBox(
                                   width: w,
-                                  height: h * 0.6,
+                                  height: h * 0.5,
                                   child: Stack(
                                     children: [
                                       (productCla.images.isEmpty)
