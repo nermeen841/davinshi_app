@@ -10,37 +10,46 @@ class NewItemProvider extends ChangeNotifier {
   bool finish = false;
   String? sort;
   List sorts = [
-    'Low price',
-    'High price',
-    'New',
+    'low price',
+    'high price',
+    'best seller',
   ];
   List sortsAr = [
     'سعر أقل',
     'سعر أعلي',
-    'جديد',
+    'الاكثر مبيعا',
   ];
-
+  List<String> apiSort = ["highestPrice", "lowestPrice", "bestSeller"];
   void clearList() {
     sort = null;
     items.clear();
     pageIndex = 1;
   }
 
-  void sortList(int index) {
+  sortList(int index) {
     if (index == 0) {
-      items.sort((a, b) {
-        return a.finalPrice.compareTo(b.finalPrice);
-      });
+      items.clear();
+      getItems();
+
+      // items.sort((a, b) {
+      //   return a.finalPrice.compareTo(b.finalPrice);
+      // });
     } else if (index == 1) {
-      items.sort((a, b) {
-        return b.finalPrice.compareTo(a.finalPrice);
-      });
+      items.clear();
+      getItems();
+
+      // items.sort((a, b) {
+      //   return b.finalPrice.compareTo(a.finalPrice);
+      // });
     } else {
-      items.sort((a, b) {
-        return a.id.compareTo(b.id);
-      });
+      items.clear();
+      getItems();
+
+      // items.sort((a, b) {
+      //   return a.id.compareTo(b.id);
+      // });
     }
-    sort = sorts[index];
+    sort = apiSort[index];
     notifyListeners();
   }
 
@@ -71,7 +80,7 @@ class NewItemProvider extends ChangeNotifier {
   }
 
   Future getItems() async {
-    final String url = domain + 'get-new-products?page=$pageIndex';
+    final String url = domain + 'get-new-products?page=$pageIndex&sort=$sort';
     try {
       Response response = await Dio().get(url);
       print(response.data.toString());

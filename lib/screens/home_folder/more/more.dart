@@ -33,15 +33,17 @@ class _MoreScreenState extends State<MoreScreen>
   List<String> des = [];
   String? value;
   List sorts = [
-    'Low price',
-    'High price',
-    'New',
+    'low price',
+    'high price',
+    'best seller',
   ];
   List sortsAr = [
     'سعر أقل',
     'سعر أعلي',
-    'جديد',
+    'الاكثر مبيعا',
   ];
+
+  List<String> apiSort = ["highestPrice", "lowestPrice", "bestSeller"];
 
   int page = 1;
   bool hasNextPage = true;
@@ -59,7 +61,7 @@ class _MoreScreenState extends State<MoreScreen>
       final String url = domain + widget.endPoint;
       Response response = await Dio().get(
         url,
-        queryParameters: {'page': page},
+        queryParameters: {'page': page, 'sort': (value != null) ? value : ''},
       );
 
       AllProductModel allProductModel = AllProductModel.fromJson(response.data);
@@ -91,7 +93,7 @@ class _MoreScreenState extends State<MoreScreen>
         final String url = domain + widget.endPoint;
         Response response = await Dio().get(
           url,
-          queryParameters: {'page': page},
+          queryParameters: {'page': page, 'sort': (value != null) ? value : ''},
         );
         AllProductModel allProductModel =
             AllProductModel.fromJson(response.data);
@@ -148,43 +150,52 @@ class _MoreScreenState extends State<MoreScreen>
               centerTitle: true,
               titleTextStyle:
                   const TextStyle(color: Colors.white, fontFamily: 'Tajawal'),
-              title: PopupMenuButton(
-                itemBuilder: (context) {
-                  return (language == 'en')
-                      ? sorts.map((str) {
-                          return PopupMenuItem(
-                            value: str,
-                            child: Text(str),
-                          );
-                        }).toList()
-                      : sortsAr.map((str) {
-                          return PopupMenuItem(
-                            value: str,
-                            child: Text(str),
-                          );
-                        }).toList();
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(
-                      translate(context, 'student', 'sort'),
-                      style: TextStyle(
-                          fontSize: w * 0.04,
-                          fontFamily: 'Tajawal',
-                          color: Colors.white),
-                    ),
-                    const Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.white,
-                    ),
-                  ],
+              title: DropdownButton<String>(
+                isDense: true,
+                underline: const SizedBox(),
+                iconEnabledColor: Colors.white,
+                iconDisabledColor: Colors.white,
+                iconSize: w * 0.08,
+                hint: Text(
+                  translate(context, 'home', 'sort'),
+                  style: const TextStyle(
+                      color: Colors.white, fontFamily: 'Tajawal'),
                 ),
-                onSelected: (v) {
-                  setState(() {
-                    print('!!!===== $v');
-                  });
-                },
+                items: List.generate(sorts.length, (index) {
+                  return DropdownMenuItem(
+                    value: sorts[index],
+                    child: Column(
+                      children: [
+                        (prefs.getString('language_code') == 'en')
+                            ? Text(
+                                sorts[index],
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontFamily: 'Tajawal',
+                                ),
+                              )
+                            : Text(
+                                sortsAr[index],
+                                style: TextStyle(
+                                  fontFamily: 'Tajawal',
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                        Divider(
+                          color: mainColor,
+                        )
+                      ],
+                    ),
+                    onTap: () {
+                      // newItem.sortList(index);
+                      setState(() {
+                        value = apiSort[index];
+                      });
+                      firstLoad();
+                    },
+                  );
+                }),
+                onChanged: (val) {},
               ),
               actions: [
                 Padding(

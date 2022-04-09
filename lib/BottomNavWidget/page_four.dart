@@ -157,11 +157,11 @@ class _PageFourState extends State<PageFour> {
                       SizedBox(
                         height: h * 0.03,
                       ),
-                      Text(
-                        translate(context, 'page_four', 'sub_title'),
-                        style: TextStyle(
-                            color: Colors.grey[400], fontSize: w * 0.035),
-                      ),
+                      // Text(
+                      //   translate(context, 'page_four', 'sub_title'),
+                      //   style: TextStyle(
+                      //       color: Colors.grey[400], fontSize: w * 0.035),
+                      // ),
                       if (isSearching) SearchDataScreen(keyword: search.text),
                       // if (login && !isSearching) SearchPaginate(),
                       if (!isSearching)
@@ -253,7 +253,7 @@ class _PageFourState extends State<PageFour> {
     return await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text(translate(context, 'home', 'exit_app')),
+            title: const Text(''),
             content: Text(translate(context, 'home', 'ok_mess')),
             actions: [
               // ignore: deprecated_member_use

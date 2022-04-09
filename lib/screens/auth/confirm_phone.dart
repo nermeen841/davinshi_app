@@ -153,7 +153,7 @@ class _ConfirmPhoneState extends State<ConfirmPhone> {
                                 //   color: mainColor,
                                 // ),
                               ),
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.text,
                             ),
                           ),
                           SizedBox(
@@ -198,7 +198,7 @@ class _ConfirmPhoneState extends State<ConfirmPhone> {
                                       context,
                                       translate(
                                           context, 'fire_base', 'error2'));
-                                  // Navigator.pop(dialogContext);
+
                                   _btnController.error();
                                   await Future.delayed(
                                       const Duration(milliseconds: 1000));
