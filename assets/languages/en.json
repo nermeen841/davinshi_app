@@ -8,7 +8,7 @@
   },
   "home" : {
     "exit_app": "Exit Davinchi",
-    "ok_mess": "Do you want to exit Davinchi ?",
+    "ok_mess": "Confirm exit from the application",
     "yes":"Yes",
     "no":"No",
     "home" : "Home",

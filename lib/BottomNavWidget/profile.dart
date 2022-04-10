@@ -716,7 +716,7 @@ class _ProfileState extends State<Profile> {
     return await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text(translate(context, 'home', 'exit_app')),
+            title: const Text(''),
             content: Text(translate(context, 'home', 'ok_mess')),
             actions: [
               RaisedButton(

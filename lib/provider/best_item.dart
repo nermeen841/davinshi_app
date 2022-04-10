@@ -21,6 +21,7 @@ class BestItemProvider extends ChangeNotifier {
     'سعر أعلي',
     'جديد',
   ];
+  List<String> apiSort = ["highestPrice", "lowestPrice", "bestSeller"];
   void clearList() {
     sort = null;
     items.clear();
@@ -29,19 +30,16 @@ class BestItemProvider extends ChangeNotifier {
 
   void sortList(int index) {
     if (index == 0) {
-      items.sort((a, b) {
-        return a.finalPrice.compareTo(b.finalPrice);
-      });
+      items.clear();
+      getItems();
     } else if (index == 1) {
-      items.sort((a, b) {
-        return b.finalPrice.compareTo(a.finalPrice);
-      });
+      items.clear();
+      getItems();
     } else {
-      items.sort((a, b) {
-        return a.id.compareTo(b.id);
-      });
+      items.clear();
+      getItems();
     }
-    sort = sorts[index];
+    sort = apiSort[index];
     notifyListeners();
   }
 
@@ -71,7 +69,7 @@ class BestItemProvider extends ChangeNotifier {
   }
 
   Future getItems() async {
-    final String url = domain + 'get-best-products?page=$pageIndex';
+    final String url = domain + 'get-best-products?page=$pageIndex&sort=$sort';
     try {
       Response response = await Dio().get(
         url,

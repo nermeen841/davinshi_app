@@ -376,12 +376,19 @@ class _StudentInfo extends State<StudentInfo> {
                                           ],
                                         ),
                                         onTap: () {
-                                          newItem.sortList(index);
+                                          setState(() {
+                                            newItem.sortList(
+                                                index,
+                                                widget.studentClass.id
+                                                    .toString());
+                                            newItem.sort =
+                                                newItem.apiSort[index];
+                                          });
                                         },
                                       );
                                     }),
                                     onChanged: (val) {},
-                                    value: newItem.sort,
+                                    // value: newItem.sort,
                                   );
                                 },
                               ),

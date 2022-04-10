@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, avoid_print, empty_catches
 
+import 'package:davinshi_app/models/product_color.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
@@ -10,6 +11,8 @@ class ProductCla {
   String nameAr;
   String nameEn;
   String slug;
+  bool? isClothes;
+  List<AttributesClothes>? attributesClothes;
   String? sellerName;
   String? brandName;
   String descriptionAr;
@@ -30,12 +33,14 @@ class ProductCla {
   Cat cat;
   List<String> images;
   List<Statement> statements;
-  List<Attributes> attributes;
+  List<Attributes?> attributes;
   List<ProCategory> categories;
   List<About3D> about;
   List<SimilarProduct> similar;
   ProductCla(
       {required this.id,
+      this.isClothes,
+      this.attributesClothes,
       required this.nameAr,
       required this.similar,
       required this.nameEn,
@@ -63,6 +68,15 @@ class ProductCla {
       required this.aboutAr,
       required this.aboutEn,
       required this.about});
+}
+
+class AttributesClothes {
+  int? id;
+  int? sizeId;
+  String? nameEn;
+  String? nameAr;
+
+  AttributesClothes({this.id, this.sizeId, this.nameAr, this.nameEn});
 }
 
 class SimilarProduct {
@@ -197,6 +211,7 @@ late ProductCla productCla;
 Future setProduct(Map e) async {
   try {
     bool inOffer = e['product']['in_sale'];
+    bool isClothes = e['product']['is_clothes'];
     List<ProCategory> _proCat = [];
     try {
       e['product']['categories'].forEach((c) {
@@ -230,32 +245,53 @@ Future setProduct(Map e) async {
       print('e');
     }
     List<Attributes> _att = [];
-    try {
-      e['product']['attributes'].forEach((a) {
-        List<OptionsModel> _options = [];
-        a['options'].forEach((o) {
-          if (o['values'].length == 0) {
-          } else {
-            _options.add(OptionsModel(
-                id: o['values'][0]['id'],
-                nameAr: o['name_ar'] ?? '',
-                nameEn: o['name_en'] ?? '',
-                price: num.parse(inOffer
-                    ? o['values'][0]['sale_price'] ?? "0"
-                    : o['values'][0]['regular_price']),
-                quantity: o['values'][0]['quantity']));
-          }
+    List<AttributesClothes> _attClothes = [];
+
+    if (isClothes) {
+      try {
+        e['product']['attributes_clothes'].forEach((attri) {
+          _attClothes.add(
+            AttributesClothes(
+              id: attri['id'],
+              sizeId: attri['size']['id'],
+              nameAr: attri['size']['name_ar'],
+              nameEn: attri['size']['name_en'],
+            ),
+          );
         });
-        _att.add(Attributes(
-            id: a['id'],
-            nameAr: a['name_ar'] ?? '',
-            nameEn: a['name_en'] ?? '',
-            options: _options));
-      });
-    } catch (e) {
-      print('r');
-      print("......................................" + e.toString());
+      } catch (e) {
+        print("......................................" + e.toString());
+      }
+    } else {
+      try {
+        e['product']['attributes'].forEach((a) {
+          List<OptionsModel> _options = [];
+          a['options'].forEach((o) {
+            if (o['values'].length == 0) {
+            } else {
+              _options.add(OptionsModel(
+                  id: o['values'][0]['id'],
+                  nameAr: o['name_ar'] ?? '',
+                  nameEn: o['name_en'] ?? '',
+                  price: num.parse(inOffer
+                      ? o['values'][0]['sale_price'] ?? "0"
+                      : o['values'][0]['regular_price'] ?? "0"),
+                  quantity: o['values'][0]['quantity']));
+            }
+          });
+
+          _att.add(Attributes(
+              id: a['id'],
+              nameAr: a['name_ar'] ?? '',
+              nameEn: a['name_en'] ?? '',
+              options: _options));
+        });
+      } catch (e) {
+        print('r');
+        print("......................................" + e.toString());
+      }
     }
+
     late Cat _cat;
     try {
       e['product']['categories'].forEach((c) {
@@ -333,6 +369,8 @@ Future setProduct(Map e) async {
               ? null
               : parseHtmlString(e['product']['about_brand_en']),
           likes: e['product']['likes_count'],
+          isClothes: e['product']['is_clothes'],
+          attributesClothes: _attClothes,
           images: _images,
           statements: _statement,
           attributes: _att,
@@ -381,3 +419,5 @@ getProductprice({required String currency, required num productPrice}) {
     return finalPrice.toString();
   }
 }
+
+/////////////////////////////////////////////////////////////////
