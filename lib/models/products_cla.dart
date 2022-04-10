@@ -275,7 +275,7 @@ Future setProduct(Map e) async {
                   nameEn: o['name_en'] ?? '',
                   price: num.parse(inOffer
                       ? o['values'][0]['sale_price'] ?? "0"
-                      : o['values'][0]['regular_price']),
+                      : o['values'][0]['regular_price'] ?? "0"),
                   quantity: o['values'][0]['quantity']));
             }
           });
@@ -421,21 +421,3 @@ getProductprice({required String currency, required num productPrice}) {
 }
 
 /////////////////////////////////////////////////////////////////
-
-Future<ColorModel?> getProductcolor(
-    {required String productId, required String sizeId}) async {
-  final String url = domain + "get-colors";
-  ColorModel? colorModel;
-
-  try {
-    Response response = await Dio().post(url,
-        queryParameters: {"product_id": productId, "size_id": sizeId});
-    if (response.data['status'] == 1) {
-      colorModel = ColorModel.fromJson(response.data);
-    }
-    return colorModel;
-  } catch (error) {
-    print("color product error : " + error.toString());
-  }
-  return null;
-}

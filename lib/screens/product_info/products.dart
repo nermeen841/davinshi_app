@@ -25,7 +25,9 @@ import 'package:davinshi_app/provider/cart_provider.dart';
 import 'package:davinshi_app/screens/auth/login.dart';
 import 'package:davinshi_app/screens/cart/cart.dart';
 import 'package:davinshi_app/screens/product_info/image.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../dbhelper.dart';
+import '../../models/product_color.dart';
 
 class Products extends StatefulWidget {
   final bool fromFav;
@@ -111,6 +113,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
               : TextEditingController());
   List<Rate> rate = [];
   List<int> att = [];
+  int? selectedColor;
+  int? selectedSize;
   List<String> des = [];
   List<int> selectedItem = [];
   List<num> optionsPrice = [];
@@ -1121,19 +1125,24 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                               i]
                                                                           .id!,
                                                                       groupValue:
-                                                                          att[
-                                                                              i],
+                                                                          selectedSize,
                                                                       onChanged:
                                                                           (int?
                                                                               value) async {
+                                                                        SharedPreferences
+                                                                            prefs =
+                                                                            await SharedPreferences.getInstance();
                                                                         prefs.setString(
                                                                             "Size_id",
                                                                             productCla.attributesClothes![i].id.toString());
 
                                                                         setState(
                                                                           () {
-                                                                            att[i] =
+                                                                            selectedSize =
                                                                                 productCla.attributesClothes![i].id!;
+                                                                            getProductcolor(
+                                                                                productId: productCla.id.toString(),
+                                                                                sizeId: selectedSize.toString());
                                                                           },
                                                                         );
                                                                         Navigator.pop(
@@ -1177,134 +1186,129 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                 ],
                                               ),
                                             ),
-                                            InkWell(
-                                              onTap: () {
-                                                homeBottomSheet(
-                                                  context: context,
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                w * 0.04,
-                                                            vertical: h * 0.04),
-                                                    child: Column(
+                                            (colors.isNotEmpty)
+                                                ? InkWell(
+                                                    onTap: () {
+                                                      homeBottomSheet(
+                                                        context: context,
+                                                        child: Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      w * 0.04,
+                                                                  vertical:
+                                                                      h * 0.04),
+                                                          child: Column(
+                                                            children: [
+                                                              Text(
+                                                                translateString(
+                                                                    "Color",
+                                                                    "اللون"),
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize: w *
+                                                                        0.05,
+                                                                    fontFamily:
+                                                                        'Tajawal',
+                                                                    color: Colors
+                                                                        .black),
+                                                              ),
+                                                              ListView.builder(
+                                                                  // primary: true,
+                                                                  shrinkWrap:
+                                                                      true,
+                                                                  physics:
+                                                                      const NeverScrollableScrollPhysics(),
+                                                                  itemCount:
+                                                                      colors
+                                                                          .length,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          i) {
+                                                                    return Row(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding:
+                                                                              EdgeInsets.only(top: h * 0.02),
+                                                                          child:
+                                                                              Text(
+                                                                            translateString(colors[i].nameEn!,
+                                                                                colors[i].nameAr!),
+                                                                            style: TextStyle(
+                                                                                fontWeight: FontWeight.w700,
+                                                                                fontSize: w * 0.05,
+                                                                                color: Colors.black),
+                                                                          ),
+                                                                        ),
+                                                                        Radio<
+                                                                                int>(
+                                                                            activeColor:
+                                                                                mainColor,
+                                                                            value:
+                                                                                i,
+                                                                            groupValue:
+                                                                                selectedColor,
+                                                                            onChanged:
+                                                                                (int? value) {
+                                                                              setState(
+                                                                                () {
+                                                                                  selectedColor = colors[i].id;
+                                                                                },
+                                                                              );
+                                                                              Navigator.pop(context);
+                                                                            }),
+                                                                      ],
+                                                                    );
+                                                                  }),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Row(
                                                       children: [
                                                         Text(
                                                           translateString(
-                                                              "Size", "المقاس"),
+                                                              "Color", "اللون"),
                                                           style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .bold,
+                                                                      .w600,
                                                               fontSize:
-                                                                  w * 0.05,
+                                                                  w * 0.04,
                                                               fontFamily:
-                                                                  'Tajawal',
+                                                                  'Tajawal'),
+                                                        ),
+                                                        Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(w *
+                                                                          0.01),
                                                               color:
                                                                   Colors.black),
-                                                        ),
-                                                        FutureBuilder(
-                                                            future: getProductcolor(
-                                                                productId:
-                                                                    productCla
-                                                                        .id
-                                                                        .toString(),
-                                                                sizeId: prefs
-                                                                    .getString(
-                                                                        "Size_id")
-                                                                    .toString()),
-                                                            builder: (context,
-                                                                AsyncSnapshot
-                                                                    snapshot) {
-                                                              if (snapshot
-                                                                  .hasData) {
-                                                                return ListView
-                                                                    .builder(
-                                                                        // primary: true,
-                                                                        shrinkWrap:
-                                                                            true,
-                                                                        physics:
-                                                                            const NeverScrollableScrollPhysics(),
-                                                                        itemCount: snapshot
-                                                                            .data
-                                                                            .data
-                                                                            .length,
-                                                                        itemBuilder:
-                                                                            (context,
-                                                                                i) {
-                                                                          return Row(
-                                                                            crossAxisAlignment:
-                                                                                CrossAxisAlignment.start,
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: EdgeInsets.only(top: h * 0.02),
-                                                                                child: Text(
-                                                                                  translateString(snapshot.data.data[i].nameEn!, snapshot.data.data[i].nameAr!),
-                                                                                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: w * 0.05, color: Colors.black),
-                                                                                ),
-                                                                              ),
-                                                                              Radio<int>(
-                                                                                  activeColor: mainColor,
-                                                                                  value: snapshot.data.data[i].id,
-                                                                                  groupValue: att[i],
-                                                                                  onChanged: (int? value) {
-                                                                                    setState(
-                                                                                      () {
-                                                                                        att[i] = snapshot.data.data[i].id;
-                                                                                      },
-                                                                                    );
-                                                                                    Navigator.pop(context);
-                                                                                  }),
-                                                                            ],
-                                                                          );
-                                                                        });
-                                                              } else {
-                                                                return Center(
-                                                                  child:
-                                                                      CircularProgressIndicator(
-                                                                    color:
-                                                                        mainColor,
-                                                                  ),
-                                                                );
-                                                              }
-                                                            }),
+                                                          child: Center(
+                                                            child: Icon(
+                                                              Icons
+                                                                  .keyboard_arrow_down,
+                                                              color: mainColor,
+                                                            ),
+                                                          ),
+                                                        )
                                                       ],
                                                     ),
-                                                  ),
-                                                );
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    translateString(
-                                                        "Color", "اللون"),
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: w * 0.04,
-                                                        fontFamily: 'Tajawal'),
-                                                  ),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    w * 0.01),
-                                                        color: Colors.black),
-                                                    child: Center(
-                                                      child: Icon(
-                                                        Icons
-                                                            .keyboard_arrow_down,
-                                                        color: mainColor,
-                                                      ),
-                                                    ),
                                                   )
-                                                ],
-                                              ),
-                                            ),
+                                                : Container(),
                                           ],
                                         ),
                                       )
@@ -2266,6 +2270,31 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  List colors = [];
+  Future getProductcolor(
+      {required String productId, required String sizeId}) async {
+    final String url = domain + "get-colors";
+    ColorModel? colorModel;
+    colors.clear();
+    try {
+      Response response = await Dio().post(url,
+          queryParameters: {"product_id": productId, "size_id": sizeId});
+      if (response.data['status'] == 1) {
+        colorModel = ColorModel.fromJson(response.data);
+        setState(() {
+          colors.addAll(colorModel!.data!);
+        });
+      }
+      print(response.data);
+      print(productId);
+      print(sizeId);
+      return colors;
+    } catch (error) {
+      print("color product error : " + error.toString());
+    }
+    return null;
   }
 }
 
