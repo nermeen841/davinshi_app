@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_string_interpolations, avoid_print, use_key_in_widget_constructors
 
 import 'package:davinshi_app/dbhelper.dart';
+import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:davinshi_app/models/rate.dart';
 import 'package:davinshi_app/screens/home_folder/more/more.dart';
 import 'package:davinshi_app/screens/student/view_all.dart';
@@ -77,12 +78,17 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                           itemBuilder: (BuildContext context, int i) {
                             return InkWell(
                               child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  image: DecorationImage(
-                                    image: NetworkImage(slider[i].image),
-                                    fit: BoxFit.fitWidth,
-                                  ),
+                                // decoration: BoxDecoration(
+                                //   color: Colors.white,
+                                //   image: DecorationImage(
+                                //     image: NetworkImage(slider[i].image),
+                                //     fit: BoxFit.fitWidth,
+                                //   ),
+                                // ),
+                                child: ImageeNetworkWidget(
+                                  image: slider[i].image,
+                                  width: w,
+                                  height: h * 0.3,
                                 ),
                               ),
                               focusColor: Colors.transparent,
@@ -145,16 +151,16 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                             itemBuilder: (BuildContext context, int i) {
                               Ads _ads = getAds(1)[i];
                               return InkWell(
-                                child: Container(
+                                child: ImageeNetworkWidget(
                                   width: w * 0.95,
                                   height: h * 0.08,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    image: DecorationImage(
-                                      image: NetworkImage(_ads.image),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                                  // decoration: BoxDecoration(
+                                  //   color: Colors.white,
+                                  //   image: DecorationImage(
+                                  image: _ads.image,
+                                  //     fit: BoxFit.cover,
+                                  //   ),
+                                  // ),
                                 ),
                                 focusColor: Colors.transparent,
                                 splashColor: Colors.transparent,
@@ -288,11 +294,11 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     ),
                                   ),
                                   onTap: () async {
-                                    dialog(context);
+                                    // dialog(context);
                                     await catProvider
                                         .getParentCat()
                                         .then((value) {
-                                      Navigator.pop(context);
+                                      // Navigator.pop(context);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -334,11 +340,24 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(10),
-                                                        image: DecorationImage(
-                                                            image: NetworkImage(
-                                                              "${catProvider.categories[index].image}",
-                                                            ),
-                                                            fit: BoxFit.cover),
+                                                        // image: DecorationImage(
+                                                        //     image: NetworkImage(
+                                                        //       "${catProvider.categories[index].image}",
+                                                        //     ),
+                                                        //     fit: BoxFit.cover),
+                                                      ),
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        child:
+                                                            ImageeNetworkWidget(
+                                                          image: catProvider
+                                                              .categories[index]
+                                                              .image,
+                                                          width: w * 0.4,
+                                                          height: h * 0.25,
+                                                        ),
                                                       ),
                                                     ),
                                                     Padding(
@@ -455,14 +474,30 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                                   BorderRadius
                                                                       .circular(
                                                                           10),
-                                                              image:
-                                                                  DecorationImage(
-                                                                      image:
-                                                                          NetworkImage(
-                                                                        "${catProvider.categories[index].image}",
-                                                                      ),
-                                                                      fit: BoxFit
-                                                                          .cover),
+                                                              // image:
+                                                              //     DecorationImage(
+                                                              //         image:
+                                                              //             NetworkImage(
+                                                              //           "${catProvider.categories[index].image}",
+                                                              //         ),
+                                                              //         fit: BoxFit
+                                                              //             .cover),
+                                                            ),
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              child:
+                                                                  ImageeNetworkWidget(
+                                                                image: catProvider
+                                                                    .categories[
+                                                                        index]
+                                                                    .image,
+                                                                width: w * 0.4,
+                                                                height:
+                                                                    h * 0.25,
+                                                              ),
                                                             ),
                                                           ),
                                                           Padding(
@@ -1043,13 +1078,17 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                             height: h * 0.25,
                                             decoration: BoxDecoration(
                                               color: Colors.grey[200],
-                                              image: DecorationImage(
-                                                image: NetworkImage(
-                                                    newItem[i].image),
-                                                fit: BoxFit.cover,
-                                              ),
+                                              // image: DecorationImage(
+                                              //   image: NetworkImage(
+                                              //       newItem[i].image),
+                                              //   fit: BoxFit.cover,
+                                              // ),
                                             ),
-
+                                            child: ImageeNetworkWidget(
+                                              image: newItem[i].image,
+                                              width: w * 0.5,
+                                              height: h * 0.25,
+                                            ),
                                             // child: Padding(
                                             //   padding: EdgeInsets.all(w * 0.015),
                                             //   child: Align(
@@ -1304,10 +1343,9 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     ),
                                   ),
                                   onTap: () async {
-                                    dialog(context);
+                                    // dialog(context);
                                     await getItem(newItem[i].id);
-                                    Navigator.pushReplacementNamed(
-                                        context, 'pro');
+                                    Navigator.pushNamed(context, 'pro');
                                   },
                                 );
                               },
@@ -1336,15 +1374,15 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                             itemBuilder: (BuildContext context, int i) {
                               Ads _ads = getAds(2)[i];
                               return InkWell(
-                                child: Container(
+                                child: ImageeNetworkWidget(
                                   width: w * 0.95,
                                   height: h * 0.2,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(_ads.image),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                                  // decoration: BoxDecoration(
+                                  //   image: DecorationImage(
+                                  image: _ads.image,
+                                  //     fit: BoxFit.cover,
+                                  //   ),
+                                  // ),
                                 ),
                                 focusColor: Colors.transparent,
                                 splashColor: Colors.transparent,
@@ -1479,13 +1517,13 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                       ),
                                     ),
                                     onTap: () async {
-                                      dialog(context);
+                                      // dialog(context);
                                       var st = Provider.of<StudentProvider>(
                                           context,
                                           listen: false);
                                       st.clearList();
                                       await st.getStudents();
-                                      Navigator.pushReplacement(
+                                      Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => ViewAll()));
@@ -1695,11 +1733,16 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                             height: h * 0.25,
                                             decoration: BoxDecoration(
                                               color: Colors.grey[200],
-                                              image: DecorationImage(
-                                                image: NetworkImage(
-                                                    bestDis[i].image),
-                                                fit: BoxFit.cover,
-                                              ),
+                                              // image: DecorationImage(
+                                              //   image: NetworkImage(
+                                              //       bestDis[i].image),
+                                              //   fit: BoxFit.cover,
+                                              // ),
+                                            ),
+                                            child: ImageeNetworkWidget(
+                                              image: bestDis[i].image,
+                                              width: w * 0.9,
+                                              height: h * 0.25,
                                             ),
                                             // child: Padding(
                                             //   padding: EdgeInsets.symmetric(
@@ -1961,10 +2004,9 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     ),
                                   ),
                                   onTap: () async {
-                                    dialog(context);
+                                    // dialog(context);
                                     await getItem(bestDis[i].id);
-                                    Navigator.pushReplacementNamed(
-                                        context, 'pro');
+                                    Navigator.pushNamed(context, 'pro');
                                   },
                                 );
                               },
@@ -2092,29 +2134,50 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                             width: w * 0.4,
                                             // height: h * 0.25,
                                             decoration: BoxDecoration(
-                                                color: Colors.grey[200],
-                                                borderRadius: (prefs.getString(
-                                                            'language_code') ==
-                                                        'en')
-                                                    ? BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(
-                                                                w * 0.05),
-                                                        bottomLeft:
-                                                            Radius.circular(
-                                                                w * 0.05))
-                                                    : BorderRadius.only(
-                                                        topRight:
-                                                            Radius.circular(
-                                                                w * 0.05),
-                                                        bottomRight:
-                                                            Radius.circular(
-                                                                w * 0.05)),
-                                                image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      reItem[i].image),
-                                                  fit: BoxFit.fitHeight,
-                                                )),
+                                              color: Colors.grey[200],
+                                              borderRadius: (prefs.getString(
+                                                          'language_code') ==
+                                                      'en')
+                                                  ? BorderRadius.only(
+                                                      topLeft: Radius.circular(
+                                                          w * 0.05),
+                                                      bottomLeft:
+                                                          Radius.circular(
+                                                              w * 0.05))
+                                                  : BorderRadius.only(
+                                                      topRight: Radius.circular(
+                                                          w * 0.05),
+                                                      bottomRight:
+                                                          Radius.circular(
+                                                              w * 0.05)),
+                                              // image: DecorationImage(
+                                              //   image: NetworkImage(
+                                              //       reItem[i].image),
+                                              //   fit: BoxFit.fitHeight,
+                                              // )
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius: (prefs.getString(
+                                                          'language_code') ==
+                                                      'en')
+                                                  ? BorderRadius.only(
+                                                      topLeft: Radius.circular(
+                                                          w * 0.05),
+                                                      bottomLeft:
+                                                          Radius.circular(
+                                                              w * 0.05))
+                                                  : BorderRadius.only(
+                                                      topRight: Radius.circular(
+                                                          w * 0.05),
+                                                      bottomRight:
+                                                          Radius.circular(
+                                                              w * 0.05)),
+                                              child: ImageeNetworkWidget(
+                                                image: reItem[i].image,
+                                                width: w * 0.4,
+                                                height: h * 0.3,
+                                              ),
+                                            ),
                                           ),
                                           SizedBox(
                                             width: w * 0.02,
@@ -2298,10 +2361,9 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     ),
                                   ),
                                   onTap: () async {
-                                    dialog(context);
+                                    // dialog(context);
                                     await getItem(reItem[i].id);
-                                    Navigator.pushReplacementNamed(
-                                        context, 'pro');
+                                    Navigator.pushNamed(context, 'pro');
                                   },
                                 );
                               },

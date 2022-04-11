@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:badges/badges.dart';
+import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:davinshi_app/screens/auth/sign_upScreen.dart';
 import 'package:davinshi_app/screens/product%20rating/addRate.dart';
 import 'package:davinshi_app/screens/product_info/similar.dart';
@@ -821,7 +822,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                 width: w,
                                                 // height: h * 0.4,
                                                 decoration: BoxDecoration(
-                                                  color: Colors.grey[200],
+                                                  color: Colors.white,
                                                   image: DecorationImage(
                                                       image: NetworkImage(
                                                           productCla.image),
@@ -863,7 +864,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                     return Container(
                                                       width: w,
                                                       decoration: BoxDecoration(
-                                                        color: Colors.grey[200],
+                                                        color: Colors.white,
                                                         image: DecorationImage(
                                                             image: NetworkImage(
                                                                 productCla
@@ -1142,7 +1143,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                                 productCla.attributesClothes![i].id!;
                                                                             getProductcolor(
                                                                                 productId: productCla.id.toString(),
-                                                                                sizeId: selectedSize.toString());
+                                                                                sizeId: productCla.attributesClothes![i].sizeId!.toString());
                                                                           },
                                                                         );
                                                                         Navigator.pop(
@@ -1252,8 +1253,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                                 int>(
                                                                             activeColor:
                                                                                 mainColor,
-                                                                            value:
-                                                                                i,
+                                                                            value: colors[i]
+                                                                                .id,
                                                                             groupValue:
                                                                                 selectedColor,
                                                                             onChanged:
@@ -1538,8 +1539,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: w * 0.025),
                                   child: Text(
-                                    translateString(productCla.descriptionEn,
-                                        productCla.descriptionAr),
+                                    parseHtmlString(translateString(
+                                        productCla.descriptionEn,
+                                        productCla.descriptionAr)),
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: w * 0.03),
@@ -1759,44 +1761,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                 ? SingleChildScrollView(
                                     child: Column(
                                       children: [
-                                        // SizedBox(
-                                        //   height: h * 0.02,
-                                        // ),
-                                        // Center(
-                                        //   child: InkWell(
-                                        //     onTap: () => Navigator.push(
-                                        //       context,
-                                        //       MaterialPageRoute(
-                                        //           builder: (context) =>
-                                        //               AddRateScreen(
-                                        //                 productId: productCla.id
-                                        //                     .toString(),
-                                        //               )),
-                                        //     ),
-                                        //     child: Container(
-                                        //       width: double.infinity,
-                                        //       height: h * 0.08,
-                                        //       decoration: BoxDecoration(
-                                        //           color: mainColor,
-                                        //           borderRadius:
-                                        //               BorderRadius.circular(
-                                        //                   w * 0.05)),
-                                        //       child: Center(
-                                        //         child: Text(
-                                        //           translate(context,
-                                        //               "check_out", "rate"),
-                                        //           style: TextStyle(
-                                        //               color: Colors.white,
-                                        //               fontSize: w * 0.05,
-                                        //               fontFamily: 'Tajawal',
-                                        //               fontWeight:
-                                        //                   FontWeight.bold),
-                                        //         ),
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-
                                         SizedBox(
                                           height: h * 0.02,
                                         ),
@@ -2277,10 +2241,12 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       {required String productId, required String sizeId}) async {
     final String url = domain + "get-colors";
     ColorModel? colorModel;
+    print(productId);
+    print(sizeId);
     colors.clear();
     try {
-      Response response = await Dio().post(url,
-          queryParameters: {"product_id": productId, "size_id": sizeId});
+      Response response = await Dio()
+          .post(url, data: {"product_id": productId, "size_id": sizeId});
       if (response.data['status'] == 1) {
         colorModel = ColorModel.fromJson(response.data);
         setState(() {
@@ -2288,8 +2254,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
         });
       }
       print(response.data);
-      print(productId);
-      print(sizeId);
       return colors;
     } catch (error) {
       print("color product error : " + error.toString());

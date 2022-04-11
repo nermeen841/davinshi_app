@@ -241,13 +241,13 @@ class _ViewAllState extends State<ViewAll> {
                               ),
                             ),
                             onTap: () async {
-                              dialog(context);
+                              // dialog(context);
                               StudentItemProvider st =
                                   Provider.of<StudentItemProvider>(context,
                                       listen: false);
                               st.clearList();
                               await st.getItems(_st.id);
-                              Navigator.pushReplacement(
+                              Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => StudentInfo(

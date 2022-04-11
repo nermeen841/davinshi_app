@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, use_key_in_widget_constructors
 
 import 'package:badges/badges.dart';
+import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
@@ -186,18 +187,17 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                                             child: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Container(
+                                                ImageeNetworkWidget(
                                                   width: w * 0.45,
                                                   height: h * 0.28,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.grey[200],
-                                                    image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          snapshot.data![i].img
-                                                              .toString()),
-                                                      fit: BoxFit.fitHeight,
-                                                    ),
-                                                  ),
+                                                  // decoration: BoxDecoration(
+                                                  //   color: Colors.grey[200],
+                                                  //   image: DecorationImage(
+                                                  image: snapshot.data![i].img
+                                                      .toString(),
+                                                  //     fit: BoxFit.fitHeight,
+                                                  //   ),
+                                                  // ),
                                                   // child: Padding(
                                                   //   padding: EdgeInsets.all(
                                                   //       w * 0.015),
