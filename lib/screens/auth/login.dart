@@ -6,7 +6,6 @@ import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/cart.dart';
 import 'package:davinshi_app/models/constants.dart';
-import 'package:davinshi_app/models/home_item.dart';
 import 'package:davinshi_app/models/user.dart';
 import 'package:davinshi_app/provider/AuthenticationProvider.dart';
 import 'package:davinshi_app/provider/cart_provider.dart';
@@ -436,7 +435,6 @@ class _LoginState extends State<Login> {
                                                       ),
                                                     ),
                                                     onTap: () async {
-                                                      dialog(context);
                                                       dbHelper.deleteAll();
                                                       Provider.of<BottomProvider>(
                                                               context,
@@ -447,7 +445,7 @@ class _LoginState extends State<Login> {
                                                               listen: false)
                                                           .clearAll();
                                                       addressGuest = null;
-                                                      await getHomeItems();
+
                                                       cartId = null;
                                                       Navigator.pushAndRemoveUntil(
                                                           context,

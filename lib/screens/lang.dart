@@ -126,7 +126,9 @@ class _LangPageState extends State<LangPage> {
                               if (login) {
                                 getLikes();
                                 getCountries();
-                                await getHomeItems();
+                                Provider.of<HomeProvider>(context,
+                                        listen: false)
+                                    .getHomeItems();
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
@@ -176,7 +178,9 @@ class _LangPageState extends State<LangPage> {
                               if (login) {
                                 getLikes();
                                 getCountries();
-                                await getHomeItems();
+                                Provider.of<HomeProvider>(context,
+                                        listen: false)
+                                    .getHomeItems();
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(

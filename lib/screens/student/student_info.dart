@@ -754,9 +754,18 @@ class _StudentInfo extends State<StudentInfo> {
                                 ),
                               ),
                               onTap: () async {
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: ((context) => Products(
+                                //             fromFav: false,
+                                //             brandId: item.items[i].id))));
                                 dialog(context);
                                 await getItem(item.items[i].id);
-                                Navigator.pushReplacementNamed(context, 'pro');
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  'pro',
+                                );
                               },
                             );
                           }),

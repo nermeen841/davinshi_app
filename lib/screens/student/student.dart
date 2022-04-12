@@ -139,12 +139,11 @@ class Student extends StatelessWidget {
                           ),
                         ),
                         onTap: () async {
-                          dialog(context);
-                          var st = Provider.of<StudentProvider>(context,
-                              listen: false);
-                          st.clearList();
-                          await st.getStudents();
-                          Navigator.pushReplacement(
+                          Provider.of<StudentProvider>(context, listen: false)
+                              .clearList();
+                          Provider.of<StudentProvider>(context, listen: false)
+                              .getStudents();
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ViewAll()));

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, unnecessary_string_interpolations, file_names
 import 'dart:convert';
 
+import 'package:davinshi_app/models/home_item.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,6 @@ import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/cart.dart';
 import 'package:davinshi_app/models/constants.dart';
 import 'package:davinshi_app/models/fav.dart';
-import 'package:davinshi_app/models/home_item.dart';
 import 'package:davinshi_app/models/user.dart';
 import 'package:davinshi_app/provider/address.dart';
 import 'package:davinshi_app/provider/cart_provider.dart';
@@ -53,6 +53,7 @@ class AuthenticationProvider {
       setAuth(response.data['access_token']);
       dbHelper.deleteAll();
       Provider.of<CartProvider>(context, listen: false).clearAll();
+      await HomeProvider().getHomeItems();
       await prefs.setBool('login', true);
       await prefs.setInt('id', userData['id']);
       await prefs.setString('auth', response.data['access_token']);
@@ -63,7 +64,7 @@ class AuthenticationProvider {
       gender = userData['gender'];
       familyName = userData['surname'];
 
-      await getHomeItems();
+      // Provider.of<HomeProvider>(context, listen: false).getHomeItems();
       await dbHelper.deleteAll();
       await Provider.of<CartProvider>(context, listen: false).setItems();
       getLikes();
@@ -158,7 +159,7 @@ class AuthenticationProvider {
           userPhone = userData['data']['user']['phone'];
           gender = userData['data']['user']['gender'];
           familyName = userData['data']['user']['surname'];
-          await getHomeItems();
+          await HomeProvider().getHomeItems();
           setUserId(userData['data']['user']['id']);
           dbHelper.deleteAll();
           fireSms(context, phone.text, controller);

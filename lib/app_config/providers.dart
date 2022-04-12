@@ -1,3 +1,4 @@
+import 'package:davinshi_app/models/home_item.dart';
 import 'package:davinshi_app/provider/CatProvider.dart';
 import 'package:davinshi_app/provider/address.dart';
 import 'package:davinshi_app/provider/best_item.dart';
@@ -37,5 +38,7 @@ class ProvidersList {
     ChangeNotifierProvider(create: (context) => AddressProvider()),
     ChangeNotifierProvider(create: (context) => SocialIcons()),
     ChangeNotifierProvider(create: (context) => OneDesigne()),
+    ChangeNotifierProvider(
+        create: ((context) => HomeProvider()..getHomeItems())),
   ];
 }
