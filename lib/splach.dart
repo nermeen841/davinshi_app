@@ -36,9 +36,9 @@ class _SplachState extends State<Splach> {
         FavItemProvider();
         BestItemProvider();
         OfferItemProvider();
-        await SocialIcons().getSocialIcons();
+        SocialIcons().getSocialIcons();
         getCountries();
-        await getHomeItems();
+        HomeProvider().getHomeItems();
         Navigator.pushAndRemoveUntil(context,
             MaterialPageRoute(builder: (context) => Home()), (route) => false);
       } else {

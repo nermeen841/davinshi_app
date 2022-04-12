@@ -34,8 +34,11 @@ class Products extends StatefulWidget {
   final bool fromFav;
   final int brandId;
 
-  const Products({Key? key, required this.fromFav, required this.brandId})
-      : super(key: key);
+  const Products({
+    Key? key,
+    required this.fromFav,
+    required this.brandId,
+  }) : super(key: key);
   @override
   _ProductsState createState() => _ProductsState();
 }
@@ -203,6 +206,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    getItem(widget.brandId);
     selectedItem = [];
     for (int i = 0; i < productCla.attributes.length; i++) {
       des.add('');
@@ -1173,129 +1177,129 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                 ],
                                               ),
                                             ),
-                                            (colors.isNotEmpty)
-                                                ? InkWell(
-                                                    onTap: () {
-                                                      homeBottomSheet(
-                                                        context: context,
-                                                        child: Padding(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      w * 0.04,
-                                                                  vertical:
-                                                                      h * 0.04),
-                                                          child: Column(
-                                                            children: [
-                                                              Text(
-                                                                translateString(
-                                                                    "Color",
-                                                                    "اللون"),
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize: w *
-                                                                        0.05,
-                                                                    fontFamily:
-                                                                        'Tajawal',
-                                                                    color: Colors
-                                                                        .black),
-                                                              ),
-                                                              ListView.builder(
-                                                                  // primary: true,
-                                                                  shrinkWrap:
-                                                                      true,
-                                                                  physics:
-                                                                      const NeverScrollableScrollPhysics(),
-                                                                  itemCount:
-                                                                      colors
-                                                                          .length,
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                          i) {
-                                                                    return Row(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding:
-                                                                              EdgeInsets.only(top: h * 0.02),
-                                                                          child:
-                                                                              Text(
-                                                                            translateString(colors[i].nameEn!,
-                                                                                colors[i].nameAr!),
-                                                                            style: TextStyle(
-                                                                                fontWeight: FontWeight.w700,
-                                                                                fontSize: w * 0.05,
-                                                                                color: Colors.black),
-                                                                          ),
-                                                                        ),
-                                                                        Radio<
-                                                                                int>(
-                                                                            activeColor:
-                                                                                mainColor,
-                                                                            value: colors[i]
-                                                                                .id,
-                                                                            groupValue:
-                                                                                selectedColor,
-                                                                            onChanged:
-                                                                                (int? value) {
-                                                                              setState(
-                                                                                () {
-                                                                                  selectedColor = colors[i].id;
-                                                                                },
-                                                                              );
-                                                                              Navigator.pop(context);
-                                                                            }),
-                                                                      ],
-                                                                    );
-                                                                  }),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
-                                                    child: Row(
+                                            // (colors.isNotEmpty)
+                                            //     ?
+                                            InkWell(
+                                              onTap: () {
+                                                homeBottomSheet(
+                                                  context: context,
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal:
+                                                                w * 0.04,
+                                                            vertical: h * 0.04),
+                                                    child: Column(
                                                       children: [
                                                         Text(
                                                           translateString(
                                                               "Color", "اللون"),
                                                           style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .w600,
+                                                                      .bold,
                                                               fontSize:
-                                                                  w * 0.04,
+                                                                  w * 0.05,
                                                               fontFamily:
-                                                                  'Tajawal'),
-                                                        ),
-                                                        Container(
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(w *
-                                                                          0.01),
+                                                                  'Tajawal',
                                                               color:
                                                                   Colors.black),
-                                                          child: Center(
-                                                            child: Icon(
-                                                              Icons
-                                                                  .keyboard_arrow_down,
-                                                              color: mainColor,
-                                                            ),
-                                                          ),
-                                                        )
+                                                        ),
+                                                        ListView.builder(
+                                                            // primary: true,
+                                                            shrinkWrap: true,
+                                                            physics:
+                                                                const NeverScrollableScrollPhysics(),
+                                                            itemCount:
+                                                                colors.length,
+                                                            itemBuilder:
+                                                                (context, i) {
+                                                              return Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        top: h *
+                                                                            0.02),
+                                                                    child: Text(
+                                                                      translateString(
+                                                                          colors[i]
+                                                                              .nameEn!,
+                                                                          colors[i]
+                                                                              .nameAr!),
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w700,
+                                                                          fontSize: w *
+                                                                              0.05,
+                                                                          color:
+                                                                              Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                  Radio<int>(
+                                                                      activeColor:
+                                                                          mainColor,
+                                                                      value: colors[
+                                                                              i]
+                                                                          .id,
+                                                                      groupValue:
+                                                                          selectedColor,
+                                                                      onChanged:
+                                                                          (int?
+                                                                              value) {
+                                                                        setState(
+                                                                          () {
+                                                                            selectedColor =
+                                                                                colors[i].id;
+                                                                          },
+                                                                        );
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      }),
+                                                                ],
+                                                              );
+                                                            }),
                                                       ],
                                                     ),
+                                                  ),
+                                                );
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    translateString(
+                                                        "Color", "اللون"),
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: w * 0.04,
+                                                        fontFamily: 'Tajawal'),
+                                                  ),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    w * 0.01),
+                                                        color: Colors.black),
+                                                    child: Center(
+                                                      child: Icon(
+                                                        Icons
+                                                            .keyboard_arrow_down,
+                                                        color: mainColor,
+                                                      ),
+                                                    ),
                                                   )
-                                                : Container(),
+                                                ],
+                                              ),
+                                            )
+                                            // : Container(),
                                           ],
                                         ),
                                       )

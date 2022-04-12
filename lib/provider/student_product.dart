@@ -3,7 +3,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:davinshi_app/models/constants.dart';
-
 import 'new_item.dart';
 
 class StudentItemProvider extends ChangeNotifier {
@@ -84,6 +83,7 @@ class StudentItemProvider extends ChangeNotifier {
         items.add(_item);
       }
       pageIndex++;
+
       notifyListeners();
     }
   }
