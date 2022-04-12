@@ -1,3 +1,4 @@
+import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/constants.dart';
@@ -148,15 +149,31 @@ class _SingleDesigneScreenState extends State<SingleDesigneScreen> {
                                                       w * 0.05),
                                               border:
                                                   Border.all(color: mainColor),
-                                              image: DecorationImage(
-                                                image: NetworkImage(
-                                                    "https://davinshi.net/" +
-                                                        OneDesigne
-                                                            .oneItemModel!
-                                                            .data![0]
-                                                            .images![i]
-                                                            .src!),
+                                              // image: DecorationImage(
+                                              //   image: NetworkImage(
+                                              //       "https://davinshi.net/" +
+                                              //           OneDesigne
+                                              //               .oneItemModel!
+                                              //               .data![0]
+                                              //               .images![i]
+                                              //               .src!),
+                                              //   fit: BoxFit.cover,
+                                              // ),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      w * 0.05),
+                                              child: ImageeNetworkWidget(
+                                                height: h * 0.3,
                                                 fit: BoxFit.cover,
+                                                width: double.infinity,
+                                                image: "https://davinshi.net/" +
+                                                    OneDesigne
+                                                        .oneItemModel!
+                                                        .data![0]
+                                                        .images![i]
+                                                        .src!,
                                               ),
                                             ),
                                           ),

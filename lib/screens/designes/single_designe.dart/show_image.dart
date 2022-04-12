@@ -1,3 +1,4 @@
+import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 
@@ -85,13 +86,11 @@ class _ShowDesigneImageState extends State<ShowDesigneImage>
                   itemBuilder: (context, index) {
                     return Container(
                       width: w,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        image: DecorationImage(
-                            image: NetworkImage("https://davinshi.net/" +
-                                widget.images[index].src),
-                            fit: BoxFit.contain),
-                      ),
+                      color: Colors.black,
+                      child: ImageeNetworkWidget(
+                          image: "https://davinshi.net/" +
+                              widget.images[index].src,
+                          fit: BoxFit.contain),
                     );
                   },
                 ),

@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
+import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:davinshi_app/models/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
@@ -77,12 +78,9 @@ class _ImgState extends State<Img> with SingleTickerProviderStateMixin {
                       child: Container(
                         width: w,
                         height: h,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          image: DecorationImage(
-                              image: NetworkImage(widget.src),
-                              fit: BoxFit.contain),
-                        ),
+                        color: Colors.black,
+                        child: ImageeNetworkWidget(
+                            image: widget.src, fit: BoxFit.contain),
                       ),
                     ),
                   ),
@@ -130,8 +128,6 @@ class _ImgState extends State<Img> with SingleTickerProviderStateMixin {
                     onDoubleTapDown: (details) => tapDownDetails = details,
                     child: InteractiveViewer(
                       clipBehavior: Clip.none,
-                      // maxScale: 4,
-                      // minScale: 1,
                       panEnabled: false,
                       transformationController: transformationController,
                       child: Swiper(
@@ -146,11 +142,10 @@ class _ImgState extends State<Img> with SingleTickerProviderStateMixin {
                           return Container(
                             width: w,
                             height: h,
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              image: DecorationImage(
-                                  image: NetworkImage(widget.images![index]),
-                                  fit: BoxFit.contain),
+                            color: Colors.black,
+                            child: ImageeNetworkWidget(
+                              fit: BoxFit.contain,
+                              image: widget.images![index],
                             ),
                           );
                         },

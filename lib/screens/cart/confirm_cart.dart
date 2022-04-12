@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, deprecated_member_use
 
+import 'package:davinshi_app/models/products_cla.dart';
 import 'package:davinshi_app/screens/cart/payment_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -278,7 +279,8 @@ class _ConfirmCartState extends State<ConfirmCart> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          translate(context, 'check_out', 'visa'),
+                          translateString('Knet ( visa / Master card)',
+                              'كي نت ( فيزا / ماستر كارد )'),
                           style: TextStyle(fontSize: w * 0.035),
                         ),
                         Container(
@@ -308,56 +310,58 @@ class _ConfirmCartState extends State<ConfirmCart> {
               SizedBox(
                 height: h * 0.02,
               ),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    _counter = 3;
-                    isCash = 0;
-                  });
-                },
-                child: Container(
-                  height: h * 0.08,
-                  width: w * 0.9,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.grey[200],
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(right: w * 0.05, left: w * 0.05),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          translate(context, 'check_out', 'master'),
-                          style: TextStyle(fontSize: w * 0.035),
-                        ),
-                        Container(
-                          width: w * 0.06,
-                          height: w * 0.06,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            border:
-                                Border.all(color: mainColor, width: w * 0.005),
-                            color: _counter == 3 ? mainColor : Colors.white,
-                          ),
-                          child: Center(
-                            child: IconButton(
-                              icon: const Icon(Icons.done),
-                              onPressed: () {},
-                              iconSize: w * 0.04,
-                              color: Colors.white,
-                              padding: const EdgeInsets.all(0),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: h * 0.02,
-              ),
+
+              // InkWell(
+              //   onTap: () {
+              //     setState(() {
+              //       _counter = 3;
+              //       isCash = 0;
+              //     });
+              //   },
+              //   child: Container(
+              //     height: h * 0.08,
+              //     width: w * 0.9,
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(5),
+              //       color: Colors.grey[200],
+              //     ),
+              //     child: Padding(
+              //       padding: EdgeInsets.only(right: w * 0.05, left: w * 0.05),
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Text(
+              //             translate(context, 'check_out', 'master'),
+              //             style: TextStyle(fontSize: w * 0.035),
+              //           ),
+              //           Container(
+              //             width: w * 0.06,
+              //             height: w * 0.06,
+              //             decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(50),
+              //               border:
+              //                   Border.all(color: mainColor, width: w * 0.005),
+              //               color: _counter == 3 ? mainColor : Colors.white,
+              //             ),
+              //             child: Center(
+              //               child: IconButton(
+              //                 icon: const Icon(Icons.done),
+              //                 onPressed: () {},
+              //                 iconSize: w * 0.04,
+              //                 color: Colors.white,
+              //                 padding: const EdgeInsets.all(0),
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: h * 0.02,
+              // ),
+
               Padding(
                 padding: EdgeInsets.all(w * 0.05),
                 child: SizedBox(
@@ -373,7 +377,9 @@ class _ConfirmCartState extends State<ConfirmCart> {
                                 color: Colors.black, fontSize: w * 0.05),
                           ),
                           Text(
-                            '${cart.subTotal} $currency',
+                            getProductprice(
+                                currency: currency,
+                                productPrice: cart.subTotal),
                             style: TextStyle(
                                 color: Colors.black, fontSize: w * 0.05),
                           ),
@@ -399,7 +405,9 @@ class _ConfirmCartState extends State<ConfirmCart> {
                               ),
                             if (address == null)
                               Text(
-                                '${cart.delivery} $currency',
+                                getProductprice(
+                                    currency: currency,
+                                    productPrice: cart.delivery),
                                 style: TextStyle(
                                     color: Colors.black, fontSize: w * 0.05),
                               ),
@@ -422,7 +430,9 @@ class _ConfirmCartState extends State<ConfirmCart> {
                               ),
                             if (addressGuest == null)
                               Text(
-                                '${cart.delivery} $currency',
+                                getProductprice(
+                                    currency: currency,
+                                    productPrice: cart.delivery),
                                 style: TextStyle(
                                     color: Colors.black, fontSize: w * 0.05),
                               ),
@@ -441,7 +451,9 @@ class _ConfirmCartState extends State<ConfirmCart> {
                                   color: Colors.black, fontSize: w * 0.05),
                             ),
                             Text(
-                              '${widget.couponPrice} $currency',
+                              getProductprice(
+                                  currency: currency,
+                                  productPrice: widget.couponPrice),
                               style: TextStyle(
                                   color: Colors.black, fontSize: w * 0.05),
                             ),

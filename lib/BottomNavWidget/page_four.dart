@@ -2,6 +2,7 @@
 
 import 'package:badges/badges.dart';
 import 'package:davinshi_app/BottomNavWidget/search_data.dart';
+import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:davinshi_app/screens/sub_categories_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -185,8 +186,8 @@ class _PageFourState extends State<PageFour> {
                                           height: w * 0.1,
                                           child: _sub.image.contains('.svg')
                                               ? SvgPicture.network(_sub.image)
-                                              : Image.network(
-                                                  _sub.image,
+                                              : ImageeNetworkWidget(
+                                                  image: _sub.image,
                                                   fit: BoxFit.cover,
                                                 ),
                                         ),

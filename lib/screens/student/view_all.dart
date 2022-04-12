@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, must_be_immutable, avoid_print
 
+import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 import 'package:provider/provider.dart';
@@ -139,16 +140,17 @@ class _ViewAllState extends State<ViewAll> {
                     itemBuilder: (BuildContext context, int i) {
                       Ads _ads = getAds(8)[i];
                       return InkWell(
-                        child: Container(
+                        child: ImageeNetworkWidget(
                           height: h * 0.2 + 5,
+                          fit: BoxFit.cover,
                           width: w,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(_ads.image),
-                              fit: BoxFit.cover,
-                            ),
-                            color: Colors.grey[200],
-                          ),
+                          // decoration: BoxDecoration(
+                          //   image: DecorationImage(
+                          image: _ads.image,
+                          //   fit: BoxFit.cover,
+                          // ),
+                          // color: Colors.grey[200],
+                          // ),
                         ),
                         focusColor: Colors.transparent,
                         splashColor: Colors.transparent,

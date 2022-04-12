@@ -279,6 +279,7 @@ class _MoreScreenState extends State<MoreScreen>
                                             child: Stack(
                                               children: [
                                                 ImageeNetworkWidget(
+                                                  fit: BoxFit.cover,
                                                   image: allProduct[i].img,
                                                   width: w * 0.5,
                                                   height: h * 0.25,

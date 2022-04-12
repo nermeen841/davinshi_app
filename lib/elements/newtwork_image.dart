@@ -8,7 +8,13 @@ class ImageeNetworkWidget extends StatelessWidget {
   String image = "";
   double? height;
   double? width;
-  ImageeNetworkWidget({Key? key, required this.image, this.height, this.width})
+  BoxFit fit;
+  ImageeNetworkWidget(
+      {Key? key,
+      required this.image,
+      this.height,
+      this.width,
+      required this.fit})
       : super(key: key);
 
   @override
@@ -17,7 +23,7 @@ class ImageeNetworkWidget extends StatelessWidget {
       height: height,
       width: width,
       imageUrl: image,
-      fit: BoxFit.cover,
+      fit: fit,
       placeholder: (context, url) => Center(
         child: CircularProgressIndicator(
           color: mainColor,

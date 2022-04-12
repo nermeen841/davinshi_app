@@ -33,6 +33,7 @@ import '../../models/product_color.dart';
 class Products extends StatefulWidget {
   final bool fromFav;
   final int brandId;
+
   const Products({Key? key, required this.fromFav, required this.brandId})
       : super(key: key);
   @override
@@ -818,18 +819,11 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                               images: const [],
                                                             )));
                                               },
-                                              child: Container(
-                                                width: w,
-                                                // height: h * 0.4,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          productCla.image),
-                                                      fit: BoxFit.contain),
-                                                ),
-                                              ),
-                                            )
+                                              child: ImageeNetworkWidget(
+                                                  width: w,
+                                                  height: h * 0.5,
+                                                  image: productCla.image,
+                                                  fit: BoxFit.contain))
                                           : SizedBox(
                                               // height: h * 0.4,
                                               child: InkWell(
@@ -861,19 +855,11 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                       productCla.images.length,
                                                   itemBuilder:
                                                       (context, index) {
-                                                    return Container(
-                                                      width: w,
-                                                      decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        image: DecorationImage(
-                                                            image: NetworkImage(
-                                                                productCla
-                                                                        .images[
-                                                                    index]),
-                                                            fit:
-                                                                BoxFit.contain),
-                                                      ),
-                                                    );
+                                                    return ImageeNetworkWidget(
+                                                        width: w,
+                                                        image: productCla
+                                                            .images[index],
+                                                        fit: BoxFit.contain);
                                                   },
                                                 ),
                                               ),

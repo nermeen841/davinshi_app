@@ -369,6 +369,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                       MainAxisSize.min,
                                                   children: [
                                                     ImageeNetworkWidget(
+                                                      fit: BoxFit.cover,
                                                       image: newItem
                                                           .items[i].image,
                                                       width: w * 0.45,
@@ -654,6 +655,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                       MainAxisSize.min,
                                                   children: [
                                                     ImageeNetworkWidget(
+                                                      fit: BoxFit.cover,
                                                       image: bestItem
                                                           .items[i].image,
                                                       width: w * 0.45,
@@ -1120,6 +1122,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                       MainAxisSize.min,
                                                   children: [
                                                     ImageeNetworkWidget(
+                                                      fit: BoxFit.cover,
                                                       image:
                                                           reItem.items[i].image,
                                                       width: w * 0.45,
@@ -1584,40 +1587,110 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                   mainAxisSize:
                                                       MainAxisSize.min,
                                                   children: [
-                                                    Container(
-                                                      // width: w * 0.45,
-                                                      // height: h * 0.28,
-                                                      // decoration: BoxDecoration(
-                                                      //   color: Colors.grey[200],
-                                                      //   image: DecorationImage(
-                                                      //     image: NetworkImage(
-                                                      //         offerItem.items[i]
-                                                      //             .image),
-                                                      //     // image: AssetImage('assets/food${i+1}.png'),
-                                                      //     fit: BoxFit.fitHeight,
-                                                      //   ),
-                                                      // ),
-                                                      child: Stack(
-                                                        children: [
-                                                          ImageeNetworkWidget(
-                                                            image: offerItem
-                                                                .items[i].image,
-                                                            width: w * 0.45,
-                                                            height: h * 0.28,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    w * 0.015),
-                                                            child: Align(
-                                                              alignment: isLeft()
-                                                                  ? Alignment
-                                                                      .topRight
-                                                                  : Alignment
-                                                                      .topLeft,
-                                                              child: InkWell(
-                                                                onTap:
-                                                                    () async {
+                                                    Stack(
+                                                      children: [
+                                                        ImageeNetworkWidget(
+                                                          fit: BoxFit.cover,
+                                                          image: offerItem
+                                                              .items[i].image,
+                                                          width: w * 0.45,
+                                                          height: h * 0.28,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  w * 0.015),
+                                                          child: Align(
+                                                            alignment: isLeft()
+                                                                ? Alignment
+                                                                    .topRight
+                                                                : Alignment
+                                                                    .topLeft,
+                                                            child: InkWell(
+                                                              onTap: () async {
+                                                                if (cartId ==
+                                                                        null ||
+                                                                    cartId ==
+                                                                        studentId) {
+                                                                  try {
+                                                                    if (!cart
+                                                                        .idp
+                                                                        .contains(offerItem
+                                                                            .items[i]
+                                                                            .id)) {
+                                                                      await helper.createCar(CartProducts(
+                                                                          id:
+                                                                              null,
+                                                                          studentId:
+                                                                              studentId,
+                                                                          image: offerItem
+                                                                              .items[
+                                                                                  i]
+                                                                              .image,
+                                                                          titleAr: offerItem
+                                                                              .items[
+                                                                                  i]
+                                                                              .nameAr,
+                                                                          titleEn: offerItem
+                                                                              .items[
+                                                                                  i]
+                                                                              .nameEn,
+                                                                          price: offerItem
+                                                                              .items[
+                                                                                  i]
+                                                                              .finalPrice
+                                                                              .toDouble(),
+                                                                          quantity:
+                                                                              1,
+                                                                          att:
+                                                                              att,
+                                                                          des:
+                                                                              des,
+                                                                          idp: offerItem
+                                                                              .items[
+                                                                                  i]
+                                                                              .id,
+                                                                          idc:
+                                                                              0,
+                                                                          catNameEn:
+                                                                              "",
+                                                                          catNameAr:
+                                                                              "",
+                                                                          catSVG:
+                                                                              ""));
+                                                                    } else {
+                                                                      int quantity = cart
+                                                                          .items
+                                                                          .firstWhere((element) =>
+                                                                              element.idp ==
+                                                                              offerItem.items[i].id)
+                                                                          .quantity;
+                                                                      await helper.updateProduct(
+                                                                          1 +
+                                                                              quantity,
+                                                                          offerItem
+                                                                              .items[
+                                                                                  i]
+                                                                              .id,
+                                                                          offerItem
+                                                                              .items[
+                                                                                  i]
+                                                                              .finalPrice
+                                                                              .toDouble(),
+                                                                          jsonEncode(
+                                                                              att),
+                                                                          jsonEncode(
+                                                                              des));
+                                                                    }
+                                                                    await cart
+                                                                        .setItems();
+                                                                  } catch (e) {
+                                                                    error(
+                                                                        context);
+                                                                    print('e');
+                                                                    print(e);
+                                                                  }
+                                                                } else {
                                                                   if (cartId ==
                                                                           null ||
                                                                       cartId ==
@@ -1631,17 +1704,16 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                             id:
                                                                                 null,
                                                                             studentId:
-                                                                                studentId,
-                                                                            image:
-                                                                                offerItem.items[i].image,
+                                                                                offerItem.items[i].brands![i].id,
+                                                                            image: offerItem.items[i].image,
                                                                             titleAr: offerItem.items[i].nameAr,
                                                                             titleEn: offerItem.items[i].nameEn,
-                                                                            price: offerItem.items[i].finalPrice.toDouble(),
+                                                                            price: offerItem.items[i].price.toDouble(),
                                                                             quantity: 1,
                                                                             att: att,
                                                                             des: des,
                                                                             idp: offerItem.items[i].id,
-                                                                            idc: 0,
+                                                                            idc: offerItem.items[i].id,
                                                                             catNameEn: "",
                                                                             catNameAr: "",
                                                                             catSVG: ""));
@@ -1662,81 +1734,33 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                                       await cart
                                                                           .setItems();
                                                                     } catch (e) {
-                                                                      error(
-                                                                          context);
                                                                       print(
                                                                           'e');
                                                                       print(e);
                                                                     }
-                                                                  } else {
-                                                                    if (cartId ==
-                                                                            null ||
-                                                                        cartId ==
-                                                                            studentId) {
-                                                                      try {
-                                                                        if (!cart
-                                                                            .idp
-                                                                            .contains(offerItem.items[i].id)) {
-                                                                          await helper.createCar(CartProducts(
-                                                                              id: null,
-                                                                              studentId: offerItem.items[i].brands![i].id,
-                                                                              image: offerItem.items[i].image,
-                                                                              titleAr: offerItem.items[i].nameAr,
-                                                                              titleEn: offerItem.items[i].nameEn,
-                                                                              price: offerItem.items[i].price.toDouble(),
-                                                                              quantity: 1,
-                                                                              att: att,
-                                                                              des: des,
-                                                                              idp: offerItem.items[i].id,
-                                                                              idc: offerItem.items[i].id,
-                                                                              catNameEn: "",
-                                                                              catNameAr: "",
-                                                                              catSVG: ""));
-                                                                        } else {
-                                                                          int quantity = cart
-                                                                              .items
-                                                                              .firstWhere((element) => element.idp == offerItem.items[i].id)
-                                                                              .quantity;
-                                                                          await helper.updateProduct(
-                                                                              1 + quantity,
-                                                                              offerItem.items[i].id,
-                                                                              offerItem.items[i].finalPrice.toDouble(),
-                                                                              jsonEncode(att),
-                                                                              jsonEncode(des));
-                                                                        }
-                                                                        await cart
-                                                                            .setItems();
-                                                                      } catch (e) {
-                                                                        print(
-                                                                            'e');
-                                                                        print(
-                                                                            e);
-                                                                      }
-                                                                    } else {}
-                                                                  }
-                                                                },
-                                                                child:
-                                                                    CircleAvatar(
-                                                                  backgroundColor:
-                                                                      mainColor,
-                                                                  radius:
-                                                                      w * .05,
-                                                                  child: Center(
-                                                                    child: Icon(
-                                                                      Icons
-                                                                          .add_outlined,
-                                                                      color: Colors
-                                                                          .white,
-                                                                      size: w *
-                                                                          0.05,
-                                                                    ),
+                                                                  } else {}
+                                                                }
+                                                              },
+                                                              child:
+                                                                  CircleAvatar(
+                                                                backgroundColor:
+                                                                    mainColor,
+                                                                radius: w * .05,
+                                                                child: Center(
+                                                                  child: Icon(
+                                                                    Icons
+                                                                        .add_outlined,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    size: w *
+                                                                        0.05,
                                                                   ),
                                                                 ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ],
-                                                      ),
+                                                        ),
+                                                      ],
                                                     ),
                                                     SizedBox(
                                                       width: w * 0.45,

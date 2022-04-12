@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, avoid_print
 
 import 'dart:convert';
+import 'package:davinshi_app/models/products_cla.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -1174,7 +1175,9 @@ class _CartState extends State<Cart> {
                                             fontSize: w * 0.05),
                                       ),
                                       Text(
-                                        '${cart.subTotal} $currency',
+                                        getProductprice(
+                                            currency: currency,
+                                            productPrice: cart.subTotal),
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: w * 0.05),
@@ -1198,14 +1201,19 @@ class _CartState extends State<Cart> {
                                         ),
                                         if (address != null)
                                           Text(
-                                            '${getAreaPrice(address.areaId)} $currency',
+                                            getProductprice(
+                                                currency: currency,
+                                                productPrice: getAreaPrice(
+                                                    address.areaId)),
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: w * 0.05),
                                           ),
                                         if (address == null)
                                           Text(
-                                            '${cart.delivery} $currency',
+                                            getProductprice(
+                                                currency: currency,
+                                                productPrice: cart.delivery),
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: w * 0.05),
@@ -1233,7 +1241,9 @@ class _CartState extends State<Cart> {
                                           ),
                                         if (addressGuest == null)
                                           Text(
-                                            '${cart.delivery} $currency',
+                                            getProductprice(
+                                                currency: currency,
+                                                productPrice: cart.delivery),
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: w * 0.05),

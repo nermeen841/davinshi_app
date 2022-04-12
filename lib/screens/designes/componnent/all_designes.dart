@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:davinshi_app/models/all_designe.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/provider/one_designe.dart';
@@ -156,14 +157,20 @@ class _AllDesignesState extends State<AllDesignes> {
                                       height: 180,
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                "https://davinshi.net/" +
-                                                    searchData[index].img),
-                                            fit: BoxFit.cover),
                                         borderRadius:
                                             BorderRadius.circular(w * 0.05),
                                         border: Border.all(color: mainColor),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(w * 0.05),
+                                        child: ImageeNetworkWidget(
+                                          image: "https://davinshi.net/" +
+                                              searchData[index].img,
+                                          fit: BoxFit.cover,
+                                          width: 180,
+                                          height: 180,
+                                        ),
                                       ),
                                     )
                                   : Container(

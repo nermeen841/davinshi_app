@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names, avoid_print, empty_catches
 
-import 'package:davinshi_app/models/product_color.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';

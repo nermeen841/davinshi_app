@@ -188,6 +188,7 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 ImageeNetworkWidget(
+                                                  fit: BoxFit.cover,
                                                   width: w * 0.45,
                                                   height: h * 0.28,
                                                   // decoration: BoxDecoration(

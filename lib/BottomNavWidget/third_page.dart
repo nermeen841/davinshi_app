@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, avoid_print
 
 import 'package:badges/badges.dart';
+import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:davinshi_app/screens/sub_categories_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -120,9 +121,13 @@ class _ThirdPageState extends State<ThirdPage> {
                                       : ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(w * 0.05),
-                                          child: Image.network(
-                                            catProvider.categories[index].image,
+                                          child: ImageeNetworkWidget(
                                             fit: BoxFit.cover,
+                                            width: w,
+                                            height: h * 0.3,
+                                            image: catProvider
+                                                .categories[index].image,
+                                            // fit: BoxFit.cover,
                                           ),
                                         ),
                                 ),

@@ -77,19 +77,11 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                               alignment: Alignment.bottomCenter),
                           itemBuilder: (BuildContext context, int i) {
                             return InkWell(
-                              child: Container(
-                                // decoration: BoxDecoration(
-                                //   color: Colors.white,
-                                //   image: DecorationImage(
-                                //     image: NetworkImage(slider[i].image),
-                                //     fit: BoxFit.fitWidth,
-                                //   ),
-                                // ),
-                                child: ImageeNetworkWidget(
-                                  image: slider[i].image,
-                                  width: w,
-                                  height: h * 0.3,
-                                ),
+                              child: ImageeNetworkWidget(
+                                fit: BoxFit.cover,
+                                image: slider[i].image,
+                                width: w,
+                                height: h * 0.3,
                               ),
                               focusColor: Colors.transparent,
                               splashColor: Colors.transparent,
@@ -152,6 +144,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                               Ads _ads = getAds(1)[i];
                               return InkWell(
                                 child: ImageeNetworkWidget(
+                                  fit: BoxFit.cover,
                                   width: w * 0.95,
                                   height: h * 0.08,
                                   // decoration: BoxDecoration(
@@ -294,11 +287,11 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     ),
                                   ),
                                   onTap: () async {
-                                    // dialog(context);
+                                    dialog(context);
                                     await catProvider
                                         .getParentCat()
                                         .then((value) {
-                                      // Navigator.pop(context);
+                                      Navigator.pop(context);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -352,6 +345,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                                 .circular(10),
                                                         child:
                                                             ImageeNetworkWidget(
+                                                          fit: BoxFit.cover,
                                                           image: catProvider
                                                               .categories[index]
                                                               .image,
@@ -490,6 +484,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                                           10),
                                                               child:
                                                                   ImageeNetworkWidget(
+                                                                fit: BoxFit
+                                                                    .cover,
                                                                 image: catProvider
                                                                     .categories[
                                                                         index]
@@ -1085,6 +1081,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                               // ),
                                             ),
                                             child: ImageeNetworkWidget(
+                                              fit: BoxFit.cover,
                                               image: newItem[i].image,
                                               width: w * 0.5,
                                               height: h * 0.25,
@@ -1343,9 +1340,12 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     ),
                                   ),
                                   onTap: () async {
-                                    // dialog(context);
+                                    dialog(context);
                                     await getItem(newItem[i].id);
-                                    Navigator.pushNamed(context, 'pro');
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      'pro',
+                                    );
                                   },
                                 );
                               },
@@ -1375,6 +1375,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                               Ads _ads = getAds(2)[i];
                               return InkWell(
                                 child: ImageeNetworkWidget(
+                                  fit: BoxFit.cover,
                                   width: w * 0.95,
                                   height: h * 0.2,
                                   // decoration: BoxDecoration(
@@ -1517,13 +1518,13 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                       ),
                                     ),
                                     onTap: () async {
-                                      // dialog(context);
+                                      dialog(context);
                                       var st = Provider.of<StudentProvider>(
                                           context,
                                           listen: false);
                                       st.clearList();
                                       await st.getStudents();
-                                      Navigator.push(
+                                      Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => ViewAll()));
@@ -1740,6 +1741,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                               // ),
                                             ),
                                             child: ImageeNetworkWidget(
+                                              fit: BoxFit.cover,
                                               image: bestDis[i].image,
                                               width: w * 0.9,
                                               height: h * 0.25,
@@ -2173,6 +2175,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                           Radius.circular(
                                                               w * 0.05)),
                                               child: ImageeNetworkWidget(
+                                                fit: BoxFit.cover,
                                                 image: reItem[i].image,
                                                 width: w * 0.4,
                                                 height: h * 0.3,

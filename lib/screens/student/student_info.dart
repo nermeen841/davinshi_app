@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:badges/badges.dart';
+import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -268,16 +269,11 @@ class _StudentInfo extends State<StudentInfo> {
                         itemBuilder: (BuildContext context, int i) {
                           Ads _ads = getAds(9)[i];
                           return InkWell(
-                            child: Container(
+                            child: ImageeNetworkWidget(
                               height: h * 0.2 + 5,
                               width: w,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(_ads.image),
-                                  fit: BoxFit.cover,
-                                ),
-                                color: Colors.grey[200],
-                              ),
+                              image: _ads.image,
+                              fit: BoxFit.cover,
                             ),
                             focusColor: Colors.transparent,
                             splashColor: Colors.transparent,
@@ -305,7 +301,6 @@ class _StudentInfo extends State<StudentInfo> {
                   SizedBox(
                     height: h * 0.01,
                   ),
-
                   SizedBox(
                     height: h * 0.01,
                   ),
