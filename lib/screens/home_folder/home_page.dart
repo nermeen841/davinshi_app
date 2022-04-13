@@ -1,6 +1,5 @@
 import 'package:davinshi_app/BottomNavWidget/fabbuttom.dart';
 import 'package:flutter/material.dart';
-import 'package:davinshi_app/provider/CatProvider.dart';
 import 'package:davinshi_app/provider/home.dart';
 import 'package:provider/provider.dart';
 import 'package:davinshi_app/BottomNavWidget/profile.dart';
@@ -12,7 +11,6 @@ import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/constants.dart';
 import 'package:davinshi_app/models/user.dart';
-import 'package:davinshi_app/provider/fav_pro.dart';
 import 'package:davinshi_app/screens/auth/login.dart';
 
 import '../../models/home_item.dart';
@@ -55,7 +53,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     var bottom = Provider.of<BottomProvider>(context, listen: true);
-    CatProvider catProvider = Provider.of<CatProvider>(context, listen: false);
     Provider.of<HomeProvider>(context, listen: false);
     return Directionality(
       textDirection: getDirection(),

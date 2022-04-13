@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 import 'confirm_cart.dart';
 
 String mAPIKey =
-    "KkJrjsHj5CbCgmVhoLLu73L9pWXnaBzFZCRCXB85ESPtPLZZ9YKtWTWr6ffA4IhMRc6hh8QQWljrlEEAwGhQh7C5SV_ckHBQ7s5x6gdzHLh3tGifIXdWr9PZiw0xU7hXv4ifbYsGvvitt9y4h9JWhGIzpXrEz70wqDVqxkVv_D3RyZuEuPNbZtOBzHL7RyNc1UdLpf8Z667u4QU99nyA5RYIMjKg6GylORvB0JrxPknVMCIKhvv9EXZuvGCmaep9C7sNsYLUeAWsl6iERvRPstjMxn-UC7p3fOSwbDS8JXlchGbn-t5jzKo61gPuR6IAB6AShgKAQW8anrgTC5BAVbq3vUGK0MRAuvEW5cvEJn_wcMg4KnbByXVegZ0jLu4D4OGsK5xjUuaCVyMi0aalgaNQXt6k8IhTqzx_KtwRZS0H3yJ6NDvfa1G3YCvnl8-VEzSzoYLNoKZIP32KP5PIv7P4032_GzVZJ2jKfxsm_MutZEAMBHzkQyOcbg4J7QMwY0h_wQCruwCJ0dKcQorYs7pG40PK2ecECXmUJf6RVcjxwqqOXhqIlysOCaTy1x2pJuQ7FALOBrfnqUhNqg4EjRUbwqf4FJRvQonBaI4Vc4cyhQgS1BQS8FXz7Z5Kl-xEIAS00tNHLAbCFuLC0iBPGXMUjTC7gHwLy8tBCt9IukM_Fn4E";
+    "UflUAT-3OXq8eDNkS7A8YJm-15QsoBKyk-k55pt9_3nR9TmC93spk-Wv3QWrbVd-MCH3uD7ChL0VfoszfRTeRylVkTqMuGYfEZ6SEMvQR24RxGrcavjp6Pv-8GeqB6tUEPAEz_ybCQcpLBwfISLwVojx6YilLiFuCovDnCDZIv1NDEG75VQj5_AYrFLlt7StRX5SIOHVYx2xwNKIHCpMzIeGJsHo6Qc8RfinYg8x6KKy4qEENrxsgVJGQRrzHASGoHKDnzGAvm7ct4PB43Ib8znrhpyK9XeffWGO73cwtMlYf2FUXCvdnijafJOCycmSbzDpcg464qaR1DIyl3_rhomBygJMsOZSSuNn6E-rbYt_IhL7macV4PUp9F__GZ31wE0p1oYRqxHxmrsy4EmyhmqeirtbzkqGBmrcSdiIUWeRBxVbzuLUkEBhVQYfatsiXfyVyMCHWTm5dnz6g1jcb7VoyyIuzatmJhfoGwW0Uzcn4ZK5gHeApCVEXWQ0dIhgbDUGul1UCwewgtRPGQPJ1CTyNBhYRgeV7Xp2LmmcS7U7q8iPPmS2psdB7jbDO4Ag_pnOFhkSUG62DEipC3rXew9Wp-uwWYNp1xubdMaZjLsoYc3mlZJtngFPzq74XhV32_TeQoLsa1DHLxamZL24YJdkH61TvoN2QJdM86dzV6RkX9_uXZFNaKjb2ytJh6Kg_pAc_AZxuOnBLIwqNAuOLARcSIgEZHBtP_BLosAim3R-fjNs";
 
 class PaymentScreen extends StatefulWidget {
   final double totalprice;
@@ -42,16 +42,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: mainColor,
           title: Text(
             translate(context, 'check_out', 'title'),
             style: TextStyle(
                 fontSize: w * 0.05,
-                color: Colors.black,
+                color: Colors.white,
                 fontWeight: FontWeight.bold),
           ),
           leading: BackButton(
-            color: mainColor,
+            color: Colors.white,
             onPressed: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -68,16 +68,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
           afterPaymentBehaviour: AfterPaymentBehaviour.AfterCalbacksExecution,
           buildAppBar: (context) {
             return AppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: mainColor,
               title: Text(
                 translate(context, 'check_out', 'title'),
                 style: TextStyle(
                     fontSize: w * 0.05,
-                    color: Colors.black,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
               leading: BackButton(
-                color: mainColor,
+                color: Colors.white,
                 onPressed: () => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

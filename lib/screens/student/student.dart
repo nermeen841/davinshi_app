@@ -146,7 +146,7 @@ class Student extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ViewAll()));
+                                  builder: (context) => const ViewAll()));
                         },
                       ),
                     ],
@@ -222,17 +222,18 @@ class Student extends StatelessWidget {
                           ],
                         ),
                         onTap: () async {
-                          dialog(context);
+                          // dialog(context);
                           StudentItemProvider st =
                               Provider.of<StudentItemProvider>(context,
                                   listen: false);
                           st.clearList();
-                          await st.getItems(_st.id);
-                          Navigator.pushReplacement(
+                          // await st.getItems(_st.id);
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => StudentInfo(
                                         studentClass: _st,
+                                        studentId: _st.id,
                                       )));
                         },
                       );
@@ -310,17 +311,18 @@ class Student extends StatelessWidget {
                           ],
                         ),
                         onTap: () async {
-                          dialog(context);
+                          // dialog(context);
                           StudentItemProvider st =
                               Provider.of<StudentItemProvider>(context,
                                   listen: false);
                           st.clearList();
-                          await st.getItems(_st.id);
-                          Navigator.pushReplacement(
+                          // await st.getItems(_st.id);
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => StudentInfo(
                                         studentClass: _st,
+                                        studentId: _st.id,
                                       )));
                         },
                       );

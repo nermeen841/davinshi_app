@@ -18,7 +18,9 @@ import '../cart/cart.dart';
 
 class StudentInfo extends StatefulWidget {
   final dynamic studentClass;
-  StudentInfo({Key? key, required this.studentClass}) : super(key: key);
+  final int studentId;
+  StudentInfo({Key? key, required this.studentClass, required this.studentId})
+      : super(key: key);
   @override
   _StudentInfo createState() => _StudentInfo();
 }
@@ -40,9 +42,7 @@ class _StudentInfo extends State<StudentInfo> {
           if (f1) {
             if (!of1.finish) {
               f1 = false;
-              dialog(context);
               of1.getItems(widget.studentClass.id).then((value) {
-                Navigator.pop(context);
                 f1 = true;
               });
             }
@@ -56,9 +56,7 @@ class _StudentInfo extends State<StudentInfo> {
           if (f1) {
             if (!of1.finish) {
               f1 = false;
-              dialog(context);
               of1.getItems(widget.studentClass.id).then((value) {
-                Navigator.pop(context);
                 f1 = true;
               });
             }
@@ -83,6 +81,8 @@ class _StudentInfo extends State<StudentInfo> {
       finish = true;
     }
     CartProvider cart = Provider.of<CartProvider>(context, listen: true);
+    Provider.of<StudentItemProvider>(context, listen: true)
+        .getItems(widget.studentId);
     return Directionality(
       textDirection: getDirection(),
       child: Scaffold(

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_typing_uninitialized_variables, prefer_const_constructors_in_immutables
+// ignore_for_file: prefer_typing_uninitialized_variables, prefer_const_constructors_in_immutables, avoid_print
 import 'package:davinshi_app/models/products_cla.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';

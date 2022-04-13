@@ -11,7 +11,6 @@ import 'package:davinshi_app/screens/cart/orders.dart';
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/constants.dart';
-import 'package:davinshi_app/models/info.dart';
 import 'package:davinshi_app/models/user.dart';
 import 'package:davinshi_app/screens/about.dart';
 import 'package:davinshi_app/screens/address/address.dart';

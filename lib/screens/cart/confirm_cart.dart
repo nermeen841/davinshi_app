@@ -177,16 +177,16 @@ class _ConfirmCartState extends State<ConfirmCart> {
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: mainColor,
             title: Text(
               translate(context, 'check_out', 'title'),
               style: TextStyle(
                   fontSize: w * 0.05,
-                  color: Colors.black,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
-            leading: BackButton(
-              color: mainColor,
+            leading: const BackButton(
+              color: Colors.white,
             ),
             centerTitle: true,
             elevation: 0,
@@ -194,6 +194,9 @@ class _ConfirmCartState extends State<ConfirmCart> {
           body: SingleChildScrollView(
               child: Column(
             children: [
+              SizedBox(
+                height: h * 0.02,
+              ),
               Align(
                 alignment:
                     isLeft() ? Alignment.centerLeft : Alignment.centerRight,
@@ -399,7 +402,9 @@ class _ConfirmCartState extends State<ConfirmCart> {
                             ),
                             if (address != null)
                               Text(
-                                '${getAreaPrice(address.areaId)} $currency',
+                                getProductprice(
+                                    currency: currency,
+                                    productPrice: getAreaPrice(address.areaId)),
                                 style: TextStyle(
                                     color: Colors.black, fontSize: w * 0.05),
                               ),
@@ -424,7 +429,10 @@ class _ConfirmCartState extends State<ConfirmCart> {
                             ),
                             if (addressGuest != null)
                               Text(
-                                '${getAreaPrice(addressGuest!.areaId)} $currency',
+                                getProductprice(
+                                    currency: currency,
+                                    productPrice:
+                                        getAreaPrice(addressGuest!.areaId)),
                                 style: TextStyle(
                                     color: Colors.black, fontSize: w * 0.05),
                               ),
@@ -481,7 +489,14 @@ class _ConfirmCartState extends State<ConfirmCart> {
                             ),
                             if (address != null)
                               Text(
-                                '${(cart.total + getAreaPrice(address.areaId) - (widget.couponPercentage ? double.parse((cart.subTotal * widget.couponPrice / 100).toStringAsFixed(2)) : widget.couponPrice))} $currency',
+                                '${(getprice(
+                                      currency: currency,
+                                      productPrice: cart.total,
+                                    ) + getprice(
+                                      currency: currency,
+                                      productPrice:
+                                          getAreaPrice(address.areaId),
+                                    ) - (widget.couponPercentage ? double.parse((getprice(currency: currency, productPrice: cart.subTotal) * getprice(productPrice: widget.couponPrice, currency: currency) / 100).toStringAsFixed(2)) : widget.couponPrice))} $currency',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: w * 0.055,
@@ -489,7 +504,7 @@ class _ConfirmCartState extends State<ConfirmCart> {
                               ),
                             if (address == null)
                               Text(
-                                '${(cart.total - (widget.couponPercentage ? double.parse((cart.subTotal * widget.couponPrice / 100).toStringAsFixed(2)) : widget.couponPrice))} $currency',
+                                '${(getprice(currency: currency, productPrice: cart.total) - (widget.couponPercentage ? double.parse((getprice(currency: currency, productPrice: cart.subTotal) * getprice(currency: currency, productPrice: widget.couponPrice) / 100).toStringAsFixed(2)) : getprice(currency: currency, productPrice: widget.couponPrice)))} $currency',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: w * 0.055,
@@ -508,7 +523,7 @@ class _ConfirmCartState extends State<ConfirmCart> {
                             ),
                             if (addressGuest != null)
                               Text(
-                                '${(cart.total + getAreaPrice(addressGuest!.areaId) - (widget.couponPercentage ? double.parse((cart.subTotal * widget.couponPrice / 100).toStringAsFixed(2)) : widget.couponPrice))} $currency',
+                                '${(getprice(currency: currency, productPrice: cart.total) + getprice(currency: currency, productPrice: getAreaPrice(addressGuest!.areaId)) - (widget.couponPercentage ? double.parse((getprice(currency: currency, productPrice: cart.subTotal) * getprice(currency: currency, productPrice: widget.couponPrice) / 100).toStringAsFixed(2)) : getprice(currency: currency, productPrice: widget.couponPrice)))} $currency',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: w * 0.055,
@@ -516,7 +531,7 @@ class _ConfirmCartState extends State<ConfirmCart> {
                               ),
                             if (addressGuest == null)
                               Text(
-                                '${(cart.total - (widget.couponPercentage ? double.parse((cart.subTotal * widget.couponPrice / 100).toStringAsFixed(2)) : widget.couponPrice))} $currency',
+                                '${(getprice(currency: currency, productPrice: cart.total) - (widget.couponPercentage ? double.parse((getprice(currency: currency, productPrice: cart.subTotal) * getprice(currency: currency, productPrice: widget.couponPrice) / 100).toStringAsFixed(2)) : getprice(currency: currency, productPrice: widget.couponPrice)))} $currency',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: w * 0.055,
@@ -556,7 +571,6 @@ class _ConfirmCartState extends State<ConfirmCart> {
                     ),
                   ),
                   onTap: () {
-                    dialog(context);
                     checkOut(context);
                   },
                 ),
@@ -585,7 +599,6 @@ class _ConfirmCartState extends State<ConfirmCart> {
                     ),
                   ),
                   onTap: () {
-                    dialog(context);
                     checkOut(context);
                   },
                 ),
@@ -594,5 +607,19 @@ class _ConfirmCartState extends State<ConfirmCart> {
         ),
       ),
     );
+  }
+
+  num getprice({required String currency, required num productPrice}) {
+    String ratio = prefs.getString("ratio").toString();
+    num ratioPrice = num.parse(ratio);
+
+    if (currency != 'KWD' || currency != 'د.ك') {
+      num finalPrice = productPrice / ratioPrice;
+
+      return finalPrice;
+    } else {
+      num finalPrice = productPrice;
+      return finalPrice;
+    }
   }
 }

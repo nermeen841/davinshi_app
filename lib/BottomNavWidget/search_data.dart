@@ -212,10 +212,8 @@ class _SearchDataScreenState extends State<SearchDataScreen> {
                                             ),
                                           ),
                                           onTap: () async {
-                                            dialog(context);
                                             await getItem(searchData[index].id);
-                                            Navigator.pushReplacementNamed(
-                                                context, 'pro');
+                                            Navigator.pushNamed(context, 'pro');
                                           },
                                         )
                                       : InkWell(
@@ -252,20 +250,18 @@ class _SearchDataScreenState extends State<SearchDataScreen> {
                                             ),
                                           ),
                                           onTap: () async {
-                                            dialog(context);
-
-                                            StudentItemProvider st = Provider
-                                                .of<StudentItemProvider>(
+                                            Provider.of<StudentItemProvider>(
                                                     context,
-                                                    listen: false);
-                                            st.clearList();
-                                            await st
-                                                .getItems(searchData[index].id);
-                                            Navigator.pushReplacement(
+                                                    listen: false)
+                                                .clearList();
+                                            Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         StudentInfo(
+                                                          studentId:
+                                                              searchData[index]
+                                                                  .id,
                                                           studentClass:
                                                               searchData[index],
                                                         )));

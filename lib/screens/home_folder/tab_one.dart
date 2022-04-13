@@ -4,7 +4,6 @@ import 'package:davinshi_app/dbhelper.dart';
 import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:davinshi_app/models/rate.dart';
 import 'package:davinshi_app/screens/home_folder/more/more.dart';
-import 'package:davinshi_app/screens/product_info/products.dart';
 import 'package:davinshi_app/screens/student/view_all.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
@@ -1362,9 +1361,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                       ),
                                     ),
                                     onTap: () async {
-                                      dialog(context);
                                       await getItem(newItem[i].id);
-                                      Navigator.pushReplacementNamed(
+                                      Navigator.pushNamed(
                                         context,
                                         'pro',
                                       );
@@ -1554,7 +1552,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ViewAll()));
+                                                    const ViewAll()));
                                         // });
                                       },
                                     ),
@@ -1599,21 +1597,20 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                         ),
                                       ),
                                       onTap: () async {
-                                        dialog(context);
-                                        StudentItemProvider st =
-                                            Provider.of<StudentItemProvider>(
+                                        Provider.of<StudentItemProvider>(
                                                 context,
-                                                listen: false);
-                                        st.clearList();
-                                        st.getItems(stu[i].id).whenComplete(() {
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      StudentInfo(
-                                                        studentClass: stu[i],
-                                                      )));
-                                        });
+                                                listen: false)
+                                            .clearList();
+
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    StudentInfo(
+                                                      studentClass: stu[i],
+                                                      studentId: stu[i].id,
+                                                    )));
+                                        // });
                                       },
                                     );
                                   },
@@ -2037,10 +2034,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                       ),
                                     ),
                                     onTap: () async {
-                                      dialog(context);
                                       await getItem(bestDis[i].id);
-                                      Navigator.pushReplacementNamed(
-                                          context, 'pro');
+                                      Navigator.pushNamed(context, 'pro');
                                     },
                                   );
                                 },
@@ -2414,10 +2409,8 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                       ),
                                     ),
                                     onTap: () async {
-                                      dialog(context);
                                       getItem(reItem[i].id).then((value) {
-                                        Navigator.pushReplacementNamed(
-                                            context, 'pro');
+                                        Navigator.pushNamed(context, 'pro');
                                       });
                                     },
                                   );

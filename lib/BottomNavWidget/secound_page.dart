@@ -550,10 +550,8 @@ class _SecPageState extends State<SecPage> {
                                           ),
                                         ),
                                         onTap: () async {
-                                          dialog(context);
                                           await getItem(item.items[i].id);
-                                          Navigator.pushReplacementNamed(
-                                              context, 'pro');
+                                          Navigator.pushNamed(context, 'pro');
                                           navPR(
                                               context,
                                               Products(

@@ -1,9 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, unused_local_variable, avoid_print, unnecessary_this
 
-import 'dart:convert';
 import 'package:davinshi_app/dbhelper.dart';
 import 'package:davinshi_app/elements/newtwork_image.dart';
-import 'package:davinshi_app/models/cart.dart';
 import 'package:davinshi_app/models/home_item.dart';
 import 'package:davinshi_app/screens/designes/designe.dart';
 import 'package:flutter/material.dart';
@@ -519,12 +517,10 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                     ),
                                                   ),
                                                   onTap: () async {
-                                                    dialog(context);
                                                     await getItem(
                                                         newItem.items[i].id);
-                                                    Navigator
-                                                        .pushReplacementNamed(
-                                                            context, 'pro');
+                                                    Navigator.pushNamed(
+                                                        context, 'pro');
                                                   },
                                                 );
                                               }),
@@ -988,12 +984,10 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                     ),
                                                   ),
                                                   onTap: () async {
-                                                    dialog(context);
                                                     await getItem(
                                                         bestItem.items[i].id);
-                                                    Navigator
-                                                        .pushReplacementNamed(
-                                                            context, 'pro');
+                                                    Navigator.pushNamed(
+                                                        context, 'pro');
                                                   },
                                                 );
                                               }),
@@ -1455,12 +1449,10 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                     ),
                                                   ),
                                                   onTap: () async {
-                                                    dialog(context);
                                                     await getItem(
                                                         reItem.items[i].id);
-                                                    Navigator
-                                                        .pushReplacementNamed(
-                                                            context, 'pro');
+                                                    Navigator.pushNamed(
+                                                        context, 'pro');
                                                   },
                                                 );
                                               }),
@@ -1616,131 +1608,6 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                               width: w * 0.45,
                                                               height: h * 0.28,
                                                             ),
-                                                            Padding(
-                                                              padding: EdgeInsets
-                                                                  .all(w *
-                                                                      0.015),
-                                                              child: Align(
-                                                                alignment: isLeft()
-                                                                    ? Alignment
-                                                                        .topRight
-                                                                    : Alignment
-                                                                        .topLeft,
-                                                                child: InkWell(
-                                                                  onTap:
-                                                                      () async {
-                                                                    if (cartId ==
-                                                                            null ||
-                                                                        cartId ==
-                                                                            studentId) {
-                                                                      try {
-                                                                        if (!cart
-                                                                            .idp
-                                                                            .contains(offerItem.items[i].id)) {
-                                                                          await helper.createCar(CartProducts(
-                                                                              id: null,
-                                                                              studentId: studentId,
-                                                                              image: offerItem.items[i].image,
-                                                                              titleAr: offerItem.items[i].nameAr,
-                                                                              titleEn: offerItem.items[i].nameEn,
-                                                                              price: offerItem.items[i].finalPrice.toDouble(),
-                                                                              quantity: 1,
-                                                                              att: att,
-                                                                              des: des,
-                                                                              idp: offerItem.items[i].id,
-                                                                              idc: 0,
-                                                                              catNameEn: "",
-                                                                              catNameAr: "",
-                                                                              catSVG: ""));
-                                                                        } else {
-                                                                          int quantity = cart
-                                                                              .items
-                                                                              .firstWhere((element) => element.idp == offerItem.items[i].id)
-                                                                              .quantity;
-                                                                          await helper.updateProduct(
-                                                                              1 + quantity,
-                                                                              offerItem.items[i].id,
-                                                                              offerItem.items[i].finalPrice.toDouble(),
-                                                                              jsonEncode(att),
-                                                                              jsonEncode(des));
-                                                                        }
-                                                                        await cart
-                                                                            .setItems();
-                                                                      } catch (e) {
-                                                                        error(
-                                                                            context);
-                                                                        print(
-                                                                            'e');
-                                                                        print(
-                                                                            e);
-                                                                      }
-                                                                    } else {
-                                                                      if (cartId ==
-                                                                              null ||
-                                                                          cartId ==
-                                                                              studentId) {
-                                                                        try {
-                                                                          if (!cart
-                                                                              .idp
-                                                                              .contains(offerItem.items[i].id)) {
-                                                                            await helper.createCar(CartProducts(
-                                                                                id: null,
-                                                                                studentId: offerItem.items[i].brands![i].id,
-                                                                                image: offerItem.items[i].image,
-                                                                                titleAr: offerItem.items[i].nameAr,
-                                                                                titleEn: offerItem.items[i].nameEn,
-                                                                                price: offerItem.items[i].price.toDouble(),
-                                                                                quantity: 1,
-                                                                                att: att,
-                                                                                des: des,
-                                                                                idp: offerItem.items[i].id,
-                                                                                idc: offerItem.items[i].id,
-                                                                                catNameEn: "",
-                                                                                catNameAr: "",
-                                                                                catSVG: ""));
-                                                                          } else {
-                                                                            int quantity =
-                                                                                cart.items.firstWhere((element) => element.idp == offerItem.items[i].id).quantity;
-                                                                            await helper.updateProduct(
-                                                                                1 + quantity,
-                                                                                offerItem.items[i].id,
-                                                                                offerItem.items[i].finalPrice.toDouble(),
-                                                                                jsonEncode(att),
-                                                                                jsonEncode(des));
-                                                                          }
-                                                                          await cart
-                                                                              .setItems();
-                                                                        } catch (e) {
-                                                                          print(
-                                                                              'e');
-                                                                          print(
-                                                                              e);
-                                                                        }
-                                                                      } else {}
-                                                                    }
-                                                                  },
-                                                                  child:
-                                                                      CircleAvatar(
-                                                                    backgroundColor:
-                                                                        mainColor,
-                                                                    radius:
-                                                                        w * .05,
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          Icon(
-                                                                        Icons
-                                                                            .add_outlined,
-                                                                        color: Colors
-                                                                            .white,
-                                                                        size: w *
-                                                                            0.05,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
                                                           ],
                                                         ),
                                                         SizedBox(
@@ -1860,12 +1727,10 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                     ),
                                                   ),
                                                   onTap: () async {
-                                                    dialog(context);
                                                     await getItem(
                                                         offerItem.items[i].id);
-                                                    Navigator
-                                                        .pushReplacementNamed(
-                                                            context, 'pro');
+                                                    Navigator.pushNamed(
+                                                        context, 'pro');
                                                   },
                                                 );
                                               }),

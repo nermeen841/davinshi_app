@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
@@ -22,6 +24,8 @@ import '../home_folder/home_page.dart';
 
 class ViewAll extends StatefulWidget {
   static bool brandsSearch = false;
+
+  const ViewAll({Key? key}) : super(key: key);
 
   @override
   State<ViewAll> createState() => _ViewAllState();
@@ -51,7 +55,6 @@ class _ViewAllState extends State<ViewAll> {
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -249,21 +252,16 @@ class _ViewAllState extends State<ViewAll> {
                                     ),
                                   ),
                                   onTap: () async {
-                                    dialog(context);
                                     Provider.of<StudentItemProvider>(context,
                                             listen: false)
                                         .clearList();
-                                    Provider.of<StudentItemProvider>(context,
-                                            listen: false)
-                                        .getItems(_st.id)
-                                        .whenComplete(() {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => StudentInfo(
-                                                    studentClass: _st,
-                                                  )));
-                                    });
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => StudentInfo(
+                                                  studentClass: _st,
+                                                  studentId: _st.id,
+                                                )));
                                   },
                                 );
                               }),

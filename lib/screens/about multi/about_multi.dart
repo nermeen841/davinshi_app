@@ -2,11 +2,9 @@
 
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/constants.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../BottomNavWidget/profile.dart';
 import '../../models/bottomnav.dart';
-import '../../models/info.dart';
 import '../about.dart';
 
 class AboutMultiScreen extends StatefulWidget {

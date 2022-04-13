@@ -324,7 +324,6 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                                             ),
                                           ),
                                           onTap: () async {
-                                            dialog(context);
                                             await getItem(int.parse(snapshot
                                                 .data![i].id
                                                 .toString()));
