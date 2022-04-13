@@ -137,24 +137,6 @@ class _ProfileState extends State<Profile> {
           ),
         ];
 
-  Future<bool> getInfo(title) async {
-    final String url = domain + 'infos?type=$title';
-    try {
-      Response response = await Dio().get(
-        url,
-      );
-      if (response.statusCode == 200 && response.data['status'] == 1) {
-        setInfo(response.data['data']);
-        return true;
-      }
-      if (response.statusCode == 200 && response.data['status'] == 0) {
-        setInfo([]);
-        return true;
-      }
-    } catch (e) {}
-    return false;
-  }
-
   Future<bool> logOutUser() async {
     final String url = domain + 'logout';
     try {
@@ -639,7 +621,6 @@ class _ProfileState extends State<Profile> {
                               ),
                               onTap: () async {
                                 if (tile[i].nameEn == 'Edit Profile') {
-                                  dialog(context);
                                   getProfile();
                                 } else if (tile[i].nameEn == 'Sign out') {
                                   dialog(context);
@@ -667,6 +648,12 @@ class _ProfileState extends State<Profile> {
                                   }
                                 } else if (tile[i].nameEn == 'Share App') {
                                   // navPRRU(context, const Country(1));
+                                } else if (tile[i].nameEn == 'About Multi') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const AboutMultiScreen()));
                                 } else if (tile[i].nameEn == 'Contact us') {
                                   SocialIcons().getSocialIcons().then((value) {
                                     Navigator.push(
@@ -676,21 +663,15 @@ class _ProfileState extends State<Profile> {
                                   });
                                 } else {
                                   if (tile[i].keyApi != null) {
-                                    dialog(context);
-                                    bool _check = await getInfo(tile[i].keyApi);
-                                    if (_check) {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (ctx) => AboutUs(isLeft()
-                                                  ? tile[i].nameEn
-                                                  : tile[i].nameAr)));
-                                    } else {
-                                      Navigator.pop(context);
-                                      error(context);
-                                    }
-                                  } else {
-                                    navP(context, tile[i].className);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (ctx) => AboutUs(
+                                                  isLeft()
+                                                      ? tile[i].nameEn
+                                                      : tile[i].nameAr,
+                                                  apiKey: tile[i].keyApi,
+                                                )));
                                   }
                                 }
                               },

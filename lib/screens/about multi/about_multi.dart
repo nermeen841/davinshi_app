@@ -98,52 +98,54 @@ class _AboutMultiScreenState extends State<AboutMultiScreen> {
               (index) => Column(
                 children: [
                   ListTile(
-                    leading: SizedBox(
-                      width: w * 0.07,
-                      height: w * 0.07,
-                      child: Image.asset(
-                        about[index].image,
-                        fit: BoxFit.contain,
-                        color: Colors.black,
-                      ),
-                    ),
-                    trailing:
-                        (prefs.getString('language_code').toString() == 'en')
-                            ? const Icon(
-                                Icons.keyboard_arrow_right,
-                                color: Colors.black,
-                              )
-                            : const Icon(
-                                Icons.keyboard_arrow_left,
-                                color: Colors.black,
-                              ),
-                    title: Text(
-                      isLeft() ? about[index].nameEn : about[index].nameAr,
-                      style: TextStyle(
+                      leading: SizedBox(
+                        width: w * 0.07,
+                        height: w * 0.07,
+                        child: Image.asset(
+                          about[index].image,
+                          fit: BoxFit.contain,
                           color: Colors.black,
-                          fontSize: w * 0.05,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () async {
-                      if (about[index].keyApi != null) {
-                        dialog(context);
-                        bool _check = await getInfo(about[index].keyApi);
-                        if (_check) {
-                          Navigator.pushReplacement(
+                        ),
+                      ),
+                      trailing:
+                          (prefs.getString('language_code').toString() == 'en')
+                              ? const Icon(
+                                  Icons.keyboard_arrow_right,
+                                  color: Colors.black,
+                                )
+                              : const Icon(
+                                  Icons.keyboard_arrow_left,
+                                  color: Colors.black,
+                                ),
+                      title: Text(
+                        isLeft() ? about[index].nameEn : about[index].nameAr,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: w * 0.05,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      onTap: () async {
+                        if (about[index].keyApi != null) {
+                          // dialog(context);
+                          // bool _check = await getInfo(about[index].keyApi);
+                          // if (_check) {
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (ctx) => AboutUs(isLeft()
-                                      ? about[index].nameEn
-                                      : about[index].nameAr)));
-                        } else {
-                          Navigator.pop(context);
-                          error(context);
+                                  builder: (ctx) => AboutUs(
+                                        isLeft()
+                                            ? about[index].nameEn
+                                            : about[index].nameAr,
+                                        apiKey: about[index].keyApi,
+                                      )));
+                          // } else {
+                          //   Navigator.pop(context);
+                          //   error(context);
+                          // }
+                          // } else {
+                          //   navP(context, about[index].className);
                         }
-                      } else {
-                        navP(context, about[index].className);
-                      }
-                    },
-                  ),
+                      }),
                   Divider(
                     color: Colors.grey.withOpacity(0.5),
                   ),
@@ -154,25 +156,5 @@ class _AboutMultiScreenState extends State<AboutMultiScreen> {
         ),
       ),
     );
-  }
-
-  Future<bool> getInfo(title) async {
-    final String url = domain + 'infos?type=$title';
-    try {
-      Response response = await Dio().get(
-        url,
-      );
-      if (response.statusCode == 200 && response.data['status'] == 1) {
-        setInfo(response.data['data']);
-        return true;
-      }
-      if (response.statusCode == 200 && response.data['status'] == 0) {
-        setInfo([]);
-        return true;
-      }
-    } catch (e) {
-      print("information error : " + e.toString());
-    }
-    return false;
   }
 }

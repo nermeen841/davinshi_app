@@ -75,6 +75,7 @@ class _SecPageState extends State<SecPage> {
       start(context);
       finish = true;
     }
+    Provider.of<FavItemProvider>(context, listen: true).getItems();
     return WillPopScope(
       onWillPop: showExitPopup,
       child: Directionality(

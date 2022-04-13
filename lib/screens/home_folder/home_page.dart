@@ -64,15 +64,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButton(
               onPressed: () async {
-                dialog(context);
-                await catProvider.getParentCat().then((value) {
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ThirdPage(),
-                      ));
-                });
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ThirdPage(),
+                    ));
               },
               backgroundColor: mainColor,
               child: Image.asset("assets/images/Group 1186.png")),
@@ -101,27 +97,28 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       .animateTo(0, duration: const Duration(seconds: 1));
                 }
                 if (val == 2 || val == 3) {
-                  dialog(context);
-                  await catProvider.getParentCat().then((value) {
-                    Navigator.pop(context);
-                    bottom.setIndex(val);
-                  });
+                  // dialog(context);
+                  // await catProvider.getParentCat().then((value) {
+                  //   Navigator.pop(context);
+                  bottom.setIndex(val);
+                  // });
                 }
                 if (val == 1) {
                   if (userId != 0) {
-                    dialog(context);
-                    FavItemProvider fav =
-                        Provider.of<FavItemProvider>(context, listen: false);
-                    fav.clearList();
-                    await fav.getItems().then((value) {
-                      if (value) {
-                        Navigator.pop(context);
-                        bottom.setIndex(val);
-                      } else {
-                        Navigator.pop(context);
-                        error(context);
-                      }
-                    });
+                    bottom.setIndex(val);
+                    // dialog(context);
+                    // FavItemProvider fav =
+                    //     Provider.of<FavItemProvider>(context, listen: false);
+                    // fav.clearList();
+                    // await fav.getItems().then((value) {
+                    //   if (value) {
+                    //     Navigator.pop(context);
+                    //     bottom.setIndex(val);
+                    //   } else {
+                    //     Navigator.pop(context);
+                    //     error(context);
+                    //   }
+                    // });
                   } else {
                     final snackBar = SnackBar(
                       content: Text(
