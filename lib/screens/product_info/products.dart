@@ -113,8 +113,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
           (_) => _ == 3
               ? language == 'en'
                   ? TextEditingController(
-                      text: 'Question about ${productCla?.nameEn ?? ""}')
-                  : TextEditingController(text: 'سوال عن ${productCla?.nameAr ?? ""}')
+                      text: 'Question about ${productCla.nameEn}')
+                  : TextEditingController(text: 'سوال عن ${productCla.nameAr}')
               : TextEditingController());
   List<Rate> rate = [];
   List<int> att = [];
@@ -132,13 +132,13 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   final RoundedLoadingButtonController _btnController2 =
       RoundedLoadingButtonController();
   TabController? _tabBar;
-
+  
   Future getRates() async {
     final String url = domain + 'product/get-ratings';
     try {
       dio.Response response = await dio.Dio()
-          .get(url, queryParameters: {'product_id': productCla?.id.toString()});
-      print(productCla?.id.toString());
+          .get(url, queryParameters: {'product_id': productCla.id.toString()});
+      print(productCla.id.toString());
       rate = [];
       if (response.statusCode == 200 && response.data['status'] == 1) {
         setState(() {
@@ -161,16 +161,16 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
         url,
         data: {
           'brand_id': widget.fromFav ? widget.brandId : studentId,
-          "product_id": productCla?.id ?? 0,
+          "product_id": productCla.id,
         },
         options: dio.Options(headers: {"auth-token": auth}),
       );
       if (response.statusCode == 200 && response.data['status'] == 1) {
         check = type;
         if (type) {
-          favIds.add(productCla?.id ?? 0);
+          favIds.add(productCla.id);
         } else {
-          favIds.remove(productCla?.id ?? 0);
+          favIds.remove(productCla.id);
         }
         setState(() {});
       } else {
@@ -204,7 +204,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   }
 Future getProduct() async{
     await  getItem(widget.brandId);
-  for (int i = 0; i < (productCla?.attributes.length ?? 0); i++) {
+  for (int i = 0; i < productCla.attributes.length; i++) {
       des.add('');
       att.add(0);
       optionsPrice.add(0);
@@ -229,9 +229,8 @@ Future getProduct() async{
   @override
   void initState() {
     super.initState();
-        selectedItem = [];
-
     getProduct();
+    selectedItem = [];
   
   
   }
@@ -266,9 +265,9 @@ Future getProduct() async{
           await helper.createCar(CartProducts(
               id: null,
               studentId: studentId,
-              image: productCla?.image ?? "",
-              titleAr: productCla?.nameAr ?? "",
-              titleEn: productCla?.nameEn ?? "",
+              image: productCla.image,
+              titleAr: productCla.nameAr,
+              titleEn: productCla.nameEn,
               price: finalPrice.toDouble(),
               quantity: _counter,
               att: att,

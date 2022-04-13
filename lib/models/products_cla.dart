@@ -205,7 +205,7 @@ class ProCategory {
       {required this.nameAr, required this.nameEn, required this.catId});
 }
 
- ProductCla? productCla;
+late ProductCla productCla;
 
 Future setProduct(Map e) async {
   try {
