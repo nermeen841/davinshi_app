@@ -4,6 +4,7 @@ import 'package:davinshi_app/dbhelper.dart';
 import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:davinshi_app/models/rate.dart';
 import 'package:davinshi_app/screens/home_folder/more/more.dart';
+import 'package:davinshi_app/screens/product_info/products.dart';
 import 'package:davinshi_app/screens/student/view_all.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
@@ -299,12 +300,12 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                       // await catProvider
                                       //     .getParentCat()
                                       //     .then((value) {
-                                        Navigator.pop(context);
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => ThirdPage(),
-                                            ));
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ThirdPage(),
+                                          ));
                                       // });
                                     },
                                   ),
@@ -1547,13 +1548,13 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                             .clearList();
                                         // Provider.of<StudentProvider>(context,
                                         //         listen: false)
-                                            // .getStudents()
-                                            // .whenComplete(() {
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ViewAll()));
+                                        // .getStudents()
+                                        // .whenComplete(() {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ViewAll()));
                                         // });
                                       },
                                     ),
