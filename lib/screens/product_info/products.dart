@@ -112,14 +112,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
           (_) => _ == 3
               ? language == 'en'
                   ? TextEditingController(
-<<<<<<< HEAD
-                      text: 'Question about ${productCla.nameEn}')
-                  : TextEditingController(text: 'سوال عن ${productCla.nameAr}')
-=======
                       text: 'Question about ${productCla?.nameEn ?? ""}')
                   : TextEditingController(
                       text: 'سوال عن ${productCla?.nameAr ?? ""}')
->>>>>>> 55cc08123adbdc775af862ad948d94fa3dbc8d74
               : TextEditingController());
   List<Rate> rate = [];
   List<int> att = [];
@@ -207,28 +202,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
-<<<<<<< HEAD
-Future getProduct() async{
-    await  getItem(widget.brandId);
-  for (int i = 0; i < productCla.attributes.length; i++) {
-      des.add('');
-      att.add(0);
-      optionsPrice.add(0);
-      optionsQuantity.add(0);
-      attPrice[''] = 0;
-    }
-    _tabBar = TabController(length: 3, vsync: this, initialIndex: 0);
-    _tabBar?.addListener(() {
-      if (_tabBar?.index == 1) {
-        if (finishTab) {
-          finishTab = false;
-          dialog(context);
-          getRates().then((value) {
-            navPop(context);
-            finishTab = true;
-          });
-        }
-=======
 
   bool loading = false;
   Future getProduct() async {
@@ -243,7 +216,6 @@ Future getProduct() async{
         optionsPrice.add(0);
         optionsQuantity.add(0);
         attPrice[''] = 0;
->>>>>>> 55cc08123adbdc775af862ad948d94fa3dbc8d74
       }
       _tabBar = TabController(length: 3, vsync: this, initialIndex: 0);
       _tabBar?.addListener(() {
@@ -265,15 +237,8 @@ Future getProduct() async{
   @override
   void initState() {
     super.initState();
-<<<<<<< HEAD
-    getProduct();
-    selectedItem = [];
-  
-  
-=======
 
     getProduct();
->>>>>>> 55cc08123adbdc775af862ad948d94fa3dbc8d74
   }
 
   int _counter = 1;
