@@ -132,13 +132,13 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   final RoundedLoadingButtonController _btnController2 =
       RoundedLoadingButtonController();
   TabController? _tabBar;
-  
+
   Future getRates() async {
     final String url = domain + 'product/get-ratings';
     try {
       dio.Response response = await dio.Dio()
-          .get(url, queryParameters: {'product_id': productCla.id.toString()});
-      print(productCla.id.toString());
+          .get(url, queryParameters: {'product_id': productCla?.id.toString()});
+      print(productCla?.id.toString());
       rate = [];
       if (response.statusCode == 200 && response.data['status'] == 1) {
         setState(() {
@@ -161,16 +161,16 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
         url,
         data: {
           'brand_id': widget.fromFav ? widget.brandId : studentId,
-          "product_id": productCla.id,
+          "product_id": productCla?.id ?? 0,
         },
         options: dio.Options(headers: {"auth-token": auth}),
       );
       if (response.statusCode == 200 && response.data['status'] == 1) {
         check = type;
         if (type) {
-          favIds.add(productCla.id);
+          favIds.add(productCla?.id ?? 0);
         } else {
-          favIds.remove(productCla.id);
+          favIds.remove(productCla?.id ?? 0);
         }
         setState(() {});
       } else {
@@ -271,9 +271,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
           await helper.createCar(CartProducts(
               id: null,
               studentId: studentId,
-              image: productCla.image,
-              titleAr: productCla.nameAr,
-              titleEn: productCla.nameEn,
+              image: productCla?.image ?? "",
+              titleAr: productCla?.nameAr ?? "",
+              titleEn: productCla?.nameEn ?? "",
               price: finalPrice.toDouble(),
               quantity: _counter,
               att: att,
@@ -2262,4 +2262,3 @@ InputBorder form() {
     borderRadius: BorderRadius.circular(15),
   );
 }
-  
