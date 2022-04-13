@@ -296,16 +296,16 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     ),
                                     onTap: () async {
                                       dialog(context);
-                                      await catProvider
-                                          .getParentCat()
-                                          .then((value) {
+                                      // await catProvider
+                                      //     .getParentCat()
+                                      //     .then((value) {
                                         Navigator.pop(context);
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) => ThirdPage(),
                                             ));
-                                      });
+                                      // });
                                     },
                                   ),
                                 ],
@@ -1545,16 +1545,16 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                         Provider.of<StudentProvider>(context,
                                                 listen: false)
                                             .clearList();
-                                        Provider.of<StudentProvider>(context,
-                                                listen: false)
-                                            .getStudents()
-                                            .whenComplete(() {
+                                        // Provider.of<StudentProvider>(context,
+                                        //         listen: false)
+                                            // .getStudents()
+                                            // .whenComplete(() {
                                           Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       ViewAll()));
-                                        });
+                                        // });
                                       },
                                     ),
                                   ],

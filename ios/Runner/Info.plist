@@ -50,7 +50,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location is required to get product relateed to your location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>want to access youe photo</string>
+	<string>want to access your photo to upload prrofile picture</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

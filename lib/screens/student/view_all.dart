@@ -34,6 +34,8 @@ class _ViewAllState extends State<ViewAll> {
 
   void start(context) {
     var of1 = Provider.of<StudentProvider>(context, listen: true);
+    of1.getStudents().then((value) {});
+
     _controller.addListener(() {
       if (_controller.position.atEdge) {
         if (_controller.position.pixels != 0) {
@@ -49,6 +51,7 @@ class _ViewAllState extends State<ViewAll> {
       }
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -186,9 +189,10 @@ class _ViewAllState extends State<ViewAll> {
                           print("\n\n\n\n st: ${st.students.length}");
                           if (st.students.isNotEmpty) {
                             return GridView.count(
+                              controller: _controller,
                               crossAxisCount: 3,
                               shrinkWrap: true,
-                              primary: false,
+                              // primary: false,
                               scrollDirection: Axis.vertical,
                               mainAxisSpacing: w * 0.02,
                               crossAxisSpacing: h * 0.02,

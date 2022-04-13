@@ -25,7 +25,10 @@ class _ThirdPageState extends State<ThirdPage> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     CartProvider cart = Provider.of<CartProvider>(context, listen: true);
-    CatProvider catProvider = Provider.of<CatProvider>(context, listen: false);
+    CatProvider catProvider = Provider.of<CatProvider>(context, listen: true);
+    catProvider.getParentCat().then((value) {});
+    catProvider = Provider.of<CatProvider>(context, listen: false);
+
     return DefaultTabController(
       length: 2,
       child: Directionality(

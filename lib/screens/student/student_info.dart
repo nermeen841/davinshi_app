@@ -282,7 +282,7 @@ class _StudentInfo extends State<StudentInfo> {
                               if (_ads.inApp) {
                                 if (_ads.type) {
                                   dialog(context);
-                                  await getItem(int.parse(_ads.link));
+                                  // await getItem(int.parse(_ads.link));
                                   Navigator.pushReplacementNamed(
                                       context, 'pro');
                                 }
@@ -540,7 +540,7 @@ class _StudentInfo extends State<StudentInfo> {
                                     ),
                                     onTap: () async {
                                       dialog(context);
-                                      await getItem(item.offers[i].id);
+                                      // await getItem(item.offers[i].id);
                                       Navigator.pushReplacementNamed(
                                           context, 'pro');
                                     },
@@ -761,7 +761,7 @@ class _StudentInfo extends State<StudentInfo> {
                                 //             fromFav: false,
                                 //             brandId: item.items[i].id))));
                                 dialog(context);
-                                await getItem(item.items[i].id);
+                                // await getItem(item.items[i].id);
                                 Navigator.pushReplacementNamed(
                                   context,
                                   'pro',
