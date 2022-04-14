@@ -1,15 +1,11 @@
 // ignore_for_file: avoid_print, unused_local_variable
 
-import 'dart:convert';
-
 import 'package:badges/badges.dart';
 import 'package:davinshi_app/dbhelper.dart';
 import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
-import 'package:davinshi_app/models/cart.dart';
 import 'package:davinshi_app/models/constants.dart';
-import 'package:davinshi_app/models/home_item.dart';
 import 'package:davinshi_app/models/products_cla.dart';
 import 'package:davinshi_app/provider/CatProvider.dart';
 import 'package:davinshi_app/provider/cart_provider.dart';
