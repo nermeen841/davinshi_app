@@ -166,8 +166,7 @@ class _ProfileState extends State<Profile> {
           userName: userData['surname'],
           image: userData['img'],
           gender: userData['gender'],
-                              birthday: userData['birth_day'],
-
+          birthday: userData['birth_day'],
         );
         setUserId(userData['id']);
         setState(() {
@@ -189,8 +188,7 @@ class _ProfileState extends State<Profile> {
           userName: userData['surname'],
           image: userData['img'],
           gender: userData['gender'],
-                    birthday: userData['birth_day'],
-
+          birthday: userData['birth_day'],
         );
         setUserId(userData['id']);
         setState(() {
@@ -626,6 +624,11 @@ class _ProfileState extends State<Profile> {
                               onTap: () async {
                                 if (tile[i].nameEn == 'Edit Profile') {
                                   getProfile();
+                                } else if (tile[i].nameEn == 'My address') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Address()));
                                 } else if (tile[i].nameEn == 'Sign out') {
                                   dialog(context);
                                   prefs.setBool('login', false);
@@ -643,6 +646,12 @@ class _ProfileState extends State<Profile> {
                                       MaterialPageRoute(
                                           builder: (context) => Country(1)),
                                       (route) => false);
+                                } else if (tile[i].nameEn == 'Your Designe') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const DesigneScreen()));
                                 } else if (tile[i].nameEn == 'Language') {
                                   Navigator.push(
                                       context,
