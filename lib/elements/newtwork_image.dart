@@ -25,14 +25,21 @@ class ImageeNetworkWidget extends StatelessWidget {
       imageUrl: image,
       fit: fit,
       placeholder: (context, url) => Center(
-        child: CircularProgressIndicator(
-          color: mainColor,
+        child: Image.asset(
+          "assets/images/logo_multi.png",
+          height: (height ?? 100) / 2,
+          width: (width ?? 100)/ 2,
+          fit: BoxFit.scaleDown,
         ),
       ),
-      errorWidget: (context, url, error) => Image.asset(
-        "assets/images/Mask Group 2@3x.png",
-        height: height,
-        width: width,
+      //logo_multi
+      errorWidget: (context, url, error) => Center(
+        child: Image.asset(
+          "assets/images/logo_multi.png",
+           height: (height ?? 100) / 2,
+          width: (width ?? 100)/ 2,
+          fit: BoxFit.scaleDown,
+        ),
       ),
     );
   }
@@ -62,13 +69,20 @@ class RoundedImageeNetworkWidget extends StatelessWidget {
         ),
       ),
       placeholder: (context, url) => Center(
-          child: CircularProgressIndicator(
-        color: mainColor,
-      )),
-      errorWidget: (context, url, error) => Image.asset(
-        "assets/images/Mask Group 2@3x.png",
-        height: height,
-        width: width,
+        child: Image.asset(
+          "assets/images/logo_multi.png",
+         height: (height ?? 100) / 2,
+          width: (width ?? 100)/ 2,
+          fit: BoxFit.scaleDown,
+        ),
+      ),
+      errorWidget: (context, url, error) => Center(
+        child: Image.asset(
+          "assets/images/logo_multi.png",
+          height: (height ?? 100) / 2,
+          width: (width ?? 100)/ 2,
+          fit: BoxFit.scaleDown,
+        ),
       ),
     );
   }
