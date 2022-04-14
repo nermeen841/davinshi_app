@@ -25,7 +25,7 @@ class Splach extends StatefulWidget {
 
 class _SplachState extends State<Splach> {
   Future go() async {
-    // await Future.delayed(const Duration(seconds: 3), () async {
+     await Future.delayed(const Duration(seconds: 1), () async {
     String? lang = prefs.getString('language_code');
     bool countrySelected = prefs.getBool('country_selected') ?? false;
     if (lang != null) {
@@ -64,7 +64,7 @@ class _SplachState extends State<Splach> {
           MaterialPageRoute(builder: (context) => const LangPage()),
           (route) => false);
     }
-    // });
+     });
   }
 
   @override
