@@ -30,16 +30,16 @@ class _OrdersState extends State<Orders> {
       child: Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: mainColor,
             title: Text(
               translate(context, 'order', 'title'),
               style: TextStyle(
                   fontSize: w * 0.05,
-                  color: Colors.black,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
             leading: BackButton(
-              color: Colors.black,
+              color: Colors.white,
               onPressed: () {
                 Provider.of<NewItemProvider>(context, listen: false).getItems();
                 Provider.of<FavItemProvider>(context, listen: false).getItems();
