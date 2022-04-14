@@ -129,7 +129,7 @@ class _ResetPassState extends State<ResetPass> {
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                             errorMaxLines: 1,
                             errorStyle: TextStyle(fontSize: w * 0.03)),
-                        keyboardType: TextInputType.number,
+                        // keyboardType: TextInputType.visiblePassword,
                       ),
                       SizedBox(
                         height: h * 0.06,

@@ -166,6 +166,8 @@ class _ProfileState extends State<Profile> {
           userName: userData['surname'],
           image: userData['img'],
           gender: userData['gender'],
+                              birthday: userData['birth_day'],
+
         );
         setUserId(userData['id']);
         setState(() {
@@ -175,6 +177,7 @@ class _ProfileState extends State<Profile> {
           userPhone = response.data['phone'];
           gender = response.data['gender'];
           familyName = response.data['surname'];
+          birthday = response.data['birth_day'];
         });
       } else {
         Map userData = response.data;
@@ -186,6 +189,8 @@ class _ProfileState extends State<Profile> {
           userName: userData['surname'],
           image: userData['img'],
           gender: userData['gender'],
+                    birthday: userData['birth_day'],
+
         );
         setUserId(userData['id']);
         setState(() {

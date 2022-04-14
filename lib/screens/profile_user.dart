@@ -22,18 +22,23 @@ class _ProfileUserState extends State<ProfileUser> {
   FocusNode emailFocus = FocusNode();
   FocusNode phoneFocus = FocusNode();
   int? selectedval;
-  int? genderType;
-  String? daySelected;
-  String? monthSelected;
-  String? yearSelected;
+  int? genderType ;
+  String? daySelected = birthday?.substring(8,10) ;
+  String? monthSelected = birthday?.substring(5,7) ;
+  String? yearSelected = birthday?.substring(0,3) ;
   TextEditingController serName = TextEditingController(text: familyName ?? '');
   TextEditingController name = TextEditingController(text: userName ?? "");
   TextEditingController email = TextEditingController(text: userEmail ?? "");
   TextEditingController phone = TextEditingController(text: userPhone ?? "");
+  //  TextEditingController day = TextEditingController(text: birthday?.substring(0,3) ?? "");
+  // TextEditingController month = TextEditingController(text: birthday?.substring(4,5) ?? "");
+  // TextEditingController year = TextEditingController(text: birthday?.substring(6,7) ?? "");
+  
   List radio = [
     translateString("Female", "انثي"),
     translateString("Male", "ذكر"),
   ];
+  
 
   Future updateUser() async {
     final String url = domain + 'edit-profile';
@@ -82,6 +87,7 @@ class _ProfileUserState extends State<ProfileUser> {
       }
       if (response.data['status'] == 1) {
         Map userData = response.data['user'];
+       
         user = UserClass(
           id: userData['id'],
           name: userData['name'],
@@ -90,6 +96,7 @@ class _ProfileUserState extends State<ProfileUser> {
           userName: userData['surname'],
           image: userData['img'],
           gender: userData['gender'],
+          birthday: userData['birth_day'],
         );
         setState(() {
           userName = response.data['user']['name'];
@@ -98,6 +105,7 @@ class _ProfileUserState extends State<ProfileUser> {
           userPhone = response.data['user']['phone'];
           gender = response.data['user']['gender'];
           familyName = response.data['user']['surname'];
+          birthday  = response.data['user']['birth_day'];
         });
         setUserId(userData['id']);
         _btnController.success();
@@ -112,7 +120,16 @@ class _ProfileUserState extends State<ProfileUser> {
       print("error while update user data : " + e.toString());
     }
   }
-
+ @override
+  void initState() {
+    super.initState();
+print("amal");
+print(birthday);
+    setState(() {
+      genderType = gender;
+      selectedval = gender == 2  ? 0 : 1;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -234,6 +251,7 @@ class _ProfileUserState extends State<ProfileUser> {
                                     cursorColor: Colors.black,
                                     controller: serName,
                                     focusNode: userNameFocus,
+                                    // initialValue: ,
                                     textInputAction: TextInputAction.next,
                                     keyboardType: TextInputType.text,
                                     onEditingComplete: () {
@@ -340,6 +358,7 @@ class _ProfileUserState extends State<ProfileUser> {
                                         splashRadius: w * 0.1,
                                         activeColor: mainColor,
                                         groupValue: selectedval,
+                                        
                                         onChanged: (int? value) {
                                           setState(() {
                                             selectedval = value!;
@@ -542,8 +561,10 @@ class _ProfileUserState extends State<ProfileUser> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
+                                        //birthday?.substring(6,7) ?? "
                                         (yearSelected == null)
                                             ? Text(
+                                              
                                                 translateString('Year', 'سنة'))
                                             : Text(yearSelected!),
                                         const Icon(Icons.arrow_downward)

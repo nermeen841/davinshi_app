@@ -46,6 +46,7 @@ class AuthenticationProvider {
         userName: userData['surname'],
         image: userData['img'],
         gender: userData['gender'],
+        birthday: userData['birth_day'],
       );
       Provider.of<AddressProvider>(context, listen: false).getAddress();
       setUserId(userData['id']);
@@ -151,6 +152,7 @@ class AuthenticationProvider {
             userName: userData['data']['user']['surname'],
             image: userData['data']['user']['img'],
             gender: userData['data']['user']['gender'],
+            birthday: userData['data']['user']['birth_day'],
           );
           await prefs.setInt('id', userData['data']['user']['id']);
           await prefs.setString('auth', userData['data']['token'].toString());

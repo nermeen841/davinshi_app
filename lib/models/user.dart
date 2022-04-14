@@ -14,6 +14,8 @@ class UserClass {
   String? userName;
   String? image;
   int? gender;
+  String? birthday;
+
   UserClass(
       {required this.name,
       required this.phone,
@@ -21,6 +23,7 @@ class UserClass {
       required this.gender,
       required this.image,
       required this.id,
+      required this.birthday,
       required this.email});
 }
 
@@ -39,6 +42,7 @@ var gender;
 String? familyName;
 String? userImage;
 AddressClass? addressGuest;
+String? birthday;
 void setUserId(int _id) {
   userId = _id;
 }
@@ -61,6 +65,8 @@ Future getUserId() async {
         userName: userData['surname'],
         image: userData['img'],
         gender: userData['gender'],
+        birthday: userData['birth_day'],
+
       );
     }
   } catch (e) {
@@ -69,29 +75,29 @@ Future getUserId() async {
 }
 
 List<String> month = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
+  "01",
+  "02",
+  "03",
+  "04",
+  "05",
+  "06",
+  "07",
+  "08",
+  "09",
   "10",
   "11",
   "12",
 ];
 List<String> day = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
+  "01",
+  "02",
+  "03",
+  "04",
+  "05",
+  "06",
+  "07",
+  "08",
+  "09",
   "10",
   "11",
   "12",
