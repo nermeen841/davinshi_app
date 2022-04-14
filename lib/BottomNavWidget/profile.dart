@@ -643,6 +643,17 @@ class _ProfileState extends State<Profile> {
                                       MaterialPageRoute(
                                           builder: (context) => Country(1)),
                                       (route) => false);
+                                } else if (tile[i].nameEn == 'Language') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const UserLanguageScreen()));
+                                } else if (tile[i].nameEn == 'Country') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Country(2)));
                                 } else if (tile[i].nameEn == 'App rate') {
                                   if (Platform.isAndroid) {
                                     showRequestDialog();
