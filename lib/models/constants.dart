@@ -314,7 +314,9 @@ void customError(context, data) {
           dismissOnTouchOutside: false,
           title: translate(context, 'alert', 'failed'),
           desc: data,
-          btnOkOnPress: () {},
+          btnOkOnPress: () {
+            Navigator.pop(context);
+          },
           onDissmissCallback: (val) {},
           btnOkIcon: Icons.cancel,
           btnOkColor: Colors.red)

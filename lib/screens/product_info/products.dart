@@ -172,30 +172,46 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       final String url = domain + "check-product";
       String attrib = jsonEncode(attributes);
       String optionsId = jsonEncode(options);
-
+      print(attributes);
+      print(options);
       try {
-        Response response = await Dio().post(url, data: {
-          "product_id": productId,
-          "quantity": quantity,
-          "attributes[$attrib]": optionsId,
-        });
+        Response response = (productCla!.isClothes == 1)
+            ? await Dio().post(url, data: {
+                "product_id": productId,
+                "quantity": quantity,
+                "attributes[$attrib]": optionsId,
+              })
+            : await Dio().post(url, data: {
+                "product_id": productId,
+                "quantity": quantity,
+                "attributes[6]": selectedSize.toString(),
+                "attributes[7]": selectedColor.toString(),
+              });
         print(response.data);
         if (response.data['status'] == 1) {
-          await helper.createCar(CartProducts(
-              id: null,
-              studentId: studentId,
-              image: productCla?.image ?? "",
-              titleAr: productCla?.nameAr ?? "",
-              titleEn: productCla?.nameEn ?? "",
-              price: finalPrice.toDouble(),
-              quantity: _counter,
-              att: att,
-              des: des,
-              idp: productCla!.id,
-              idc: productCla!.cat.id,
-              catNameEn: productCla!.cat.nameEn,
-              catNameAr: productCla!.cat.nameAr,
-              catSVG: productCla!.cat.svg));
+          if (!cart.idp.contains(productCla!.id)) {
+            await helper.createCar(CartProducts(
+                id: null,
+                studentId: studentId,
+                image: productCla!.image,
+                titleAr: productCla!.nameAr,
+                titleEn: productCla!.nameEn,
+                price: finalPrice.toDouble(),
+                quantity: _counter,
+                att: att,
+                des: des,
+                idp: productCla!.id,
+                idc: productCla!.cat.id,
+                catNameEn: productCla!.cat.nameEn,
+                catNameAr: productCla!.cat.nameAr,
+                catSVG: productCla!.cat.svg));
+          } else {
+            int quantity = cart.items
+                .firstWhere((element) => element.idp == productCla!.id)
+                .quantity;
+            await helper.updateProduct(_counter + quantity, productCla!.id,
+                finalPrice.toDouble(), jsonEncode(att), jsonEncode(des));
+          }
           await cart.setItems();
         } else if (response.data['status'] == 0) {
           final snackBar = SnackBar(
@@ -280,11 +296,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                               SizedBox(
                                   width: w * 0.15,
                                   height: h * 0.05,
-                                  // decoration: BoxDecoration(
-                                  //   borderRadius: BorderRadius.circular(50),
-                                  //   border: Border.all(color: mainColor,width: 1),
-                                  //   color: Colors.white,
-                                  // ),
                                   child: Center(
                                       child: Text(
                                     _counter.toString(),
@@ -335,7 +346,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                               if (!widget.fromFav) {
                                 if (cartId == null || cartId == studentId) {
                                   try {
-                                    if (productCla!.isClothes == false) {
+                                    if (productCla!.isClothes! == false) {
                                       if (selectedItem.isNotEmpty) {
                                         checkProductquantity(
                                             productId:
@@ -376,7 +387,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                         }
                                         await cart.setItems();
                                       }
-                                    } else {
+                                    } else if (productCla!.isClothes!) {
                                       if (selectedColor == null ||
                                           selectedSize == null) {
                                         ScaffoldMessenger.of(context)
@@ -395,36 +406,13 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                           ),
                                         );
                                       } else {
-                                        if (!cart.idp
-                                            .contains(productCla!.id)) {
-                                          await helper.createCar(CartProducts(
-                                              id: null,
-                                              studentId: studentId,
-                                              image: productCla!.image,
-                                              titleAr: productCla!.nameAr,
-                                              titleEn: productCla!.nameEn,
-                                              price: finalPrice.toDouble(),
-                                              quantity: _counter,
-                                              att: att,
-                                              des: des,
-                                              idp: productCla!.id,
-                                              idc: productCla!.cat.id,
-                                              catNameEn: productCla!.cat.nameEn,
-                                              catNameAr: productCla!.cat.nameAr,
-                                              catSVG: productCla!.cat.svg));
-                                        } else {
-                                          int quantity = cart.items
-                                              .firstWhere((element) =>
-                                                  element.idp == productCla!.id)
-                                              .quantity;
-                                          await helper.updateProduct(
-                                              _counter + quantity,
-                                              productCla!.id,
-                                              finalPrice.toDouble(),
-                                              jsonEncode(att),
-                                              jsonEncode(des));
-                                        }
-                                        await cart.setItems();
+                                        checkProductquantity(
+                                            productId:
+                                                productCla!.id.toString(),
+                                            quantity: _counter.toString(),
+                                            attributes: att,
+                                            options: optionsQuantity,
+                                            context: context);
                                       }
                                     }
                                   } catch (e) {
@@ -1044,11 +1032,21 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                           () {
                                                                             selectedSize =
                                                                                 productCla!.attributesClothes![i].id!;
+                                                                            if (language ==
+                                                                                'en') {
+                                                                              des.add(productCla!.attributesClothes![i].nameEn!);
+                                                                            } else {
+                                                                              des.add(productCla!.attributesClothes![i].nameAr!);
+                                                                            }
                                                                             getProductcolor(
                                                                                 productId: productCla!.id.toString(),
                                                                                 sizeId: productCla!.attributesClothes![i].sizeId!.toString());
                                                                           },
                                                                         );
+                                                                        print(
+                                                                            att);
+                                                                        print(
+                                                                            optionsQuantity);
                                                                         Navigator.pop(
                                                                             context);
                                                                       }),
@@ -1169,6 +1167,11 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                                     setState(
                                                                                       () {
                                                                                         selectedColor = snapshot.data.data[i].id;
+                                                                                        if (language == 'en') {
+                                                                                          des.add(snapshot.data.data[i].nameEn!);
+                                                                                        } else {
+                                                                                          des.add(snapshot.data.data[i].nameAr!);
+                                                                                        }
                                                                                       },
                                                                                     );
                                                                                     Navigator.pop(context);
@@ -1724,6 +1727,25 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                               );
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);
+                            }
+                          } else if (productCla!.isClothes!) {
+                            if (selectedColor == null || selectedSize == null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.black,
+                                  content: Text(
+                                    translateString(
+                                        "you should choose color and size",
+                                        "يجب اختيار المقاس واللون"),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: w * 0.04,
+                                        fontFamily: 'Tajawal'),
+                                  ),
+                                ),
+                              );
+                            } else {
+                              show(context);
                             }
                           } else {
                             show(context);
