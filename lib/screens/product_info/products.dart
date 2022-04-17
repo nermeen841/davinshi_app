@@ -1088,12 +1088,13 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                         SharedPreferences
                                                                             prefs =
                                                                             await SharedPreferences.getInstance();
-                                                                        prefs.setString(
+                                                                        prefs.setInt(
                                                                             "Size_id",
-                                                                            productCla!.attributesClothes![i].sizeId.toString());
+                                                                            productCla!.attributesClothes![i].sizeId!);
 
                                                                         setState(
                                                                           () {
+                                                                            att.add(6);
                                                                             selectedSize =
                                                                                 productCla!.attributesClothes![i].id!;
                                                                             if (language ==
@@ -1182,7 +1183,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                   productCla!.id
                                                                       .toString(),
                                                               sizeId: prefs
-                                                                  .getString(
+                                                                  .getInt(
                                                                     "Size_id",
                                                                   )
                                                                   .toString(),
@@ -1226,7 +1227,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                                   onChanged: (int? value) {
                                                                                     setState(
                                                                                       () {
+                                                                                        att.add(7);
                                                                                         selectedColor = snapshot.data.data[i].id;
+                                                                                        prefs.setInt("color_id", snapshot.data.data[i].id);
                                                                                         if (language == 'en') {
                                                                                           des.add(snapshot.data.data[i].nameEn!);
                                                                                         } else {

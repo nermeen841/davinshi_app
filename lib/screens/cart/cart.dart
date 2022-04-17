@@ -180,6 +180,7 @@ class _CartState extends State<Cart> {
     idProducts = Provider.of<CartProvider>(context, listen: false).idp;
   }
 
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   var currency = (prefs.getString('language_code').toString() == 'en')
       ? prefs.getString('currencyEn').toString()
       : prefs.getString('currencyAr').toString();
@@ -193,6 +194,7 @@ class _CartState extends State<Cart> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        key: scaffoldKey,
         appBar: AppBar(
           elevation: 0,
           title: Text(
@@ -881,18 +883,35 @@ class _CartState extends State<Cart> {
                                                                     ),
                                                                     onPressed:
                                                                         () async {
-                                                                      await dbHelper.updateProduct(
-                                                                          _pro.quantity +
-                                                                              1,
-                                                                          _pro
-                                                                              .idp,
-                                                                          _pro.price
-                                                                              .toDouble(),
-                                                                          jsonEncode(_pro
-                                                                              .att),
-                                                                          jsonEncode(
-                                                                              _pro.des));
-                                                                      cart.setItems();
+                                                                      if (productCla!
+                                                                          .isClothes!) {
+                                                                        checkProductClothesQuantity(
+                                                                            productId: _pro.idp +
+                                                                                1,
+                                                                            quantity:
+                                                                                _pro.quantity,
+                                                                            selectedColorId: prefs.getInt("color_id")!.toInt(),
+                                                                            selectedSizeId: prefs.getInt("Size_id")!.toInt(),
+                                                                            scaffoldKey: scaffoldKey);
+                                                                        if (isavailabe) {
+                                                                          await dbHelper.updateProduct(
+                                                                              _pro.quantity + 1,
+                                                                              _pro.idp,
+                                                                              _pro.price.toDouble(),
+                                                                              jsonEncode(_pro.att),
+                                                                              jsonEncode(_pro.des));
+                                                                          cart.setItems();
+                                                                        }
+                                                                      } else {
+                                                                        await dbHelper.updateProduct(
+                                                                            _pro.quantity +
+                                                                                1,
+                                                                            _pro.idp,
+                                                                            _pro.price.toDouble(),
+                                                                            jsonEncode(_pro.att),
+                                                                            jsonEncode(_pro.des));
+                                                                        cart.setItems();
+                                                                      }
                                                                     },
                                                                   ),
                                                                 ],
