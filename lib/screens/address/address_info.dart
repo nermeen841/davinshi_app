@@ -170,6 +170,15 @@ class _AddressInfoState extends State<AddressInfo> {
     } else {
       _listEd[6].text = widget.street ?? '';
       _listEd[5].text = widget.country ?? '';
+      if (login) {
+        _listEd[1].text = (login) ? userName.toString() : "";
+        _listEd[2].text = (userEmail == null) ? "" : userEmail!;
+        _listEd[3].text = (userPhone != null) ? userPhone! : "";
+      } else {
+        _listEd[1].text = "";
+        _listEd[2].text = "";
+        _listEd[3].text = "";
+      }
     }
   }
 

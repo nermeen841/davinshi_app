@@ -25,14 +25,11 @@ class _ProfileUserState extends State<ProfileUser> {
   int? genderType;
   String? daySelected = birthday?.substring(8, 10);
   String? monthSelected = birthday?.substring(5, 7);
-  String? yearSelected = birthday?.substring(0, 3);
+  String? yearSelected = birthday?.substring(0, 4);
   TextEditingController serName = TextEditingController(text: familyName ?? '');
   TextEditingController name = TextEditingController(text: userName ?? "");
   TextEditingController email = TextEditingController(text: userEmail ?? "");
   TextEditingController phone = TextEditingController(text: userPhone ?? "");
-  //  TextEditingController day = TextEditingController(text: birthday?.substring(0,3) ?? "");
-  // TextEditingController month = TextEditingController(text: birthday?.substring(4,5) ?? "");
-  // TextEditingController year = TextEditingController(text: birthday?.substring(6,7) ?? "");
 
   List radio = [
     translateString("Female", "انثي"),
@@ -49,7 +46,9 @@ class _ProfileUserState extends State<ProfileUser> {
           "surname": serName.text,
           "email": email.text,
           "gender": genderType ?? '',
-          "birth_day": (daySelected != null)
+          "birth_day": (daySelected != null ||
+                  monthSelected != null ||
+                  yearSelected != null)
               ? yearSelected! + "/" + monthSelected! + "/" + daySelected!
               : '',
         },
@@ -125,10 +124,15 @@ class _ProfileUserState extends State<ProfileUser> {
     super.initState();
     print("amal");
     print(birthday);
-    setState(() {
-      genderType = gender;
-      selectedval = gender == 2 ? 0 : 1;
-    });
+    if (gender == 2) {
+      selectedval = 0;
+    } else if (gender == 1) {
+      selectedval = 1;
+    }
+    // setState(() {
+    //   genderType = gender;
+    //   selectedval = gender == 2 ? 0 : 1;
+    // });
   }
 
   @override
@@ -252,7 +256,6 @@ class _ProfileUserState extends State<ProfileUser> {
                                     cursorColor: Colors.black,
                                     controller: serName,
                                     focusNode: userNameFocus,
-                                    // initialValue: ,
                                     textInputAction: TextInputAction.next,
                                     keyboardType: TextInputType.text,
                                     onEditingComplete: () {
@@ -400,6 +403,7 @@ class _ProfileUserState extends State<ProfileUser> {
                             SizedBox(
                               height: w * 0.13,
                               child: TextFormField(
+                                readOnly: true,
                                 cursorColor: Colors.black,
                                 controller: phone,
                                 focusNode: phoneFocus,

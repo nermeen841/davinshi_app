@@ -192,9 +192,10 @@ class _ProfileState extends State<Profile> {
         );
         setUserId(userData['id']);
         setState(() {
-          userName = response.data['name'];
-          userEmail = response.data['email'];
-          userImage = response.data['user']['img'];
+          userName = userData['name'];
+          userPhone = userData['phone'];
+          userEmail = userData['email'];
+          userImage = userData['user']['img'];
         });
       }
     } catch (e) {}

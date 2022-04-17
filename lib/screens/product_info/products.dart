@@ -175,18 +175,12 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       print(attributes);
       print(options);
       try {
-        Response response = (productCla!.isClothes == 1)
-            ? await Dio().post(url, data: {
-                "product_id": productId,
-                "quantity": quantity,
-                "attributes[$attrib]": optionsId,
-              })
-            : await Dio().post(url, data: {
-                "product_id": productId,
-                "quantity": quantity,
-                "attributes[6]": selectedSize.toString(),
-                "attributes[7]": selectedColor.toString(),
-              });
+        Response response = await Dio().post(url, data: {
+          "product_id": productId,
+          "quantity": quantity,
+          "attributes[$attrib]": optionsId,
+        });
+
         print(response.data);
         if (response.data['status'] == 1) {
           if (!cart.idp.contains(productCla!.id)) {
@@ -288,9 +282,51 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 onTap: () {
-                                  setState2(() {
-                                    _counter++;
-                                  });
+                                  if (productCla!.isClothes!) {
+                                    if (cart.idp.contains(productCla!.id)) {
+                                      int quantity = cart.items
+                                          .firstWhere((element) =>
+                                              element.idp == productCla!.id)
+                                          .quantity;
+                                      checkProductClothesQuantity(
+                                          productId: productCla!.id,
+                                          quantity: quantity + _counter,
+                                          selectedColorId: selectedColor!,
+                                          selectedSizeId: selectedSize!,
+                                          scaffoldKey: scaffoldKey);
+                                      if (isavailabe) {
+                                        setState2(() {
+                                          _counter++;
+                                        });
+                                      } else if (isavailabe == false) {
+                                        setState2(() {
+                                          _counter = _counter;
+                                        });
+                                        Navigator.pop(context);
+                                      }
+                                    } else {
+                                      checkProductClothesQuantity(
+                                          productId: productCla!.id,
+                                          quantity: _counter,
+                                          selectedColorId: selectedColor!,
+                                          selectedSizeId: selectedSize!,
+                                          scaffoldKey: scaffoldKey);
+                                      if (isavailabe) {
+                                        setState2(() {
+                                          _counter++;
+                                        });
+                                      } else if (isavailabe == false) {
+                                        setState2(() {
+                                          _counter = _counter;
+                                        });
+                                        Navigator.pop(context);
+                                      }
+                                    }
+                                  } else {
+                                    setState2(() {
+                                      _counter++;
+                                    });
+                                  }
                                 },
                               ),
                               SizedBox(
@@ -406,13 +442,41 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                           ),
                                         );
                                       } else {
-                                        checkProductquantity(
-                                            productId:
-                                                productCla!.id.toString(),
-                                            quantity: _counter.toString(),
-                                            attributes: att,
-                                            options: optionsQuantity,
-                                            context: context);
+                                        if (isavailabe) {
+                                          if (!cart.idp
+                                              .contains(productCla!.id)) {
+                                            await helper.createCar(CartProducts(
+                                                id: null,
+                                                studentId: studentId,
+                                                image: productCla!.image,
+                                                titleAr: productCla!.nameAr,
+                                                titleEn: productCla!.nameEn,
+                                                price: finalPrice.toDouble(),
+                                                quantity: _counter,
+                                                att: att,
+                                                des: des,
+                                                idp: productCla!.id,
+                                                idc: productCla!.cat.id,
+                                                catNameEn:
+                                                    productCla!.cat.nameEn,
+                                                catNameAr:
+                                                    productCla!.cat.nameAr,
+                                                catSVG: productCla!.cat.svg));
+                                          } else {
+                                            int quantity = cart.items
+                                                .firstWhere((element) =>
+                                                    element.idp ==
+                                                    productCla!.id)
+                                                .quantity;
+                                            await helper.updateProduct(
+                                                _counter + quantity,
+                                                productCla!.id,
+                                                finalPrice.toDouble(),
+                                                jsonEncode(att),
+                                                jsonEncode(des));
+                                          }
+                                          await cart.setItems();
+                                        }
                                       }
                                     }
                                   } catch (e) {
@@ -1043,10 +1107,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                                 sizeId: productCla!.attributesClothes![i].sizeId!.toString());
                                                                           },
                                                                         );
-                                                                        print(
-                                                                            att);
-                                                                        print(
-                                                                            optionsQuantity);
                                                                         Navigator.pop(
                                                                             context);
                                                                       }),
