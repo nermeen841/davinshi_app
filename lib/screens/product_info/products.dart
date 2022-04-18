@@ -992,6 +992,25 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                 SizedBox(
                                   height: h * 0.04,
                                 ),
+                                (productCla!.quantity == 0)
+                                    ? Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: h * 0.015),
+                                        child: Text(
+                                            translateString(
+                                                "Product not available",
+                                                "المنتج غير متوفر حاليا"),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red,
+                                                fontSize: w * 0.04)),
+                                      )
+                                    : Container(),
+                                (productCla!.quantity == 0)
+                                    ? SizedBox(
+                                        height: h * 0.04,
+                                      )
+                                    : Container(),
                                 (productCla!.isClothes! == true)
                                     ? Padding(
                                         padding: EdgeInsets.symmetric(
@@ -1760,50 +1779,67 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                           )),
                         ),
                         onTap: () {
-                          if (productCla!.attributes.isNotEmpty) {
-                            if (selectedItem.isNotEmpty) {
-                              show(context);
-                            } else {
-                              final snackBar = SnackBar(
-                                content: Text(
-                                  translateString('Select product options',
-                                      'يجب تحديد الاختيارات اولا'),
-                                  style: TextStyle(
-                                      fontFamily: 'Tajawal',
-                                      fontSize: w * 0.04,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                action: SnackBarAction(
-                                  label: translateString("Undo", "تراجع"),
-                                  disabledTextColor: Colors.yellow,
-                                  textColor: Colors.yellow,
-                                  onPressed: () {},
-                                ),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            }
-                          } else if (productCla!.isClothes!) {
-                            if (selectedColor == null || selectedSize == null) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: Colors.black,
+                          if (productCla!.quantity != 0) {
+                            if (productCla!.attributes.isNotEmpty) {
+                              if (selectedItem.isNotEmpty) {
+                                show(context);
+                              } else {
+                                final snackBar = SnackBar(
                                   content: Text(
-                                    translateString(
-                                        "you should choose color and size",
-                                        "يجب اختيار المقاس واللون"),
+                                    translateString('Select product options',
+                                        'يجب تحديد الاختيارات اولا'),
                                     style: TextStyle(
-                                        color: Colors.white,
+                                        fontFamily: 'Tajawal',
                                         fontSize: w * 0.04,
-                                        fontFamily: 'Tajawal'),
+                                        fontWeight: FontWeight.w500),
                                   ),
-                                ),
-                              );
+                                  action: SnackBarAction(
+                                    label: translateString("Undo", "تراجع"),
+                                    disabledTextColor: Colors.yellow,
+                                    textColor: Colors.yellow,
+                                    onPressed: () {},
+                                  ),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
+                            } else if (productCla!.isClothes!) {
+                              if (selectedColor == null ||
+                                  selectedSize == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: Colors.black,
+                                    content: Text(
+                                      translateString(
+                                          "you should choose color and size",
+                                          "يجب اختيار المقاس واللون"),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: w * 0.04,
+                                          fontFamily: 'Tajawal'),
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                show(context);
+                              }
                             } else {
                               show(context);
                             }
-                          } else {
-                            show(context);
+                          } else if (productCla!.quantity == 0) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Text(
+                                  translateString("Product not available",
+                                      "المنتج غير متوفر حاليا "),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: w * 0.04,
+                                      fontFamily: 'Tajawal'),
+                                ),
+                              ),
+                            );
                           }
                         },
                       ),
