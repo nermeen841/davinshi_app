@@ -421,21 +421,19 @@ getProductprice({required String currency, required num productPrice}) {
 }
 
 /////////////////////////////////////////////////////////////////
-bool isavailabe = true;
+bool isavailabe = false;
 
 Future checkProductClothesQuantity(
     {required int productId,
     required int quantity,
-    required int selectedColorId,
-    required int selectedSizeId,
     required scaffoldKey}) async {
   final String url = domain + "check-product";
   try {
     Response response = await Dio().post(url, data: {
       "product_id": productId.toString(),
       "quantity": quantity.toString(),
-      "attributes[6]": selectedSizeId.toString(),
-      "attributes[7]": selectedColorId.toString(),
+      "attributes[6]": prefs.getInt("Size_id").toString(),
+      "attributes[7]": prefs.getInt("color_id").toString(),
     });
     if (response.data['status'] == 1) {
       isavailabe = true;

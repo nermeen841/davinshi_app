@@ -138,6 +138,7 @@ Future<bool> getOrders() async {
       options: Options(headers: {"auth-token": auth}),
     );
     if (response.data['status'] == 1) {
+      print(response.data);
       await setOrder(response.data['orders']);
       return true;
     }

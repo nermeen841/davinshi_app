@@ -24,7 +24,6 @@ import 'package:davinshi_app/provider/cart_provider.dart';
 import 'package:davinshi_app/screens/auth/login.dart';
 import 'package:davinshi_app/screens/cart/cart.dart';
 import 'package:davinshi_app/screens/product_info/image.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../dbhelper.dart';
 import '../../models/product_color.dart';
 
@@ -291,8 +290,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                       checkProductClothesQuantity(
                                           productId: productCla!.id,
                                           quantity: quantity + _counter,
-                                          selectedColorId: selectedColor!,
-                                          selectedSizeId: selectedSize!,
                                           scaffoldKey: scaffoldKey);
                                       if (isavailabe) {
                                         setState2(() {
@@ -308,8 +305,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                       checkProductClothesQuantity(
                                           productId: productCla!.id,
                                           quantity: _counter,
-                                          selectedColorId: selectedColor!,
-                                          selectedSizeId: selectedSize!,
                                           scaffoldKey: scaffoldKey);
                                       if (isavailabe) {
                                         setState2(() {
@@ -1085,16 +1080,13 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                       onChanged:
                                                                           (int?
                                                                               value) async {
-                                                                        SharedPreferences
-                                                                            prefs =
-                                                                            await SharedPreferences.getInstance();
                                                                         prefs.setInt(
                                                                             "Size_id",
                                                                             productCla!.attributesClothes![i].sizeId!);
 
                                                                         setState(
                                                                           () {
-                                                                            att.add(6);
+                                                                            att.add(productCla!.attributesClothes![i].sizeId!);
                                                                             selectedSize =
                                                                                 productCla!.attributesClothes![i].id!;
                                                                             if (language ==
@@ -1103,9 +1095,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                             } else {
                                                                               des.add(productCla!.attributesClothes![i].nameAr!);
                                                                             }
-                                                                            getProductcolor(
-                                                                                productId: productCla!.id.toString(),
-                                                                                sizeId: productCla!.attributesClothes![i].sizeId!.toString());
+                                                                            // getProductcolor(
+                                                                            //     productId: productCla!.id.toString(),
+                                                                            //     sizeId: productCla!.attributesClothes![i].sizeId!.toString());
                                                                           },
                                                                         );
                                                                         Navigator.pop(
@@ -1227,7 +1219,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                                   onChanged: (int? value) {
                                                                                     setState(
                                                                                       () {
-                                                                                        att.add(7);
+                                                                                        att.add(snapshot.data.data[i].id);
                                                                                         selectedColor = snapshot.data.data[i].id;
                                                                                         prefs.setInt("color_id", snapshot.data.data[i].id);
                                                                                         if (language == 'en') {
@@ -1932,6 +1924,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       Response response = await Dio()
           .post(url, data: {"product_id": productId, "size_id": sizeId});
       if (response.data['status'] == 1) {
+        colorModel = ColorModel.fromJson(response.data);
+      } else if (response.data['status'] == 0) {
         colorModel = ColorModel.fromJson(response.data);
       }
       print(response.data);
