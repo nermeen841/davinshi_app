@@ -1,5 +1,6 @@
 // ignore_for_file: empty_catches, deprecated_member_use, avoid_print
 import 'dart:io';
+import 'package:davinshi_app/models/order.dart';
 import 'package:davinshi_app/screens/about%20multi/about_multi.dart';
 import 'package:davinshi_app/screens/auth/login.dart';
 import 'package:davinshi_app/screens/designes/designe.dart';
@@ -192,9 +193,10 @@ class _ProfileState extends State<Profile> {
         );
         setUserId(userData['id']);
         setState(() {
-          userName = response.data['name'];
-          userEmail = response.data['email'];
-          userImage = response.data['user']['img'];
+          userName = userData['name'];
+          userPhone = userData['phone'];
+          userEmail = userData['email'];
+          userImage = userData['user']['img'];
         });
       }
     } catch (e) {}
@@ -296,9 +298,16 @@ class _ProfileState extends State<Profile> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: () {
+                                    onTap: () async {
                                       if (login) {
-                                        navP(context, const Orders());
+                                        dialog(context);
+                                        await getOrders().then((value) {
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: ((context) =>
+                                                      const Orders())));
+                                        });
                                       } else {
                                         final snackBar = SnackBar(
                                           content: Text(translate(

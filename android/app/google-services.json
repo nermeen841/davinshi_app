@@ -45,6 +45,13 @@
             {
               "client_id": "771393052029-m4j6kfsoakgo65dqp3bjl4u2elbcna1m.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "771393052029-evaruoj4m9d7hv01h648nvjb23v9o7r2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.davinshiApp"
+              }
             }
           ]
         }
@@ -82,6 +89,13 @@
             {
               "client_id": "771393052029-m4j6kfsoakgo65dqp3bjl4u2elbcna1m.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "771393052029-evaruoj4m9d7hv01h648nvjb23v9o7r2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.davinshiApp"
+              }
             }
           ]
         }
@@ -119,6 +133,49 @@
             {
               "client_id": "771393052029-m4j6kfsoakgo65dqp3bjl4u2elbcna1m.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "771393052029-evaruoj4m9d7hv01h648nvjb23v9o7r2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.davinshiApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771393052029:android:0e4c3354b24ce4b5fc4014",
+        "android_client_info": {
+          "package_name": "com.multi.multi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "771393052029-m4j6kfsoakgo65dqp3bjl4u2elbcna1m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBbEdX_ikAEmvEkebx96Meos9JAZRQWHM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "771393052029-m4j6kfsoakgo65dqp3bjl4u2elbcna1m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "771393052029-evaruoj4m9d7hv01h648nvjb23v9o7r2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.davinshiApp"
+              }
             }
           ]
         }

@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors
 
+import 'package:davinshi_app/models/products_cla.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
@@ -282,7 +283,10 @@ class _OrderInfoState extends State<OrderInfo> {
                                           fontSize: w * 0.05),
                                     ),
                                     Text(
-                                      '${widget.orderClass.subTotal} $currency',
+                                      getProductprice(
+                                          currency: currency,
+                                          productPrice:
+                                              widget.orderClass.subTotal),
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: w * 0.05),
@@ -303,7 +307,10 @@ class _OrderInfoState extends State<OrderInfo> {
                                           fontSize: w * 0.05),
                                     ),
                                     Text(
-                                      '${widget.orderClass.delivery} $currency',
+                                      getProductprice(
+                                          currency: currency,
+                                          productPrice:
+                                              widget.orderClass.delivery),
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: w * 0.05),
@@ -324,7 +331,9 @@ class _OrderInfoState extends State<OrderInfo> {
                                           fontSize: w * 0.05),
                                     ),
                                     Text(
-                                      '${widget.orderClass.dis} $currency',
+                                      getProductprice(
+                                          currency: currency,
+                                          productPrice: widget.orderClass.dis),
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: w * 0.05),
@@ -352,7 +361,10 @@ class _OrderInfoState extends State<OrderInfo> {
                                           fontSize: w * 0.05),
                                     ),
                                     Text(
-                                      '${widget.orderClass.total} $currency',
+                                      getProductprice(
+                                          currency: currency,
+                                          productPrice:
+                                              widget.orderClass.total),
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: w * 0.055,

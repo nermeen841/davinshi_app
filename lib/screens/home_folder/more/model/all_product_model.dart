@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:davinshi_app/models/constants.dart';
 
 class AllProductModel {
@@ -24,8 +26,8 @@ class Data {
   String? nameAr;
   String? nameEn;
   String? img;
-  int? regularPrice;
-  int? salePrice;
+  var regularPrice;
+  var salePrice;
   String? discountPercentage;
   bool? inSale;
   String? endSale;

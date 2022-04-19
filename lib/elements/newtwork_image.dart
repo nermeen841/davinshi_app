@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:flutter/material.dart';
 
 class ImageeNetworkWidget extends StatelessWidget {
@@ -28,7 +27,7 @@ class ImageeNetworkWidget extends StatelessWidget {
         child: Image.asset(
           "assets/images/logo_multi.png",
           height: (height ?? 100) / 2,
-          width: (width ?? 100)/ 2,
+          width: (width ?? 100) / 2,
           fit: BoxFit.scaleDown,
         ),
       ),
@@ -36,8 +35,8 @@ class ImageeNetworkWidget extends StatelessWidget {
       errorWidget: (context, url, error) => Center(
         child: Image.asset(
           "assets/images/logo_multi.png",
-           height: (height ?? 100) / 2,
-          width: (width ?? 100)/ 2,
+          height: (height ?? 100) / 2,
+          width: (width ?? 100) / 2,
           fit: BoxFit.scaleDown,
         ),
       ),
@@ -71,8 +70,8 @@ class RoundedImageeNetworkWidget extends StatelessWidget {
       placeholder: (context, url) => Center(
         child: Image.asset(
           "assets/images/logo_multi.png",
-         height: (height ?? 100) / 2,
-          width: (width ?? 100)/ 2,
+          height: (height ?? 100) / 2,
+          width: (width ?? 100) / 2,
           fit: BoxFit.scaleDown,
         ),
       ),
@@ -80,7 +79,7 @@ class RoundedImageeNetworkWidget extends StatelessWidget {
         child: Image.asset(
           "assets/images/logo_multi.png",
           height: (height ?? 100) / 2,
-          width: (width ?? 100)/ 2,
+          width: (width ?? 100) / 2,
           fit: BoxFit.scaleDown,
         ),
       ),

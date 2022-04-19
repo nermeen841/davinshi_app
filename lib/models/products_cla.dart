@@ -3,6 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
+import '../lang/change_language.dart';
 import 'constants.dart';
 
 class ProductCla {
@@ -205,7 +206,7 @@ class ProCategory {
       {required this.nameAr, required this.nameEn, required this.catId});
 }
 
- ProductCla? productCla;
+ProductCla? productCla;
 
 Future setProduct(Map e) async {
   try {
@@ -420,3 +421,44 @@ getProductprice({required String currency, required num productPrice}) {
 }
 
 /////////////////////////////////////////////////////////////////
+bool isavailabe = false;
+
+Future checkProductClothesQuantity(
+    {required int productId,
+    required int quantity,
+    required scaffoldKey}) async {
+  final String url = domain + "check-product";
+  try {
+    Response response = await Dio().post(url, data: {
+      "product_id": productId.toString(),
+      "quantity": quantity.toString(),
+      "attributes[6]": prefs.getInt("Size_id").toString(),
+      "attributes[7]": prefs.getInt("color_id").toString(),
+    });
+    if (response.data['status'] == 1) {
+      isavailabe = true;
+      print(response.data);
+    } else if (response.data['status'] == 0) {
+      isavailabe = false;
+      final snackBar = SnackBar(
+        content: Text(
+          translateString(
+              'product amount not available', 'كمية المنتج غير متاحة حاليا '),
+          style: TextStyle(
+              fontFamily: 'Tajawal',
+              fontSize: w * 0.04,
+              fontWeight: FontWeight.w500),
+        ),
+        action: SnackBarAction(
+          label: translateString("Undo", "تراجع"),
+          disabledTextColor: Colors.yellow,
+          textColor: Colors.yellow,
+          onPressed: () {},
+        ),
+      );
+      ScaffoldMessenger.of(scaffoldKey.currentContext!).showSnackBar(snackBar);
+    }
+  } catch (e) {
+    print("product clothes quantity errro : " + e.toString());
+  }
+}

@@ -280,7 +280,9 @@ void error(context) {
           dismissOnTouchOutside: false,
           title: translate(context, 'alert', 'failed'),
           desc: translate(context, 'alert', 'try'),
-          btnOkOnPress: () {},
+          btnOkOnPress: () {
+            navPop(context);
+          },
           onDissmissCallback: (val) {},
           btnOkIcon: Icons.cancel,
           btnOkColor: Colors.red)
@@ -314,7 +316,9 @@ void customError(context, data) {
           dismissOnTouchOutside: false,
           title: translate(context, 'alert', 'failed'),
           desc: data,
-          btnOkOnPress: () {},
+          btnOkOnPress: () {
+            Navigator.pop(context);
+          },
           onDissmissCallback: (val) {},
           btnOkIcon: Icons.cancel,
           btnOkColor: Colors.red)

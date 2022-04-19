@@ -24,7 +24,6 @@ import 'package:davinshi_app/provider/cart_provider.dart';
 import 'package:davinshi_app/screens/auth/login.dart';
 import 'package:davinshi_app/screens/cart/cart.dart';
 import 'package:davinshi_app/screens/product_info/image.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../dbhelper.dart';
 import '../../models/product_color.dart';
 
@@ -172,30 +171,40 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       final String url = domain + "check-product";
       String attrib = jsonEncode(attributes);
       String optionsId = jsonEncode(options);
-
+      print(attributes);
+      print(options);
       try {
         Response response = await Dio().post(url, data: {
           "product_id": productId,
           "quantity": quantity,
           "attributes[$attrib]": optionsId,
         });
+
         print(response.data);
         if (response.data['status'] == 1) {
-          await helper.createCar(CartProducts(
-              id: null,
-              studentId: studentId,
-              image: productCla?.image ?? "",
-              titleAr: productCla?.nameAr ?? "",
-              titleEn: productCla?.nameEn ?? "",
-              price: finalPrice.toDouble(),
-              quantity: _counter,
-              att: att,
-              des: des,
-              idp: productCla!.id,
-              idc: productCla!.cat.id,
-              catNameEn: productCla!.cat.nameEn,
-              catNameAr: productCla!.cat.nameAr,
-              catSVG: productCla!.cat.svg));
+          if (!cart.idp.contains(productCla!.id)) {
+            await helper.createCar(CartProducts(
+                id: null,
+                studentId: studentId,
+                image: productCla!.image,
+                titleAr: productCla!.nameAr,
+                titleEn: productCla!.nameEn,
+                price: finalPrice.toDouble(),
+                quantity: _counter,
+                att: att,
+                des: des,
+                idp: productCla!.id,
+                idc: productCla!.cat.id,
+                catNameEn: productCla!.cat.nameEn,
+                catNameAr: productCla!.cat.nameAr,
+                catSVG: productCla!.cat.svg));
+          } else {
+            int quantity = cart.items
+                .firstWhere((element) => element.idp == productCla!.id)
+                .quantity;
+            await helper.updateProduct(_counter + quantity, productCla!.id,
+                finalPrice.toDouble(), jsonEncode(att), jsonEncode(des));
+          }
           await cart.setItems();
         } else if (response.data['status'] == 0) {
           final snackBar = SnackBar(
@@ -272,19 +281,52 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 onTap: () {
-                                  setState2(() {
-                                    _counter++;
-                                  });
+                                  if (productCla!.isClothes!) {
+                                    if (cart.idp.contains(productCla!.id)) {
+                                      int quantity = cart.items
+                                          .firstWhere((element) =>
+                                              element.idp == productCla!.id)
+                                          .quantity;
+                                      checkProductClothesQuantity(
+                                          productId: productCla!.id,
+                                          quantity: quantity + _counter,
+                                          scaffoldKey: scaffoldKey);
+                                      if (isavailabe) {
+                                        setState2(() {
+                                          _counter++;
+                                        });
+                                      } else if (isavailabe == false) {
+                                        setState2(() {
+                                          _counter = _counter;
+                                        });
+                                        Navigator.pop(context);
+                                      }
+                                    } else {
+                                      checkProductClothesQuantity(
+                                          productId: productCla!.id,
+                                          quantity: _counter,
+                                          scaffoldKey: scaffoldKey);
+                                      if (isavailabe) {
+                                        setState2(() {
+                                          _counter++;
+                                        });
+                                      } else if (isavailabe == false) {
+                                        setState2(() {
+                                          _counter = _counter;
+                                        });
+                                        Navigator.pop(context);
+                                      }
+                                    }
+                                  } else {
+                                    setState2(() {
+                                      _counter++;
+                                    });
+                                  }
                                 },
                               ),
                               SizedBox(
                                   width: w * 0.15,
                                   height: h * 0.05,
-                                  // decoration: BoxDecoration(
-                                  //   borderRadius: BorderRadius.circular(50),
-                                  //   border: Border.all(color: mainColor,width: 1),
-                                  //   color: Colors.white,
-                                  // ),
                                   child: Center(
                                       child: Text(
                                     _counter.toString(),
@@ -335,7 +377,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                               if (!widget.fromFav) {
                                 if (cartId == null || cartId == studentId) {
                                   try {
-                                    if (productCla!.isClothes == false) {
+                                    if (productCla!.isClothes! == false) {
                                       if (selectedItem.isNotEmpty) {
                                         checkProductquantity(
                                             productId:
@@ -376,7 +418,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                         }
                                         await cart.setItems();
                                       }
-                                    } else {
+                                    } else if (productCla!.isClothes!) {
                                       if (selectedColor == null ||
                                           selectedSize == null) {
                                         ScaffoldMessenger.of(context)
@@ -395,36 +437,41 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                           ),
                                         );
                                       } else {
-                                        if (!cart.idp
-                                            .contains(productCla!.id)) {
-                                          await helper.createCar(CartProducts(
-                                              id: null,
-                                              studentId: studentId,
-                                              image: productCla!.image,
-                                              titleAr: productCla!.nameAr,
-                                              titleEn: productCla!.nameEn,
-                                              price: finalPrice.toDouble(),
-                                              quantity: _counter,
-                                              att: att,
-                                              des: des,
-                                              idp: productCla!.id,
-                                              idc: productCla!.cat.id,
-                                              catNameEn: productCla!.cat.nameEn,
-                                              catNameAr: productCla!.cat.nameAr,
-                                              catSVG: productCla!.cat.svg));
-                                        } else {
-                                          int quantity = cart.items
-                                              .firstWhere((element) =>
-                                                  element.idp == productCla!.id)
-                                              .quantity;
-                                          await helper.updateProduct(
-                                              _counter + quantity,
-                                              productCla!.id,
-                                              finalPrice.toDouble(),
-                                              jsonEncode(att),
-                                              jsonEncode(des));
+                                        if (isavailabe) {
+                                          if (!cart.idp
+                                              .contains(productCla!.id)) {
+                                            await helper.createCar(CartProducts(
+                                                id: null,
+                                                studentId: studentId,
+                                                image: productCla!.image,
+                                                titleAr: productCla!.nameAr,
+                                                titleEn: productCla!.nameEn,
+                                                price: finalPrice.toDouble(),
+                                                quantity: _counter,
+                                                att: att,
+                                                des: des,
+                                                idp: productCla!.id,
+                                                idc: productCla!.cat.id,
+                                                catNameEn:
+                                                    productCla!.cat.nameEn,
+                                                catNameAr:
+                                                    productCla!.cat.nameAr,
+                                                catSVG: productCla!.cat.svg));
+                                          } else {
+                                            int quantity = cart.items
+                                                .firstWhere((element) =>
+                                                    element.idp ==
+                                                    productCla!.id)
+                                                .quantity;
+                                            await helper.updateProduct(
+                                                _counter + quantity,
+                                                productCla!.id,
+                                                finalPrice.toDouble(),
+                                                jsonEncode(att),
+                                                jsonEncode(des));
+                                          }
+                                          await cart.setItems();
                                         }
-                                        await cart.setItems();
                                       }
                                     }
                                   } catch (e) {
@@ -945,6 +992,25 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                 SizedBox(
                                   height: h * 0.04,
                                 ),
+                                (productCla!.quantity == 0)
+                                    ? Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: h * 0.015),
+                                        child: Text(
+                                            translateString(
+                                                "Product not available",
+                                                "المنتج غير متوفر حاليا"),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red,
+                                                fontSize: w * 0.04)),
+                                      )
+                                    : Container(),
+                                (productCla!.quantity == 0)
+                                    ? SizedBox(
+                                        height: h * 0.04,
+                                      )
+                                    : Container(),
                                 (productCla!.isClothes! == true)
                                     ? Padding(
                                         padding: EdgeInsets.symmetric(
@@ -1033,20 +1099,25 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                       onChanged:
                                                                           (int?
                                                                               value) async {
-                                                                        SharedPreferences
-                                                                            prefs =
-                                                                            await SharedPreferences.getInstance();
-                                                                        prefs.setString(
+                                                                        att.clear();
+                                                                        prefs.setInt(
                                                                             "Size_id",
-                                                                            productCla!.attributesClothes![i].sizeId.toString());
+                                                                            productCla!.attributesClothes![i].sizeId!);
 
                                                                         setState(
                                                                           () {
+                                                                            att.add(productCla!.attributesClothes![i].sizeId!);
                                                                             selectedSize =
                                                                                 productCla!.attributesClothes![i].id!;
-                                                                            getProductcolor(
-                                                                                productId: productCla!.id.toString(),
-                                                                                sizeId: productCla!.attributesClothes![i].sizeId!.toString());
+                                                                            if (language ==
+                                                                                'en') {
+                                                                              des.add(productCla!.attributesClothes![i].nameEn!);
+                                                                            } else {
+                                                                              des.add(productCla!.attributesClothes![i].nameAr!);
+                                                                            }
+                                                                            // getProductcolor(
+                                                                            //     productId: productCla!.id.toString(),
+                                                                            //     sizeId: productCla!.attributesClothes![i].sizeId!.toString());
                                                                           },
                                                                         );
                                                                         Navigator.pop(
@@ -1093,103 +1164,140 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
 
                                             InkWell(
                                               onTap: () {
-                                                homeBottomSheet(
-                                                  context: context,
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                w * 0.04,
-                                                            vertical: h * 0.04),
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                          translateString(
-                                                              "Color", "اللون"),
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize:
-                                                                  w * 0.05,
-                                                              fontFamily:
-                                                                  'Tajawal',
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                        FutureBuilder(
-                                                            future:
-                                                                getProductcolor(
-                                                              productId:
-                                                                  productCla!.id
-                                                                      .toString(),
-                                                              sizeId: prefs
-                                                                  .getString(
-                                                                    "Size_id",
-                                                                  )
-                                                                  .toString(),
-                                                            ),
-                                                            builder: (context,
-                                                                AsyncSnapshot
-                                                                    snapshot) {
-                                                              if (snapshot
-                                                                  .hasData) {
-                                                                return ListView
-                                                                    .builder(
-                                                                        // primary: true,
-                                                                        shrinkWrap:
-                                                                            true,
-                                                                        physics:
-                                                                            const NeverScrollableScrollPhysics(),
-                                                                        itemCount: snapshot
-                                                                            .data
-                                                                            .data
-                                                                            .length,
-                                                                        itemBuilder:
-                                                                            (context,
-                                                                                i) {
-                                                                          return Row(
-                                                                            crossAxisAlignment:
-                                                                                CrossAxisAlignment.start,
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: EdgeInsets.only(top: h * 0.02),
-                                                                                child: Text(
-                                                                                  translateString(snapshot.data.data[i].nameEn!, snapshot.data.data[i].nameAr!),
-                                                                                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: w * 0.05, color: Colors.black),
+                                                if (selectedSize != null) {
+                                                  homeBottomSheet(
+                                                    context: context,
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal:
+                                                                  w * 0.04,
+                                                              vertical:
+                                                                  h * 0.04),
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                            translateString(
+                                                                "Color",
+                                                                "اللون"),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize:
+                                                                    w * 0.05,
+                                                                fontFamily:
+                                                                    'Tajawal',
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                          FutureBuilder(
+                                                              future:
+                                                                  getProductcolor(
+                                                                productId:
+                                                                    productCla!
+                                                                        .id
+                                                                        .toString(),
+                                                                sizeId: prefs
+                                                                    .getInt(
+                                                                      "Size_id",
+                                                                    )
+                                                                    .toString(),
+                                                              ),
+                                                              builder: (context,
+                                                                  AsyncSnapshot
+                                                                      snapshot) {
+                                                                if (snapshot
+                                                                    .hasData) {
+                                                                  return (snapshot
+                                                                          .data
+                                                                          .data
+                                                                          .isNotEmpty)
+                                                                      ? ListView.builder(
+                                                                          // primary: true,
+                                                                          shrinkWrap: true,
+                                                                          physics: const NeverScrollableScrollPhysics(),
+                                                                          itemCount: snapshot.data.data.length,
+                                                                          itemBuilder: (context, i) {
+                                                                            return Row(
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: [
+                                                                                Padding(
+                                                                                  padding: EdgeInsets.only(top: h * 0.02),
+                                                                                  child: Text(
+                                                                                    translateString(snapshot.data.data[i].nameEn!, snapshot.data.data[i].nameAr!),
+                                                                                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: w * 0.05, color: Colors.black),
+                                                                                  ),
                                                                                 ),
-                                                                              ),
-                                                                              Radio<int>(
-                                                                                  activeColor: mainColor,
-                                                                                  value: snapshot.data.data[i].id,
-                                                                                  groupValue: selectedColor,
-                                                                                  onChanged: (int? value) {
-                                                                                    setState(
-                                                                                      () {
-                                                                                        selectedColor = snapshot.data.data[i].id;
-                                                                                      },
-                                                                                    );
-                                                                                    Navigator.pop(context);
-                                                                                  }),
-                                                                            ],
-                                                                          );
-                                                                        });
-                                                              } else {
-                                                                return Center(
-                                                                  child:
-                                                                      CircularProgressIndicator(
-                                                                    color:
-                                                                        mainColor,
-                                                                  ),
-                                                                );
-                                                              }
-                                                            }),
-                                                      ],
+                                                                                Radio<int>(
+                                                                                    activeColor: mainColor,
+                                                                                    value: snapshot.data.data[i].id,
+                                                                                    groupValue: selectedColor,
+                                                                                    onChanged: (int? value) {
+                                                                                      setState(
+                                                                                        () {
+                                                                                          att.add(snapshot.data.data[i].id);
+                                                                                          selectedColor = snapshot.data.data[i].id;
+                                                                                          prefs.setInt("color_id", snapshot.data.data[i].id);
+                                                                                          if (language == 'en') {
+                                                                                            des.add(snapshot.data.data[i].nameEn!);
+                                                                                          } else {
+                                                                                            des.add(snapshot.data.data[i].nameAr!);
+                                                                                          }
+                                                                                        },
+                                                                                      );
+                                                                                      Navigator.pop(context);
+                                                                                    }),
+                                                                              ],
+                                                                            );
+                                                                          })
+                                                                      : Padding(
+                                                                          padding:
+                                                                              EdgeInsets.only(top: h * 0.15),
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                Text(
+                                                                              translateString("No colors yet for this size \n product not available for this size", "  لقد نفذت كمية المنتج المتاحه لهذا المقاس  \n لا توجد الوان متاحه حاليا لهذا المقاس"),
+                                                                              textAlign: TextAlign.center,
+                                                                              style: TextStyle(color: mainColor, fontSize: w * 0.04, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', height: 2),
+                                                                            ),
+                                                                          ),
+                                                                        );
+                                                                } else {
+                                                                  return Center(
+                                                                    child:
+                                                                        CircularProgressIndicator(
+                                                                      color:
+                                                                          mainColor,
+                                                                    ),
+                                                                  );
+                                                                }
+                                                              }),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
+                                                  );
+                                                } else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      backgroundColor:
+                                                          Colors.black,
+                                                      content: Text(
+                                                        translateString(
+                                                            "select size first",
+                                                            "يجب اختيار المقاس اولا"),
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: w * 0.04,
+                                                            fontFamily:
+                                                                'Tajawal'),
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
                                               },
                                               child: Row(
                                                 children: [
@@ -1702,31 +1810,67 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                           )),
                         ),
                         onTap: () {
-                          if (productCla!.attributes.isNotEmpty) {
-                            if (selectedItem.isNotEmpty) {
-                              show(context);
+                          if (productCla!.quantity != 0) {
+                            if (productCla!.attributes.isNotEmpty) {
+                              if (selectedItem.isNotEmpty) {
+                                show(context);
+                              } else {
+                                final snackBar = SnackBar(
+                                  content: Text(
+                                    translateString('Select product options',
+                                        'يجب تحديد الاختيارات اولا'),
+                                    style: TextStyle(
+                                        fontFamily: 'Tajawal',
+                                        fontSize: w * 0.04,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  action: SnackBarAction(
+                                    label: translateString("Undo", "تراجع"),
+                                    disabledTextColor: Colors.yellow,
+                                    textColor: Colors.yellow,
+                                    onPressed: () {},
+                                  ),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
+                            } else if (productCla!.isClothes!) {
+                              if (selectedColor == null ||
+                                  selectedSize == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: Colors.black,
+                                    content: Text(
+                                      translateString(
+                                          "you should choose color and size",
+                                          "يجب اختيار المقاس واللون"),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: w * 0.04,
+                                          fontFamily: 'Tajawal'),
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                show(context);
+                              }
                             } else {
-                              final snackBar = SnackBar(
-                                content: Text(
-                                  translateString('Select product options',
-                                      'يجب تحديد الاختيارات اولا'),
-                                  style: TextStyle(
-                                      fontFamily: 'Tajawal',
-                                      fontSize: w * 0.04,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                action: SnackBarAction(
-                                  label: translateString("Undo", "تراجع"),
-                                  disabledTextColor: Colors.yellow,
-                                  textColor: Colors.yellow,
-                                  onPressed: () {},
-                                ),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
+                              show(context);
                             }
-                          } else {
-                            show(context);
+                          } else if (productCla!.quantity == 0) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.red,
+                                content: Text(
+                                  translateString("Product not available",
+                                      "المنتج غير متوفر حاليا "),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: w * 0.04,
+                                      fontFamily: 'Tajawal'),
+                                ),
+                              ),
+                            );
                           }
                         },
                       ),
@@ -1848,13 +1992,15 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
           .post(url, data: {"product_id": productId, "size_id": sizeId});
       if (response.data['status'] == 1) {
         colorModel = ColorModel.fromJson(response.data);
+      } else if (response.data['status'] == 0) {
+        colorModel = ColorModel.fromJson(response.data);
       }
       print(response.data);
       return colorModel;
     } catch (error) {
       print("color product error : " + error.toString());
     }
-    return null;
+    return colorModel;
   }
 }
 

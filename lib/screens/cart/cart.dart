@@ -41,6 +41,7 @@ class _CartState extends State<Cart> {
     try {
       Response response = await Dio().post(url2);
       if (response.data['status'] == 1) {
+        print(response.data);
         couponName = coupon;
         couponPercentage =
             response.data['data']['type_discount'] == 'percentage'
@@ -180,6 +181,7 @@ class _CartState extends State<Cart> {
     idProducts = Provider.of<CartProvider>(context, listen: false).idp;
   }
 
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   var currency = (prefs.getString('language_code').toString() == 'en')
       ? prefs.getString('currencyEn').toString()
       : prefs.getString('currencyAr').toString();
@@ -193,6 +195,7 @@ class _CartState extends State<Cart> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        key: scaffoldKey,
         appBar: AppBar(
           elevation: 0,
           title: Text(
@@ -881,18 +884,33 @@ class _CartState extends State<Cart> {
                                                                     ),
                                                                     onPressed:
                                                                         () async {
-                                                                      await dbHelper.updateProduct(
-                                                                          _pro.quantity +
-                                                                              1,
-                                                                          _pro
-                                                                              .idp,
-                                                                          _pro.price
-                                                                              .toDouble(),
-                                                                          jsonEncode(_pro
-                                                                              .att),
-                                                                          jsonEncode(
-                                                                              _pro.des));
-                                                                      cart.setItems();
+                                                                      if (productCla!
+                                                                          .isClothes!) {
+                                                                        checkProductClothesQuantity(
+                                                                            productId: _pro.idp +
+                                                                                1,
+                                                                            quantity:
+                                                                                _pro.quantity,
+                                                                            scaffoldKey: scaffoldKey);
+                                                                        if (isavailabe) {
+                                                                          await dbHelper.updateProduct(
+                                                                              _pro.quantity + 1,
+                                                                              _pro.idp,
+                                                                              _pro.price.toDouble(),
+                                                                              jsonEncode(_pro.att),
+                                                                              jsonEncode(_pro.des));
+                                                                          cart.setItems();
+                                                                        }
+                                                                      } else {
+                                                                        await dbHelper.updateProduct(
+                                                                            _pro.quantity +
+                                                                                1,
+                                                                            _pro.idp,
+                                                                            _pro.price.toDouble(),
+                                                                            jsonEncode(_pro.att),
+                                                                            jsonEncode(_pro.des));
+                                                                        cart.setItems();
+                                                                      }
                                                                     },
                                                                   ),
                                                                 ],
@@ -1234,7 +1252,10 @@ class _CartState extends State<Cart> {
                                         ),
                                         if (addressGuest != null)
                                           Text(
-                                            '${getAreaPrice(addressGuest!.areaId)} $currency',
+                                            getProductprice(
+                                                currency: currency,
+                                                productPrice: getAreaPrice(
+                                                    addressGuest!.areaId)),
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: w * 0.05),
@@ -1266,7 +1287,7 @@ class _CartState extends State<Cart> {
                                               fontSize: w * 0.05),
                                         ),
                                         Text(
-                                          '${couponPercentage ? double.parse((cart.subTotal * couponPrice / 100).toStringAsFixed(2)) : couponPrice} $currency',
+                                          '${couponPercentage ? double.parse((getprice(currency: currency, productPrice: cart.subTotal) * getprice(currency: currency, productPrice: couponPrice) / 100).toStringAsFixed(2)) : getprice(currency: currency, productPrice: couponPrice)} $currency',
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: w * 0.05),
@@ -1297,7 +1318,7 @@ class _CartState extends State<Cart> {
                                         ),
                                         if (address != null)
                                           Text(
-                                            '${(cart.total + getAreaPrice(address.areaId) - (couponPercentage ? double.parse((cart.subTotal * couponPrice / 100).toStringAsFixed(2)) : couponPrice))} $currency',
+                                            '${(getprice(currency: currency, productPrice: cart.total) + getprice(currency: currency, productPrice: getAreaPrice(address.areaId)) - (couponPercentage ? double.parse((getprice(currency: currency, productPrice: cart.subTotal) * getprice(currency: currency, productPrice: couponPrice) / 100).toStringAsFixed(2)) : getprice(currency: currency, productPrice: couponPrice)))} $currency',
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: w * 0.055,
@@ -1305,7 +1326,7 @@ class _CartState extends State<Cart> {
                                           ),
                                         if (address == null)
                                           Text(
-                                            '${(cart.total - (couponPercentage ? double.parse((cart.subTotal * couponPrice / 100).toStringAsFixed(2)) : couponPrice))} $currency',
+                                            '${(getprice(currency: currency, productPrice: cart.total) - (couponPercentage ? double.parse((getprice(currency: currency, productPrice: cart.subTotal) * getprice(currency: currency, productPrice: couponPrice) / 100).toStringAsFixed(2)) : getprice(currency: currency, productPrice: couponPrice)))} $currency',
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: w * 0.055,
@@ -1326,7 +1347,7 @@ class _CartState extends State<Cart> {
                                         ),
                                         if (addressGuest != null)
                                           Text(
-                                            '${(cart.total + getAreaPrice(addressGuest!.areaId) - (couponPercentage ? double.parse((cart.subTotal * couponPrice / 100).toStringAsFixed(2)) : couponPrice))} $currency',
+                                            '${(getprice(currency: currency, productPrice: cart.total) + getprice(currency: currency, productPrice: getAreaPrice(addressGuest!.areaId)) - (couponPercentage ? double.parse((getprice(currency: currency, productPrice: cart.subTotal) * getprice(currency: currency, productPrice: couponPrice) / 100).toStringAsFixed(2)) : getprice(currency: currency, productPrice: couponPrice)))} $currency',
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: w * 0.055,
@@ -1334,7 +1355,7 @@ class _CartState extends State<Cart> {
                                           ),
                                         if (addressGuest == null)
                                           Text(
-                                            '${(cart.total - (couponPercentage ? double.parse((cart.subTotal * couponPrice / 100).toStringAsFixed(2)) : couponPrice))} $currency',
+                                            '${(getprice(currency: currency, productPrice: cart.total) - (couponPercentage ? double.parse((getprice(currency: currency, productPrice: cart.subTotal) * couponPrice / 100).toStringAsFixed(2)) : getprice(currency: currency, productPrice: couponPrice)))} $currency',
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: w * 0.055,
@@ -1560,415 +1581,23 @@ class _CartState extends State<Cart> {
               )),
       ),
     );
-    // return GestureDetector(
-    //   onTap: () {
-    //     FocusScope.of(context).requestFocus(new FocusNode());
-    //   },
-    //   child: cart.items.isNotEmpty?Directionality(
-    //     textDirection: getDirection(),
-    //     child: Scaffold(
-    //       backgroundColor: Colors.white,
-    //       appBar: AppBar(
-    //         backgroundColor: Colors.white,
-    //         title: SizedBox(child: Text('Cart',style: TextStyle(color:mainColor,fontSize: w*0.05,),),),
-    //         leading: BackButton(color: mainColor,),
-    //         centerTitle: true,
-    //         actions: [
-    //           IconButton(
-    //             icon: Icon(Icons.delete,),
-    //             padding: EdgeInsets.zero,
-    //             focusColor: Colors.transparent,
-    //             color: Colors.red,
-    //             onPressed: ()async{
-    //               await dbHelper.deleteAll();
-    //               cart.setItems();
-    //             },
-    //           ),
-    //           SizedBox(width: w*0.04,),
-    //         ],
-    //         elevation: 0,
-    //       ),
-    //       body: SingleChildScrollView(
-    //           child: Column(
-    //             children: [
-    //               Column(
-    //                 children: List.generate(cart.items.length, (index) {
-    //                   String _add = '';
-    //                   cart.items[index].des.forEach((e) {
-    //                     _add = _add + e + ' ';
-    //                   });
-    //                   return Column(
-    //                     crossAxisAlignment: CrossAxisAlignment.center,
-    //                     children: [
-    //                       SizedBox(height: h*0.01,),
-    //                       Container(
-    //                         width: w*0.9,
-    //                         child: Row(
-    //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                           children: [
-    //                             Container(
-    //                               width: w*0.5,
-    //                               child: Column(
-    //                                 crossAxisAlignment: CrossAxisAlignment.start,
-    //                                 mainAxisSize: MainAxisSize.min,
-    //                                 mainAxisAlignment: MainAxisAlignment.center,
-    //                                 children: [
-    //                                   Text(cart.items[index].titleEn,style: TextStyle(fontWeight: FontWeight.bold,fontSize: w*0.04),),
-    //                                   Text(cart.items[index].price.toString() + 'KWD',style: TextStyle(fontSize: w*0.035,color: Colors.grey),),
-    //                                   Text(_add,style: TextStyle(fontSize: w*0.035,color: Colors.grey),),
-    //                                   SizedBox(height: h*0.01,),
-    //                                   Container(
-    //                                     child: Row(
-    //                                       mainAxisAlignment: MainAxisAlignment.start,
-    //                                       children: [
-    //                                         Container(
-    //                                           width: w*0.15,
-    //                                           height: h*0.05,
-    //                                           decoration: BoxDecoration(
-    //                                             borderRadius: BorderRadius.circular(50),
-    //                                             color: mainColor,
-    //                                           ),
-    //                                           // child: Icon(Icons.add,size: w*0.03,color: Colors.white,),
-    //                                           child: IconButton(
-    //                                             icon: Icon(Icons.add),
-    //                                             padding: EdgeInsets.zero,
-    //                                             iconSize: w*0.03,
-    //                                             color: Colors.white,
-    //                                             onPressed: ()async{
-    //                                               await dbHelper.updateProduct(cart.items[index].quantity+1, cart.items[index].idp);
-    //                                               cart.setItems();
-    //                                             },
-    //                                           ),
-    //                                         ),
-    //                                         SizedBox(width: w*0.02,),
-    //                                         Container(
-    //                                             width: w*0.15,
-    //                                             height: h*0.05,
-    //                                             decoration: BoxDecoration(
-    //                                               borderRadius: BorderRadius.circular(50),
-    //                                               border: Border.all(color: mainColor,width: 1),
-    //                                               color: Colors.white,
-    //                                             ),
-    //                                             child: Center(child: Text(cart.items[index].quantity.toString(),style: TextStyle(color: mainColor,fontSize: w*0.04,fontFamily: DefaultTextStyle.of(context).style.fontFamily,),))
-    //                                         ),
-    //                                         SizedBox(width: w*0.02,),
-    //                                         Container(
-    //                                           width: w*0.15,
-    //                                           height: h*0.05,
-    //                                           decoration: BoxDecoration(
-    //                                             borderRadius: BorderRadius.circular(50),
-    //                                             color: mainColor,
-    //                                           ),
-    //                                           child: IconButton(
-    //                                             icon: Icon(Icons.remove),
-    //                                             padding: EdgeInsets.zero,
-    //                                             iconSize: w*0.03,
-    //                                             color: Colors.white,
-    //                                             onPressed: ()async{
-    //                                               if(cart.items[index].quantity>1){
-    //                                                 await dbHelper.updateProduct(cart.items[index].quantity-1, cart.items[index].idp);
-    //                                               }else{
-    //                                                 await dbHelper.deleteProduct(cart.items[index].id!);
-    //                                               }
-    //                                               cart.setItems();
-    //                                             },
-    //                                           ),
-    //                                         ),
-    //                                       ],
-    //                                     ),
-    //                                   ),
-    //                                 ],
-    //                               ),
-    //                             ),
-    //                             Container(
-    //                               width: w*0.2,
-    //                               height: h*0.12,
-    //                               decoration: BoxDecoration(
-    //                                 color: Colors.grey[200],
-    //                                 borderRadius: BorderRadius.circular(15),
-    //                                 image: DecorationImage(
-    //                                   // image: AssetImage('assets/ice2.png'),
-    //                                   image: NetworkImage(cart.items[index].image),
-    //                                   fit: BoxFit.cover,
-    //                                 ),
-    //                               ),
-    //                             ),
-    //                           ],
-    //                         ),
-    //                       ),
-    //                       SizedBox(height: h*0.02,),
-    //                       index!=cart.items.length-1?Padding(
-    //                         padding:  EdgeInsets.only(right: w*0.05,left: w*0.05),
-    //                         child: Divider(thickness: h*0.001,color: Colors.grey[400],),
-    //                       ):SizedBox(),
-    //                     ],
-    //                   );
-    //                 }),
-    //               ),
-    //               // if(userId!=0)Container(
-    //               //   height: h*0.1,
-    //               //   color: Colors.grey[200],
-    //               //   child: Center(
-    //               //     child: Padding(
-    //               //       padding:  EdgeInsets.only(right: w*0.05,left: w*0.05),
-    //               //       child: Row(
-    //               //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //               //         children: [
-    //               //           Text('Add Coupon',style: TextStyle(fontSize: w*0.03),),
-    //               //           InkWell(
-    //               //             child: Text('Coupon',style: TextStyle(fontSize: w*0.03,color: Colors.grey),),
-    //               //             onTap: (){
-    //               //               showDialog(
-    //               //                 context: context,
-    //               //                 builder: (BuildContext context) {
-    //               //                   final TextEditingController _controller = TextEditingController();
-    //               //                   bool valid = true;
-    //               //                   return Directionality(
-    //               //                     textDirection: getDirection(),
-    //               //                     child: AlertDialog(
-    //               //                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
-    //               //                       content: Container(
-    //               //                         height: h*0.16,
-    //               //                         width: w*0.95,
-    //               //                         child: StatefulBuilder(
-    //               //                           builder: (BuildContext context, StateSetter setState) {
-    //               //                             return Center(
-    //               //                               child: Form(
-    //               //                                 key: _formKey,
-    //               //                                 child: Container(
-    //               //                                   child: TextFormField(
-    //               //                                     cursorColor: Colors.black,
-    //               //                                     focusNode: _focusNode,
-    //               //                                     controller: _controller,
-    //               //                                     keyboardType: TextInputType.number,
-    //               //                                     validator: (val){
-    //               //                                       if(valid!=true){
-    //               //                                         return 'Invalid Coupon';
-    //               //                                       }
-    //               //                                       if(val!.isEmpty){
-    //               //                                         return 'Enter Coupon';
-    //               //                                       }
-    //               //                                       return null;
-    //               //                                     },
-    //               //                                     decoration: InputDecoration(
-    //               //                                       hintText: 'Coupon',
-    //               //                                       hintStyle: TextStyle(color:mainColor,),
-    //               //                                       enabledBorder: UnderlineInputBorder(
-    //               //                                         borderSide: BorderSide(color: mainColor,),
-    //               //                                       ),
-    //               //                                       focusedBorder: UnderlineInputBorder(
-    //               //                                         borderSide: BorderSide(color: mainColor,),
-    //               //                                       ),
-    //               //                                       suffixIcon: InkWell(
-    //               //                                         child: Container(
-    //               //                                           height: w*0.07,
-    //               //                                           width: w*0.07,
-    //               //                                           decoration: BoxDecoration(
-    //               //                                             color: mainColor,
-    //               //                                             borderRadius: BorderRadius.circular(150),
-    //               //                                           ),
-    //               //                                           child: Icon(Icons.arrow_forward,color: Colors.white,size: w*0.04,),
-    //               //                                         ),
-    //               //                                         onTap: (){
-    //               //                                           _focusNode.unfocus();
-    //               //                                           _focusNode.canRequestFocus = false;
-    //               //                                           valid = true;
-    //               //                                           if (_formKey.currentState!.validate()) {
-    //               //                                             dialog(context);
-    //               //                                             checkCoupon(context, _controller.text).then((value) {
-    //               //                                               Navigator.pop(context);
-    //               //                                               if(value){
-    //               //                                                 Navigator.pop(context);
-    //               //                                               }else{
-    //               //                                                 valid = false;
-    //               //                                                 if(_formKey.currentState!.validate()){
-    //               //                                                 }
-    //               //                                               }
-    //               //                                             });
-    //               //                                           }
-    //               //                                         },
-    //               //                                       ),
-    //               //                                       suffixIconConstraints: BoxConstraints(
-    //               //                                         maxHeight: w*0.1,
-    //               //                                         maxWidth: w*0.1,
-    //               //                                       ),
-    //               //                                     ),
-    //               //                                   ),
-    //               //                                 ),
-    //               //                               ),
-    //               //                             );
-    //               //                           },
-    //               //                         ),
-    //               //                       ),
-    //               //                     ),
-    //               //                   );
-    //               //                 },
-    //               //               );
-    //               //             },
-    //               //           ),
-    //               //         ],
-    //               //       ),
-    //               //     ),
-    //               //   ),
-    //               // ),
-    //               // if(userId!=0)SizedBox(height: h*0.02,),
-    //               Align(
-    //                 alignment: Alignment.centerLeft,
-    //                 child: Padding(
-    //                   padding: EdgeInsets.only(left: w*0.05),
-    //                   child: Text('Payment',style: TextStyle(fontWeight: FontWeight.bold,fontSize: w*0.05),),
-    //                 ),
-    //               ),
-    //               SizedBox(height: h*0.01,),
-    //               Padding(
-    //                 padding:  EdgeInsets.only(left: w*0.05,right: w*0.05,),
-    //                 child: Column(
-    //                   children: [
-    //                     Row(
-    //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                       children: [
-    //                         Text('SubTotal',style: TextStyle(fontSize: w*0.04),),
-    //                         Text('KWD'+' '+cart.subTotal.toString(),style: TextStyle(fontSize: w*0.04,color: mainColor,),),
-    //                       ],
-    //                     ),
-    //                     // SizedBox(height: h*0.01,),
-    //                     // Row(
-    //                     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                     //   children: [
-    //                     //     Text('Delivery',style: TextStyle(fontSize: w*0.04),),
-    //                     //     Text('KWD'+' '+ca.cart[0].deliveryCharge.toString(),style: TextStyle(fontSize: w*0.04,color: mainColor,),),
-    //                     //   ],
-    //                     // ),
-    //                     // if(disPrice!=0)SizedBox(height: h*0.01,),
-    //                     // if(disPrice!=0)Row(
-    //                     //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                     //   children: [
-    //                     //     Text('Discount',style: TextStyle(fontSize: w*0.04),),
-    //                     //     Text('KWD'+' '+disPrice.toString(),style: TextStyle(fontSize: w*0.04,color: Colors.red,),),
-    //                     //   ],
-    //                     // ),
-    //                     Divider(thickness: h*0.001,color: Colors.grey[400],),
-    //                     SizedBox(height: h*0.02,),
-    //                     Row(
-    //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                       children: [
-    //                         Text('Total',style: TextStyle(fontSize: w*0.045,fontWeight: FontWeight.bold),),
-    //                         Text('KWD'+' '+(cart.subTotal).toString(),style: TextStyle(fontSize: w*0.045,color: mainColor,fontWeight: FontWeight.bold),),
-    //                       ],
-    //                     ),
-    //                     SizedBox(height: h*0.07,),
-    //                     InkWell(
-    //                       child: Container(
-    //                         height: h*0.08,
-    //                         decoration: BoxDecoration(
-    //                           borderRadius: BorderRadius.circular(25),
-    //                           color: mainColor,
-    //                         ),
-    //                         child: Center(
-    //                           child: Text('CheckOut',style: TextStyle(color: Colors.white,fontSize: w*0.045,fontWeight: FontWeight.bold),),
-    //                         ),
-    //                       ),
-    //                       onTap: (){
-    //                         // if(Provider.of<AddressProvider>(context,listen: false).addressName!=null){
-    //                         //   Navigator.pushNamed(context, 'ConfirmCart');
-    //                         // }else{
-    //                         //   Navigator.push(context, MaterialPageRoute(builder: (context)=>AddAddress(false,false)));
-    //                         // }
-    //                       },
-    //                     ),
-    //                     SizedBox(height: h*0.02,),
-    //                     InkWell(
-    //                       child: Container(
-    //                         height: h*0.08,
-    //                         decoration: BoxDecoration(
-    //                           borderRadius: BorderRadius.circular(25),
-    //                           color: Colors.white,
-    //                           border: Border.all(color: mainColor,),
-    //                         ),
-    //                         child: Center(
-    //                           child: Text('Add More',style: TextStyle(color: mainColor,fontSize: w*0.045,fontWeight: FontWeight.bold),),
-    //                         ),
-    //                       ),
-    //                       onTap: (){
-    //                         //Navigator.push(context, MaterialPageRoute(builder: (context)=>ResInfo(_vendor, _item)));
-    //                         Navigator.pop(context);
-    //                       },
-    //                     ),
-    //                     SizedBox(height: h*0.07,),
-    //                   ],
-    //                 ),
-    //               )
-    //             ],
-    //           )
-    //       ),
-    //     ),
-    //   ):
-    //   Directionality(
-    //     textDirection: TextDirection.rtl,
-    //     child: Scaffold(
-    //       backgroundColor: Colors.white,
-    //       appBar: AppBar(
-    //         backgroundColor: Colors.white,
-    //         title: Text('Cart', style: TextStyle(fontSize: w * 0.05, color: Colors.black,fontWeight: FontWeight.bold),),
-    //         leading: BackButton(color: mainColor,),
-    //         centerTitle: true,
-    //         elevation: 0,
-    //       ),
-    //       body: SingleChildScrollView(
-    //           child: Column(
-    //             children: [
-    //               SizedBox(height: h*0.1,),
-    //               Container(
-    //                 width: w*0.5,
-    //                 height: h*0.3,
-    //                 decoration: BoxDecoration(
-    //                   image: DecorationImage(
-    //                     image: AssetImage('assets/nocart.png'),
-    //                     fit: BoxFit.contain,
-    //                   ),
-    //                 ),
-    //               ),
-    //               Text('Empty Cart!',style: TextStyle(fontWeight: FontWeight.bold,fontSize: w*0.07,),),
-    //               Text('Visite stores',style: TextStyle(fontSize: w*0.04,color: Colors.grey),),
-    //               SizedBox(height: h*0.15,),
-    //               Padding(
-    //                 padding:  EdgeInsets.only(left: w*0.05,right: w*0.05,),
-    //                 child: Column(
-    //                   children: [
-    //                     InkWell(
-    //                       child: Container(
-    //                         height: h*0.08,
-    //                         decoration: BoxDecoration(
-    //                           borderRadius: BorderRadius.circular(25),
-    //                           color: mainColor,
-    //                         ),
-    //                         child: Center(
-    //                           child: Text('Add Items',style: TextStyle(color: Colors.white,fontSize: w*0.045,fontWeight: FontWeight.bold),),
-    //                         ),
-    //                       ),
-    //                       onTap: (){
-    //                         Navigator.pop(context);
-    //                       },
-    //                     ),
-    //                     SizedBox(height: h*0.07,),
-    //                   ],
-    //                 ),
-    //               )
-    //             ],
-    //           )
-    //       ),
-    //     ),
-    //   )
-    // );
+  }
+
+  num getprice({required String currency, required num productPrice}) {
+    String ratio = prefs.getString("ratio").toString();
+    num ratioPrice = num.parse(ratio);
+
+    if (currency != 'KWD' || currency != 'د.ك') {
+      num finalPrice = productPrice / ratioPrice;
+
+      return finalPrice;
+    } else {
+      num finalPrice = productPrice;
+      return finalPrice;
+    }
   }
 }
 
-// InputBorder form(){
-//   return UnderlineInputBorder(
-//     borderSide:  BorderSide(color: (Colors.grey[350]!),width: 1),
-//     borderRadius: BorderRadius.circular(25),
-//   );
-// }
 InputBorder form() {
   return OutlineInputBorder(
     borderSide: BorderSide(color: mainColor, width: 1.5),

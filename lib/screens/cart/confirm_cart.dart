@@ -109,8 +109,8 @@ class _ConfirmCartState extends State<ConfirmCart> {
         } else if (isCash == 1) {
           if (login) {
             await getOrders().then((value) {
-              Provider.of<CartProvider>(context, listen: false).clearAll();
               if (value) {
+                Provider.of<CartProvider>(context, listen: false).clearAll();
                 dbHelper.deleteAll();
                 navPR(context, const Orders());
                 return null;
