@@ -1099,6 +1099,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                       onChanged:
                                                                           (int?
                                                                               value) async {
+                                                                        att.clear();
                                                                         prefs.setInt(
                                                                             "Size_id",
                                                                             productCla!.attributesClothes![i].sizeId!);
@@ -1163,110 +1164,140 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
 
                                             InkWell(
                                               onTap: () {
-                                                homeBottomSheet(
-                                                  context: context,
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                w * 0.04,
-                                                            vertical: h * 0.04),
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                          translateString(
-                                                              "Color", "اللون"),
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize:
-                                                                  w * 0.05,
-                                                              fontFamily:
-                                                                  'Tajawal',
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                        FutureBuilder(
-                                                            future:
-                                                                getProductcolor(
-                                                              productId:
-                                                                  productCla!.id
-                                                                      .toString(),
-                                                              sizeId: prefs
-                                                                  .getInt(
-                                                                    "Size_id",
-                                                                  )
-                                                                  .toString(),
-                                                            ),
-                                                            builder: (context,
-                                                                AsyncSnapshot
-                                                                    snapshot) {
-                                                              if (snapshot
-                                                                  .hasData) {
-                                                                return ListView
-                                                                    .builder(
-                                                                        // primary: true,
-                                                                        shrinkWrap:
-                                                                            true,
-                                                                        physics:
-                                                                            const NeverScrollableScrollPhysics(),
-                                                                        itemCount: snapshot
-                                                                            .data
-                                                                            .data
-                                                                            .length,
-                                                                        itemBuilder:
-                                                                            (context,
-                                                                                i) {
-                                                                          return Row(
-                                                                            crossAxisAlignment:
-                                                                                CrossAxisAlignment.start,
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              Padding(
-                                                                                padding: EdgeInsets.only(top: h * 0.02),
-                                                                                child: Text(
-                                                                                  translateString(snapshot.data.data[i].nameEn!, snapshot.data.data[i].nameAr!),
-                                                                                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: w * 0.05, color: Colors.black),
+                                                if (selectedSize != null) {
+                                                  homeBottomSheet(
+                                                    context: context,
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal:
+                                                                  w * 0.04,
+                                                              vertical:
+                                                                  h * 0.04),
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                            translateString(
+                                                                "Color",
+                                                                "اللون"),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize:
+                                                                    w * 0.05,
+                                                                fontFamily:
+                                                                    'Tajawal',
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                          FutureBuilder(
+                                                              future:
+                                                                  getProductcolor(
+                                                                productId:
+                                                                    productCla!
+                                                                        .id
+                                                                        .toString(),
+                                                                sizeId: prefs
+                                                                    .getInt(
+                                                                      "Size_id",
+                                                                    )
+                                                                    .toString(),
+                                                              ),
+                                                              builder: (context,
+                                                                  AsyncSnapshot
+                                                                      snapshot) {
+                                                                if (snapshot
+                                                                    .hasData) {
+                                                                  return (snapshot
+                                                                          .data
+                                                                          .data
+                                                                          .isNotEmpty)
+                                                                      ? ListView.builder(
+                                                                          // primary: true,
+                                                                          shrinkWrap: true,
+                                                                          physics: const NeverScrollableScrollPhysics(),
+                                                                          itemCount: snapshot.data.data.length,
+                                                                          itemBuilder: (context, i) {
+                                                                            return Row(
+                                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: [
+                                                                                Padding(
+                                                                                  padding: EdgeInsets.only(top: h * 0.02),
+                                                                                  child: Text(
+                                                                                    translateString(snapshot.data.data[i].nameEn!, snapshot.data.data[i].nameAr!),
+                                                                                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: w * 0.05, color: Colors.black),
+                                                                                  ),
                                                                                 ),
-                                                                              ),
-                                                                              Radio<int>(
-                                                                                  activeColor: mainColor,
-                                                                                  value: snapshot.data.data[i].id,
-                                                                                  groupValue: selectedColor,
-                                                                                  onChanged: (int? value) {
-                                                                                    setState(
-                                                                                      () {
-                                                                                        att.add(snapshot.data.data[i].id);
-                                                                                        selectedColor = snapshot.data.data[i].id;
-                                                                                        prefs.setInt("color_id", snapshot.data.data[i].id);
-                                                                                        if (language == 'en') {
-                                                                                          des.add(snapshot.data.data[i].nameEn!);
-                                                                                        } else {
-                                                                                          des.add(snapshot.data.data[i].nameAr!);
-                                                                                        }
-                                                                                      },
-                                                                                    );
-                                                                                    Navigator.pop(context);
-                                                                                  }),
-                                                                            ],
-                                                                          );
-                                                                        });
-                                                              } else {
-                                                                return Center(
-                                                                  child:
-                                                                      CircularProgressIndicator(
-                                                                    color:
-                                                                        mainColor,
-                                                                  ),
-                                                                );
-                                                              }
-                                                            }),
-                                                      ],
+                                                                                Radio<int>(
+                                                                                    activeColor: mainColor,
+                                                                                    value: snapshot.data.data[i].id,
+                                                                                    groupValue: selectedColor,
+                                                                                    onChanged: (int? value) {
+                                                                                      setState(
+                                                                                        () {
+                                                                                          att.add(snapshot.data.data[i].id);
+                                                                                          selectedColor = snapshot.data.data[i].id;
+                                                                                          prefs.setInt("color_id", snapshot.data.data[i].id);
+                                                                                          if (language == 'en') {
+                                                                                            des.add(snapshot.data.data[i].nameEn!);
+                                                                                          } else {
+                                                                                            des.add(snapshot.data.data[i].nameAr!);
+                                                                                          }
+                                                                                        },
+                                                                                      );
+                                                                                      Navigator.pop(context);
+                                                                                    }),
+                                                                              ],
+                                                                            );
+                                                                          })
+                                                                      : Padding(
+                                                                          padding:
+                                                                              EdgeInsets.only(top: h * 0.15),
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                Text(
+                                                                              translateString("No colors yet for this size \n product not available for this size", "  لقد نفذت كمية المنتج المتاحه لهذا المقاس  \n لا توجد الوان متاحه حاليا لهذا المقاس"),
+                                                                              textAlign: TextAlign.center,
+                                                                              style: TextStyle(color: mainColor, fontSize: w * 0.04, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', height: 2),
+                                                                            ),
+                                                                          ),
+                                                                        );
+                                                                } else {
+                                                                  return Center(
+                                                                    child:
+                                                                        CircularProgressIndicator(
+                                                                      color:
+                                                                          mainColor,
+                                                                    ),
+                                                                  );
+                                                                }
+                                                              }),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
+                                                  );
+                                                } else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      backgroundColor:
+                                                          Colors.black,
+                                                      content: Text(
+                                                        translateString(
+                                                            "select size first",
+                                                            "يجب اختيار المقاس اولا"),
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: w * 0.04,
+                                                            fontFamily:
+                                                                'Tajawal'),
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
                                               },
                                               child: Row(
                                                 children: [
@@ -1969,7 +2000,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
     } catch (error) {
       print("color product error : " + error.toString());
     }
-    return null;
+    return colorModel;
   }
 }
 
