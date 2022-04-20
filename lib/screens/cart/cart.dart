@@ -897,9 +897,9 @@ class _CartState extends State<Cart> {
                                                                                 1,
                                                                             scaffoldKey:
                                                                                 scaffoldKey);
-                                                                        if (isavailabe &&
-                                                                            itemCount >=
-                                                                                _pro.quantity + 1) {
+                                                                        if (itemCount >
+                                                                            _pro.quantity +
+                                                                                1) {
                                                                           await dbHelper.updateProduct(
                                                                               _pro.quantity + 1,
                                                                               _pro.idp,

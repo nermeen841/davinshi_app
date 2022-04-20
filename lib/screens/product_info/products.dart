@@ -258,8 +258,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               element.idp == productCla!.id)
                                           .quantity;
                                       checkProductClothesQuantity(
-                                          colorId: att[1],
-                                          sizeId: att[0],
+                                          colorId: selectedColor!,
+                                          sizeId: selectedSize!,
                                           productId: productCla!.id,
                                           quantity: quantity + _counter,
                                           scaffoldKey: scaffoldKey);
@@ -276,8 +276,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                       }
                                     } else {
                                       checkProductClothesQuantity(
-                                          colorId: att[1],
-                                          sizeId: att[0],
+                                          colorId: selectedColor!,
+                                          sizeId: selectedSize!,
                                           productId: productCla!.id,
                                           quantity: _counter,
                                           scaffoldKey: scaffoldKey);
@@ -1110,7 +1110,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                       value: productCla!
                                                                           .attributesClothes![
                                                                               i]
-                                                                          .id!,
+                                                                          .sizeId!,
                                                                       groupValue:
                                                                           selectedSize,
                                                                       onChanged:
@@ -1118,22 +1118,13 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                               value) async {
                                                                         att.clear();
                                                                         des.clear();
-                                                                        // prefs
-                                                                        //     .remove(
-                                                                        //   "Size_id",
-                                                                        // );
-                                                                        // prefs.remove(
-                                                                        //     "color_id");
                                                                         setState(
                                                                           () {
-                                                                            // prefs.setInt("Size_id",
-                                                                            //     productCla!.attributesClothes![i].sizeId!);
-
                                                                             att.add(productCla!.attributesClothes![i].sizeId!);
                                                                             _counter =
                                                                                 1;
                                                                             selectedSize =
-                                                                                productCla!.attributesClothes![i].id!;
+                                                                                productCla!.attributesClothes![i].sizeId!;
                                                                             if (language ==
                                                                                 'en') {
                                                                               des.add(productCla!.attributesClothes![i].nameEn!);
@@ -1221,7 +1212,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                     productCla!
                                                                         .id
                                                                         .toString(),
-                                                                sizeId: att[0]
+                                                                sizeId: selectedSize
                                                                     .toString(),
                                                               ),
                                                               builder: (context,
@@ -1270,7 +1261,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                                           }
                                                                                         },
                                                                                       );
-                                                                                      checkProductClothesQuantity(colorId: snapshot.data.data[i].id, productId: productCla!.id, quantity: _counter, scaffoldKey: scaffoldKey, sizeId: att[0]);
+                                                                                      checkProductClothesQuantity(colorId: selectedColor!, productId: productCla!.id, quantity: _counter, scaffoldKey: scaffoldKey, sizeId: selectedSize!);
                                                                                       Navigator.pop(context);
                                                                                     }),
                                                                               ],

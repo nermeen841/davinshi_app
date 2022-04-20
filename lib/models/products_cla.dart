@@ -432,16 +432,19 @@ Future checkProductClothesQuantity(
     required scaffoldKey}) async {
   final String url = domain + "check-product";
   try {
-    Response response = await Dio().post(url, data: {
-      "product_id": productId.toString(),
-      "quantity": quantity.toString(),
-      "attributes[6]": sizeId.toString(),
-      "attributes[7]": colorId.toString(),
-    });
+    Map<String, dynamic> data = {
+      "product_id": productId,
+      "quantity": quantity,
+      "attributes[6]": sizeId,
+      "attributes[7]": colorId,
+    };
+    Response response = await Dio().post(url, data: data);
     print("colorrrrrrrrrrrrrrrrrr");
     print(colorId);
     print("size ----------------------------------------------");
     print(sizeId);
+    print("----------------------------------------------------");
+    print(data);
     if (response.data['status'] == 1) {
       isavailabe = true;
       itemCount = response.data['data'];
