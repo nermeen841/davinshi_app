@@ -431,12 +431,18 @@ Future checkProductClothesQuantity(
     required int sizeId,
     required scaffoldKey}) async {
   final String url = domain + "check-product";
+
+  var attributes = {
+    "6": sizeId,
+    "7": colorId,
+  };
+
+
   try {
     Map<String, dynamic> data = {
       "product_id": productId,
       "quantity": quantity,
-      "attributes[6]": sizeId,
-      "attributes[7]": colorId,
+      "attributes": attributes,
     };
     Response response = await Dio().post(url, data: data);
     print("colorrrrrrrrrrrrrrrrrr");
