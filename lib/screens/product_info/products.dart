@@ -1261,7 +1261,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                                           }
                                                                                         },
                                                                                       );
-                                                                                      checkProductClothesQuantity(colorId: selectedColor!, productId: productCla!.id, quantity: _counter, scaffoldKey: scaffoldKey, sizeId: selectedSize!);
+                                                                                      checkProductClothesQuantity(colorId: snapshot.data.data[i].id, productId: productCla!.id, quantity: _counter, scaffoldKey: scaffoldKey, sizeId: selectedSize!);
                                                                                       Navigator.pop(context);
                                                                                     }),
                                                                               ],
