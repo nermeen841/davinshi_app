@@ -281,7 +281,7 @@ void error(context) {
           title: translate(context, 'alert', 'failed'),
           desc: translate(context, 'alert', 'try'),
           btnOkOnPress: () {
-            navPop(context);
+            Navigator.pop(context);
           },
           onDissmissCallback: (val) {},
           btnOkIcon: Icons.cancel,
@@ -300,7 +300,7 @@ void errorWPop(context) {
           desc: translate(context, 'alert', 'try'),
           btnOkOnPress: () {},
           onDissmissCallback: (val) {
-            navPop(context);
+            Navigator.pop(context);
           },
           btnOkIcon: Icons.cancel,
           btnOkColor: Colors.red)
