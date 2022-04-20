@@ -32,6 +32,7 @@ class _CartState extends State<Cart> {
   late String errorCoupon;
   String? couponName;
   num couponPrice = 0.0;
+  num maxCopounLimit = 0.0;
   bool couponPercentage = false;
   final FocusNode _focusNode = FocusNode();
   DbHelper dbHelper = DbHelper();
@@ -43,6 +44,9 @@ class _CartState extends State<Cart> {
       if (response.data['status'] == 1) {
         print(response.data);
         couponName = coupon;
+        setState(() {
+          maxCopounLimit = response.data['data']['min_price'];
+        });
         couponPercentage =
             response.data['data']['type_discount'] == 'percentage'
                 ? true
@@ -780,7 +784,11 @@ class _CartState extends State<Cart> {
                                                                 .spaceBetween,
                                                         children: [
                                                           Text(
-                                                            '${_pro.price} $currency',
+                                                            getProductprice(
+                                                                currency:
+                                                                    currency,
+                                                                productPrice:
+                                                                    _pro.price),
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
@@ -887,10 +895,12 @@ class _CartState extends State<Cart> {
                                                                       if (productCla!
                                                                           .isClothes!) {
                                                                         checkProductClothesQuantity(
-                                                                            colorId: _pro.att[
-                                                                                1],
-                                                                            sizeId: _pro.att[
-                                                                                0],
+                                                                            options: _pro
+                                                                                .att,
+                                                                            attributes: [
+                                                                              6,
+                                                                              7
+                                                                            ],
                                                                             productId: _pro
                                                                                 .idp,
                                                                             quantity: _pro.quantity +
@@ -1294,7 +1304,7 @@ class _CartState extends State<Cart> {
                                               fontSize: w * 0.05),
                                         ),
                                         Text(
-                                          '${couponPercentage ? double.parse((getprice(currency: currency, productPrice: cart.subTotal) * getprice(currency: currency, productPrice: couponPrice) / 100).toStringAsFixed(2)) : getprice(currency: currency, productPrice: couponPrice)} $currency',
+                                          '${maxDiscount(price: cart.subTotal)} $currency',
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: w * 0.05),
@@ -1325,7 +1335,7 @@ class _CartState extends State<Cart> {
                                         ),
                                         if (address != null)
                                           Text(
-                                            '${(getprice(currency: currency, productPrice: cart.total) + getprice(currency: currency, productPrice: getAreaPrice(address.areaId)) - (couponPercentage ? double.parse((getprice(currency: currency, productPrice: cart.subTotal) * getprice(currency: currency, productPrice: couponPrice) / 100).toStringAsFixed(2)) : getprice(currency: currency, productPrice: couponPrice)))} $currency',
+                                            '${(getprice(currency: currency, productPrice: cart.total) + getprice(currency: currency, productPrice: getAreaPrice(address.areaId)) - maxDiscount(price: cart.total))} $currency',
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: w * 0.055,
@@ -1333,7 +1343,7 @@ class _CartState extends State<Cart> {
                                           ),
                                         if (address == null)
                                           Text(
-                                            '${(getprice(currency: currency, productPrice: cart.total) - (couponPercentage ? double.parse((getprice(currency: currency, productPrice: cart.subTotal) * getprice(currency: currency, productPrice: couponPrice) / 100).toStringAsFixed(2)) : getprice(currency: currency, productPrice: couponPrice)))} $currency',
+                                            '${(getprice(currency: currency, productPrice: cart.total) - maxDiscount(price: cart.total))} $currency',
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: w * 0.055,
@@ -1446,6 +1456,7 @@ class _CartState extends State<Cart> {
                                 navP(
                                     context,
                                     ConfirmCart(
+                                      maxCopounLimit: maxCopounLimit,
                                       couponPrice: couponPrice,
                                       couponName: couponName,
                                       couponPercentage: couponPercentage,
@@ -1518,6 +1529,7 @@ class _CartState extends State<Cart> {
                                 navP(
                                     context,
                                     ConfirmCart(
+                                        maxCopounLimit: maxCopounLimit,
                                         couponPrice: couponPrice,
                                         couponName: couponName,
                                         couponPercentage: couponPercentage));
@@ -1588,6 +1600,21 @@ class _CartState extends State<Cart> {
               )),
       ),
     );
+  }
+
+  num maxDiscount({required num price}) {
+    num finaldiscount = couponPercentage
+        ? double.parse((getprice(currency: currency, productPrice: price) *
+                getprice(currency: currency, productPrice: couponPrice) /
+                100)
+            .toStringAsFixed(2))
+        : getprice(currency: currency, productPrice: couponPrice);
+    if (finaldiscount > price) {
+      finaldiscount = price - maxCopounLimit;
+      return finaldiscount;
+    } else {
+      return finaldiscount;
+    }
   }
 
   num getprice({required String currency, required num productPrice}) {

@@ -20,6 +20,7 @@ String mAPIKey =
 class PaymentScreen extends StatefulWidget {
   final double totalprice;
   final num couponPrice;
+  final num maxCopounLimit;
   final String? couponName;
   final bool couponPercentage;
   const PaymentScreen(
@@ -27,6 +28,7 @@ class PaymentScreen extends StatefulWidget {
       required this.totalprice,
       required this.couponPrice,
       required this.couponName,
+      required this.maxCopounLimit,
       required this.couponPercentage})
       : super(key: key);
   @override
@@ -56,6 +58,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) => ConfirmCart(
+                      maxCopounLimit: widget.maxCopounLimit,
                       couponPrice: widget.couponPrice,
                       couponName: widget.couponName,
                       couponPercentage: widget.couponPercentage)),
@@ -82,6 +85,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => ConfirmCart(
+                          maxCopounLimit: widget.maxCopounLimit,
                           couponPrice: widget.couponPrice,
                           couponName: widget.couponName,
                           couponPercentage: widget.couponPercentage)),
@@ -115,6 +119,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ConfirmCart(
+                        maxCopounLimit: widget.maxCopounLimit,
                         couponPrice: widget.couponPrice,
                         couponName: widget.couponName,
                         couponPercentage: widget.couponPercentage)),
@@ -126,6 +131,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ConfirmCart(
+                        maxCopounLimit: widget.maxCopounLimit,
                         couponPrice: widget.couponPrice,
                         couponName: widget.couponName,
                         couponPercentage: widget.couponPercentage)),

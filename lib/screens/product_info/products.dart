@@ -147,7 +147,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
         Response response = await Dio().post(url, data: {
           "product_id": productId,
           "quantity": quantity,
-          "attributes[$attrib]": optionsId,
+          "attributes$attrib": optionsId,
         });
 
         print(response.data);
@@ -258,8 +258,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               element.idp == productCla!.id)
                                           .quantity;
                                       checkProductClothesQuantity(
-                                          colorId: selectedColor!,
-                                          sizeId: selectedSize!,
+                                          attributes: optionsQuantity,
+                                          options: att,
                                           productId: productCla!.id,
                                           quantity: quantity + _counter,
                                           scaffoldKey: scaffoldKey);
@@ -276,8 +276,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                       }
                                     } else {
                                       checkProductClothesQuantity(
-                                          colorId: selectedColor!,
-                                          sizeId: selectedSize!,
+                                          attributes: optionsQuantity,
+                                          options: att,
                                           productId: productCla!.id,
                                           quantity: _counter,
                                           scaffoldKey: scaffoldKey);
@@ -481,10 +481,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                             selectedSize = null;
                                             att.clear();
                                             des.clear();
-                                            // prefs.remove(
-                                            //   "Size_id",
-                                            // );
-                                            // prefs.remove("color_id");
+                                            optionsQuantity.clear();
                                             _counter = 1;
                                           });
                                         }
@@ -1118,8 +1115,12 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                               value) async {
                                                                         att.clear();
                                                                         des.clear();
+                                                                        optionsQuantity
+                                                                            .clear();
+
                                                                         setState(
                                                                           () {
+                                                                            optionsQuantity.add(6);
                                                                             att.add(productCla!.attributesClothes![i].sizeId!);
                                                                             _counter =
                                                                                 1;
@@ -1249,6 +1250,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                                       // prefs.remove("color_id");
                                                                                       setState(
                                                                                         () {
+                                                                                          optionsQuantity.add(7);
                                                                                           att.add(snapshot.data.data[i].id);
                                                                                           _counter = 1;
                                                                                           selectedColor = snapshot.data.data[i].id;
@@ -1261,7 +1263,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                                           }
                                                                                         },
                                                                                       );
-                                                                                      checkProductClothesQuantity(colorId: snapshot.data.data[i].id, productId: productCla!.id, quantity: _counter, scaffoldKey: scaffoldKey, sizeId: selectedSize!);
+                                                                                      checkProductClothesQuantity(attributes: [6, 7], productId: productCla!.id, quantity: _counter, scaffoldKey: scaffoldKey, options: att);
                                                                                       Navigator.pop(context);
                                                                                     }),
                                                                               ],

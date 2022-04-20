@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, avoid_print, empty_catches
 
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
@@ -427,23 +429,19 @@ int itemCount = 0;
 Future checkProductClothesQuantity(
     {required int productId,
     required int quantity,
-    required int colorId,
-    required int sizeId,
+    required List<int> options,
+    required List<int> attributes,
     required scaffoldKey}) async {
   final String url = domain + "check-product";
   try {
+    String attrib = jsonEncode(attributes);
+    String optionsId = jsonEncode(options);
     Map<String, dynamic> data = {
       "product_id": productId,
       "quantity": quantity,
-      "attributes[6]": sizeId,
-      "attributes[7]": colorId,
+      "attributes$attrib": optionsId,
     };
     Response response = await Dio().post(url, data: data);
-    print("colorrrrrrrrrrrrrrrrrr");
-    print(colorId);
-    print("size ----------------------------------------------");
-    print(sizeId);
-    print("----------------------------------------------------");
     print(data);
     if (response.data['status'] == 1) {
       isavailabe = true;
