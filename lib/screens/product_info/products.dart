@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls, unrelated_type_equality_checks
+// ignore_for_file: avoid_print, avoid_function_literals_in_foreach_calls, unrelated_type_equality_checks, iterable_contains_unrelated_type
 
 import 'dart:convert';
 import 'package:badges/badges.dart';
@@ -58,7 +58,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       productCla!.isOffer ? productCla!.offerPrice! : productCla!.price;
 
   TabController? _tabBar;
-
+  List<String> selectedColorSize = [];
   Future saveLike(bool type) async {
     final String url = domain + 'product/like';
     try {
@@ -107,36 +107,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
-
-  // bool loading = false;
-  // Future getProduct() async {
-  //   selectedItem = [];
-  //   getItem(widget.brandId).then((value) {
-  //     setState(() {
-  //       loading = true;
-  //     });
-  //     for (int i = 0; i < (productCla?.attributes.length ?? 0); i++) {
-  //       des.add('');
-  //       att.add(0);
-  //       optionsPrice.add(0);
-  //       optionsQuantity.add(0);
-  //       attPrice[''] = 0;
-  //     }
-  //     _tabBar = TabController(length: 3, vsync: this, initialIndex: 0);
-  //     _tabBar?.addListener(() {
-  //       if (_tabBar?.index == 1) {
-  //         if (finishTab) {
-  //           finishTab = false;
-  //           dialog(context);
-  //           getRates().then((value) {
-  //             navPop(context);
-  //             finishTab = true;
-  //           });
-  //         }
-  //       }
-  //     });
-  //   });
-  // }
 
   bool finishTab = true;
   @override
@@ -288,14 +258,17 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               element.idp == productCla!.id)
                                           .quantity;
                                       checkProductClothesQuantity(
+                                          colorId: att[1],
+                                          sizeId: att[0],
                                           productId: productCla!.id,
                                           quantity: quantity + _counter,
                                           scaffoldKey: scaffoldKey);
-                                      if (isavailabe) {
+
+                                      if (itemCount > _counter) {
                                         setState2(() {
                                           _counter++;
                                         });
-                                      } else if (isavailabe == false) {
+                                      } else if (itemCount <= _counter) {
                                         setState2(() {
                                           _counter = _counter;
                                         });
@@ -303,14 +276,16 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                       }
                                     } else {
                                       checkProductClothesQuantity(
+                                          colorId: att[1],
+                                          sizeId: att[0],
                                           productId: productCla!.id,
                                           quantity: _counter,
                                           scaffoldKey: scaffoldKey);
-                                      if (isavailabe) {
+                                      if (itemCount > _counter) {
                                         setState2(() {
                                           _counter++;
                                         });
-                                      } else if (isavailabe == false) {
+                                      } else if (itemCount <= _counter) {
                                         setState2(() {
                                           _counter = _counter;
                                         });
@@ -437,7 +412,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                           ),
                                         );
                                       } else {
-                                        if (isavailabe) {
+                                        if (itemCount >= _counter) {
                                           if (!cart.idp
                                               .contains(productCla!.id)) {
                                             await helper.createCar(CartProducts(
@@ -463,14 +438,55 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                     element.idp ==
                                                     productCla!.id)
                                                 .quantity;
-                                            await helper.updateProduct(
-                                                _counter + quantity,
-                                                productCla!.id,
-                                                finalPrice.toDouble(),
-                                                jsonEncode(att),
-                                                jsonEncode(des));
+                                            final cartDesc = cart.items
+                                                .firstWhere((element) =>
+                                                    element.idp ==
+                                                    productCla!.id)
+                                                .des;
+                                            if (selectedColorSize
+                                                .contains(cartDesc)) {
+                                              await helper.updateProduct(
+                                                  _counter + quantity,
+                                                  productCla!.id,
+                                                  finalPrice.toDouble(),
+                                                  jsonEncode(att),
+                                                  jsonEncode(des));
+                                            } else {
+                                              await helper.createCar(
+                                                  CartProducts(
+                                                      id: null,
+                                                      studentId: studentId,
+                                                      image: productCla!.image,
+                                                      titleAr:
+                                                          productCla!.nameAr,
+                                                      titleEn:
+                                                          productCla!.nameEn,
+                                                      price:
+                                                          finalPrice.toDouble(),
+                                                      quantity: _counter,
+                                                      att: att,
+                                                      des: des,
+                                                      idp: productCla!.id,
+                                                      idc: productCla!.cat.id,
+                                                      catNameEn: productCla!
+                                                          .cat.nameEn,
+                                                      catNameAr: productCla!
+                                                          .cat.nameAr,
+                                                      catSVG:
+                                                          productCla!.cat.svg));
+                                            }
                                           }
-                                          await cart.setItems();
+                                          await cart.setItems().then((value) {
+                                            selectedColor = null;
+                                            selectedSize = null;
+                                            att.clear();
+                                            des.clear();
+                                            // prefs.remove(
+                                            //   "Size_id",
+                                            // );
+                                            // prefs.remove("color_id");
+                                            _counter = 1;
+                                          });
                                         }
                                       }
                                     }
@@ -1011,7 +1027,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                         height: h * 0.04,
                                       )
                                     : Container(),
-                                (productCla!.isClothes! == true)
+                                (productCla!.isClothes! == true &&
+                                        productCla!.quantity != 0)
                                     ? Padding(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: w * 0.025),
@@ -1100,13 +1117,21 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                           (int?
                                                                               value) async {
                                                                         att.clear();
-                                                                        prefs.setInt(
-                                                                            "Size_id",
-                                                                            productCla!.attributesClothes![i].sizeId!);
-
+                                                                        des.clear();
+                                                                        // prefs
+                                                                        //     .remove(
+                                                                        //   "Size_id",
+                                                                        // );
+                                                                        // prefs.remove(
+                                                                        //     "color_id");
                                                                         setState(
                                                                           () {
+                                                                            // prefs.setInt("Size_id",
+                                                                            //     productCla!.attributesClothes![i].sizeId!);
+
                                                                             att.add(productCla!.attributesClothes![i].sizeId!);
+                                                                            _counter =
+                                                                                1;
                                                                             selectedSize =
                                                                                 productCla!.attributesClothes![i].id!;
                                                                             if (language ==
@@ -1114,10 +1139,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                               des.add(productCla!.attributesClothes![i].nameEn!);
                                                                             } else {
                                                                               des.add(productCla!.attributesClothes![i].nameAr!);
+                                                                              selectedColorSize.addAll(des);
                                                                             }
-                                                                            // getProductcolor(
-                                                                            //     productId: productCla!.id.toString(),
-                                                                            //     sizeId: productCla!.attributesClothes![i].sizeId!.toString());
                                                                           },
                                                                         );
                                                                         Navigator.pop(
@@ -1198,10 +1221,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                     productCla!
                                                                         .id
                                                                         .toString(),
-                                                                sizeId: prefs
-                                                                    .getInt(
-                                                                      "Size_id",
-                                                                    )
+                                                                sizeId: att[0]
                                                                     .toString(),
                                                               ),
                                                               builder: (context,
@@ -1235,11 +1255,14 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                                     value: snapshot.data.data[i].id,
                                                                                     groupValue: selectedColor,
                                                                                     onChanged: (int? value) {
+                                                                                      // prefs.remove("color_id");
                                                                                       setState(
                                                                                         () {
                                                                                           att.add(snapshot.data.data[i].id);
+                                                                                          _counter = 1;
                                                                                           selectedColor = snapshot.data.data[i].id;
-                                                                                          prefs.setInt("color_id", snapshot.data.data[i].id);
+                                                                                          selectedColorSize.addAll(des);
+                                                                                          // prefs.setInt("color_id", snapshot.data.data[i].id);
                                                                                           if (language == 'en') {
                                                                                             des.add(snapshot.data.data[i].nameEn!);
                                                                                           } else {
@@ -1247,6 +1270,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                                           }
                                                                                         },
                                                                                       );
+                                                                                      checkProductClothesQuantity(colorId: snapshot.data.data[i].id, productId: productCla!.id, quantity: _counter, scaffoldKey: scaffoldKey, sizeId: att[0]);
                                                                                       Navigator.pop(context);
                                                                                     }),
                                                                               ],

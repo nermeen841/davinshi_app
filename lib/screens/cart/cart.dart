@@ -887,12 +887,19 @@ class _CartState extends State<Cart> {
                                                                       if (productCla!
                                                                           .isClothes!) {
                                                                         checkProductClothesQuantity(
-                                                                            productId: _pro.idp +
+                                                                            colorId: _pro.att[
+                                                                                1],
+                                                                            sizeId: _pro.att[
+                                                                                0],
+                                                                            productId: _pro
+                                                                                .idp,
+                                                                            quantity: _pro.quantity +
                                                                                 1,
-                                                                            quantity:
-                                                                                _pro.quantity,
-                                                                            scaffoldKey: scaffoldKey);
-                                                                        if (isavailabe) {
+                                                                            scaffoldKey:
+                                                                                scaffoldKey);
+                                                                        if (isavailabe &&
+                                                                            itemCount >=
+                                                                                _pro.quantity + 1) {
                                                                           await dbHelper.updateProduct(
                                                                               _pro.quantity + 1,
                                                                               _pro.idp,

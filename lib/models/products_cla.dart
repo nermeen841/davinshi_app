@@ -422,24 +422,54 @@ getProductprice({required String currency, required num productPrice}) {
 
 /////////////////////////////////////////////////////////////////
 bool isavailabe = false;
+int itemCount = 0;
 
 Future checkProductClothesQuantity(
     {required int productId,
     required int quantity,
+    required int colorId,
+    required int sizeId,
     required scaffoldKey}) async {
   final String url = domain + "check-product";
   try {
     Response response = await Dio().post(url, data: {
       "product_id": productId.toString(),
       "quantity": quantity.toString(),
-      "attributes[6]": prefs.getInt("Size_id").toString(),
-      "attributes[7]": prefs.getInt("color_id").toString(),
+      "attributes[6]": sizeId.toString(),
+      "attributes[7]": colorId.toString(),
     });
+    print("colorrrrrrrrrrrrrrrrrr");
+    print(colorId);
+    print("size ----------------------------------------------");
+    print(sizeId);
     if (response.data['status'] == 1) {
       isavailabe = true;
+      itemCount = response.data['data'];
+      if (response.data['data'] == quantity) {
+        final snackBar = SnackBar(
+          content: Text(
+            translateString(
+                'product available quantity is only ${response.data['data']}',
+                'هذا المنتج متاح منه فقط ${response.data['data']}'),
+            style: TextStyle(
+                fontFamily: 'Tajawal',
+                fontSize: w * 0.04,
+                fontWeight: FontWeight.w500),
+          ),
+          action: SnackBarAction(
+            label: translateString("Undo", "تراجع"),
+            disabledTextColor: Colors.yellow,
+            textColor: Colors.yellow,
+            onPressed: () {},
+          ),
+        );
+        ScaffoldMessenger.of(scaffoldKey.currentContext!)
+            .showSnackBar(snackBar);
+      }
       print(response.data);
     } else if (response.data['status'] == 0) {
       isavailabe = false;
+      itemCount = response.data['data'];
       final snackBar = SnackBar(
         content: Text(
           translateString(
