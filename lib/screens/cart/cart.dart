@@ -895,12 +895,10 @@ class _CartState extends State<Cart> {
                                                                       if (productCla!
                                                                           .isClothes!) {
                                                                         checkProductClothesQuantity(
-                                                                            options: _pro
-                                                                                .att,
-                                                                            attributes: [
-                                                                              6,
-                                                                              7
-                                                                            ],
+                                                                            sizeId: _pro.att[
+                                                                                0],
+                                                                            colorId: _pro.att[
+                                                                                1],
                                                                             productId: _pro
                                                                                 .idp,
                                                                             quantity: _pro.quantity +

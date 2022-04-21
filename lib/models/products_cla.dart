@@ -429,20 +429,21 @@ int itemCount = 0;
 Future checkProductClothesQuantity(
     {required int productId,
     required int quantity,
-    required List<int> options,
-    required List<int> attributes,
+    required int sizeId,
+    required int colorId,
+    // required List<int> options,
+    // required List<int> attributes,
     required scaffoldKey}) async {
   final String url = domain + "check-product";
 
-  // var attributes = {
-  //   "6": sizeId,
-  //   "7": colorId,
-  // };
-
+  var attributes = {
+    "6": sizeId,
+    "7": colorId,
+  };
 
   try {
-    String attrib = jsonEncode(attributes);
-    String optionsId = jsonEncode(options);
+    // String attrib = jsonEncode(attributes);
+    // String optionsId = jsonEncode(options);
     Map<String, dynamic> data = {
       "product_id": productId,
       "quantity": quantity,
