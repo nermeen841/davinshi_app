@@ -142,11 +142,13 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       var attribu;
       final String url = domain + "check-product";
 
-      for (var item in attributes) {
-        for (var opt in options) {
-          attribu = {"$item": opt};
-        }
+      for (var i ; i < attributes.length ; i++) {
+      //   for (var opt in options) {
+      //     attribu = {"$item": opt};
+      //   }
+      attribu["${attributes[i]}"] = options[i];
       }
+      
       print(attribu);
       try {
         Response response = await Dio().post(url, data: {
