@@ -139,16 +139,20 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       required List options,
       required context,
     }) async {
+      var attribu;
       final String url = domain + "check-product";
-      String attrib = jsonEncode(attributes);
-      String optionsId = jsonEncode(options);
-      print(attributes);
-      print(options);
+
+      for (var item in attributes) {
+        for (var opt in options) {
+          attribu = {"$item": opt};
+        }
+      }
+      print(attribu);
       try {
         Response response = await Dio().post(url, data: {
           "product_id": productId,
           "quantity": quantity,
-          "attributes[$attrib]": optionsId,
+          "attributes": attribu,
         });
 
         print(response.data);
@@ -470,7 +474,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                     productCla!.id)
                                                 .des;
                                             if (listEquals(des, cartDesc)) {
-                                              if (itemCount >
+                                              if (itemCount >=
                                                   _counter + quantity) {
                                                 await helper.updateProduct(
                                                     _counter + quantity,

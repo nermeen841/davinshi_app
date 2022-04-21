@@ -1,7 +1,5 @@
 // ignore_for_file: non_constant_identifier_names, avoid_print, empty_catches
 
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
@@ -431,8 +429,6 @@ Future checkProductClothesQuantity(
     required int quantity,
     required int sizeId,
     required int colorId,
-    // required List<int> options,
-    // required List<int> attributes,
     required scaffoldKey}) async {
   final String url = domain + "check-product";
 
@@ -442,8 +438,6 @@ Future checkProductClothesQuantity(
   };
 
   try {
-    // String attrib = jsonEncode(attributes);
-    // String optionsId = jsonEncode(options);
     Map<String, dynamic> data = {
       "product_id": productId,
       "quantity": quantity,
