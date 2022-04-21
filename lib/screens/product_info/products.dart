@@ -1872,7 +1872,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                               child: Text(
                             translate(context, 'buttons', 'add_cart') +
                                 "     " +
-                                '$finalPrice $currency',
+                                getProductprice(
+                                    currency: currency,
+                                    productPrice: finalPrice),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
