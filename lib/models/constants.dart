@@ -281,9 +281,11 @@ void error(context) {
           title: translate(context, 'alert', 'failed'),
           desc: translate(context, 'alert', 'try'),
           btnOkOnPress: () {
-            Navigator.pop(context);
+            navPop(context);
           },
-          onDissmissCallback: (val) {},
+          onDissmissCallback: (type) {
+            navPop(context);
+          },
           btnOkIcon: Icons.cancel,
           btnOkColor: Colors.red)
       .show();
@@ -300,7 +302,7 @@ void errorWPop(context) {
           desc: translate(context, 'alert', 'try'),
           btnOkOnPress: () {},
           onDissmissCallback: (val) {
-            Navigator.pop(context);
+            navPop(context);
           },
           btnOkIcon: Icons.cancel,
           btnOkColor: Colors.red)
@@ -313,13 +315,16 @@ void customError(context, data) {
           dialogType: DialogType.ERROR,
           animType: AnimType.RIGHSLIDE,
           headerAnimationLoop: true,
-          dismissOnTouchOutside: false,
+          dismissOnTouchOutside: true,
+          dismissOnBackKeyPress: true,
           title: translate(context, 'alert', 'failed'),
           desc: data,
           btnOkOnPress: () {
             Navigator.pop(context);
           },
-          onDissmissCallback: (val) {},
+          onDissmissCallback: (type) {
+            navPop(context);
+          },
           btnOkIcon: Icons.cancel,
           btnOkColor: Colors.red)
       .show();

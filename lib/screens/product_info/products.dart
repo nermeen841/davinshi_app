@@ -9,6 +9,7 @@ import 'package:davinshi_app/screens/product_info/product_rate.dart';
 import 'package:davinshi_app/screens/product_info/similar.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 import 'package:provider/provider.dart';
@@ -257,22 +258,47 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                           .firstWhere((element) =>
                                               element.idp == productCla!.id)
                                           .quantity;
-                                      checkProductClothesQuantity(
-                                          colorId: selectedColor!,
-                                          sizeId: selectedSize!,
-                                          productId: productCla!.id,
-                                          quantity: quantity + _counter,
-                                          scaffoldKey: scaffoldKey);
-
-                                      if (itemCount > _counter) {
-                                        setState2(() {
-                                          _counter++;
-                                        });
-                                      } else if (itemCount <= _counter) {
-                                        setState2(() {
-                                          _counter = _counter;
-                                        });
-                                        Navigator.pop(context);
+                                      final cartDesc = cart.items
+                                          .firstWhere((element) =>
+                                              element.idp == productCla!.id)
+                                          .des;
+                                      if (listEquals(des, cartDesc)) {
+                                        print(
+                                            "8888888888888888888888888888888888888");
+                                        checkProductClothesQuantity(
+                                            colorId: selectedColor!,
+                                            sizeId: selectedSize!,
+                                            productId: productCla!.id,
+                                            quantity: quantity + _counter,
+                                            scaffoldKey: scaffoldKey);
+                                        if (itemCount > quantity + _counter) {
+                                          setState2(() {
+                                            _counter++;
+                                          });
+                                        } else if (itemCount <=
+                                            quantity + _counter) {
+                                          setState2(() {
+                                            _counter = _counter;
+                                          });
+                                          Navigator.pop(context);
+                                        }
+                                      } else if (!listEquals(des, cartDesc)) {
+                                        checkProductClothesQuantity(
+                                            colorId: selectedColor!,
+                                            sizeId: selectedSize!,
+                                            productId: productCla!.id,
+                                            quantity: _counter,
+                                            scaffoldKey: scaffoldKey);
+                                        if (itemCount > _counter) {
+                                          setState2(() {
+                                            _counter++;
+                                          });
+                                        } else if (itemCount <= _counter) {
+                                          setState2(() {
+                                            _counter = _counter;
+                                          });
+                                          Navigator.pop(context);
+                                        }
                                       }
                                     } else {
                                       checkProductClothesQuantity(
@@ -443,15 +469,43 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                     element.idp ==
                                                     productCla!.id)
                                                 .des;
-                                            if (selectedColorSize
-                                                .contains(cartDesc)) {
-                                              await helper.updateProduct(
-                                                  _counter + quantity,
-                                                  productCla!.id,
-                                                  finalPrice.toDouble(),
-                                                  jsonEncode(att),
-                                                  jsonEncode(des));
-                                            } else {
+                                            if (listEquals(des, cartDesc)) {
+                                              if (itemCount >
+                                                  _counter + quantity) {
+                                                await helper.updateProduct(
+                                                    _counter + quantity,
+                                                    productCla!.id,
+                                                    finalPrice.toDouble(),
+                                                    jsonEncode(att),
+                                                    jsonEncode(des));
+                                              } else if (_counter + quantity >
+                                                  itemCount) {
+                                                final snackBar = SnackBar(
+                                                  content: Text(
+                                                    translateString(
+                                                        'product amount not available',
+                                                        'كمية المنتج غير متاحة حاليا '),
+                                                    style: TextStyle(
+                                                        fontFamily: 'Tajawal',
+                                                        fontSize: w * 0.04,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                  action: SnackBarAction(
+                                                    label: translateString(
+                                                        "Undo", "تراجع"),
+                                                    disabledTextColor:
+                                                        Colors.yellow,
+                                                    textColor: Colors.yellow,
+                                                    onPressed: () {},
+                                                  ),
+                                                );
+                                                ScaffoldMessenger.of(scaffoldKey
+                                                        .currentContext!)
+                                                    .showSnackBar(snackBar);
+                                              }
+                                            } else if (!listEquals(
+                                                des, cartDesc)) {
                                               await helper.createCar(
                                                   CartProducts(
                                                       id: null,
@@ -481,10 +535,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                             selectedSize = null;
                                             att.clear();
                                             des.clear();
-                                            // prefs.remove(
-                                            //   "Size_id",
-                                            // );
-                                            // prefs.remove("color_id");
+                                            selectedColorSize.clear();
                                             _counter = 1;
                                           });
                                         }
@@ -1118,6 +1169,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                               value) async {
                                                                         att.clear();
                                                                         des.clear();
+                                                                        selectedColorSize
+                                                                            .clear();
                                                                         setState(
                                                                           () {
                                                                             att.add(productCla!.attributesClothes![i].sizeId!);
@@ -1128,9 +1181,10 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                             if (language ==
                                                                                 'en') {
                                                                               des.add(productCla!.attributesClothes![i].nameEn!);
+                                                                              selectedColorSize.add(productCla!.attributesClothes![i].nameEn!);
                                                                             } else {
                                                                               des.add(productCla!.attributesClothes![i].nameAr!);
-                                                                              selectedColorSize.addAll(des);
+                                                                              selectedColorSize.add(productCla!.attributesClothes![i].nameAr!);
                                                                             }
                                                                           },
                                                                         );
@@ -1252,12 +1306,14 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                                           att.add(snapshot.data.data[i].id);
                                                                                           _counter = 1;
                                                                                           selectedColor = snapshot.data.data[i].id;
-                                                                                          selectedColorSize.addAll(des);
+
                                                                                           // prefs.setInt("color_id", snapshot.data.data[i].id);
                                                                                           if (language == 'en') {
                                                                                             des.add(snapshot.data.data[i].nameEn!);
+                                                                                            selectedColorSize.add(snapshot.data.data[i].nameEn!);
                                                                                           } else {
                                                                                             des.add(snapshot.data.data[i].nameAr!);
+                                                                                            selectedColorSize.add(snapshot.data.data[i].nameEn!);
                                                                                           }
                                                                                         },
                                                                                       );
