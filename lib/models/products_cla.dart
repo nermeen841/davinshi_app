@@ -172,12 +172,14 @@ class Attributes {
 
 class OptionsModel {
   int id;
+  int valueId;
   int quantity;
   String nameAr;
   String nameEn;
   num price;
   OptionsModel({
     required this.id,
+    required this.valueId,
     required this.nameAr,
     required this.nameEn,
     required this.price,
@@ -270,7 +272,8 @@ Future setProduct(Map e) async {
             if (o['values'].length == 0) {
             } else {
               _options.add(OptionsModel(
-                  id: o['values'][0]['id'],
+                  valueId: o['values'][0]['id'],
+                  id: o['id'],
                   nameAr: o['name_ar'] ?? '',
                   nameEn: o['name_en'] ?? '',
                   price: num.parse(inOffer
