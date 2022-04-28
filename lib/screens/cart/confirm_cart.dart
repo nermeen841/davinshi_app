@@ -97,12 +97,15 @@ class _ConfirmCartState extends State<ConfirmCart> {
       );
       if (response.data['status'] == 1) {
         print(response.data);
+        Provider.of<CartProvider>(context, listen: false).clearAll();
+        dbHelper.deleteAll();
         if (isCash == 0) {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => PaymentScreen(
                         maxCopounLimit: widget.maxCopounLimit,
+                        orderId: response.data['order']['id'],
                         totalprice:
                             response.data['order']['total_price'].toDouble(),
                         couponName: widget.couponName,

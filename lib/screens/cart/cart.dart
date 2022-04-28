@@ -36,6 +36,7 @@ class _CartState extends State<Cart> {
   bool couponPercentage = false;
   final FocusNode _focusNode = FocusNode();
   DbHelper dbHelper = DbHelper();
+
   Future<int> setCoupon(context, coupon, price) async {
     final String url2 = domain +
         'check-coupon?coupon_code=$coupon&order_price=$price&brand_id=$cartId';
@@ -194,6 +195,25 @@ class _CartState extends State<Cart> {
     CartProvider cart = Provider.of<CartProvider>(context, listen: true);
     AddressClass? address =
         Provider.of<AddressProvider>(context, listen: false).addressCart;
+    num maxDiscount({required num price}) {
+      num finaldiscount = 0.0;
+      if (maxCopounLimit < cart.subTotal) {
+        finaldiscount = couponPercentage
+            ? double.parse((getprice(currency: currency, productPrice: price) *
+                    getprice(currency: currency, productPrice: couponPrice) /
+                    100)
+                .toStringAsFixed(2))
+            : getprice(currency: currency, productPrice: couponPrice);
+        if (finaldiscount > price) {
+          finaldiscount = price - maxCopounLimit;
+          return finaldiscount;
+        } else {
+          return finaldiscount;
+        }
+      }
+      return finaldiscount;
+    }
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -1289,7 +1309,8 @@ class _CartState extends State<Cart> {
                                   SizedBox(
                                     height: h * 0.03,
                                   ),
-                                  if (couponPrice != 0.0)
+                                  if (couponPrice != 0.0 &&
+                                      maxCopounLimit < cart.subTotal)
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -1449,16 +1470,20 @@ class _CartState extends State<Cart> {
                                 ),
                               ),
                               onTap: () {
-                                // dialog(context);
-                                // checkOut(context);
-                                navP(
-                                    context,
-                                    ConfirmCart(
-                                      maxCopounLimit: maxCopounLimit,
-                                      couponPrice: couponPrice,
-                                      couponName: couponName,
-                                      couponPercentage: couponPercentage,
-                                    ));
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: ((context) => ConfirmCart(
+                                          maxCopounLimit: maxCopounLimit,
+                                          couponPrice:
+                                              (maxCopounLimit < cart.subTotal)
+                                                  ? couponPrice
+                                                  : 0.0,
+                                          couponName: couponName,
+                                          couponPercentage: couponPercentage,
+                                        )),
+                                  ),
+                                );
                               },
                             ),
                     if (!login)
@@ -1598,21 +1623,6 @@ class _CartState extends State<Cart> {
               )),
       ),
     );
-  }
-
-  num maxDiscount({required num price}) {
-    num finaldiscount = couponPercentage
-        ? double.parse((getprice(currency: currency, productPrice: price) *
-                getprice(currency: currency, productPrice: couponPrice) /
-                100)
-            .toStringAsFixed(2))
-        : getprice(currency: currency, productPrice: couponPrice);
-    if (finaldiscount > price) {
-      finaldiscount = price - maxCopounLimit;
-      return finaldiscount;
-    } else {
-      return finaldiscount;
-    }
   }
 
   num getprice({required String currency, required num productPrice}) {

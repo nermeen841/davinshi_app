@@ -2,16 +2,14 @@
 
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
-import 'package:davinshi_app/models/cart.dart';
 import 'package:davinshi_app/models/constants.dart';
 import 'package:davinshi_app/models/order.dart';
 import 'package:davinshi_app/models/user.dart';
-import 'package:davinshi_app/provider/cart_provider.dart';
 import 'package:davinshi_app/screens/cart/cart.dart';
 import 'package:davinshi_app/screens/cart/orders.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:my_fatoorah/my_fatoorah.dart';
-import 'package:provider/provider.dart';
 import 'confirm_cart.dart';
 
 String mAPIKey =
@@ -19,6 +17,7 @@ String mAPIKey =
 
 class PaymentScreen extends StatefulWidget {
   final double totalprice;
+  final int orderId;
   final num couponPrice;
   final num maxCopounLimit;
   final String? couponName;
@@ -29,7 +28,8 @@ class PaymentScreen extends StatefulWidget {
       required this.couponPrice,
       required this.couponName,
       required this.maxCopounLimit,
-      required this.couponPercentage})
+      required this.couponPercentage,
+      required this.orderId})
       : super(key: key);
   @override
   _PaymentScreenState createState() => _PaymentScreenState();
@@ -97,12 +97,25 @@ class _PaymentScreenState extends State<PaymentScreen> {
           },
           onResult: (res) async {
             if (res.isSuccess) {
+              try {
+                final String url = domain + "update-order";
+                Response response = await Dio().post(
+                  url,
+                  data: {"order_id": widget.orderId},
+                  options: Options(headers: {
+                    "auth-token": (login) ? auth : null,
+                    "Content-Language": prefs.getString('language_code') ?? 'en'
+                  }),
+                );
+
+                print(response.data);
+              } catch (e) {
+                print(e.toString());
+              }
               print("success url : ---------" + res.url.toString());
               if (login) {
                 await getOrders().then((value) {
-                  Provider.of<CartProvider>(context, listen: false).clearAll();
                   if (value) {
-                    dbHelper.deleteAll();
                     navPR(context, const Orders());
                     return null;
                   } else {
