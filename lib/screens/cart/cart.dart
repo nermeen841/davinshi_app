@@ -866,13 +866,20 @@ class _CartState extends State<Cart> {
                                                                         () async {
                                                                       if (_pro.quantity >
                                                                           1) {
-                                                                        await dbHelper.updateProduct(
-                                                                            _pro.quantity -
-                                                                                1,
-                                                                            _pro.idp,
-                                                                            _pro.price.toDouble(),
-                                                                            jsonEncode(_pro.att),
-                                                                            jsonEncode(_pro.des));
+                                                                        await dbHelper
+                                                                            .updateProduct(
+                                                                          _pro.quantity -
+                                                                              1,
+                                                                          _pro.idp,
+                                                                          _pro.price
+                                                                              .toDouble(),
+                                                                          jsonEncode(
+                                                                              _pro.att),
+                                                                          jsonEncode(
+                                                                              _pro.des),
+                                                                          jsonEncode(
+                                                                              _pro.productOptions),
+                                                                        );
                                                                       } else {
                                                                         await dbHelper
                                                                             .deleteProduct(_pro.id!);
@@ -928,22 +935,64 @@ class _CartState extends State<Cart> {
                                                                         if (itemCount >
                                                                             _pro.quantity +
                                                                                 1) {
-                                                                          await dbHelper.updateProduct(
-                                                                              _pro.quantity + 1,
-                                                                              _pro.idp,
-                                                                              _pro.price.toDouble(),
-                                                                              jsonEncode(_pro.att),
-                                                                              jsonEncode(_pro.des));
-                                                                          cart.setItems();
-                                                                        }
-                                                                      } else {
-                                                                        await dbHelper.updateProduct(
+                                                                          await dbHelper
+                                                                              .updateProduct(
                                                                             _pro.quantity +
                                                                                 1,
                                                                             _pro.idp,
                                                                             _pro.price.toDouble(),
                                                                             jsonEncode(_pro.att),
-                                                                            jsonEncode(_pro.des));
+                                                                            jsonEncode(_pro.des),
+                                                                            jsonEncode(_pro.productOptions),
+                                                                          );
+                                                                          cart.setItems();
+                                                                        }
+                                                                      } else if (productCla!
+                                                                          .attributes
+                                                                          .isNotEmpty) {
+                                                                        checkProductquantity(
+                                                                            productId: _pro.idp
+                                                                                .toString(),
+                                                                            quantity: _pro.quantity +
+                                                                                1,
+                                                                            scaffoldKey:
+                                                                                scaffoldKey,
+                                                                            attributes: _pro
+                                                                                .att,
+                                                                            context:
+                                                                                context,
+                                                                            options:
+                                                                                _pro.productOptions);
+                                                                        if (itemsAvailable! >
+                                                                            _pro.quantity +
+                                                                                1) {
+                                                                          await dbHelper
+                                                                              .updateProduct(
+                                                                            _pro.quantity +
+                                                                                1,
+                                                                            _pro.idp,
+                                                                            _pro.price.toDouble(),
+                                                                            jsonEncode(_pro.att),
+                                                                            jsonEncode(_pro.des),
+                                                                            jsonEncode(_pro.productOptions),
+                                                                          );
+                                                                          cart.setItems();
+                                                                        }
+                                                                      } else {
+                                                                        await dbHelper
+                                                                            .updateProduct(
+                                                                          _pro.quantity +
+                                                                              1,
+                                                                          _pro.idp,
+                                                                          _pro.price
+                                                                              .toDouble(),
+                                                                          jsonEncode(
+                                                                              _pro.att),
+                                                                          jsonEncode(
+                                                                              _pro.des),
+                                                                          jsonEncode(
+                                                                              _pro.productOptions),
+                                                                        );
                                                                         cart.setItems();
                                                                       }
                                                                     },

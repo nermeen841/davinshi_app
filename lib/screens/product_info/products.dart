@@ -127,86 +127,12 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   }
 
   int _counter = 1;
-  int? itemsAvailable;
+
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     CartProvider cart = Provider.of<CartProvider>(context, listen: true);
-
-    checkProductquantity({
-      required String productId,
-      required int quantity,
-      required List attributes,
-      required List options,
-      required context,
-    }) async {
-      var attribu = {};
-      final String url = domain + "check-product";
-
-      for (var i = 0; i < attributes.length; i++) {
-        //   for (var opt in options) {
-        //     attribu = {"$item": opt};
-        //   }
-        attribu["${attributes[i]}"] = options[i];
-      }
-
-      print(attribu);
-      try {
-        Response response = await Dio().post(url, data: {
-          "product_id": productId,
-          "quantity": quantity,
-          "attributes": attribu,
-        });
-
-        print(response.data);
-        if (response.data['status'] == 1) {
-          itemsAvailable = response.data['data'];
-          if (response.data['data'] == quantity) {
-            final snackBar = SnackBar(
-              content: Text(
-                translateString(
-                    'product available quantity is only ${response.data['data']}',
-                    'هذا المنتج متاح منه فقط ${response.data['data']}'),
-                style: TextStyle(
-                    fontFamily: 'Tajawal',
-                    fontSize: w * 0.04,
-                    fontWeight: FontWeight.w500),
-              ),
-              action: SnackBarAction(
-                label: translateString("Undo", "تراجع"),
-                disabledTextColor: Colors.yellow,
-                textColor: Colors.yellow,
-                onPressed: () {},
-              ),
-            );
-            ScaffoldMessenger.of(scaffoldKey.currentContext!)
-                .showSnackBar(snackBar);
-          }
-        } else if (response.data['status'] == 0) {
-          final snackBar = SnackBar(
-            content: Text(
-              translateString('product amount not available',
-                  'كمية المنتج غير متاحة حاليا '),
-              style: TextStyle(
-                  fontFamily: 'Tajawal',
-                  fontSize: w * 0.04,
-                  fontWeight: FontWeight.w500),
-            ),
-            action: SnackBarAction(
-              label: translateString("Undo", "تراجع"),
-              disabledTextColor: Colors.yellow,
-              textColor: Colors.yellow,
-              onPressed: () {},
-            ),
-          );
-          ScaffoldMessenger.of(scaffoldKey.currentContext!)
-              .showSnackBar(snackBar);
-        }
-      } catch (e) {
-        print("error product quantity : " + e.toString());
-      }
-    }
 
     void show(context) {
       showModalBottomSheet(
@@ -337,6 +263,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                             .des;
                                         if (listEquals(des, cartDesc)) {
                                           checkProductquantity(
+                                            scaffoldKey: scaffoldKey,
                                             attributes: attributesID,
                                             options: optionsQuantity,
                                             productId:
@@ -358,6 +285,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                           }
                                         } else if (!listEquals(des, cartDesc)) {
                                           checkProductquantity(
+                                            scaffoldKey: scaffoldKey,
                                             attributes: attributesID,
                                             options: optionsQuantity,
                                             productId:
@@ -380,6 +308,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                       } else if (!cart.idp
                                           .contains(productCla!.id)) {
                                         checkProductquantity(
+                                          scaffoldKey: scaffoldKey,
                                           attributes: attributesID,
                                           options: optionsQuantity,
                                           productId: productCla!.id.toString(),
@@ -398,10 +327,40 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                           Navigator.pop(context);
                                         }
                                       }
-                                    } else {
-                                      setState(() {
-                                        _counter++;
-                                      });
+                                    } else if (!productCla!.isClothes! &&
+                                        productCla!.attributes.isEmpty) {
+                                      if (productCla!.quantity > _counter) {
+                                        setState2(() {
+                                          _counter++;
+                                        });
+                                      } else if (productCla!.quantity <=
+                                          _counter) {
+                                        setState2(() {
+                                          _counter = _counter;
+                                        });
+                                        Navigator.pop(context);
+                                        final snackBar = SnackBar(
+                                          content: Text(
+                                            translateString(
+                                                'product available quantity is only ${productCla!.quantity}',
+                                                'هذا المنتج متاح منه فقط ${productCla!.quantity}'),
+                                            style: TextStyle(
+                                                fontFamily: 'Tajawal',
+                                                fontSize: w * 0.04,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          action: SnackBarAction(
+                                            label: translateString(
+                                                "Undo", "تراجع"),
+                                            disabledTextColor: Colors.yellow,
+                                            textColor: Colors.yellow,
+                                            onPressed: () {},
+                                          ),
+                                        );
+                                        ScaffoldMessenger.of(
+                                                scaffoldKey.currentContext!)
+                                            .showSnackBar(snackBar);
+                                      }
                                     }
                                   }),
                               SizedBox(
@@ -473,6 +432,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                 att: att,
                                                 des: des,
                                                 idp: productCla!.id,
+                                                productOptions: optionsQuantity,
                                                 idc: productCla!.cat.id,
                                                 catNameEn:
                                                     productCla!.cat.nameEn,
@@ -493,11 +453,13 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                             if (itemsAvailable! >=
                                                 _counter + quantity) {
                                               await helper.updateProduct(
-                                                  _counter + quantity,
-                                                  productCla!.id,
-                                                  finalPrice.toDouble(),
-                                                  jsonEncode(att),
-                                                  jsonEncode(des));
+                                                _counter + quantity,
+                                                productCla!.id,
+                                                finalPrice.toDouble(),
+                                                jsonEncode(att),
+                                                jsonEncode(des),
+                                                jsonEncode(optionsQuantity),
+                                              );
                                             } else if (_counter + quantity >
                                                 itemsAvailable!) {
                                               final snackBar = SnackBar(
@@ -534,6 +496,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                 titleEn: productCla!.nameEn,
                                                 price: finalPrice.toDouble(),
                                                 quantity: _counter,
+                                                productOptions: optionsQuantity,
                                                 att: att,
                                                 des: des,
                                                 idp: productCla!.id,
@@ -553,6 +516,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                             .contains(productCla!.id)) {
                                           await helper.createCar(CartProducts(
                                               id: null,
+                                              productOptions: optionsQuantity,
                                               studentId: studentId,
                                               image: productCla!.image,
                                               titleAr: productCla!.nameAr,
@@ -572,11 +536,13 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                   element.idp == productCla!.id)
                                               .quantity;
                                           await helper.updateProduct(
-                                              _counter + quantity,
-                                              productCla!.id,
-                                              finalPrice.toDouble(),
-                                              jsonEncode(att),
-                                              jsonEncode(des));
+                                            _counter + quantity,
+                                            productCla!.id,
+                                            finalPrice.toDouble(),
+                                            jsonEncode(att),
+                                            jsonEncode(des),
+                                            jsonEncode(optionsQuantity),
+                                          );
                                         }
                                         await cart.setItems();
                                       }
@@ -605,6 +571,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                             await helper.createCar(CartProducts(
                                                 id: null,
                                                 studentId: studentId,
+                                                productOptions: optionsQuantity,
                                                 image: productCla!.image,
                                                 titleAr: productCla!.nameAr,
                                                 titleEn: productCla!.nameEn,
@@ -634,11 +601,13 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               if (itemCount >=
                                                   _counter + quantity) {
                                                 await helper.updateProduct(
-                                                    _counter + quantity,
-                                                    productCla!.id,
-                                                    finalPrice.toDouble(),
-                                                    jsonEncode(att),
-                                                    jsonEncode(des));
+                                                  _counter + quantity,
+                                                  productCla!.id,
+                                                  finalPrice.toDouble(),
+                                                  jsonEncode(att),
+                                                  jsonEncode(des),
+                                                  jsonEncode(optionsQuantity),
+                                                );
                                               } else if (_counter + quantity >
                                                   itemCount) {
                                                 final snackBar = SnackBar(
@@ -671,6 +640,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                   CartProducts(
                                                       id: null,
                                                       studentId: studentId,
+                                                      productOptions:
+                                                          optionsQuantity,
                                                       image: productCla!.image,
                                                       titleAr:
                                                           productCla!.nameAr,
@@ -774,6 +745,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                             price: finalPrice
                                                                 .toDouble(),
                                                             quantity: _counter,
+                                                            productOptions:
+                                                                optionsQuantity,
                                                             att: att,
                                                             des: des,
                                                             idp: productCla!.id,
@@ -794,11 +767,14 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                             productCla!.id)
                                                         .quantity;
                                                     await helper.updateProduct(
-                                                        counter + quantity,
-                                                        productCla!.id,
-                                                        finalPrice.toDouble(),
-                                                        jsonEncode(att),
-                                                        jsonEncode(des));
+                                                      counter + quantity,
+                                                      productCla!.id,
+                                                      finalPrice.toDouble(),
+                                                      jsonEncode(att),
+                                                      jsonEncode(des),
+                                                      jsonEncode(
+                                                          optionsQuantity),
+                                                    );
                                                   }
                                                   await cart.setItems();
                                                   error = false;
@@ -821,6 +797,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                     if (!cart.idp.contains(productCla!.id)) {
                                       await helper.createCar(CartProducts(
                                           id: null,
+                                          productOptions: optionsQuantity,
                                           studentId: widget.brandId,
                                           image: productCla!.image,
                                           titleAr: productCla!.nameAr,
@@ -840,11 +817,13 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               element.idp == productCla!.id)
                                           .quantity;
                                       await helper.updateProduct(
-                                          _counter + quantity,
-                                          productCla!.id,
-                                          finalPrice.toDouble(),
-                                          jsonEncode(att),
-                                          jsonEncode(des));
+                                        _counter + quantity,
+                                        productCla!.id,
+                                        finalPrice.toDouble(),
+                                        jsonEncode(att),
+                                        jsonEncode(des),
+                                        jsonEncode(optionsQuantity),
+                                      );
                                     }
                                     await cart.setItems();
                                   } catch (e) {
@@ -1676,7 +1655,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                                 att[index] = productCla!.attributes[index]!.options[i].id;
                                                                                 selectedItem.add(att[index]);
                                                                                 finalPrice += attPrice.values.reduce((sum, element) => sum + element);
-                                                                                checkProductquantity(productId: productCla!.id.toString(), quantity: _counter, attributes: attributesID, options: att, context: context);
+                                                                                checkProductquantity(productId: productCla!.id.toString(), quantity: _counter, attributes: attributesID, options: att, context: context, scaffoldKey: scaffoldKey);
                                                                                 print(optionsPrice);
                                                                                 if (language == 'en') {
                                                                                   des[index] = productCla!.attributes[index]!.options[i].nameEn;

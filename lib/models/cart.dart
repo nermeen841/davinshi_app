@@ -1,19 +1,6 @@
-// class Cart{
-//   int id;
-//   num subTotal;
-//   num total;
-//   num? shippingPrice;
-//   String? note;
-//   int? shippingAddressId;
-//   List<CartProducts> products;
-//   Cart({required this.id, required this.subTotal, required this.total,
-//     required this.shippingPrice,required this.products,this.note,this.shippingAddressId});
-// }
-
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
 import 'dart:convert';
-
 import '../dbhelper.dart';
 
 DbHelper dbHelper = DbHelper();
@@ -32,10 +19,12 @@ class CartProducts {
   num price;
   int quantity;
   List<int> att;
+  List<int> productOptions;
   List<String> des;
   CartProducts(
       {required this.catSVG,
       required this.idc,
+      required this.productOptions,
       required this.catNameAr,
       required this.catNameEn,
       required this.id,
@@ -59,6 +48,7 @@ class CartProducts {
         'quantity': quantity,
         'att': jsonEncode(att),
         'des': jsonEncode(des),
+        'product_options': jsonEncode(productOptions),
         'idc': idc,
         'svg': catSVG,
         'catNameAr': catNameAr,
@@ -75,6 +65,7 @@ class CartProducts {
       quantity: map['quantity'],
       att: map['att'],
       des: map['des'],
+      productOptions: map['product_options'],
       idp: map['idp'],
       idc: map['idc'],
       catNameAr: map['catNameAr'],
@@ -87,8 +78,12 @@ class CartProducts {
     List<CartProducts> _list = [];
     list.forEach((map) {
       List<int> _int = [];
+      List<int> _options = [];
       jsonDecode(map['att']).forEach((e) {
         _int.add(e);
+      });
+      jsonDecode(map['product_options']).forEach((e) {
+        _options.add(e);
       });
       List<String> _string = [];
       jsonDecode(map['des']).forEach((e) {
@@ -102,6 +97,7 @@ class CartProducts {
         titleEn: map['titleEn'],
         price: map['price'],
         quantity: map['quantity'],
+        productOptions: _options,
         att: _int,
         des: _string,
         idp: map['idp'],

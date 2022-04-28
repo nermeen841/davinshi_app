@@ -498,3 +498,79 @@ Future checkProductClothesQuantity(
     print("product clothes quantity errro : " + e.toString());
   }
 }
+
+//////////////////////////////////////////////////////////////////////////////
+int? itemsAvailable;
+checkProductquantity({
+  required String productId,
+  required int quantity,
+  required List attributes,
+  required List options,
+  required context,
+  required scaffoldKey,
+}) async {
+  var attribu = {};
+  final String url = domain + "check-product";
+
+  for (var i = 0; i < attributes.length; i++) {
+    //   for (var opt in options) {
+    //     attribu = {"$item": opt};
+    //   }
+    attribu["${attributes[i]}"] = options[i];
+  }
+
+  print(attribu);
+  try {
+    Response response = await Dio().post(url, data: {
+      "product_id": productId,
+      "quantity": quantity,
+      "attributes": attribu,
+    });
+
+    print(response.data);
+    if (response.data['status'] == 1) {
+      itemsAvailable = response.data['data'];
+      if (response.data['data'] == quantity) {
+        final snackBar = SnackBar(
+          content: Text(
+            translateString(
+                'product available quantity is only ${response.data['data']}',
+                'هذا المنتج متاح منه فقط ${response.data['data']}'),
+            style: TextStyle(
+                fontFamily: 'Tajawal',
+                fontSize: w * 0.04,
+                fontWeight: FontWeight.w500),
+          ),
+          action: SnackBarAction(
+            label: translateString("Undo", "تراجع"),
+            disabledTextColor: Colors.yellow,
+            textColor: Colors.yellow,
+            onPressed: () {},
+          ),
+        );
+        ScaffoldMessenger.of(scaffoldKey.currentContext!)
+            .showSnackBar(snackBar);
+      }
+    } else if (response.data['status'] == 0) {
+      final snackBar = SnackBar(
+        content: Text(
+          translateString(
+              'product amount not available', 'كمية المنتج غير متاحة حاليا '),
+          style: TextStyle(
+              fontFamily: 'Tajawal',
+              fontSize: w * 0.04,
+              fontWeight: FontWeight.w500),
+        ),
+        action: SnackBarAction(
+          label: translateString("Undo", "تراجع"),
+          disabledTextColor: Colors.yellow,
+          textColor: Colors.yellow,
+          onPressed: () {},
+        ),
+      );
+      ScaffoldMessenger.of(scaffoldKey.currentContext!).showSnackBar(snackBar);
+    }
+  } catch (e) {
+    print("error product quantity : " + e.toString());
+  }
+}
