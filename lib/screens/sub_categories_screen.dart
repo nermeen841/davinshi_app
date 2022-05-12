@@ -327,8 +327,7 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                                             await getItem(int.parse(snapshot
                                                 .data![i].id
                                                 .toString()));
-                                            Navigator.pushReplacementNamed(
-                                                context, 'pro');
+                                            Navigator.pushNamed(context, 'pro');
                                           },
                                         )
                                       : Container();
