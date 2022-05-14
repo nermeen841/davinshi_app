@@ -423,6 +423,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                           if (itemsAvailable! >= _counter) {
                                             await helper.createCar(CartProducts(
                                                 id: null,
+                                                productquantity: productCla!
+                                                    .quantity
+                                                    .toInt(),
                                                 studentId: studentId,
                                                 image: productCla!.image,
                                                 titleAr: productCla!.nameAr,
@@ -459,6 +462,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                 jsonEncode(att),
                                                 jsonEncode(des),
                                                 jsonEncode(optionsQuantity),
+                                                productCla!.quantity.toInt(),
                                               );
                                             } else if (_counter + quantity >
                                                 itemsAvailable!) {
@@ -490,6 +494,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               des, description)) {
                                             await helper.createCar(CartProducts(
                                                 id: null,
+                                                productquantity: productCla!
+                                                    .quantity
+                                                    .toInt(),
                                                 studentId: studentId,
                                                 image: productCla!.image,
                                                 titleAr: productCla!.nameAr,
@@ -516,6 +523,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                             .contains(productCla!.id)) {
                                           await helper.createCar(CartProducts(
                                               id: null,
+                                              productquantity:
+                                                  productCla!.quantity.toInt(),
                                               productOptions: optionsQuantity,
                                               studentId: studentId,
                                               image: productCla!.image,
@@ -542,6 +551,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                             jsonEncode(att),
                                             jsonEncode(des),
                                             jsonEncode(optionsQuantity),
+                                            productCla!.quantity.toInt(),
                                           );
                                         }
                                         await cart.setItems();
@@ -570,6 +580,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               .contains(productCla!.id)) {
                                             await helper.createCar(CartProducts(
                                                 id: null,
+                                                productquantity: productCla!
+                                                    .quantity
+                                                    .toInt(),
                                                 studentId: studentId,
                                                 productOptions: optionsQuantity,
                                                 image: productCla!.image,
@@ -607,6 +620,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                   jsonEncode(att),
                                                   jsonEncode(des),
                                                   jsonEncode(optionsQuantity),
+                                                  productCla!.quantity.toInt(),
                                                 );
                                               } else if (_counter + quantity >
                                                   itemCount) {
@@ -639,6 +653,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               await helper.createCar(
                                                   CartProducts(
                                                       id: null,
+                                                      productquantity:
+                                                          productCla!.quantity
+                                                              .toInt(),
                                                       studentId: studentId,
                                                       productOptions:
                                                           optionsQuantity,
@@ -731,6 +748,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                       productCla!.id)) {
                                                     await helper.createCar(
                                                         CartProducts(
+                                                            productquantity:
+                                                                productCla!.quantity
+                                                                    .toInt(),
                                                             id: null,
                                                             studentId: widget
                                                                     .fromFav
@@ -774,6 +794,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                       jsonEncode(des),
                                                       jsonEncode(
                                                           optionsQuantity),
+                                                      productCla!.quantity
+                                                          .toInt(),
                                                     );
                                                   }
                                                   await cart.setItems();
@@ -797,6 +819,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                     if (!cart.idp.contains(productCla!.id)) {
                                       await helper.createCar(CartProducts(
                                           id: null,
+                                          productquantity:
+                                              productCla!.quantity.toInt(),
                                           productOptions: optionsQuantity,
                                           studentId: widget.brandId,
                                           image: productCla!.image,
@@ -823,6 +847,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                         jsonEncode(att),
                                         jsonEncode(des),
                                         jsonEncode(optionsQuantity),
+                                        productCla!.quantity.toInt(),
                                       );
                                     }
                                     await cart.setItems();

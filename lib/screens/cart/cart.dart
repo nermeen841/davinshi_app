@@ -879,6 +879,8 @@ class _CartState extends State<Cart> {
                                                                               _pro.des),
                                                                           jsonEncode(
                                                                               _pro.productOptions),
+                                                                          productCla!
+                                                                              .quantity,
                                                                         );
                                                                       } else {
                                                                         await dbHelper
@@ -932,7 +934,7 @@ class _CartState extends State<Cart> {
                                                                                 1,
                                                                             scaffoldKey:
                                                                                 scaffoldKey);
-                                                                        if (itemCount >
+                                                                        if (itemCount >=
                                                                             _pro.quantity +
                                                                                 1) {
                                                                           await dbHelper
@@ -944,6 +946,7 @@ class _CartState extends State<Cart> {
                                                                             jsonEncode(_pro.att),
                                                                             jsonEncode(_pro.des),
                                                                             jsonEncode(_pro.productOptions),
+                                                                            productCla!.quantity,
                                                                           );
                                                                           cart.setItems();
                                                                         }
@@ -963,7 +966,7 @@ class _CartState extends State<Cart> {
                                                                                 context,
                                                                             options:
                                                                                 _pro.productOptions);
-                                                                        if (itemsAvailable! >
+                                                                        if (itemsAvailable! >=
                                                                             _pro.quantity +
                                                                                 1) {
                                                                           await dbHelper
@@ -975,25 +978,47 @@ class _CartState extends State<Cart> {
                                                                             jsonEncode(_pro.att),
                                                                             jsonEncode(_pro.des),
                                                                             jsonEncode(_pro.productOptions),
+                                                                            productCla!.quantity,
                                                                           );
                                                                           cart.setItems();
                                                                         }
                                                                       } else {
-                                                                        await dbHelper
-                                                                            .updateProduct(
-                                                                          _pro.quantity +
-                                                                              1,
-                                                                          _pro.idp,
-                                                                          _pro.price
-                                                                              .toDouble(),
-                                                                          jsonEncode(
-                                                                              _pro.att),
-                                                                          jsonEncode(
-                                                                              _pro.des),
-                                                                          jsonEncode(
-                                                                              _pro.productOptions),
-                                                                        );
-                                                                        cart.setItems();
+                                                                        if (_pro.productquantity >=
+                                                                            _pro.quantity +
+                                                                                1) {
+                                                                          await dbHelper
+                                                                              .updateProduct(
+                                                                            _pro.quantity +
+                                                                                1,
+                                                                            _pro.idp,
+                                                                            _pro.price.toDouble(),
+                                                                            jsonEncode(_pro.att),
+                                                                            jsonEncode(_pro.des),
+                                                                            jsonEncode(_pro.productOptions),
+                                                                            productCla!.quantity,
+                                                                          );
+                                                                          cart.setItems();
+                                                                        } else if (_pro.productquantity <
+                                                                            _pro.quantity +
+                                                                                1) {
+                                                                          final snackBar =
+                                                                              SnackBar(
+                                                                            content:
+                                                                                Text(
+                                                                              translateString('product available quantity is only ${_pro.productquantity}', 'هذا المنتج متاح منه فقط ${_pro.productquantity}'),
+                                                                              style: TextStyle(fontFamily: 'Tajawal', fontSize: w * 0.04, fontWeight: FontWeight.w500),
+                                                                            ),
+                                                                            action:
+                                                                                SnackBarAction(
+                                                                              label: translateString("Undo", "تراجع"),
+                                                                              disabledTextColor: Colors.yellow,
+                                                                              textColor: Colors.yellow,
+                                                                              onPressed: () {},
+                                                                            ),
+                                                                          );
+                                                                          ScaffoldMessenger.of(scaffoldKey.currentContext!)
+                                                                              .showSnackBar(snackBar);
+                                                                        }
                                                                       }
                                                                     },
                                                                   ),

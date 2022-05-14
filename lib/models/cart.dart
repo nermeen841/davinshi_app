@@ -9,6 +9,7 @@ class CartProducts {
   int? id;
   int idp;
   int idc;
+  int productquantity;
   int studentId;
   String image;
   String catSVG;
@@ -23,6 +24,7 @@ class CartProducts {
   List<String> des;
   CartProducts(
       {required this.catSVG,
+      required this.productquantity,
       required this.idc,
       required this.productOptions,
       required this.catNameAr,
@@ -40,6 +42,7 @@ class CartProducts {
   Map<String, dynamic> toMap() => {
         'id': id,
         'idp': idp,
+        'productquantity': productquantity,
         'studentId': studentId,
         'image': image,
         'titleAr': titleAr,
@@ -57,6 +60,7 @@ class CartProducts {
   CartProducts fromMap(Map<String, dynamic> map) {
     return CartProducts(
       id: map['id'],
+      productquantity: map['productquantity'],
       studentId: map['studentId'],
       image: map['image'],
       titleAr: map['titleAr'],
@@ -91,6 +95,7 @@ class CartProducts {
       });
       _list.add(CartProducts(
         id: map['id'],
+        productquantity: map['productquantity'],
         studentId: map['studentId'],
         image: map['image'],
         titleAr: map['titleAr'],

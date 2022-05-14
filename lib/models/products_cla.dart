@@ -513,20 +513,19 @@ checkProductquantity({
   final String url = domain + "check-product";
 
   for (var i = 0; i < attributes.length; i++) {
-    //   for (var opt in options) {
-    //     attribu = {"$item": opt};
-    //   }
     attribu["${attributes[i]}"] = options[i];
   }
 
   print(attribu);
+
   try {
-    Response response = await Dio().post(url, data: {
+    Map<String, dynamic> body = {
       "product_id": productId,
       "quantity": quantity,
       "attributes": attribu,
-    });
-
+    };
+    Response response = await Dio().post(url, data: body);
+    print(body);
     print(response.data);
     if (response.data['status'] == 1) {
       itemsAvailable = response.data['data'];
