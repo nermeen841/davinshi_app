@@ -26,6 +26,7 @@ class Data {
   String? nameAr;
   String? nameEn;
   String? img;
+  int? isOrder;
   var regularPrice;
   var salePrice;
   String? discountPercentage;
@@ -37,6 +38,7 @@ class Data {
       {this.id,
       this.nameAr,
       this.nameEn,
+      required this.isOrder,
       this.img,
       this.regularPrice,
       this.salePrice,
@@ -47,6 +49,7 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    isOrder = json['is_order'];
     nameAr = json['name_ar'];
     nameEn = json['name_en'];
     img = imagePath + json['img'];

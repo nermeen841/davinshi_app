@@ -76,6 +76,7 @@ List<Ads> getAds(int _ads) {
 Item setItem(Map e) {
   return Item(
       id: e['id'],
+      isOrder: e['is_order'],
       image: imagePath + e['img'],
       nameEn: e['name_en'],
       nameAr: e['name_ar'],

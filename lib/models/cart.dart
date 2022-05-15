@@ -11,6 +11,7 @@ class CartProducts {
   int idc;
   int productquantity;
   int studentId;
+  int isOrder;
   String image;
   String catSVG;
   String titleAr;
@@ -24,6 +25,7 @@ class CartProducts {
   List<String> des;
   CartProducts(
       {required this.catSVG,
+      required this.isOrder,
       required this.productquantity,
       required this.idc,
       required this.productOptions,
@@ -43,6 +45,7 @@ class CartProducts {
         'id': id,
         'idp': idp,
         'productquantity': productquantity,
+        'isOrder': isOrder,
         'studentId': studentId,
         'image': image,
         'titleAr': titleAr,
@@ -75,6 +78,7 @@ class CartProducts {
       catNameAr: map['catNameAr'],
       catNameEn: map['catNameEn'],
       catSVG: map['svg'],
+      isOrder: map['isOrder'],
     );
   }
 
@@ -110,6 +114,7 @@ class CartProducts {
         catNameAr: map['catNameAr'],
         catNameEn: map['catNameEn'],
         catSVG: map['svg'],
+        isOrder: map['isOrder'],
       ));
     });
     return _list;

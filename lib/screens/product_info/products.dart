@@ -134,6 +134,97 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
     double w = MediaQuery.of(context).size.width;
     CartProvider cart = Provider.of<CartProvider>(context, listen: true);
 
+    void showAlertDialog() {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(w * 0.05),
+              ),
+              title: const Text(''),
+              content: Text(
+                translateString("Order product not added to regular product",
+                    "لا يمكن إضافة منتج اوردر مع منتج جاهز"),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Tajawal',
+                    fontSize: w * 0.035),
+              ),
+              actions: [
+                TextButton(
+                  child: Text(
+                    translateString("Continue Shopping", "استمر بالتسوق"),
+                    style: const TextStyle(
+                      fontFamily: 'Tajawal',
+                    ),
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                InkWell(
+                  child: Text(
+                    translate(
+                      context,
+                      'buttons',
+                      'error_cart',
+                    ),
+                    style:
+                        TextStyle(fontFamily: 'Tajawal', fontSize: w * 0.035),
+                  ),
+                  onTap: () async {
+                    await dbHelper.deleteAll();
+                    await cart.setItems();
+                    try {
+                      if (!cart.idp.contains(productCla!.id)) {
+                        await helper.createCar(CartProducts(
+                            isOrder: productCla!.isOrder!,
+                            productquantity: productCla!.quantity.toInt(),
+                            id: null,
+                            studentId:
+                                widget.fromFav ? widget.brandId : studentId,
+                            image: productCla!.image,
+                            titleAr: productCla!.nameAr,
+                            titleEn: productCla!.nameEn,
+                            price: finalPrice.toDouble(),
+                            quantity: _counter,
+                            productOptions: optionsQuantity,
+                            att: att,
+                            des: des,
+                            idp: productCla!.id,
+                            idc: productCla!.cat.id,
+                            catNameEn: productCla!.cat.nameEn,
+                            catNameAr: productCla!.cat.nameAr,
+                            catSVG: productCla!.cat.svg));
+                      } else {
+                        int quantity = cart.items
+                            .firstWhere(
+                                (element) => element.idp == productCla!.id)
+                            .quantity;
+                        await helper.updateProduct(
+                            counter + quantity,
+                            productCla!.id,
+                            finalPrice.toDouble(),
+                            jsonEncode(att),
+                            jsonEncode(des),
+                            jsonEncode(optionsQuantity),
+                            productCla!.quantity.toInt(),
+                            productCla!.isOrder!);
+                      }
+                      await cart.setItems();
+                      error = false;
+                    } catch (e) {
+                      print('e');
+                      print(e);
+                      error = false;
+                    }
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            );
+          });
+    }
+
     void show(context) {
       showModalBottomSheet(
         context: context,
@@ -416,214 +507,439 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                               if (!widget.fromFav) {
                                 if (cartId == null || cartId == studentId) {
                                   try {
-                                    if (productCla!.isClothes! == false) {
-                                      if (selectedItem.isNotEmpty) {
-                                        if (!cart.idp
-                                            .contains(productCla!.id)) {
-                                          if (itemsAvailable! >= _counter) {
-                                            await helper.createCar(CartProducts(
-                                                id: null,
-                                                productquantity: productCla!
-                                                    .quantity
-                                                    .toInt(),
-                                                studentId: studentId,
-                                                image: productCla!.image,
-                                                titleAr: productCla!.nameAr,
-                                                titleEn: productCla!.nameEn,
-                                                price: finalPrice.toDouble(),
-                                                quantity: _counter,
-                                                att: att,
-                                                des: des,
-                                                idp: productCla!.id,
-                                                productOptions: optionsQuantity,
-                                                idc: productCla!.cat.id,
-                                                catNameEn:
-                                                    productCla!.cat.nameEn,
-                                                catNameAr:
-                                                    productCla!.cat.nameAr,
-                                                catSVG: productCla!.cat.svg));
-                                          }
-                                        } else {
-                                          int quantity = cart.items
-                                              .firstWhere((element) =>
-                                                  element.idp == productCla!.id)
-                                              .quantity;
-                                          final description = cart.items
-                                              .firstWhere((element) =>
-                                                  element.idp == productCla!.id)
-                                              .des;
-                                          if (listEquals(des, description)) {
-                                            if (itemsAvailable! >=
-                                                _counter + quantity) {
-                                              await helper.updateProduct(
-                                                _counter + quantity,
-                                                productCla!.id,
-                                                finalPrice.toDouble(),
-                                                jsonEncode(att),
-                                                jsonEncode(des),
-                                                jsonEncode(optionsQuantity),
-                                                productCla!.quantity.toInt(),
-                                              );
-                                            } else if (_counter + quantity >
-                                                itemsAvailable!) {
-                                              final snackBar = SnackBar(
-                                                content: Text(
-                                                  translateString(
-                                                      'product amount not available',
-                                                      'كمية المنتج غير متاحة حاليا '),
-                                                  style: TextStyle(
-                                                      fontFamily: 'Tajawal',
-                                                      fontSize: w * 0.04,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                                action: SnackBarAction(
-                                                  label: translateString(
-                                                      "Undo", "تراجع"),
-                                                  disabledTextColor:
-                                                      Colors.yellow,
-                                                  textColor: Colors.yellow,
-                                                  onPressed: () {},
-                                                ),
-                                              );
-                                              ScaffoldMessenger.of(scaffoldKey
-                                                      .currentContext!)
-                                                  .showSnackBar(snackBar);
+                                    if (cart.items.isNotEmpty) {
+                                      cart.items.forEach((element) async {
+                                        if (productCla!.isOrder! == 1 &&
+                                                element.isOrder == 0 ||
+                                            productCla!.isOrder! == 0 &&
+                                                element.isOrder == 1) {
+                                          showAlertDialog();
+                                          Navigator.pop(context);
+                                        } else if (productCla!.isOrder == 1 &&
+                                                element.isOrder == 1 ||
+                                            productCla!.isOrder == 0 &&
+                                                element.isOrder == 0) {
+                                          if (productCla!.isClothes! == false) {
+                                            if (selectedItem.isNotEmpty) {
+                                              if (!cart.idp
+                                                  .contains(productCla!.id)) {
+                                                if (itemsAvailable! >=
+                                                    _counter) {
+                                                  await helper.createCar(
+                                                      CartProducts(
+                                                          id: null,
+                                                          isOrder: productCla!
+                                                              .isOrder!,
+                                                          productquantity:
+                                                              productCla!
+                                                                  .quantity
+                                                                  .toInt(),
+                                                          studentId: studentId,
+                                                          image:
+                                                              productCla!.image,
+                                                          titleAr: productCla!
+                                                              .nameAr,
+                                                          titleEn: productCla!
+                                                              .nameEn,
+                                                          price: finalPrice
+                                                              .toDouble(),
+                                                          quantity: _counter,
+                                                          att: att,
+                                                          des: des,
+                                                          idp: productCla!.id,
+                                                          productOptions:
+                                                              optionsQuantity,
+                                                          idc: productCla!
+                                                              .cat.id,
+                                                          catNameEn: productCla!
+                                                              .cat.nameEn,
+                                                          catNameAr: productCla!
+                                                              .cat.nameAr,
+                                                          catSVG: productCla!
+                                                              .cat.svg));
+                                                }
+                                              } else {
+                                                int quantity = cart.items
+                                                    .firstWhere((element) =>
+                                                        element.idp ==
+                                                        productCla!.id)
+                                                    .quantity;
+                                                final description = cart.items
+                                                    .firstWhere((element) =>
+                                                        element.idp ==
+                                                        productCla!.id)
+                                                    .des;
+                                                if (listEquals(
+                                                    des, description)) {
+                                                  if (itemsAvailable! >=
+                                                      _counter + quantity) {
+                                                    await helper.updateProduct(
+                                                        _counter + quantity,
+                                                        productCla!.id,
+                                                        finalPrice.toDouble(),
+                                                        jsonEncode(att),
+                                                        jsonEncode(des),
+                                                        jsonEncode(
+                                                            optionsQuantity),
+                                                        productCla!.quantity
+                                                            .toInt(),
+                                                        productCla!.isOrder!);
+                                                  } else if (_counter +
+                                                          quantity >
+                                                      itemsAvailable!) {
+                                                    final snackBar = SnackBar(
+                                                      content: Text(
+                                                        translateString(
+                                                            'product amount not available',
+                                                            'كمية المنتج غير متاحة حاليا '),
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Tajawal',
+                                                            fontSize: w * 0.04,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      action: SnackBarAction(
+                                                        label: translateString(
+                                                            "Undo", "تراجع"),
+                                                        disabledTextColor:
+                                                            Colors.yellow,
+                                                        textColor:
+                                                            Colors.yellow,
+                                                        onPressed: () {},
+                                                      ),
+                                                    );
+                                                    ScaffoldMessenger.of(
+                                                            scaffoldKey
+                                                                .currentContext!)
+                                                        .showSnackBar(snackBar);
+                                                  }
+                                                } else if (!listEquals(
+                                                    des, description)) {
+                                                  await helper.createCar(
+                                                      CartProducts(
+                                                          id: null,
+                                                          isOrder: productCla!
+                                                              .isOrder!,
+                                                          productquantity:
+                                                              productCla!
+                                                                  .quantity
+                                                                  .toInt(),
+                                                          studentId: studentId,
+                                                          image:
+                                                              productCla!.image,
+                                                          titleAr: productCla!
+                                                              .nameAr,
+                                                          titleEn: productCla!
+                                                              .nameEn,
+                                                          price: finalPrice
+                                                              .toDouble(),
+                                                          quantity: _counter,
+                                                          productOptions:
+                                                              optionsQuantity,
+                                                          att: att,
+                                                          des: des,
+                                                          idp: productCla!.id,
+                                                          idc: productCla!
+                                                              .cat.id,
+                                                          catNameEn: productCla!
+                                                              .cat.nameEn,
+                                                          catNameAr: productCla!
+                                                              .cat.nameAr,
+                                                          catSVG: productCla!
+                                                              .cat.svg));
+                                                }
+                                              }
+                                              await cart
+                                                  .setItems()
+                                                  .then((value) {
+                                                _counter = 1;
+                                              });
+                                            } else {
+                                              if (!cart.idp
+                                                  .contains(productCla!.id)) {
+                                                await helper.createCar(
+                                                    CartProducts(
+                                                        id: null,
+                                                        isOrder: productCla!
+                                                            .isOrder!,
+                                                        productquantity:
+                                                            productCla!.quantity
+                                                                .toInt(),
+                                                        productOptions:
+                                                            optionsQuantity,
+                                                        studentId: studentId,
+                                                        image:
+                                                            productCla!.image,
+                                                        titleAr:
+                                                            productCla!.nameAr,
+                                                        titleEn:
+                                                            productCla!.nameEn,
+                                                        price: finalPrice
+                                                            .toDouble(),
+                                                        quantity: _counter,
+                                                        att: att,
+                                                        des: des,
+                                                        idp: productCla!.id,
+                                                        idc: productCla!.cat.id,
+                                                        catNameEn: productCla!
+                                                            .cat.nameEn,
+                                                        catNameAr: productCla!
+                                                            .cat.nameAr,
+                                                        catSVG: productCla!
+                                                            .cat.svg));
+                                              } else {
+                                                int quantity = cart.items
+                                                    .firstWhere((element) =>
+                                                        element.idp ==
+                                                        productCla!.id)
+                                                    .quantity;
+                                                await helper.updateProduct(
+                                                    _counter + quantity,
+                                                    productCla!.id,
+                                                    finalPrice.toDouble(),
+                                                    jsonEncode(att),
+                                                    jsonEncode(des),
+                                                    jsonEncode(optionsQuantity),
+                                                    productCla!.quantity
+                                                        .toInt(),
+                                                    productCla!.isOrder!);
+                                              }
+                                              await cart.setItems();
                                             }
-                                          } else if (!listEquals(
-                                              des, description)) {
-                                            await helper.createCar(CartProducts(
-                                                id: null,
-                                                productquantity: productCla!
-                                                    .quantity
-                                                    .toInt(),
-                                                studentId: studentId,
-                                                image: productCla!.image,
-                                                titleAr: productCla!.nameAr,
-                                                titleEn: productCla!.nameEn,
-                                                price: finalPrice.toDouble(),
-                                                quantity: _counter,
-                                                productOptions: optionsQuantity,
-                                                att: att,
-                                                des: des,
-                                                idp: productCla!.id,
-                                                idc: productCla!.cat.id,
-                                                catNameEn:
-                                                    productCla!.cat.nameEn,
-                                                catNameAr:
-                                                    productCla!.cat.nameAr,
-                                                catSVG: productCla!.cat.svg));
+                                          } else if (productCla!.isClothes!) {
+                                            if (selectedColor == null ||
+                                                selectedSize == null) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  backgroundColor: Colors.black,
+                                                  content: Text(
+                                                    translateString(
+                                                        "you should choose color and size",
+                                                        "يجب اختيار المقاس واللون"),
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: w * 0.04,
+                                                        fontFamily: 'Tajawal'),
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              if (itemCount >= _counter) {
+                                                if (!cart.idp
+                                                    .contains(productCla!.id)) {
+                                                  await helper.createCar(
+                                                      CartProducts(
+                                                          id: null,
+                                                          isOrder: productCla!
+                                                              .isOrder!,
+                                                          productquantity:
+                                                              productCla!
+                                                                  .quantity
+                                                                  .toInt(),
+                                                          studentId: studentId,
+                                                          productOptions:
+                                                              optionsQuantity,
+                                                          image:
+                                                              productCla!.image,
+                                                          titleAr: productCla!
+                                                              .nameAr,
+                                                          titleEn: productCla!
+                                                              .nameEn,
+                                                          price: finalPrice
+                                                              .toDouble(),
+                                                          quantity: _counter,
+                                                          att: att,
+                                                          des: des,
+                                                          idp: productCla!.id,
+                                                          idc: productCla!
+                                                              .cat.id,
+                                                          catNameEn: productCla!
+                                                              .cat.nameEn,
+                                                          catNameAr: productCla!
+                                                              .cat.nameAr,
+                                                          catSVG: productCla!
+                                                              .cat.svg));
+                                                } else {
+                                                  int quantity = cart.items
+                                                      .firstWhere((element) =>
+                                                          element.idp ==
+                                                          productCla!.id)
+                                                      .quantity;
+                                                  final cartDesc = cart.items
+                                                      .firstWhere((element) =>
+                                                          element.idp ==
+                                                          productCla!.id)
+                                                      .des;
+                                                  if (listEquals(
+                                                      des, cartDesc)) {
+                                                    if (itemCount >=
+                                                        _counter + quantity) {
+                                                      await helper.updateProduct(
+                                                          _counter + quantity,
+                                                          productCla!.id,
+                                                          finalPrice.toDouble(),
+                                                          jsonEncode(att),
+                                                          jsonEncode(des),
+                                                          jsonEncode(
+                                                              optionsQuantity),
+                                                          productCla!.quantity
+                                                              .toInt(),
+                                                          productCla!.isOrder!);
+                                                    } else if (_counter +
+                                                            quantity >
+                                                        itemCount) {
+                                                      final snackBar = SnackBar(
+                                                        content: Text(
+                                                          translateString(
+                                                              'product amount not available',
+                                                              'كمية المنتج غير متاحة حاليا '),
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'Tajawal',
+                                                              fontSize:
+                                                                  w * 0.04,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        ),
+                                                        action: SnackBarAction(
+                                                          label:
+                                                              translateString(
+                                                                  "Undo",
+                                                                  "تراجع"),
+                                                          disabledTextColor:
+                                                              Colors.yellow,
+                                                          textColor:
+                                                              Colors.yellow,
+                                                          onPressed: () {},
+                                                        ),
+                                                      );
+                                                      ScaffoldMessenger.of(
+                                                              scaffoldKey
+                                                                  .currentContext!)
+                                                          .showSnackBar(
+                                                              snackBar);
+                                                    }
+                                                  } else if (!listEquals(
+                                                      des, cartDesc)) {
+                                                    await helper.createCar(
+                                                        CartProducts(
+                                                            id: null,
+                                                            isOrder: productCla!
+                                                                .isOrder!,
+                                                            productquantity:
+                                                                productCla!
+                                                                    .quantity
+                                                                    .toInt(),
+                                                            studentId:
+                                                                studentId,
+                                                            productOptions:
+                                                                optionsQuantity,
+                                                            image: productCla!
+                                                                .image,
+                                                            titleAr: productCla!
+                                                                .nameAr,
+                                                            titleEn: productCla!
+                                                                .nameEn,
+                                                            price: finalPrice
+                                                                .toDouble(),
+                                                            quantity: _counter,
+                                                            att: att,
+                                                            des: des,
+                                                            idp: productCla!.id,
+                                                            idc: productCla!
+                                                                .cat.id,
+                                                            catNameEn:
+                                                                productCla!
+                                                                    .cat.nameEn,
+                                                            catNameAr:
+                                                                productCla!
+                                                                    .cat.nameAr,
+                                                            catSVG: productCla!
+                                                                .cat.svg));
+                                                  }
+                                                }
+                                                await cart
+                                                    .setItems()
+                                                    .then((value) {
+                                                  selectedColor = null;
+                                                  selectedSize = null;
+                                                  att.clear();
+                                                  des.clear();
+                                                  selectedColorSize.clear();
+                                                  _counter = 1;
+                                                });
+                                              }
+                                            }
                                           }
                                         }
-                                        await cart.setItems().then((value) {
-                                          _counter = 1;
-                                        });
-                                      } else {
-                                        if (!cart.idp
-                                            .contains(productCla!.id)) {
-                                          await helper.createCar(CartProducts(
-                                              id: null,
-                                              productquantity:
-                                                  productCla!.quantity.toInt(),
-                                              productOptions: optionsQuantity,
-                                              studentId: studentId,
-                                              image: productCla!.image,
-                                              titleAr: productCla!.nameAr,
-                                              titleEn: productCla!.nameEn,
-                                              price: finalPrice.toDouble(),
-                                              quantity: _counter,
-                                              att: att,
-                                              des: des,
-                                              idp: productCla!.id,
-                                              idc: productCla!.cat.id,
-                                              catNameEn: productCla!.cat.nameEn,
-                                              catNameAr: productCla!.cat.nameAr,
-                                              catSVG: productCla!.cat.svg));
-                                        } else {
-                                          int quantity = cart.items
-                                              .firstWhere((element) =>
-                                                  element.idp == productCla!.id)
-                                              .quantity;
-                                          await helper.updateProduct(
-                                            _counter + quantity,
-                                            productCla!.id,
-                                            finalPrice.toDouble(),
-                                            jsonEncode(att),
-                                            jsonEncode(des),
-                                            jsonEncode(optionsQuantity),
-                                            productCla!.quantity.toInt(),
-                                          );
-                                        }
-                                        await cart.setItems();
-                                      }
-                                    } else if (productCla!.isClothes!) {
-                                      if (selectedColor == null ||
-                                          selectedSize == null) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            backgroundColor: Colors.black,
-                                            content: Text(
-                                              translateString(
-                                                  "you should choose color and size",
-                                                  "يجب اختيار المقاس واللون"),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: w * 0.04,
-                                                  fontFamily: 'Tajawal'),
-                                            ),
-                                          ),
-                                        );
-                                      } else {
-                                        if (itemCount >= _counter) {
+                                      });
+                                    } else if (cart.items.isEmpty) {
+                                      if (productCla!.isClothes! == false) {
+                                        if (selectedItem.isNotEmpty &&
+                                            productCla!.isOrder == 0) {
                                           if (!cart.idp
                                               .contains(productCla!.id)) {
-                                            await helper.createCar(CartProducts(
-                                                id: null,
-                                                productquantity: productCla!
-                                                    .quantity
-                                                    .toInt(),
-                                                studentId: studentId,
-                                                productOptions: optionsQuantity,
-                                                image: productCla!.image,
-                                                titleAr: productCla!.nameAr,
-                                                titleEn: productCla!.nameEn,
-                                                price: finalPrice.toDouble(),
-                                                quantity: _counter,
-                                                att: att,
-                                                des: des,
-                                                idp: productCla!.id,
-                                                idc: productCla!.cat.id,
-                                                catNameEn:
-                                                    productCla!.cat.nameEn,
-                                                catNameAr:
-                                                    productCla!.cat.nameAr,
-                                                catSVG: productCla!.cat.svg));
+                                            if (itemsAvailable! >= _counter) {
+                                              await helper.createCar(
+                                                  CartProducts(
+                                                      id: null,
+                                                      isOrder:
+                                                          productCla!.isOrder!,
+                                                      productquantity:
+                                                          productCla!.quantity
+                                                              .toInt(),
+                                                      studentId: studentId,
+                                                      image: productCla!.image,
+                                                      titleAr:
+                                                          productCla!.nameAr,
+                                                      titleEn:
+                                                          productCla!.nameEn,
+                                                      price:
+                                                          finalPrice.toDouble(),
+                                                      quantity: _counter,
+                                                      att: att,
+                                                      des: des,
+                                                      idp: productCla!.id,
+                                                      productOptions:
+                                                          optionsQuantity,
+                                                      idc: productCla!.cat.id,
+                                                      catNameEn: productCla!
+                                                          .cat.nameEn,
+                                                      catNameAr: productCla!
+                                                          .cat.nameAr,
+                                                      catSVG:
+                                                          productCla!.cat.svg));
+                                            }
                                           } else {
                                             int quantity = cart.items
                                                 .firstWhere((element) =>
                                                     element.idp ==
                                                     productCla!.id)
                                                 .quantity;
-                                            final cartDesc = cart.items
+                                            final description = cart.items
                                                 .firstWhere((element) =>
                                                     element.idp ==
                                                     productCla!.id)
                                                 .des;
-                                            if (listEquals(des, cartDesc)) {
-                                              if (itemCount >=
+                                            if (listEquals(des, description)) {
+                                              if (itemsAvailable! >=
                                                   _counter + quantity) {
                                                 await helper.updateProduct(
-                                                  _counter + quantity,
-                                                  productCla!.id,
-                                                  finalPrice.toDouble(),
-                                                  jsonEncode(att),
-                                                  jsonEncode(des),
-                                                  jsonEncode(optionsQuantity),
-                                                  productCla!.quantity.toInt(),
-                                                );
+                                                    _counter + quantity,
+                                                    productCla!.id,
+                                                    finalPrice.toDouble(),
+                                                    jsonEncode(att),
+                                                    jsonEncode(des),
+                                                    jsonEncode(optionsQuantity),
+                                                    productCla!.quantity
+                                                        .toInt(),
+                                                    productCla!.isOrder!);
                                               } else if (_counter + quantity >
-                                                  itemCount) {
+                                                  itemsAvailable!) {
                                                 final snackBar = SnackBar(
                                                   content: Text(
                                                     translateString(
@@ -649,10 +965,111 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                     .showSnackBar(snackBar);
                                               }
                                             } else if (!listEquals(
-                                                des, cartDesc)) {
+                                                des, description)) {
                                               await helper.createCar(
                                                   CartProducts(
                                                       id: null,
+                                                      isOrder:
+                                                          productCla!.isOrder!,
+                                                      productquantity:
+                                                          productCla!.quantity
+                                                              .toInt(),
+                                                      studentId: studentId,
+                                                      image: productCla!.image,
+                                                      titleAr:
+                                                          productCla!.nameAr,
+                                                      titleEn:
+                                                          productCla!.nameEn,
+                                                      price:
+                                                          finalPrice.toDouble(),
+                                                      quantity: _counter,
+                                                      productOptions:
+                                                          optionsQuantity,
+                                                      att: att,
+                                                      des: des,
+                                                      idp: productCla!.id,
+                                                      idc: productCla!.cat.id,
+                                                      catNameEn: productCla!
+                                                          .cat.nameEn,
+                                                      catNameAr: productCla!
+                                                          .cat.nameAr,
+                                                      catSVG:
+                                                          productCla!.cat.svg));
+                                            }
+                                          }
+                                          await cart.setItems().then((value) {
+                                            _counter = 1;
+                                          });
+                                        } else {
+                                          if (!cart.idp
+                                              .contains(productCla!.id)) {
+                                            await helper.createCar(CartProducts(
+                                                id: null,
+                                                isOrder: productCla!.isOrder!,
+                                                productquantity: productCla!
+                                                    .quantity
+                                                    .toInt(),
+                                                productOptions: optionsQuantity,
+                                                studentId: studentId,
+                                                image: productCla!.image,
+                                                titleAr: productCla!.nameAr,
+                                                titleEn: productCla!.nameEn,
+                                                price: finalPrice.toDouble(),
+                                                quantity: _counter,
+                                                att: att,
+                                                des: des,
+                                                idp: productCla!.id,
+                                                idc: productCla!.cat.id,
+                                                catNameEn:
+                                                    productCla!.cat.nameEn,
+                                                catNameAr:
+                                                    productCla!.cat.nameAr,
+                                                catSVG: productCla!.cat.svg));
+                                          } else {
+                                            int quantity = cart.items
+                                                .firstWhere((element) =>
+                                                    element.idp ==
+                                                    productCla!.id)
+                                                .quantity;
+                                            await helper.updateProduct(
+                                                _counter + quantity,
+                                                productCla!.id,
+                                                finalPrice.toDouble(),
+                                                jsonEncode(att),
+                                                jsonEncode(des),
+                                                jsonEncode(optionsQuantity),
+                                                productCla!.quantity.toInt(),
+                                                productCla!.isOrder!);
+                                          }
+                                          await cart.setItems();
+                                        }
+                                      } else if (productCla!.isClothes!) {
+                                        if (selectedColor == null ||
+                                            selectedSize == null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              backgroundColor: Colors.black,
+                                              content: Text(
+                                                translateString(
+                                                    "you should choose color and size",
+                                                    "يجب اختيار المقاس واللون"),
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: w * 0.04,
+                                                    fontFamily: 'Tajawal'),
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          if (itemCount >= _counter) {
+                                            if (!cart.idp
+                                                .contains(productCla!.id)) {
+                                              await helper.createCar(
+                                                  CartProducts(
+                                                      id: null,
+                                                      isOrder:
+                                                          productCla!.isOrder!,
                                                       productquantity:
                                                           productCla!.quantity
                                                               .toInt(),
@@ -677,16 +1094,101 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                           .cat.nameAr,
                                                       catSVG:
                                                           productCla!.cat.svg));
+                                            } else {
+                                              int quantity = cart.items
+                                                  .firstWhere((element) =>
+                                                      element.idp ==
+                                                      productCla!.id)
+                                                  .quantity;
+                                              final cartDesc = cart.items
+                                                  .firstWhere((element) =>
+                                                      element.idp ==
+                                                      productCla!.id)
+                                                  .des;
+                                              if (listEquals(des, cartDesc)) {
+                                                if (itemCount >=
+                                                    _counter + quantity) {
+                                                  await helper.updateProduct(
+                                                      _counter + quantity,
+                                                      productCla!.id,
+                                                      finalPrice.toDouble(),
+                                                      jsonEncode(att),
+                                                      jsonEncode(des),
+                                                      jsonEncode(
+                                                          optionsQuantity),
+                                                      productCla!.quantity
+                                                          .toInt(),
+                                                      productCla!.isOrder!);
+                                                } else if (_counter + quantity >
+                                                    itemCount) {
+                                                  final snackBar = SnackBar(
+                                                    content: Text(
+                                                      translateString(
+                                                          'product amount not available',
+                                                          'كمية المنتج غير متاحة حاليا '),
+                                                      style: TextStyle(
+                                                          fontFamily: 'Tajawal',
+                                                          fontSize: w * 0.04,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    ),
+                                                    action: SnackBarAction(
+                                                      label: translateString(
+                                                          "Undo", "تراجع"),
+                                                      disabledTextColor:
+                                                          Colors.yellow,
+                                                      textColor: Colors.yellow,
+                                                      onPressed: () {},
+                                                    ),
+                                                  );
+                                                  ScaffoldMessenger.of(
+                                                          scaffoldKey
+                                                              .currentContext!)
+                                                      .showSnackBar(snackBar);
+                                                }
+                                              } else if (!listEquals(
+                                                  des, cartDesc)) {
+                                                await helper.createCar(
+                                                    CartProducts(
+                                                        id: null,
+                                                        isOrder: productCla!
+                                                            .isOrder!,
+                                                        productquantity:
+                                                            productCla!.quantity
+                                                                .toInt(),
+                                                        studentId: studentId,
+                                                        productOptions:
+                                                            optionsQuantity,
+                                                        image:
+                                                            productCla!.image,
+                                                        titleAr:
+                                                            productCla!.nameAr,
+                                                        titleEn:
+                                                            productCla!.nameEn,
+                                                        price: finalPrice
+                                                            .toDouble(),
+                                                        quantity: _counter,
+                                                        att: att,
+                                                        des: des,
+                                                        idp: productCla!.id,
+                                                        idc: productCla!.cat.id,
+                                                        catNameEn: productCla!
+                                                            .cat.nameEn,
+                                                        catNameAr: productCla!
+                                                            .cat.nameAr,
+                                                        catSVG: productCla!
+                                                            .cat.svg));
+                                              }
                                             }
+                                            await cart.setItems().then((value) {
+                                              selectedColor = null;
+                                              selectedSize = null;
+                                              att.clear();
+                                              des.clear();
+                                              selectedColorSize.clear();
+                                              _counter = 1;
+                                            });
                                           }
-                                          await cart.setItems().then((value) {
-                                            selectedColor = null;
-                                            selectedSize = null;
-                                            att.clear();
-                                            des.clear();
-                                            selectedColorSize.clear();
-                                            _counter = 1;
-                                          });
                                         }
                                       }
                                     }
@@ -699,6 +1201,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                   setState2(() {
                                     error = true;
                                   });
+
                                   showDialog(
                                       context: context,
                                       builder: (context) {
@@ -748,6 +1251,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                       productCla!.id)) {
                                                     await helper.createCar(
                                                         CartProducts(
+                                                            isOrder: productCla!
+                                                                .isOrder!,
                                                             productquantity:
                                                                 productCla!.quantity
                                                                     .toInt(),
@@ -787,16 +1292,16 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                             productCla!.id)
                                                         .quantity;
                                                     await helper.updateProduct(
-                                                      counter + quantity,
-                                                      productCla!.id,
-                                                      finalPrice.toDouble(),
-                                                      jsonEncode(att),
-                                                      jsonEncode(des),
-                                                      jsonEncode(
-                                                          optionsQuantity),
-                                                      productCla!.quantity
-                                                          .toInt(),
-                                                    );
+                                                        counter + quantity,
+                                                        productCla!.id,
+                                                        finalPrice.toDouble(),
+                                                        jsonEncode(att),
+                                                        jsonEncode(des),
+                                                        jsonEncode(
+                                                            optionsQuantity),
+                                                        productCla!.quantity
+                                                            .toInt(),
+                                                        productCla!.isOrder!);
                                                   }
                                                   await cart.setItems();
                                                   error = false;
@@ -819,6 +1324,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                     if (!cart.idp.contains(productCla!.id)) {
                                       await helper.createCar(CartProducts(
                                           id: null,
+                                          isOrder: productCla!.isOrder!,
                                           productquantity:
                                               productCla!.quantity.toInt(),
                                           productOptions: optionsQuantity,
@@ -841,14 +1347,14 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               element.idp == productCla!.id)
                                           .quantity;
                                       await helper.updateProduct(
-                                        _counter + quantity,
-                                        productCla!.id,
-                                        finalPrice.toDouble(),
-                                        jsonEncode(att),
-                                        jsonEncode(des),
-                                        jsonEncode(optionsQuantity),
-                                        productCla!.quantity.toInt(),
-                                      );
+                                          _counter + quantity,
+                                          productCla!.id,
+                                          finalPrice.toDouble(),
+                                          jsonEncode(att),
+                                          jsonEncode(des),
+                                          jsonEncode(optionsQuantity),
+                                          productCla!.quantity.toInt(),
+                                          productCla!.isOrder!);
                                     }
                                     await cart.setItems();
                                   } catch (e) {
@@ -1020,7 +1526,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                   image: productCla!.image,
                                                   fit: BoxFit.contain))
                                           : SizedBox(
-                                              // height: h * 0.4,
                                               child: InkWell(
                                                 onTap: () {
                                                   Navigator.push(
@@ -1103,6 +1608,28 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               : Container(),
                                         ],
                                       ),
+                                      // (productCla!.isOrder == 1)
+                                      //     ? Padding(
+                                      //         padding: EdgeInsets.only(
+                                      //             top: h * 0.45),
+                                      //         child: Container(
+                                      //           height: h * 0.07,
+                                      //           color: mainColor,
+                                      //           child: Center(
+                                      //             child: Text(
+                                      //               translateString(
+                                      //                   "Order", "تحت الطلب"),
+                                      //               style: TextStyle(
+                                      //                   fontFamily: 'Tajawal',
+                                      //                   fontSize: w * 0.04,
+                                      //                   color: Colors.white,
+                                      //                   fontWeight:
+                                      //                       FontWeight.w500),
+                                      //             ),
+                                      //           ),
+                                      //         ),
+                                      //       )
+                                      //     : const SizedBox(),
                                     ],
                                   ),
                                 ),
@@ -1221,6 +1748,33 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                     ),
                                   ),
                                 ),
+                                (productCla!.isOrder == 1)
+                                    ? SizedBox(
+                                        height: h * 0.01,
+                                      )
+                                    : const SizedBox(),
+                                (productCla!.isOrder == 1)
+                                    ? Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: h * 0.015),
+                                        child: RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                  text: translateString(
+                                                      'Order will be deliver within ${productCla!.deliverDays} days ',
+                                                      'الطلب سيصل خلال  ${productCla!.deliverDays}  يوم '),
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontFamily: 'Tajawal',
+                                                      color: Colors.black87,
+                                                      fontSize: w * 0.035)),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    : const SizedBox(),
                                 SizedBox(
                                   height: h * 0.04,
                                 ),

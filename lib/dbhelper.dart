@@ -21,7 +21,7 @@ class DbHelper {
     _db = await openDatabase(path, version: 1, onCreate: (Database db, int v) {
       //create all tables
       db.execute(
-        "create table cart(id integer primary key autoincrement,idp integer,idc integer,studentId integer,image varchar(100),svg varchar(100),titleAr varchar(50),titleEn varchar(50),catNameAr varchar(50),catNameEn varchar(50),att varchar(50),product_options varchar(50),des varchar(50),quantity integer,price double, productquantity integer)",
+        "create table cart(id integer primary key autoincrement,idp integer,idc integer,studentId integer,image varchar(100),svg varchar(100),titleAr varchar(50),titleEn varchar(50),catNameAr varchar(50),catNameEn varchar(50),att varchar(50),product_options varchar(50),des varchar(50),quantity integer,price double, productquantity integer, isOrder integer)",
       );
     });
     return _db!;
@@ -52,8 +52,15 @@ class DbHelper {
     return db.delete('cart');
   }
 
-  Future<int> updateProduct(int quantity, int idp, double price, String att,
-      String des, String productOptions, int productquantity) async {
+  Future<int> updateProduct(
+      int quantity,
+      int idp,
+      double price,
+      String att,
+      String des,
+      String productOptions,
+      int productquantity,
+      int isOrder) async {
     Database db = await createDatabase();
     db.rawUpdate('UPDATE cart SET price = ? WHERE idp = ?', [price, idp]);
     db.rawUpdate('UPDATE cart SET product_options = ? WHERE idp = ?',
@@ -64,6 +71,8 @@ class DbHelper {
         'UPDATE cart SET studentId = ? WHERE idp = ?', [studentId, idp]);
     db.rawUpdate('UPDATE cart SET att = ? WHERE idp = ?', [att, idp]);
     db.rawUpdate('UPDATE cart SET des = ? WHERE idp = ?', [des, idp]);
+    db.rawUpdate('UPDATE cart SET isOrder = ? WHERE idp = ?', [isOrder, idp]);
+
     return db.rawUpdate(
         'UPDATE cart SET quantity = ? WHERE idp = ?', [quantity, idp]);
   }

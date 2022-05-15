@@ -55,6 +55,7 @@ class StudentItemProvider extends ChangeNotifier {
       for (var e in list) {
         Item _item = Item(
             id: e['id'],
+            isOrder: e['is_order'],
             finalPrice: e['in_sale']
                 ? num.parse(e['sale_price'].toString())
                 : num.parse(e['regular_price'].toString()),
@@ -70,6 +71,7 @@ class StudentItemProvider extends ChangeNotifier {
       for (var e in _offers) {
         Item _item = Item(
             id: e['id'],
+            isOrder: e['is_order'],
             finalPrice: e['in_sale']
                 ? num.parse(e['sale_price'].toString())
                 : num.parse(e['regular_price'].toString()),

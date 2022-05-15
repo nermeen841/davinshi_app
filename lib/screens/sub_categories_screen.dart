@@ -187,41 +187,57 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                                             child: Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                ImageeNetworkWidget(
-                                                  fit: BoxFit.cover,
-                                                  width: w * 0.45,
-                                                  height: h * 0.28,
-                                                  // decoration: BoxDecoration(
-                                                  //   color: Colors.grey[200],
-                                                  //   image: DecorationImage(
-                                                  image: snapshot.data![i].img
-                                                      .toString(),
-                                                  //     fit: BoxFit.fitHeight,
-                                                  //   ),
-                                                  // ),
-                                                  // child: Padding(
-                                                  //   padding: EdgeInsets.all(
-                                                  //       w * 0.015),
-                                                  //   child: Align(
-                                                  //     alignment: isLeft()
-                                                  //         ? Alignment.bottomLeft
-                                                  //         : Alignment
-                                                  //             .bottomRight,
-                                                  //     child: CircleAvatar(
-                                                  //       backgroundColor:
-                                                  //           mainColor,
-                                                  //       radius: w * .05,
-                                                  //       child: Center(
-                                                  //         child: Icon(
-                                                  //           Icons
-                                                  //               .shopping_cart_outlined,
-                                                  //           color: Colors.white,
-                                                  //           size: w * 0.05,
-                                                  //         ),
-                                                  //       ),
-                                                  //     ),
-                                                  //   ),
-                                                  // ),
+                                                Stack(
+                                                  children: [
+                                                    ImageeNetworkWidget(
+                                                      fit: BoxFit.cover,
+                                                      width: w * 0.45,
+                                                      height: h * 0.28,
+                                                      image: snapshot
+                                                          .data![i].img
+                                                          .toString(),
+                                                    ),
+                                                    (snapshot.data![i]
+                                                                .isOrder ==
+                                                            1)
+                                                        ? Container(
+                                                            height: h * 0.04,
+                                                            width: w * 0.22,
+                                                            margin: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        w *
+                                                                            0.01,
+                                                                    vertical: h *
+                                                                        0.01),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: mainColor,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(w *
+                                                                          0.02),
+                                                            ),
+                                                            child: Center(
+                                                              child: Text(
+                                                                translateString(
+                                                                    "Order",
+                                                                    "علي الطلب"),
+                                                                style: TextStyle(
+                                                                    fontFamily:
+                                                                        'Tajawal',
+                                                                    fontSize: w *
+                                                                        0.04,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        : const SizedBox(),
+                                                  ],
                                                 ),
                                                 SizedBox(
                                                   width: w * 0.45,

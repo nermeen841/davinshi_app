@@ -56,16 +56,6 @@ class _CartState extends State<Cart> {
         couponPrice = num.parse(response.data['data']['discount'].toString());
         return 1; // success
       }
-      // if(response.data['status']==0&&response.data['message']=='The total price of the order must be at least 100  $currency'){
-      //   errorCoupon = response.data['message'];
-      //   checkCoupon = 5;
-      //   return 5; // min price
-      // }
-      // if(response.data['status']==0&&response.data['message']=='coupon not found'){
-      //   errorCoupon = response.data['message'];
-      //   checkCoupon = 2;
-      //   return 2; // cant find
-      // }
       if (response.data['status'] == 0) {
         errorCoupon = response.data['message'];
         checkCoupon = 2;
@@ -80,110 +70,38 @@ class _CartState extends State<Cart> {
     return 4;
   }
 
-  // Future checkOut(context)async{
-  //   final String url2 = domain+'save-order';
-  //   CartProvider _cart = Provider.of<CartProvider>(context,listen: false);
-  //   AddressClass? address = Provider.of<AddressProvider>(context,listen: false).addressCart;
-  //   Map data = login?{
-  //     "name" :address!.name,
-  //     "phone" :address.phone1,
-  //     "email" :address.email,
-  //     "address_d" :address.country,
-  //     "note" :address.note,
-  //     "area_id" : address.areaId,
-  //     "address" : address.address,
-  //     "products_id" : _cart.idProducts,
-  //     "quantity_products" : _cart.quan,
-  //     "optionValue_products" : _cart.op,
-  //     "shipping_address_id" : address.id,
-  //     "student_id" : _cart.st,
-  //     "lat_and_long" : address.lat.toString()+','+address.long.toString(),
-  //     "coupon_code" : couponName,
-  //   }:{
-  //     "name" :addressGuest!.name,
-  //     "phone" :addressGuest!.phone1,
-  //     "address_d" :addressGuest!.country,
-  //     "email" :addressGuest!.email,
-  //     "note" :addressGuest!.note,
-  //     "area_id" : addressGuest!.areaId,
-  //     "address" : addressGuest!.address,
-  //     "products_id" : _cart.idProducts,
-  //     "quantity_products" : _cart.quan,
-  //     "optionValue_products" : _cart.op,
-  //     "shipping_address_id" : 0,
-  //     "student_id" : _cart.st,
-  //     "lat_and_long" : addressGuest!.lat.toString()+','+addressGuest!.long.toString(),
-  //     "coupon_code" : couponName,
-  //   };
-  //   print(data);
-  //   if(couponName==null){
-  //     data.remove('coupon_code');
-  //   }
-  //   if(!login){
-  //     data.remove('shipping_address_id');
-  //   }
-  //   try {
-  //     Response response = await Dio().post(url2,data: data,
-  //       options: Options(
-  //           headers: login?{
-  //             "auth-token" : auth
-  //           }:null
-  //       ),
-  //     );
-  //     if(response.data['status']==1){
-  //       if(login){
-  //         await getOrders().then((value) {
-  //           Provider.of<CartProvider>(context,listen: false).clearAll();
-  //           if(value){
-  //             dbHelper.deleteAll();
-  //             navPR(context, Orders());
-  //             return null;
-  //           }else{
-  //             navPop(context);
-  //             print('asdss1');
-  //             error(context);
-  //             return null;
-  //           }
-  //         });
-  //       }else{
-  //         navPop(context);
-  //         dbHelper.deleteAll();
-  //         Provider.of<CartProvider>(context,listen: false).clearAll();
-  //         alertSuccessCart(context);
-  //         return null;
-  //       }
-  //     }
-  //     if(response.data['status']==0){
-  //       navPop(context);
-  //       String data ='';
-  //       if(response.data['message'] is List){
-  //         if(language=='en'){
-  //           response.data['message'].forEach((e){
-  //             data += e + '\n';
-  //           });
-  //         }else{
-  //           response.data['message'].forEach((e){
-  //             data += e + '\n';
-  //           });
-  //         }
-  //       }
-  //       print('hamza');
-  //       print(response.data);
-  //       print(response.data['message']);
-  //       customError(context,response.data['message'] is List ?data:response.data['order']);
-  //       return null;
-  //     }
-  //   } catch (e) {
-  //     print('error $e');
-  //     // navPop(context);
-  //     error(context);
-  //   }
-  //
-  // }
   @override
   void initState() {
     super.initState();
     idProducts = Provider.of<CartProvider>(context, listen: false).idp;
+  }
+
+  int deliveryDays = 0;
+  getdeliveryDays() async {
+    var productId = {};
+    try {
+      final String url = domain + "shipping_time";
+      for (var element in idProducts) {
+        productId['products'] = element;
+      }
+
+      Map<String, dynamic> body = {"products": productId};
+      print(body);
+
+      Response response = await Dio().post(
+        url,
+        data: body,
+      );
+      print(response.data);
+      if (response.data['status'] == 1) {
+        setState(() {
+          deliveryDays = response.data['time'];
+        });
+      }
+      print(deliveryDays);
+    } catch (e) {
+      print("error while get delivery days : " + e.toString());
+    }
   }
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -214,6 +132,7 @@ class _CartState extends State<Cart> {
       return finaldiscount;
     }
 
+    getdeliveryDays();
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -866,22 +785,16 @@ class _CartState extends State<Cart> {
                                                                         () async {
                                                                       if (_pro.quantity >
                                                                           1) {
-                                                                        await dbHelper
-                                                                            .updateProduct(
-                                                                          _pro.quantity -
-                                                                              1,
-                                                                          _pro.idp,
-                                                                          _pro.price
-                                                                              .toDouble(),
-                                                                          jsonEncode(
-                                                                              _pro.att),
-                                                                          jsonEncode(
-                                                                              _pro.des),
-                                                                          jsonEncode(
-                                                                              _pro.productOptions),
-                                                                          productCla!
-                                                                              .quantity,
-                                                                        );
+                                                                        await dbHelper.updateProduct(
+                                                                            _pro.quantity -
+                                                                                1,
+                                                                            _pro.idp,
+                                                                            _pro.price.toDouble(),
+                                                                            jsonEncode(_pro.att),
+                                                                            jsonEncode(_pro.des),
+                                                                            jsonEncode(_pro.productOptions),
+                                                                            _pro.productquantity.toInt(),
+                                                                            _pro.isOrder);
                                                                       } else {
                                                                         await dbHelper
                                                                             .deleteProduct(_pro.id!);
@@ -937,17 +850,15 @@ class _CartState extends State<Cart> {
                                                                         if (itemCount >=
                                                                             _pro.quantity +
                                                                                 1) {
-                                                                          await dbHelper
-                                                                              .updateProduct(
-                                                                            _pro.quantity +
-                                                                                1,
-                                                                            _pro.idp,
-                                                                            _pro.price.toDouble(),
-                                                                            jsonEncode(_pro.att),
-                                                                            jsonEncode(_pro.des),
-                                                                            jsonEncode(_pro.productOptions),
-                                                                            productCla!.quantity,
-                                                                          );
+                                                                          await dbHelper.updateProduct(
+                                                                              _pro.quantity + 1,
+                                                                              _pro.idp,
+                                                                              _pro.price.toDouble(),
+                                                                              jsonEncode(_pro.att),
+                                                                              jsonEncode(_pro.des),
+                                                                              jsonEncode(_pro.productOptions),
+                                                                              _pro.productquantity.toInt(),
+                                                                              _pro.isOrder);
                                                                           cart.setItems();
                                                                         }
                                                                       } else if (productCla!
@@ -969,34 +880,30 @@ class _CartState extends State<Cart> {
                                                                         if (itemsAvailable! >=
                                                                             _pro.quantity +
                                                                                 1) {
-                                                                          await dbHelper
-                                                                              .updateProduct(
-                                                                            _pro.quantity +
-                                                                                1,
-                                                                            _pro.idp,
-                                                                            _pro.price.toDouble(),
-                                                                            jsonEncode(_pro.att),
-                                                                            jsonEncode(_pro.des),
-                                                                            jsonEncode(_pro.productOptions),
-                                                                            productCla!.quantity,
-                                                                          );
+                                                                          await dbHelper.updateProduct(
+                                                                              _pro.quantity + 1,
+                                                                              _pro.idp,
+                                                                              _pro.price.toDouble(),
+                                                                              jsonEncode(_pro.att),
+                                                                              jsonEncode(_pro.des),
+                                                                              jsonEncode(_pro.productOptions),
+                                                                              _pro.productquantity.toInt(),
+                                                                              _pro.isOrder);
                                                                           cart.setItems();
                                                                         }
                                                                       } else {
                                                                         if (_pro.productquantity >=
                                                                             _pro.quantity +
                                                                                 1) {
-                                                                          await dbHelper
-                                                                              .updateProduct(
-                                                                            _pro.quantity +
-                                                                                1,
-                                                                            _pro.idp,
-                                                                            _pro.price.toDouble(),
-                                                                            jsonEncode(_pro.att),
-                                                                            jsonEncode(_pro.des),
-                                                                            jsonEncode(_pro.productOptions),
-                                                                            productCla!.quantity,
-                                                                          );
+                                                                          await dbHelper.updateProduct(
+                                                                              _pro.quantity + 1,
+                                                                              _pro.idp,
+                                                                              _pro.price.toDouble(),
+                                                                              jsonEncode(_pro.att),
+                                                                              jsonEncode(_pro.des),
+                                                                              jsonEncode(_pro.productOptions),
+                                                                              _pro.productquantity.toInt(),
+                                                                              _pro.isOrder);
                                                                           cart.setItems();
                                                                         } else if (_pro.productquantity <
                                                                             _pro.quantity +
@@ -1259,32 +1166,6 @@ class _CartState extends State<Cart> {
                           SizedBox(
                             height: h * 0.02,
                           ),
-                          // Padding(
-                          //   padding: EdgeInsets.symmetric(horizontal: w*0.05),
-                          //   child: SizedBox(
-                          //     width: w*0.9,
-                          //     child: TextFormField(
-                          //       controller: controller,
-                          //       cursorColor: Colors.black,
-                          //       maxLines: 5,
-                          //       minLines: 1,
-                          //       decoration: InputDecoration(
-                          //         focusedBorder: form(),
-                          //         enabledBorder: form(),
-                          //         errorBorder: form(),
-                          //         focusedErrorBorder: form(),
-                          //         hintText: ' Note (optional)',
-                          //         hintStyle: const TextStyle(color: Colors.grey),
-                          //         floatingLabelBehavior:FloatingLabelBehavior.never,
-                          //         errorMaxLines: 1,
-                          //         errorStyle: TextStyle(fontSize: w*0.03),
-                          //         contentPadding: EdgeInsets.symmetric(horizontal: w*0.01),
-                          //       ),
-                          //       keyboardType: TextInputType.multiline,
-                          //     ),
-                          //   ),
-                          // ),
-                          // SizedBox(height: h*0.02,),
                           Padding(
                             padding: EdgeInsets.all(w * 0.05),
                             child: SizedBox(
@@ -1383,6 +1264,34 @@ class _CartState extends State<Cart> {
                                   SizedBox(
                                     height: h * 0.03,
                                   ),
+                                  (deliveryDays != 0)
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              translateString('Delivery Time',
+                                                  'مدة التوصيل'),
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: w * 0.05),
+                                            ),
+                                            Text(
+                                              translateString(
+                                                  "$deliveryDays Days",
+                                                  "$deliveryDays يوم"),
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: w * 0.05),
+                                            ),
+                                          ],
+                                        )
+                                      : const SizedBox(),
+                                  (deliveryDays != 0)
+                                      ? SizedBox(
+                                          height: h * 0.03,
+                                        )
+                                      : const SizedBox(),
                                   if (couponPrice != 0.0 &&
                                       maxCopounLimit < cart.subTotal)
                                     Row(
@@ -1544,10 +1453,12 @@ class _CartState extends State<Cart> {
                                 ),
                               ),
                               onTap: () {
+                                getdeliveryDays();
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                     builder: ((context) => ConfirmCart(
+                                          deliveryDays: deliveryDays,
                                           maxCopounLimit: maxCopounLimit,
                                           couponPrice:
                                               (maxCopounLimit < cart.subTotal)
@@ -1621,11 +1532,11 @@ class _CartState extends State<Cart> {
                                 ),
                               ),
                               onTap: () {
-                                // dialog(context);
-                                // checkOut(context);
+                                getdeliveryDays();
                                 navP(
                                     context,
                                     ConfirmCart(
+                                        deliveryDays: deliveryDays,
                                         maxCopounLimit: maxCopounLimit,
                                         couponPrice: couponPrice,
                                         couponName: couponName,

@@ -373,27 +373,62 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                       mainAxisSize:
                                                           MainAxisSize.min,
                                                       children: [
-                                                        ImageeNetworkWidget(
-                                                          fit: BoxFit.cover,
-                                                          image: newItem
-                                                              .items[i].image,
-                                                          width: w * 0.45,
-                                                          height: h * 0.28,
+                                                        Stack(
+                                                          children: [
+                                                            SizedBox(
+                                                              width: w * 0.45,
+                                                              height: h * 0.28,
+                                                              child:
+                                                                  ImageeNetworkWidget(
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                image: newItem
+                                                                    .items[i]
+                                                                    .image,
+                                                              ),
+                                                            ),
+                                                            (newItem.items[i]
+                                                                        .isOrder ==
+                                                                    1)
+                                                                ? Container(
+                                                                    height: h *
+                                                                        0.04,
+                                                                    width: w *
+                                                                        0.22,
+                                                                    margin: EdgeInsets.symmetric(
+                                                                        horizontal: w *
+                                                                            0.01,
+                                                                        vertical:
+                                                                            h * 0.01),
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color:
+                                                                          mainColor,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(w *
+                                                                              0.02),
+                                                                    ),
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          Text(
+                                                                        translateString(
+                                                                            "Order",
+                                                                            "علي الطلب"),
+                                                                        style: TextStyle(
+                                                                            fontFamily:
+                                                                                'Tajawal',
+                                                                            fontSize: w *
+                                                                                0.04,
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontWeight: FontWeight.w500),
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                : const SizedBox(),
+                                                          ],
                                                         ),
-                                                        // Container(
-                                                        //   width: w * 0.45,
-                                                        //   height: h * 0.28,
-                                                        //   decoration: BoxDecoration(
-                                                        //     color: Colors.grey[200],
-                                                        //     image: DecorationImage(
-                                                        //       image: NetworkImage(
-                                                        //           newItem.items[i]
-                                                        //               .image),
-                                                        //       // image: AssetImage('assets/food${i+1}.png'),
-                                                        //       fit: BoxFit.fitHeight,
-                                                        //     ),
-                                                        //   ),
-                                                        // ),
                                                         SizedBox(
                                                           width: w * 0.45,
                                                           child: Column(
@@ -525,13 +560,21 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                 );
                                               }),
                                             )
-                                          : Padding(
-                                              padding:
-                                                  EdgeInsets.only(top: h * 0.3),
-                                              child: Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                        color: mainColor),
+                                          : Center(
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: h * 0.3),
+                                                child: Text(
+                                                  translateString(
+                                                      "No products here",
+                                                      "لا توجد منتجات"),
+                                                  style: TextStyle(
+                                                      fontFamily: "Tajawal",
+                                                      fontSize: w * 0.04,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: mainColor),
+                                                ),
                                               ),
                                             );
                                     }),
@@ -662,211 +705,58 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                       mainAxisSize:
                                                           MainAxisSize.min,
                                                       children: [
-                                                        ImageeNetworkWidget(
-                                                          fit: BoxFit.cover,
-                                                          image: bestItem
-                                                              .items[i].image,
-                                                          width: w * 0.45,
-                                                          height: h * 0.28,
+                                                        Stack(
+                                                          children: [
+                                                            ImageeNetworkWidget(
+                                                              fit: BoxFit.cover,
+                                                              image: bestItem
+                                                                  .items[i]
+                                                                  .image,
+                                                              width: w * 0.45,
+                                                              height: h * 0.28,
+                                                            ),
+                                                            (bestItem.items[i]
+                                                                        .isOrder ==
+                                                                    1)
+                                                                ? Container(
+                                                                    height: h *
+                                                                        0.04,
+                                                                    width: w *
+                                                                        0.22,
+                                                                    margin: EdgeInsets.symmetric(
+                                                                        horizontal: w *
+                                                                            0.01,
+                                                                        vertical:
+                                                                            h * 0.01),
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color:
+                                                                          mainColor,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(w *
+                                                                              0.02),
+                                                                    ),
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          Text(
+                                                                        translateString(
+                                                                            "Order",
+                                                                            "علي الطلب"),
+                                                                        style: TextStyle(
+                                                                            fontFamily:
+                                                                                'Tajawal',
+                                                                            fontSize: w *
+                                                                                0.04,
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontWeight: FontWeight.w500),
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                : const SizedBox(),
+                                                          ],
                                                         ),
-                                                        // Container(
-                                                        //   width: w * 0.45,
-                                                        //   height: h * 0.28,
-                                                        //   decoration: BoxDecoration(
-                                                        //     color: Colors.grey[200],
-                                                        //     image: DecorationImage(
-                                                        //       image: NetworkImage(
-                                                        //           bestItem.items[i]
-                                                        //               .image),
-                                                        //       // image: AssetImage('assets/food${i+1}.png'),
-                                                        //       fit: BoxFit.fitHeight,
-                                                        //     ),
-                                                        //   ),
-
-                                                        // child: Padding(
-                                                        //   padding:
-                                                        //       EdgeInsets.all(w * 0.015),
-                                                        //   child: Align(
-                                                        //     alignment: isLeft()
-                                                        //         ? Alignment.bottomLeft
-                                                        //         : Alignment.bottomRight,
-                                                        //     child: InkWell(
-                                                        //       onTap: () async {
-                                                        //         if (cartId == null ||
-                                                        //             cartId ==
-                                                        //                 studentId) {
-                                                        //           try {
-                                                        //             if (!cart.idp
-                                                        //                 .contains(
-                                                        //                     bestItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .id)) {
-                                                        //               await helper.createCar(CartProducts(
-                                                        //                   id: null,
-                                                        //                   studentId:
-                                                        //                       studentId,
-                                                        //                   image: bestItem
-                                                        //                       .items[i]
-                                                        //                       .image,
-                                                        //                   titleAr: bestItem
-                                                        //                       .items[i]
-                                                        //                       .nameAr,
-                                                        //                   titleEn: bestItem
-                                                        //                       .items[i]
-                                                        //                       .nameEn,
-                                                        //                   price: bestItem
-                                                        //                       .items[i]
-                                                        //                       .finalPrice
-                                                        //                       .toDouble(),
-                                                        //                   quantity: 1,
-                                                        //                   att: att,
-                                                        //                   des: des,
-                                                        //                   idp: bestItem
-                                                        //                       .items[i]
-                                                        //                       .id,
-                                                        //                   idc: 0,
-                                                        //                   catNameEn: "",
-                                                        //                   catNameAr: "",
-                                                        //                   catSVG: ""));
-                                                        //             } else {
-                                                        //               int quantity = cart
-                                                        //                   .items
-                                                        //                   .firstWhere((element) =>
-                                                        //                       element
-                                                        //                           .idp ==
-                                                        //                       bestItem
-                                                        //                           .items[
-                                                        //                               i]
-                                                        //                           .id)
-                                                        //                   .quantity;
-                                                        //               await helper.updateProduct(
-                                                        //                   1 + quantity,
-                                                        //                   bestItem
-                                                        //                       .items[i]
-                                                        //                       .id,
-                                                        //                   bestItem
-                                                        //                       .items[i]
-                                                        //                       .finalPrice
-                                                        //                       .toDouble(),
-                                                        //                   jsonEncode(
-                                                        //                       att),
-                                                        //                   jsonEncode(
-                                                        //                       des));
-                                                        //             }
-                                                        //             await cart
-                                                        //                 .setItems();
-                                                        //           } catch (e) {
-                                                        //             error(context);
-                                                        //             print('e');
-                                                        //             print(e);
-                                                        //           }
-                                                        //         } else {
-                                                        //           if (cartId == null ||
-                                                        //               cartId ==
-                                                        //                   studentId) {
-                                                        //             try {
-                                                        //               if (!cart.idp
-                                                        //                   .contains(
-                                                        //                       bestItem
-                                                        //                           .items[
-                                                        //                               i]
-                                                        //                           .id)) {
-                                                        //                 await helper.createCar(CartProducts(
-                                                        //                     id: null,
-                                                        //                     studentId: bestItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .brands![
-                                                        //                             i]
-                                                        //                         .id,
-                                                        //                     image: bestItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .image,
-                                                        //                     titleAr: bestItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .nameAr,
-                                                        //                     titleEn: bestItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .nameEn,
-                                                        //                     price: bestItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .price
-                                                        //                         .toDouble(),
-                                                        //                     quantity: 1,
-                                                        //                     att: att,
-                                                        //                     des: des,
-                                                        //                     idp: bestItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .id,
-                                                        //                     idc: bestItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .id,
-                                                        //                     catNameEn:
-                                                        //                         "",
-                                                        //                     catNameAr:
-                                                        //                         "",
-                                                        //                     catSVG:
-                                                        //                         ""));
-                                                        //               } else {
-                                                        //                 int quantity = cart
-                                                        //                     .items
-                                                        //                     .firstWhere((element) =>
-                                                        //                         element
-                                                        //                             .idp ==
-                                                        //                         bestItem
-                                                        //                             .items[i]
-                                                        //                             .id)
-                                                        //                     .quantity;
-                                                        //                 await helper.updateProduct(
-                                                        //                     1 +
-                                                        //                         quantity,
-                                                        //                     bestItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .id,
-                                                        //                     bestItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .finalPrice
-                                                        //                         .toDouble(),
-                                                        //                     jsonEncode(
-                                                        //                         att),
-                                                        //                     jsonEncode(
-                                                        //                         des));
-                                                        //               }
-                                                        //               await cart
-                                                        //                   .setItems();
-                                                        //             } catch (e) {
-                                                        //               print('e');
-                                                        //               print(e);
-                                                        //             }
-                                                        //           } else {}
-                                                        //         }
-                                                        //       },
-                                                        //       child: CircleAvatar(
-                                                        //         backgroundColor:
-                                                        //             mainColor,
-                                                        //         radius: w * .05,
-                                                        //         child: Center(
-                                                        //           child: Icon(
-                                                        //             Icons
-                                                        //                 .shopping_cart_outlined,
-                                                        //             color: Colors.white,
-                                                        //             size: w * 0.05,
-                                                        //           ),
-                                                        //         ),
-                                                        //       ),
-                                                        //     ),
-                                                        //   ),
-                                                        // ),
-                                                        // ),
                                                         SizedBox(
                                                           width: w * 0.45,
                                                           child: Column(
@@ -996,9 +886,16 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                               child: Padding(
                                                 padding: EdgeInsets.only(
                                                     top: h * 0.3),
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: mainColor,
+                                                child: Text(
+                                                  translateString(
+                                                      "No products here",
+                                                      "لا توجد منتجات"),
+                                                  style: TextStyle(
+                                                      fontFamily: "Tajawal",
+                                                      fontSize: w * 0.04,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: mainColor),
                                                 ),
                                               ),
                                             );
@@ -1130,207 +1027,58 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                       mainAxisSize:
                                                           MainAxisSize.min,
                                                       children: [
-                                                        ImageeNetworkWidget(
-                                                          fit: BoxFit.cover,
-                                                          image: reItem
-                                                              .items[i].image,
-                                                          width: w * 0.45,
-                                                          height: h * 0.28,
+                                                        Stack(
+                                                          children: [
+                                                            ImageeNetworkWidget(
+                                                              fit: BoxFit.cover,
+                                                              image: reItem
+                                                                  .items[i]
+                                                                  .image,
+                                                              width: w * 0.45,
+                                                              height: h * 0.28,
+                                                            ),
+                                                            (reItem.items[i]
+                                                                        .isOrder ==
+                                                                    1)
+                                                                ? Container(
+                                                                    height: h *
+                                                                        0.04,
+                                                                    width: w *
+                                                                        0.22,
+                                                                    margin: EdgeInsets.symmetric(
+                                                                        horizontal: w *
+                                                                            0.01,
+                                                                        vertical:
+                                                                            h * 0.01),
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color:
+                                                                          mainColor,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(w *
+                                                                              0.02),
+                                                                    ),
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          Text(
+                                                                        translateString(
+                                                                            "Order",
+                                                                            "علي الطلب"),
+                                                                        style: TextStyle(
+                                                                            fontFamily:
+                                                                                'Tajawal',
+                                                                            fontSize: w *
+                                                                                0.04,
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontWeight: FontWeight.w500),
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                : const SizedBox(),
+                                                          ],
                                                         ),
-                                                        // Container(
-                                                        //   width: w * 0.45,
-                                                        //   height: h * 0.28,
-                                                        //   decoration: BoxDecoration(
-                                                        //     color: Colors.grey[200],
-                                                        //     image: DecorationImage(
-                                                        //       image: NetworkImage(
-                                                        //           reItem.items[i]
-                                                        //               .image),
-                                                        //       // image: AssetImage('assets/food${i+1}.png'),
-                                                        //       fit: BoxFit.fitHeight,
-                                                        //     ),
-                                                        //   ),
-
-                                                        // child: Padding(
-                                                        //   padding:
-                                                        //       EdgeInsets.all(w * 0.015),
-                                                        //   child: Align(
-                                                        //     alignment: isLeft()
-                                                        //         ? Alignment.bottomLeft
-                                                        //         : Alignment.bottomRight,
-                                                        //     child: InkWell(
-                                                        //       onTap: () async {
-                                                        //         if (cartId == null ||
-                                                        //             cartId ==
-                                                        //                 studentId) {
-                                                        //           try {
-                                                        //             if (!cart.idp
-                                                        //                 .contains(reItem
-                                                        //                     .items[i]
-                                                        //                     .id)) {
-                                                        //               await helper.createCar(CartProducts(
-                                                        //                   id: null,
-                                                        //                   studentId:
-                                                        //                       studentId,
-                                                        //                   image: reItem
-                                                        //                       .items[i]
-                                                        //                       .image,
-                                                        //                   titleAr: reItem
-                                                        //                       .items[i]
-                                                        //                       .nameAr,
-                                                        //                   titleEn: reItem
-                                                        //                       .items[i]
-                                                        //                       .nameEn,
-                                                        //                   price: reItem
-                                                        //                       .items[i]
-                                                        //                       .finalPrice
-                                                        //                       .toDouble(),
-                                                        //                   quantity: 1,
-                                                        //                   att: att,
-                                                        //                   des: des,
-                                                        //                   idp: reItem
-                                                        //                       .items[i]
-                                                        //                       .id,
-                                                        //                   idc: 0,
-                                                        //                   catNameEn: "",
-                                                        //                   catNameAr: "",
-                                                        //                   catSVG: ""));
-                                                        //             } else {
-                                                        //               int quantity = cart
-                                                        //                   .items
-                                                        //                   .firstWhere((element) =>
-                                                        //                       element
-                                                        //                           .idp ==
-                                                        //                       reItem
-                                                        //                           .items[
-                                                        //                               i]
-                                                        //                           .id)
-                                                        //                   .quantity;
-                                                        //               await helper.updateProduct(
-                                                        //                   1 + quantity,
-                                                        //                   reItem
-                                                        //                       .items[i]
-                                                        //                       .id,
-                                                        //                   reItem
-                                                        //                       .items[i]
-                                                        //                       .finalPrice
-                                                        //                       .toDouble(),
-                                                        //                   jsonEncode(
-                                                        //                       att),
-                                                        //                   jsonEncode(
-                                                        //                       des));
-                                                        //             }
-                                                        //             await cart
-                                                        //                 .setItems();
-                                                        //           } catch (e) {
-                                                        //             error(context);
-                                                        //             print('e');
-                                                        //             print(e);
-                                                        //           }
-                                                        //         } else {
-                                                        //           if (cartId == null ||
-                                                        //               cartId ==
-                                                        //                   studentId) {
-                                                        //             try {
-                                                        //               if (!cart.idp
-                                                        //                   .contains(reItem
-                                                        //                       .items[i]
-                                                        //                       .id)) {
-                                                        //                 await helper.createCar(CartProducts(
-                                                        //                     id: null,
-                                                        //                     studentId: reItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .brands![
-                                                        //                             i]
-                                                        //                         .id,
-                                                        //                     image: reItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .image,
-                                                        //                     titleAr: reItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .nameAr,
-                                                        //                     titleEn: reItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .nameEn,
-                                                        //                     price: reItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .price
-                                                        //                         .toDouble(),
-                                                        //                     quantity: 1,
-                                                        //                     att: att,
-                                                        //                     des: des,
-                                                        //                     idp: reItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .id,
-                                                        //                     idc: reItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .id,
-                                                        //                     catNameEn:
-                                                        //                         "",
-                                                        //                     catNameAr:
-                                                        //                         "",
-                                                        //                     catSVG:
-                                                        //                         ""));
-                                                        //               } else {
-                                                        //                 int quantity = cart
-                                                        //                     .items
-                                                        //                     .firstWhere((element) =>
-                                                        //                         element
-                                                        //                             .idp ==
-                                                        //                         reItem
-                                                        //                             .items[i]
-                                                        //                             .id)
-                                                        //                     .quantity;
-                                                        //                 await helper.updateProduct(
-                                                        //                     1 +
-                                                        //                         quantity,
-                                                        //                     reItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .id,
-                                                        //                     reItem
-                                                        //                         .items[
-                                                        //                             i]
-                                                        //                         .finalPrice
-                                                        //                         .toDouble(),
-                                                        //                     jsonEncode(
-                                                        //                         att),
-                                                        //                     jsonEncode(
-                                                        //                         des));
-                                                        //               }
-                                                        //               await cart
-                                                        //                   .setItems();
-                                                        //             } catch (e) {
-                                                        //               print('e');
-                                                        //               print(e);
-                                                        //             }
-                                                        //           } else {}
-                                                        //         }
-                                                        //       },
-                                                        //       child: CircleAvatar(
-                                                        //         backgroundColor:
-                                                        //             mainColor,
-                                                        //         radius: w * .05,
-                                                        //         child: Center(
-                                                        //           child: Icon(
-                                                        //             Icons
-                                                        //                 .shopping_cart_outlined,
-                                                        //             color: Colors.white,
-                                                        //             size: w * 0.05,
-                                                        //           ),
-                                                        //         ),
-                                                        //       ),
-                                                        //     ),
-                                                        //   ),
-                                                        // ),
-                                                        // ),
                                                         SizedBox(
                                                           width: w * 0.45,
                                                           child: Column(
@@ -1461,9 +1209,16 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                               child: Padding(
                                                 padding: EdgeInsets.only(
                                                     top: h * 0.3),
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: mainColor,
+                                                child: Text(
+                                                  translateString(
+                                                      "No products here",
+                                                      "لا توجد منتجات"),
+                                                  style: TextStyle(
+                                                      fontFamily: "Tajawal",
+                                                      fontSize: w * 0.04,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: mainColor),
                                                 ),
                                               ),
                                             );
@@ -1600,13 +1355,55 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                       children: [
                                                         Stack(
                                                           children: [
-                                                            ImageeNetworkWidget(
-                                                              fit: BoxFit.cover,
-                                                              image: offerItem
-                                                                  .items[i]
-                                                                  .image,
-                                                              width: w * 0.45,
-                                                              height: h * 0.28,
+                                                            Stack(
+                                                              children: [
+                                                                ImageeNetworkWidget(
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  image: offerItem
+                                                                      .items[i]
+                                                                      .image,
+                                                                  width:
+                                                                      w * 0.45,
+                                                                  height:
+                                                                      h * 0.28,
+                                                                ),
+                                                                (offerItem.items[i]
+                                                                            .isOrder ==
+                                                                        1)
+                                                                    ? Container(
+                                                                        height: h *
+                                                                            0.04,
+                                                                        width: w *
+                                                                            0.22,
+                                                                        margin: EdgeInsets.symmetric(
+                                                                            horizontal: w *
+                                                                                0.01,
+                                                                            vertical:
+                                                                                h * 0.01),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              mainColor,
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(w * 0.02),
+                                                                        ),
+                                                                        child:
+                                                                            Center(
+                                                                          child:
+                                                                              Text(
+                                                                            translateString("Order",
+                                                                                "علي الطلب"),
+                                                                            style: TextStyle(
+                                                                                fontFamily: 'Tajawal',
+                                                                                fontSize: w * 0.04,
+                                                                                color: Colors.white,
+                                                                                fontWeight: FontWeight.w500),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    : const SizedBox(),
+                                                              ],
                                                             ),
                                                           ],
                                                         ),
@@ -1739,9 +1536,16 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                               child: Padding(
                                                 padding: EdgeInsets.only(
                                                     top: h * 0.3),
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: mainColor,
+                                                child: Text(
+                                                  translateString(
+                                                      "No products here",
+                                                      "لا توجد منتجات"),
+                                                  style: TextStyle(
+                                                      fontFamily: "Tajawal",
+                                                      fontSize: w * 0.04,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: mainColor),
                                                 ),
                                               ),
                                             );

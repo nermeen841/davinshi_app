@@ -61,7 +61,7 @@ class NewItemProvider extends ChangeNotifier {
       for (var e in list) {
         Item _item = Item(
             id: e['id'],
-            // subCatID: e['id'].toString(),
+            isOrder: e['is_order'],
             finalPrice: e['in_sale']
                 ? num.parse(e['sale_price'].toString())
                 : num.parse(e['regular_price'].toString()),
@@ -108,11 +108,13 @@ class Item {
   String? disPer;
   num? salePrice;
   bool isSale;
+  int isOrder;
   num finalPrice;
   List<Brands>? brands;
   String? subCatID;
   Item({
     this.brands,
+    required this.isOrder,
     required this.id,
     required this.finalPrice,
     required this.image,

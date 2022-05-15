@@ -12,6 +12,8 @@ class ProductCla {
   String nameEn;
   String slug;
   bool? isClothes;
+  int? isOrder;
+  int? deliverDays;
   List<AttributesClothes>? attributesClothes;
   String? sellerName;
   String? brandName;
@@ -40,6 +42,8 @@ class ProductCla {
   ProductCla(
       {required this.id,
       this.isClothes,
+      this.isOrder,
+      this.deliverDays,
       this.attributesClothes,
       required this.nameAr,
       required this.similar,
@@ -103,6 +107,7 @@ class SimilarProduct {
 
 class ProductsModel {
   String? name, id, img;
+  int isOrder;
 
   bool? in_sale;
 
@@ -111,6 +116,7 @@ class ProductsModel {
       {this.id,
       this.name,
       this.img,
+      required this.isOrder,
       this.in_sale,
       this.sale_price,
       this.regular_price,
@@ -346,6 +352,8 @@ Future setProduct(Map e) async {
       productCla = ProductCla(
           id: e['product']['id'],
           nameAr: e['product']['name_ar'],
+          isOrder: e['product']['is_order'],
+          deliverDays: e['product']['day_order'],
           nameEn: e['product']['name_en'],
           slug: e['product']['slug'],
           descriptionAr: e['product']['description_ar'],

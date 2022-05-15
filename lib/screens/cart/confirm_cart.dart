@@ -19,6 +19,7 @@ import 'orders.dart';
 
 class ConfirmCart extends StatefulWidget {
   final num couponPrice;
+  final int deliveryDays;
   final num maxCopounLimit;
   final String? couponName;
   final bool couponPercentage;
@@ -27,7 +28,8 @@ class ConfirmCart extends StatefulWidget {
       required this.couponPrice,
       required this.maxCopounLimit,
       required this.couponName,
-      required this.couponPercentage})
+      required this.couponPercentage,
+      required this.deliveryDays})
       : super(key: key);
   @override
   _ConfirmCartState createState() => _ConfirmCartState();
@@ -104,6 +106,7 @@ class _ConfirmCartState extends State<ConfirmCart> {
               context,
               MaterialPageRoute(
                   builder: (context) => PaymentScreen(
+                        deliveryDays: widget.deliveryDays,
                         maxCopounLimit: widget.maxCopounLimit,
                         orderId: response.data['order']['id'],
                         totalprice:
@@ -397,6 +400,30 @@ class _ConfirmCartState extends State<ConfirmCart> {
                       SizedBox(
                         height: h * 0.03,
                       ),
+                      (widget.deliveryDays != 0)
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  translateString(
+                                      'Delivery Time', 'مدة التوصيل'),
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: w * 0.05),
+                                ),
+                                Text(
+                                  translateString("${widget.deliveryDays} Days",
+                                      "${widget.deliveryDays} يوم"),
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: w * 0.05),
+                                ),
+                              ],
+                            )
+                          : const SizedBox(),
+                      (widget.deliveryDays != 0)
+                          ? SizedBox(
+                              height: h * 0.03,
+                            )
+                          : const SizedBox(),
                       if (login)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1091,164 +1091,54 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                               height: h * 0.25,
                                               decoration: BoxDecoration(
                                                 color: Colors.grey[200],
-                                                // image: DecorationImage(
-                                                //   image: NetworkImage(
-                                                //       newItem[i].image),
-                                                //   fit: BoxFit.cover,
-                                                // ),
                                               ),
-                                              child: ImageeNetworkWidget(
-                                                fit: BoxFit.cover,
-                                                image: newItem[i].image,
-                                                width: w * 0.5,
-                                                height: h * 0.25,
+                                              child: Stack(
+                                                children: [
+                                                  ImageeNetworkWidget(
+                                                    fit: BoxFit.cover,
+                                                    image: newItem[i].image,
+                                                    width: w * 0.5,
+                                                    height: h * 0.25,
+                                                  ),
+                                                  (newItem[i].isOrder == 1)
+                                                      ? Container(
+                                                          height: h * 0.04,
+                                                          width: w * 0.22,
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      w * 0.01,
+                                                                  vertical:
+                                                                      h * 0.01),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: mainColor,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(w *
+                                                                        0.02),
+                                                          ),
+                                                          child: Center(
+                                                            child: Text(
+                                                              translateString(
+                                                                  "Order",
+                                                                  "علي الطلب"),
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'Tajawal',
+                                                                  fontSize:
+                                                                      w * 0.04,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : const SizedBox(),
+                                                ],
                                               ),
-                                              // child: Padding(
-                                              //   padding: EdgeInsets.all(w * 0.015),
-                                              //   child: Align(
-                                              //     alignment: isLeft()
-                                              //         ? Alignment.bottomLeft
-                                              //         : Alignment.bottomRight,
-                                              //     child: InkWell(
-                                              //       onTap: () async {
-                                              //         if (cartId == null ||
-                                              //             cartId == studentId) {
-                                              //           try {
-                                              //             if (!cart.idp.contains(
-                                              //                 newItem[i].id)) {
-                                              //               await helper.createCar(
-                                              //                   CartProducts(
-                                              //                       id: null,
-                                              //                       studentId:
-                                              //                           studentId,
-                                              //                       image:
-                                              //                           newItem[i]
-                                              //                               .image,
-                                              //                       titleAr:
-                                              //                           newItem[i]
-                                              //                               .nameAr,
-                                              //                       titleEn:
-                                              //                           newItem[i]
-                                              //                               .nameEn,
-                                              //                       price: newItem[
-                                              //                               i]
-                                              //                           .finalPrice
-                                              //                           .toDouble(),
-                                              //                       quantity: 1,
-                                              //                       att: att,
-                                              //                       des: des,
-                                              //                       idp: newItem[i]
-                                              //                           .id,
-                                              //                       idc: 0,
-                                              //                       catNameEn: "",
-                                              //                       catNameAr: "",
-                                              //                       catSVG: ""));
-                                              //             } else {
-                                              //               int quantity = cart
-                                              //                   .items
-                                              //                   .firstWhere(
-                                              //                       (element) =>
-                                              //                           element
-                                              //                               .idp ==
-                                              //                           newItem[i]
-                                              //                               .id)
-                                              //                   .quantity;
-                                              //               await helper
-                                              //                   .updateProduct(
-                                              //                       1 + quantity,
-                                              //                       newItem[i].id,
-                                              //                       newItem[i]
-                                              //                           .finalPrice
-                                              //                           .toDouble(),
-                                              //                       jsonEncode(att),
-                                              //                       jsonEncode(
-                                              //                           des));
-                                              //             }
-                                              //             await cart.setItems();
-                                              //           } catch (e) {
-                                              //             // error(context);
-                                              //             print('e');
-                                              //             print(e);
-                                              //           }
-                                              //         } else {
-                                              //           if (cartId == null ||
-                                              //               cartId == studentId) {
-                                              //             try {
-                                              //               if (!cart.idp.contains(
-                                              //                   newItem[i].id)) {
-                                              //                 await helper.createCar(CartProducts(
-                                              //                     id: null,
-                                              //                     studentId:
-                                              //                         newItem[i]
-                                              //                             .brands![
-                                              //                                 i]
-                                              //                             .id,
-                                              //                     image: newItem[i]
-                                              //                         .image,
-                                              //                     titleAr:
-                                              //                         newItem[i]
-                                              //                             .nameAr,
-                                              //                     titleEn:
-                                              //                         newItem[i]
-                                              //                             .nameEn,
-                                              //                     price: newItem[i]
-                                              //                         .price
-                                              //                         .toDouble(),
-                                              //                     quantity: 1,
-                                              //                     att: att,
-                                              //                     des: des,
-                                              //                     idp:
-                                              //                         newItem[i].id,
-                                              //                     idc:
-                                              //                         newItem[i].id,
-                                              //                     catNameEn: "",
-                                              //                     catNameAr: "",
-                                              //                     catSVG: ""));
-                                              //               } else {
-                                              //                 int quantity = cart
-                                              //                     .items
-                                              //                     .firstWhere(
-                                              //                         (element) =>
-                                              //                             element
-                                              //                                 .idp ==
-                                              //                             newItem[i]
-                                              //                                 .id)
-                                              //                     .quantity;
-                                              //                 await helper
-                                              //                     .updateProduct(
-                                              //                         1 + quantity,
-                                              //                         newItem[i].id,
-                                              //                         newItem[i]
-                                              //                             .finalPrice
-                                              //                             .toDouble(),
-                                              //                         jsonEncode(
-                                              //                             att),
-                                              //                         jsonEncode(
-                                              //                             des));
-                                              //               }
-                                              //               await cart.setItems();
-                                              //             } catch (e) {
-                                              //               print('e');
-                                              //               print(e);
-                                              //             }
-                                              //           } else {}
-                                              //         }
-                                              //       },
-                                              //       child: CircleAvatar(
-                                              //         backgroundColor: mainColor,
-                                              //         radius: w * .05,
-                                              //         child: Center(
-                                              //           child: Icon(
-                                              //             Icons
-                                              //                 .shopping_cart_outlined,
-                                              //             color: Colors.white,
-                                              //             size: w * 0.05,
-                                              //           ),
-                                              //         ),
-                                              //       ),
-                                              //     ),
-                                              //   ),
-                                              // ),
                                             ),
                                           ),
                                           SizedBox(
@@ -1758,170 +1648,54 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                               height: h * 0.25,
                                               decoration: BoxDecoration(
                                                 color: Colors.grey[200],
-                                                // image: DecorationImage(
-                                                //   image: NetworkImage(
-                                                //       bestDis[i].image),
-                                                //   fit: BoxFit.cover,
-                                                // ),
                                               ),
-                                              child: ImageeNetworkWidget(
-                                                fit: BoxFit.cover,
-                                                image: bestDis[i].image,
-                                                width: w * 0.9,
-                                                height: h * 0.25,
+                                              child: Stack(
+                                                children: [
+                                                  ImageeNetworkWidget(
+                                                    fit: BoxFit.cover,
+                                                    image: bestDis[i].image,
+                                                    width: w * 0.9,
+                                                    height: h * 0.25,
+                                                  ),
+                                                  (bestDis[i].isOrder == 1)
+                                                      ? Container(
+                                                          height: h * 0.04,
+                                                          width: w * 0.22,
+                                                          margin: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      w * 0.01,
+                                                                  vertical:
+                                                                      h * 0.01),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: mainColor,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(w *
+                                                                        0.02),
+                                                          ),
+                                                          child: Center(
+                                                            child: Text(
+                                                              translateString(
+                                                                  "Order",
+                                                                  "علي الطلب"),
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'Tajawal',
+                                                                  fontSize:
+                                                                      w * 0.04,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : const SizedBox(),
+                                                ],
                                               ),
-                                              // child: Padding(
-                                              //   padding: EdgeInsets.symmetric(
-                                              //       horizontal: w * 0.02,
-                                              //       vertical: h * 0.01),
-                                              //   child: Align(
-                                              //     alignment: isLeft()
-                                              //         ? Alignment.topRight
-                                              //         : Alignment.topLeft,
-                                              //     child: InkWell(
-                                              //       onTap: () async {
-                                              //         if (cartId == null ||
-                                              //             cartId == studentId) {
-                                              //           try {
-                                              //             if (!cart.idp.contains(
-                                              //                 bestDis[i].id)) {
-                                              //               await helper.createCar(
-                                              //                   CartProducts(
-                                              //                       id: null,
-                                              //                       studentId:
-                                              //                           studentId,
-                                              //                       image:
-                                              //                           bestDis[i]
-                                              //                               .image,
-                                              //                       titleAr: bestDis[
-                                              //                               i]
-                                              //                           .nameAr,
-                                              //                       titleEn:
-                                              //                           bestDis[
-                                              //                                   i]
-                                              //                               .nameEn,
-                                              //                       price: bestDis[
-                                              //                               i]
-                                              //                           .finalPrice
-                                              //                           .toDouble(),
-                                              //                       quantity: 1,
-                                              //                       att: att,
-                                              //                       des: des,
-                                              //                       idp:
-                                              //                           bestDis[i]
-                                              //                               .id,
-                                              //                       idc: 0,
-                                              //                       catNameEn: "",
-                                              //                       catNameAr: "",
-                                              //                       catSVG: ""));
-                                              //             } else {
-                                              //               int quantity = cart
-                                              //                   .items
-                                              //                   .firstWhere(
-                                              //                       (element) =>
-                                              //                           element
-                                              //                               .idp ==
-                                              //                           bestDis[i]
-                                              //                               .id)
-                                              //                   .quantity;
-                                              //               await helper
-                                              //                   .updateProduct(
-                                              //                       1 + quantity,
-                                              //                       bestDis[i].id,
-                                              //                       bestDis[i]
-                                              //                           .finalPrice
-                                              //                           .toDouble(),
-                                              //                       jsonEncode(
-                                              //                           att),
-                                              //                       jsonEncode(
-                                              //                           des));
-                                              //             }
-                                              //             await cart.setItems();
-                                              //           } catch (e) {
-                                              //             print('e');
-                                              //             print(e);
-                                              //           }
-                                              //         } else {
-                                              //           if (cartId == null ||
-                                              //               cartId == studentId) {
-                                              //             try {
-                                              //               if (!cart.idp
-                                              //                   .contains(
-                                              //                       bestDis[i]
-                                              //                           .id)) {
-                                              //                 await helper.createCar(CartProducts(
-                                              //                     id: null,
-                                              //                     studentId:
-                                              //                         bestDis[i]
-                                              //                             .brands![
-                                              //                                 i]
-                                              //                             .id,
-                                              //                     image: bestDis[
-                                              //                             i]
-                                              //                         .image,
-                                              //                     titleAr:
-                                              //                         bestDis[i]
-                                              //                             .nameAr,
-                                              //                     titleEn:
-                                              //                         bestDis[
-                                              //                                 i]
-                                              //                             .nameEn,
-                                              //                     price: bestDis[
-                                              //                             i]
-                                              //                         .price
-                                              //                         .toDouble(),
-                                              //                     quantity: 1,
-                                              //                     att: att,
-                                              //                     des: des,
-                                              //                     idp: bestDis[i]
-                                              //                         .id,
-                                              //                     idc: bestDis[i]
-                                              //                         .id,
-                                              //                     catNameEn: "",
-                                              //                     catNameAr: "",
-                                              //                     catSVG: ""));
-                                              //               } else {
-                                              //                 int quantity = cart
-                                              //                     .items
-                                              //                     .firstWhere(
-                                              //                         (element) =>
-                                              //                             element
-                                              //                                 .idp ==
-                                              //                             bestDis[i]
-                                              //                                 .id)
-                                              //                     .quantity;
-                                              //                 await helper.updateProduct(
-                                              //                     1 + quantity,
-                                              //                     bestDis[i].id,
-                                              //                     bestDis[i]
-                                              //                         .finalPrice
-                                              //                         .toDouble(),
-                                              //                     jsonEncode(att),
-                                              //                     jsonEncode(
-                                              //                         des));
-                                              //               }
-                                              //               await cart.setItems();
-                                              //             } catch (e) {
-                                              //               print('e');
-                                              //               print(e);
-                                              //             }
-                                              //           } else {}
-                                              //         }
-                                              //       },
-                                              //       child: CircleAvatar(
-                                              //         backgroundColor: mainColor,
-                                              //         radius: w * .05,
-                                              //         child: Center(
-                                              //           child: Icon(
-                                              //             Icons.add_outlined,
-                                              //             color: Colors.white,
-                                              //             size: w * 0.05,
-                                              //           ),
-                                              //         ),
-                                              //       ),
-                                              //     ),
-                                              //   ),
-                                              // ),
                                             ),
                                           ),
                                           SizedBox(

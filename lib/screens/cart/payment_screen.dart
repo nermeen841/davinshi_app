@@ -22,6 +22,7 @@ class PaymentScreen extends StatefulWidget {
   final num maxCopounLimit;
   final String? couponName;
   final bool couponPercentage;
+  final int deliveryDays;
   const PaymentScreen(
       {Key? key,
       required this.totalprice,
@@ -29,7 +30,8 @@ class PaymentScreen extends StatefulWidget {
       required this.couponName,
       required this.maxCopounLimit,
       required this.couponPercentage,
-      required this.orderId})
+      required this.orderId,
+      required this.deliveryDays})
       : super(key: key);
   @override
   _PaymentScreenState createState() => _PaymentScreenState();
@@ -58,6 +60,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) => ConfirmCart(
+                      deliveryDays: widget.deliveryDays,
                       maxCopounLimit: widget.maxCopounLimit,
                       couponPrice: widget.couponPrice,
                       couponName: widget.couponName,
@@ -85,6 +88,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => ConfirmCart(
+                          deliveryDays: widget.deliveryDays,
                           maxCopounLimit: widget.maxCopounLimit,
                           couponPrice: widget.couponPrice,
                           couponName: widget.couponName,
@@ -132,6 +136,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ConfirmCart(
+                        deliveryDays: widget.deliveryDays,
                         maxCopounLimit: widget.maxCopounLimit,
                         couponPrice: widget.couponPrice,
                         couponName: widget.couponName,
@@ -144,6 +149,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ConfirmCart(
+                        deliveryDays: widget.deliveryDays,
                         maxCopounLimit: widget.maxCopounLimit,
                         couponPrice: widget.couponPrice,
                         couponName: widget.couponName,

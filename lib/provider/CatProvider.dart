@@ -80,6 +80,7 @@ class CatProvider extends ChangeNotifier {
     if (response.data['status'] == 1) {
       for (var data in response.data['data']['products']) {
         var thisList = ProductsModel(
+          isOrder: data['is_order'],
           id: data['id'].toString(),
           img: imagePath + data['img'],
           name: data['name_ar'].toString(),
