@@ -134,7 +134,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
     double w = MediaQuery.of(context).size.width;
     CartProvider cart = Provider.of<CartProvider>(context, listen: true);
 
-    void showAlertDialog() {
+    void showAlertDialog() async {
       showDialog(
           context: context,
           builder: (context) {
@@ -1608,28 +1608,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               : Container(),
                                         ],
                                       ),
-                                      // (productCla!.isOrder == 1)
-                                      //     ? Padding(
-                                      //         padding: EdgeInsets.only(
-                                      //             top: h * 0.45),
-                                      //         child: Container(
-                                      //           height: h * 0.07,
-                                      //           color: mainColor,
-                                      //           child: Center(
-                                      //             child: Text(
-                                      //               translateString(
-                                      //                   "Order", "تحت الطلب"),
-                                      //               style: TextStyle(
-                                      //                   fontFamily: 'Tajawal',
-                                      //                   fontSize: w * 0.04,
-                                      //                   color: Colors.white,
-                                      //                   fontWeight:
-                                      //                       FontWeight.w500),
-                                      //             ),
-                                      //           ),
-                                      //         ),
-                                      //       )
-                                      //     : const SizedBox(),
                                     ],
                                   ),
                                 ),
