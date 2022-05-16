@@ -78,14 +78,17 @@ class _CartState extends State<Cart> {
 
   int deliveryDays = 0;
   getdeliveryDays() async {
-    var productId = {};
+    // var productId = {};
+    print(idProducts);
     try {
       final String url = domain + "shipping_time";
-      for (var element in idProducts) {
-        productId['products'] = element;
-      }
+      // for (int i = 0; i < idProducts.length; i++) {
+      //   productId.addAll(
+      //     {'products': idProducts[i]},
+      //   );
+      // }
 
-      Map<String, dynamic> body = {"products": productId};
+      Map<String, dynamic> body = {"products": idProducts};
       print(body);
 
       Response response = await Dio().post(

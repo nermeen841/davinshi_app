@@ -436,8 +436,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                   title: const Text(''),
                                                   content: Text(
                                                     translateString(
-                                                        "Order product not added to regular product",
-                                                        "لا يمكن إضافة منتج اوردر مع منتج جاهز"),
+                                                        "It is not possible to add a product to order with a ready-made product",
+                                                        "لا يمكن إضافة منتج بالطلب مع منتج جاهز "),
                                                     style: TextStyle(
                                                         color: Colors.black,
                                                         fontFamily: 'Tajawal',
@@ -2316,7 +2316,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                             ),
                                           )
                                         : Container(),
-                                if (productCla!.attributes.isNotEmpty)
+                                if (productCla!.attributes.isNotEmpty ||
+                                    productCla!.isClothes! == true)
                                   SizedBox(
                                     height: h * 0.05,
                                   ),
@@ -2350,12 +2351,14 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                         width: w * 0.02,
                                       ),
                                       Expanded(
-                                          child: SizedBox(
-                                              width: 1,
-                                              child: Divider(
-                                                color: Colors.grey,
-                                                thickness: h * 0.001,
-                                              ))),
+                                        child: SizedBox(
+                                          width: 1,
+                                          child: Divider(
+                                            color: Colors.grey,
+                                            thickness: h * 0.001,
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -2377,6 +2380,88 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                 SizedBox(
                                   height: h * 0.02,
                                 ),
+                                (productCla!.isOrder! == 1)
+                                    ? SizedBox(
+                                        height: h * 0.01,
+                                      )
+                                    : const SizedBox(),
+                                (productCla!.isOrder! == 1)
+                                    ? Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: w * 0.025),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                                child: SizedBox(
+                                                    width: 1,
+                                                    child: Divider(
+                                                      color: Colors.grey,
+                                                      thickness: h * 0.001,
+                                                    ))),
+                                            SizedBox(
+                                              width: w * 0.02,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Image.asset(
+                                                  "assets/images/Group 1090.png",
+                                                  color: mainColor,
+                                                ),
+                                                SizedBox(
+                                                  width: w * 0.015,
+                                                ),
+                                                Text(
+                                                  translateString(
+                                                      'Shipping and delivery',
+                                                      'الشحن والتوصيل'),
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: w * 0.045,
+                                                      color: mainColor),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              width: w * 0.02,
+                                            ),
+                                            Expanded(
+                                              child: SizedBox(
+                                                width: 1,
+                                                child: Divider(
+                                                  color: Colors.grey,
+                                                  thickness: h * 0.001,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                                (productCla!.isOrder! == 1)
+                                    ? SizedBox(
+                                        height: h * 0.04,
+                                      )
+                                    : const SizedBox(),
+                                (productCla!.isOrder! == 1)
+                                    ? Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: w * 0.025),
+                                        child: Text(
+                                          translateString(
+                                              "This product is on demand \n Delivery time ${productCla!.deliverDays!} working days",
+                                              "هذا المنتج تحت الطلب \n مدة التوصيل ${productCla!.deliverDays!} يوم عمل"),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: w * 0.03),
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                                (productCla!.isOrder! == 1)
+                                    ? SizedBox(
+                                        height: h * 0.02,
+                                      )
+                                    : const SizedBox(),
                                 if (productCla!.aboutEn != null)
                                   Padding(
                                     padding: EdgeInsets.symmetric(
