@@ -417,12 +417,14 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                 if (cartId == null || cartId == studentId) {
                                   try {
                                     if (cart.items.isNotEmpty) {
-                                      cart.items.forEach((element) async {
+                                      for (var element in cart.items) {
                                         if (productCla!.isOrder! == 1 &&
                                                 element.isOrder == 0 ||
                                             productCla!.isOrder! == 0 &&
                                                 element.isOrder == 1) {
-                                          showDialog(
+                                          Navigator.pop(context);
+                                          print("dddddddddddddddddddddddddd");
+                                          return showDialog(
                                               context: context,
                                               builder: (context) {
                                                 return AlertDialog(
@@ -920,7 +922,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                             }
                                           }
                                         }
-                                      });
+                                      }
                                     } else if (cart.items.isEmpty) {
                                       if (productCla!.isClothes! == false) {
                                         if (selectedItem.isNotEmpty &&
