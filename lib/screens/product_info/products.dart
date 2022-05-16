@@ -134,97 +134,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
     double w = MediaQuery.of(context).size.width;
     CartProvider cart = Provider.of<CartProvider>(context, listen: true);
 
-    void showAlertDialog() async {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(w * 0.05),
-              ),
-              title: const Text(''),
-              content: Text(
-                translateString("Order product not added to regular product",
-                    "لا يمكن إضافة منتج اوردر مع منتج جاهز"),
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Tajawal',
-                    fontSize: w * 0.035),
-              ),
-              actions: [
-                TextButton(
-                  child: Text(
-                    translateString("Continue Shopping", "استمر بالتسوق"),
-                    style: const TextStyle(
-                      fontFamily: 'Tajawal',
-                    ),
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                InkWell(
-                  child: Text(
-                    translate(
-                      context,
-                      'buttons',
-                      'error_cart',
-                    ),
-                    style:
-                        TextStyle(fontFamily: 'Tajawal', fontSize: w * 0.035),
-                  ),
-                  onTap: () async {
-                    await dbHelper.deleteAll();
-                    await cart.setItems();
-                    try {
-                      if (!cart.idp.contains(productCla!.id)) {
-                        await helper.createCar(CartProducts(
-                            isOrder: productCla!.isOrder!,
-                            productquantity: productCla!.quantity.toInt(),
-                            id: null,
-                            studentId:
-                                widget.fromFav ? widget.brandId : studentId,
-                            image: productCla!.image,
-                            titleAr: productCla!.nameAr,
-                            titleEn: productCla!.nameEn,
-                            price: finalPrice.toDouble(),
-                            quantity: _counter,
-                            productOptions: optionsQuantity,
-                            att: att,
-                            des: des,
-                            idp: productCla!.id,
-                            idc: productCla!.cat.id,
-                            catNameEn: productCla!.cat.nameEn,
-                            catNameAr: productCla!.cat.nameAr,
-                            catSVG: productCla!.cat.svg));
-                      } else {
-                        int quantity = cart.items
-                            .firstWhere(
-                                (element) => element.idp == productCla!.id)
-                            .quantity;
-                        await helper.updateProduct(
-                            counter + quantity,
-                            productCla!.id,
-                            finalPrice.toDouble(),
-                            jsonEncode(att),
-                            jsonEncode(des),
-                            jsonEncode(optionsQuantity),
-                            productCla!.quantity.toInt(),
-                            productCla!.isOrder!);
-                      }
-                      await cart.setItems();
-                      error = false;
-                    } catch (e) {
-                      print('e');
-                      print(e);
-                      error = false;
-                    }
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            );
-          });
-    }
-
     void show(context) {
       showModalBottomSheet(
         context: context,
@@ -513,8 +422,143 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                 element.isOrder == 0 ||
                                             productCla!.isOrder! == 0 &&
                                                 element.isOrder == 1) {
-                                          showAlertDialog();
-                                          Navigator.pop(context);
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            w * 0.05),
+                                                  ),
+                                                  title: const Text(''),
+                                                  content: Text(
+                                                    translateString(
+                                                        "Order product not added to regular product",
+                                                        "لا يمكن إضافة منتج اوردر مع منتج جاهز"),
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily: 'Tajawal',
+                                                        fontSize: w * 0.035),
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                      child: Text(
+                                                        translateString(
+                                                            "Cancel", "الغاء"),
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Tajawal',
+                                                        ),
+                                                      ),
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              context),
+                                                    ),
+                                                    InkWell(
+                                                      child: Text(
+                                                        translate(
+                                                          context,
+                                                          'buttons',
+                                                          'error_cart',
+                                                        ),
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Tajawal',
+                                                            fontSize:
+                                                                w * 0.035),
+                                                      ),
+                                                      onTap: () async {
+                                                        await dbHelper
+                                                            .deleteAll();
+                                                        await cart.setItems();
+                                                        try {
+                                                          if (!cart.idp
+                                                              .contains(
+                                                                  productCla!
+                                                                      .id)) {
+                                                            await helper.createCar(CartProducts(
+                                                                isOrder: productCla!
+                                                                    .isOrder!,
+                                                                productquantity:
+                                                                    productCla!
+                                                                        .quantity
+                                                                        .toInt(),
+                                                                id: null,
+                                                                studentId: widget.fromFav
+                                                                    ? widget
+                                                                        .brandId
+                                                                    : studentId,
+                                                                image: productCla!
+                                                                    .image,
+                                                                titleAr:
+                                                                    productCla!
+                                                                        .nameAr,
+                                                                titleEn:
+                                                                    productCla!
+                                                                        .nameEn,
+                                                                price: finalPrice
+                                                                    .toDouble(),
+                                                                quantity:
+                                                                    _counter,
+                                                                productOptions:
+                                                                    optionsQuantity,
+                                                                att: att,
+                                                                des: des,
+                                                                idp: productCla!
+                                                                    .id,
+                                                                idc: productCla!
+                                                                    .cat.id,
+                                                                catNameEn:
+                                                                    productCla!
+                                                                        .cat
+                                                                        .nameEn,
+                                                                catNameAr:
+                                                                    productCla!
+                                                                        .cat
+                                                                        .nameAr,
+                                                                catSVG:
+                                                                    productCla!
+                                                                        .cat
+                                                                        .svg));
+                                                          } else {
+                                                            int quantity = cart
+                                                                .items
+                                                                .firstWhere(
+                                                                    (element) =>
+                                                                        element
+                                                                            .idp ==
+                                                                        productCla!
+                                                                            .id)
+                                                                .quantity;
+                                                            await helper.updateProduct(
+                                                                counter +
+                                                                    quantity,
+                                                                productCla!.id,
+                                                                finalPrice
+                                                                    .toDouble(),
+                                                                jsonEncode(att),
+                                                                jsonEncode(des),
+                                                                jsonEncode(
+                                                                    optionsQuantity),
+                                                                productCla!
+                                                                    .quantity
+                                                                    .toInt(),
+                                                                productCla!
+                                                                    .isOrder!);
+                                                          }
+                                                          await cart.setItems();
+                                                          error = false;
+                                                        } catch (e) {
+                                                          print('e');
+                                                          print(e);
+                                                          error = false;
+                                                        }
+                                                        Navigator.pop(context);
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              });
                                         } else if (productCla!.isOrder == 1 &&
                                                 element.isOrder == 1 ||
                                             productCla!.isOrder == 0 &&
@@ -1198,10 +1242,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                   }
                                   Navigator.pop(context);
                                 } else {
-                                  setState2(() {
-                                    error = true;
-                                  });
-
                                   showDialog(
                                       context: context,
                                       builder: (context) {
@@ -1373,10 +1413,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                           SizedBox(
                             height: h * 0.02,
                           ),
-                          if (error)
-                            SizedBox(
-                              height: h * 0.05,
-                            ),
                         ],
                       ),
                     ),
