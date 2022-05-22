@@ -398,7 +398,7 @@ class _MoreScreenState extends State<MoreScreen>
                                                           currency: currency,
                                                           productPrice:
                                                               allProduct[i]
-                                                                  .salePrice),
+                                                                  .regularPrice),
                                                       style: TextStyle(
                                                         fontSize: w * 0.035,
                                                         decorationThickness:

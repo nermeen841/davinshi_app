@@ -1773,14 +1773,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                         ],
                                                       ),
                                                     ),
-                                                    // if (bestDis[i].isSale &&
-                                                    //     bestDis[i].disPer != null)
-                                                    //   Text(bestDis[i].disPer! + '%',
-                                                    //       style: TextStyle(
-                                                    //           fontWeight:
-                                                    //               FontWeight.bold,
-                                                    //           color: Colors.red)),
-
                                                     if (bestDis[i].isSale)
                                                       Text(
                                                         getProductprice(
