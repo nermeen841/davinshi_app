@@ -4,13 +4,13 @@ import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/brands_search.dart';
 import 'package:davinshi_app/models/constants.dart';
-import 'package:davinshi_app/models/products_cla.dart';
 import 'package:davinshi_app/models/search_model.dart';
 import 'package:davinshi_app/models/user.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/student_product.dart';
+import '../screens/product_info/products.dart';
 import '../screens/student/student_info.dart';
 import '../screens/student/view_all.dart';
 
@@ -212,8 +212,15 @@ class _SearchDataScreenState extends State<SearchDataScreen> {
                                             ),
                                           ),
                                           onTap: () async {
-                                            await getItem(searchData[index].id);
-                                            Navigator.pushNamed(context, 'pro');
+                                            // await getItem(searchData[index].id);
+                                            // Navigator.pushNamed(context, 'pro');
+                                            navP(
+                                                context,
+                                                Products(
+                                                  fromFav: false,
+                                                  productId:
+                                                      searchData[index].id,
+                                                ));
                                           },
                                         )
                                       : InkWell(

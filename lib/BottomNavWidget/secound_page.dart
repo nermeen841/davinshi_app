@@ -402,12 +402,13 @@ class _SecPageState extends State<SecPage> {
                                           ),
                                         ),
                                         onTap: () async {
-                                          await getItem(item.items[i].id);
-                                          Navigator.pushNamed(context, 'pro');
-                                          navPR(
+                                          // await getItem(item.items[i].id);
+                                          // Navigator.pushNamed(context, 'pro');
+                                          navP(
                                               context,
                                               Products(
                                                 fromFav: true,
+                                                productId: item.items[i].id,
                                                 brandId:
                                                     item.items[i].brands![i].id,
                                               ));

@@ -24,7 +24,6 @@ class Orders extends StatefulWidget {
 class _OrdersState extends State<Orders> {
   @override
   Widget build(BuildContext context) {
-    orders = orders.reversed.toList();
     return Directionality(
       textDirection: getDirection(),
       child: Scaffold(
@@ -182,15 +181,6 @@ class _OrdersState extends State<Orders> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  translateStutse(
-                                                      statuse: orders[i]
-                                                          .orderStatus),
-                                                  style: TextStyle(
-                                                    fontSize: w * 0.03,
-                                                    color: mainColor,
-                                                  ),
-                                                ),
-                                                Text(
                                                   orders[i].date,
                                                   style: TextStyle(
                                                       fontSize: w * 0.03,
@@ -201,35 +191,16 @@ class _OrdersState extends State<Orders> {
                                           ),
                                         ),
                                       ),
-                                      // InkWell(
-                                      //   child: Row(
-                                      //     children: [
-                                      //       Icon(Icons.refresh,color: mainColor,size: w*0.05,),
-                                      //       SizedBox(width: 5,),
-                                      //       Text('اعادة الطلب',style: TextStyle(color: mainColor,fontSize: w*0.04,),),
-                                      //     ],
-                                      //   ),
-                                      //   onTap: (){
-                                      //     showDialog(
-                                      //       context: context,
-                                      //       barrierDismissible: false,
-                                      //       builder: (BuildContext context) {
-                                      //         return Opacity(
-                                      //           opacity: 0.7,
-                                      //           child: Container(
-                                      //             width: w,
-                                      //             height: h,
-                                      //             color: Colors.black12,
-                                      //             child: Center(
-                                      //               child: CircularProgressIndicator(color: mainColor,),
-                                      //             ),
-                                      //           ),
-                                      //         );
-                                      //       },
-                                      //     );
-                                      //     getOrder(orders[i].id, 2, context,orders[i]);
-                                      //   },
-                                      // ),
+                                      Center(
+                                        child: Text(
+                                          translateStutse(
+                                              statuse: orders[i].orderStatus),
+                                          style: TextStyle(
+                                            fontSize: w * 0.03,
+                                            color: mainColor,
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),

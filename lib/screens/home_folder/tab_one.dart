@@ -24,6 +24,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../BottomNavWidget/third_page.dart';
 import '../../provider/student_product.dart';
 import '../../provider/student_provider.dart';
+import '../product_info/products.dart';
 
 class TabOne extends StatefulWidget {
   @override
@@ -583,13 +584,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                   ],
                                                 );
                                               },
-
-                                              // gridDelegate:
-                                              //     SliverGridDelegateWithFixedCrossAxisCount(
-                                              //         crossAxisCount: 2,
-                                              //         childAspectRatio: 0.9,
-                                              //         crossAxisSpacing: h * 0.001,
-                                              //         mainAxisSpacing: w * 0.015),
                                               separatorBuilder:
                                                   (context, index) => SizedBox(
                                                 width: w * 0.03,
@@ -1250,12 +1244,17 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                         ],
                                       ),
                                     ),
-                                    onTap: () async {
-                                      await getItem(newItem[i].id);
-                                      Navigator.pushNamed(
-                                        context,
-                                        'pro',
-                                      );
+                                    onTap: () {
+                                      navP(
+                                          context,
+                                          Products(
+                                            fromFav: false,
+                                            productId: newItem[i].id,
+                                          ));
+                                      // Navigator.pushNamed(
+                                      //   context,
+                                      //   'pro',
+                                      // );
                                     },
                                   );
                                 },
@@ -1800,8 +1799,15 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                       ),
                                     ),
                                     onTap: () async {
-                                      await getItem(bestDis[i].id);
-                                      Navigator.pushNamed(context, 'pro');
+                                      // await getItem(bestDis[i].id);
+                                      // Navigator.pushNamed(context, 'pro');
+                                      navP(
+                                        context,
+                                        Products(
+                                          fromFav: false,
+                                          productId: bestDis[i].id,
+                                        ),
+                                      );
                                     },
                                   );
                                 },
@@ -2175,9 +2181,16 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                       ),
                                     ),
                                     onTap: () async {
-                                      getItem(reItem[i].id).then((value) {
-                                        Navigator.pushNamed(context, 'pro');
-                                      });
+                                      // getItem(reItem[i].id).then((value) {
+                                      //   Navigator.pushNamed(context, 'pro');
+                                      // });
+                                      navP(
+                                        context,
+                                        Products(
+                                          fromFav: false,
+                                          productId: reItem[i].id,
+                                        ),
+                                      );
                                     },
                                   );
                                 },

@@ -15,6 +15,7 @@ import 'package:davinshi_app/provider/student_product.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../models/home_item.dart';
 import '../cart/cart.dart';
+import '../product_info/products.dart';
 
 class StudentInfo extends StatefulWidget {
   final dynamic studentClass;
@@ -754,18 +755,19 @@ class _StudentInfo extends State<StudentInfo> {
                                 ),
                               ),
                               onTap: () async {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: ((context) => Products(
-                                //             fromFav: false,
-                                //             brandId: item.items[i].id))));
-                                dialog(context);
-                                // await getItem(item.items[i].id);
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  'pro',
-                                );
+                                navP(
+                                    context,
+                                    Products(
+                                      fromFav: false,
+                                      productId: item.items[i].id,
+                                      brandId: item.items[i].brands![i].id,
+                                    ));
+                                // dialog(context);
+                                // // await getItem(item.items[i].id);
+                                // Navigator.pushReplacementNamed(
+                                //   context,
+                                //   'pro',
+                                // );
                               },
                             );
                           }),

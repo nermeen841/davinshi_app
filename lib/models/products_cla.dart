@@ -216,7 +216,7 @@ class ProCategory {
 
 ProductCla? productCla;
 
-Future setProduct(Map e) async {
+Future<ProductCla> setProduct(Map e) async {
   try {
     bool inOffer = e['product']['in_sale'];
     bool isClothes = e['product']['is_clothes'];
@@ -389,7 +389,9 @@ Future setProduct(Map e) async {
           similar: _similarProduct,
           cat: _cat);
     } catch (e) {}
+    return productCla!;
   } catch (e) {}
+  return productCla!;
 }
 
 String parseHtmlString(String htmlString) {

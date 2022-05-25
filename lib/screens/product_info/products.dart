@@ -30,11 +30,11 @@ import '../../models/product_color.dart';
 
 class Products extends StatefulWidget {
   final bool fromFav;
-  final int brandId;
+  final int? brandId;
   final int? productId;
 
   const Products(
-      {Key? key, required this.fromFav, required this.brandId, this.productId})
+      {Key? key, required this.fromFav, this.brandId, this.productId})
       : super(key: key);
   @override
   _ProductsState createState() => _ProductsState();
@@ -56,8 +56,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   List<int> attributesID = [];
   bool check = false, error = false;
   bool finish = false;
-  num finalPrice =
-      productCla!.isOffer ? productCla!.offerPrice! : productCla!.price;
+  num finalPrice = 0.0;
 
   TabController? _tabBar;
   List<String> selectedColorSize = [];
@@ -111,18 +110,49 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   }
 
   bool finishTab = true;
+  bool visible = false;
+  loading() async {
+    visible = false;
+    await getItem(widget.productId!.toInt()).then((value) {
+      if (value && productCla != null) {
+        for (int i = 0; i < (productCla?.attributes.length ?? 0); i++) {
+          des.add('');
+          att.add(0);
+          attributesID.add(0);
+          optionsPrice.add(0);
+          optionsQuantity.add(0);
+          attPrice[''] = 0;
+        }
+        if (!finish) {
+          if (favIds.contains(productCla!.id)) {
+            check = true;
+            if (mounted) {
+              setState(() {});
+            }
+          } else {
+            check = false;
+          }
+          finish = true;
+        }
+        setState(() {
+          visible = true;
+          finalPrice =
+              productCla!.isOffer ? productCla!.offerPrice! : productCla!.price;
+        });
+      } else if (!value && productCla == null) {
+        setState(() {
+          visible = false;
+        });
+      }
+    });
+  }
+
   @override
   void initState() {
+    loading();
     super.initState();
     selectedItem = [];
-    for (int i = 0; i < (productCla?.attributes.length ?? 0); i++) {
-      des.add('');
-      att.add(0);
-      attributesID.add(0);
-      optionsPrice.add(0);
-      optionsQuantity.add(0);
-      attPrice[''] = 0;
-    }
+
     _tabBar = TabController(length: 3, vsync: this, initialIndex: 0);
   }
 
@@ -488,7 +518,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                 id: null,
                                                                 studentId: widget.fromFav
                                                                     ? widget
-                                                                        .brandId
+                                                                        .brandId!
                                                                     : studentId,
                                                                 image: productCla!
                                                                     .image,
@@ -1301,7 +1331,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                             id: null,
                                                             studentId: widget
                                                                     .fromFav
-                                                                ? widget.brandId
+                                                                ? widget
+                                                                    .brandId!
                                                                 : studentId,
                                                             image: productCla!
                                                                 .image,
@@ -1370,7 +1401,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                           productquantity:
                                               productCla!.quantity.toInt(),
                                           productOptions: optionsQuantity,
-                                          studentId: widget.brandId,
+                                          studentId: widget.brandId!,
                                           image: productCla!.image,
                                           titleAr: productCla!.nameAr,
                                           titleEn: productCla!.nameEn,
@@ -1431,17 +1462,6 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
     var currency = (prefs.getString('language_code').toString() == 'en')
         ? prefs.getString('currencyEn').toString()
         : prefs.getString('currencyAr').toString();
-    if (!finish) {
-      if (favIds.contains(productCla!.id)) {
-        check = true;
-        if (mounted) {
-          setState(() {});
-        }
-      } else {
-        check = false;
-      }
-      finish = true;
-    }
 
     return Directionality(
       textDirection: getDirection(),
@@ -1518,651 +1538,771 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
               ),
             ),
           ),
-          body: Column(
-            children: [
-              Expanded(
-                child: TabBarView(
-                  controller: _tabBar,
+          body: (visible)
+              ? Column(
                   children: [
-                    Stack(
-                      children: [
-                        Container(
-                          width: w,
-                          height: h,
-                          // margin: EdgeInsets.only(top: h * 0.3),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(w * 0.03),
-                              topRight: Radius.circular(w * 0.03),
-                            ),
-                          ),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: w,
-                                  height: h * 0.5,
-                                  child: Stack(
+                    Expanded(
+                      child: TabBarView(
+                        controller: _tabBar,
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                width: w,
+                                height: h,
+                                // margin: EdgeInsets.only(top: h * 0.3),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(w * 0.03),
+                                    topRight: Radius.circular(w * 0.03),
+                                  ),
+                                ),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      (productCla!.images.isEmpty)
-                                          ? InkWell(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            Img(
-                                                              productCla!.image,
-                                                              images: const [],
-                                                            )));
-                                              },
-                                              child: ImageeNetworkWidget(
-                                                  width: w,
-                                                  height: h * 0.5,
-                                                  image: productCla!.image,
-                                                  fit: BoxFit.contain))
-                                          : SizedBox(
-                                              child: InkWell(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder:
-                                                              (context) => Img(
-                                                                    productCla!
-                                                                        .image,
-                                                                    images: productCla!
-                                                                        .images,
-                                                                  )));
-                                                },
-                                                child: Swiper(
-                                                  autoplayDelay: 5000,
-                                                  pagination: SwiperPagination(
-                                                      builder:
-                                                          DotSwiperPaginationBuilder(
-                                                              color: mainColor
-                                                                  .withOpacity(
-                                                                      0.3),
-                                                              activeColor:
-                                                                  mainColor),
-                                                      alignment: Alignment
-                                                          .bottomCenter),
-                                                  itemCount:
-                                                      productCla!.images.length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return ImageeNetworkWidget(
+                                      SizedBox(
+                                        width: w,
+                                        height: h * 0.5,
+                                        child: Stack(
+                                          children: [
+                                            (productCla!.images.isEmpty)
+                                                ? InkWell(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      Img(
+                                                                        productCla!
+                                                                            .image,
+                                                                        images: const [],
+                                                                      )));
+                                                    },
+                                                    child: ImageeNetworkWidget(
                                                         width: w,
-                                                        image: productCla!
-                                                            .images[index],
-                                                        fit: BoxFit.contain);
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: h * 0.02),
-                                            child: Icon(
-                                              Icons.zoom_out_map_outlined,
-                                              color: mainColor,
-                                            ),
-                                          ),
-                                          (productCla!.isOffer)
-                                              ? Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: w * 0.01,
-                                                      vertical: h * 0.01),
-                                                  child: CircleAvatar(
-                                                    radius: w * 0.07,
-                                                    backgroundColor: mainColor,
-                                                    child: Center(
-                                                      child: Text(
-                                                        productCla!.percentage
-                                                                .toString() +
-                                                            "%",
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontFamily:
-                                                                'Tajawal',
-                                                            fontSize: w * 0.04,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
+                                                        height: h * 0.5,
+                                                        image:
+                                                            productCla!.image,
+                                                        fit: BoxFit.contain))
+                                                : SizedBox(
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        Img(
+                                                                          productCla!
+                                                                              .image,
+                                                                          images:
+                                                                              productCla!.images,
+                                                                        )));
+                                                      },
+                                                      child: Swiper(
+                                                        autoplayDelay: 5000,
+                                                        pagination: SwiperPagination(
+                                                            builder: DotSwiperPaginationBuilder(
+                                                                color: mainColor
+                                                                    .withOpacity(
+                                                                        0.3),
+                                                                activeColor:
+                                                                    mainColor),
+                                                            alignment: Alignment
+                                                                .bottomCenter),
+                                                        itemCount: productCla!
+                                                            .images.length,
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          return ImageeNetworkWidget(
+                                                              width: w,
+                                                              image: productCla!
+                                                                      .images[
+                                                                  index],
+                                                              fit: BoxFit
+                                                                  .contain);
+                                                        },
                                                       ),
                                                     ),
                                                   ),
-                                                )
-                                              : Container(),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: w * 0.015,
-                                      vertical: h * 0.02),
-                                  child: SizedBox(
-                                    width: w,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        SizedBox(
-                                          width: w * 0.53,
-                                          child: Text(
-                                            translateString(productCla!.nameEn,
-                                                productCla!.nameAr),
-                                            maxLines: 3,
-                                            overflow: TextOverflow.fade,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: w * 0.04),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: w * 0.01,
-                                        ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            if (productCla!.isOffer)
-                                              Text(
-                                                  getProductprice(
-                                                      currency: currency,
-                                                      productPrice: productCla!
-                                                          .offerPrice!),
-                                                  style: TextStyle(
-                                                      fontFamily: 'Tajawal',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: mainColor,
-                                                      fontSize: w * 0.04)),
-                                            if (!productCla!.isOffer)
-                                              Text(
-                                                  getProductprice(
-                                                      currency: currency,
-                                                      productPrice:
-                                                          productCla!.price),
-                                                  style: TextStyle(
-                                                      fontFamily: 'Tajawal',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: mainColor,
-                                                      fontSize: w * 0.04)),
-                                            if (productCla!.isOffer)
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: w * 0.03),
-                                                child: Text(
-                                                  getProductprice(
-                                                      currency: currency,
-                                                      productPrice:
-                                                          productCla!.price),
-                                                  style: TextStyle(
-                                                    decoration: TextDecoration
-                                                        .lineThrough,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: w * 0.04,
-                                                    color: Colors.grey,
-                                                    fontFamily: 'Tajawal',
-                                                    decorationThickness:
-                                                        w * 0.1,
-                                                    decorationColor: mainColor,
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: h * 0.02),
+                                                  child: Icon(
+                                                    Icons.zoom_out_map_outlined,
+                                                    color: mainColor,
                                                   ),
                                                 ),
-                                              ),
+                                                (productCla!.isOffer)
+                                                    ? Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    w * 0.01,
+                                                                vertical:
+                                                                    h * 0.01),
+                                                        child: CircleAvatar(
+                                                          radius: w * 0.07,
+                                                          backgroundColor:
+                                                              mainColor,
+                                                          child: Center(
+                                                            child: Text(
+                                                              productCla!
+                                                                      .percentage
+                                                                      .toString() +
+                                                                  "%",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontFamily:
+                                                                      'Tajawal',
+                                                                  fontSize:
+                                                                      w * 0.04,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    : Container(),
+                                              ],
+                                            ),
                                           ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: h * 0.015),
-                                  child: RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        TextSpan(
-                                            text: translate(
-                                                context, 'home', 'seller_name'),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black,
-                                                fontSize: w * 0.035)),
-                                        TextSpan(
-                                            text:
-                                                (productCla!.sellerName != null)
-                                                    ? productCla!.sellerName
-                                                        .toString()
-                                                    : (productCla!.brandName !=
-                                                            null)
-                                                        ? productCla!.brandName
-                                                            .toString()
-                                                        : translateString(
-                                                            'Multi', 'مالتي'),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black,
-                                                fontSize: w * 0.035)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                (productCla!.isOrder == 1)
-                                    ? SizedBox(
-                                        height: h * 0.01,
-                                      )
-                                    : const SizedBox(),
-                                (productCla!.isOrder == 1)
-                                    ? Padding(
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: w * 0.015,
+                                            vertical: h * 0.02),
+                                        child: SizedBox(
+                                          width: w,
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: w * 0.53,
+                                                child: Text(
+                                                  translateString(
+                                                      productCla!.nameEn,
+                                                      productCla!.nameAr),
+                                                  maxLines: 3,
+                                                  overflow: TextOverflow.fade,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: w * 0.04),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: w * 0.01,
+                                              ),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  if (productCla!.isOffer)
+                                                    Text(
+                                                        getProductprice(
+                                                            currency: currency,
+                                                            productPrice:
+                                                                productCla!
+                                                                    .offerPrice!),
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Tajawal',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: mainColor,
+                                                            fontSize:
+                                                                w * 0.04)),
+                                                  if (!productCla!.isOffer)
+                                                    Text(
+                                                        getProductprice(
+                                                            currency: currency,
+                                                            productPrice:
+                                                                productCla!
+                                                                    .price),
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Tajawal',
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: mainColor,
+                                                            fontSize:
+                                                                w * 0.04)),
+                                                  if (productCla!.isOffer)
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal:
+                                                                  w * 0.03),
+                                                      child: Text(
+                                                        getProductprice(
+                                                            currency: currency,
+                                                            productPrice:
+                                                                productCla!
+                                                                    .price),
+                                                        style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: w * 0.04,
+                                                          color: Colors.grey,
+                                                          fontFamily: 'Tajawal',
+                                                          decorationThickness:
+                                                              w * 0.1,
+                                                          decorationColor:
+                                                              mainColor,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: h * 0.015),
                                         child: RichText(
                                           text: TextSpan(
                                             children: [
                                               TextSpan(
-                                                  text: translateString(
-                                                      'Order will be deliver within ${productCla!.deliverDays} days ',
-                                                      'الطلب سيصل خلال  ${productCla!.deliverDays}  يوم '),
+                                                  text: translate(context,
+                                                      'home', 'seller_name'),
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      fontFamily: 'Tajawal',
-                                                      color: Colors.black87,
+                                                      color: Colors.black,
                                                       fontSize: w * 0.035)),
+                                              TextSpan(
+                                                  text: (productCla!
+                                                              .sellerName !=
+                                                          null)
+                                                      ? productCla!.sellerName
+                                                          .toString()
+                                                      : (productCla!
+                                                                  .brandName !=
+                                                              null)
+                                                          ? productCla!
+                                                              .brandName
+                                                              .toString()
+                                                          : translateString(
+                                                              'Multi', 'مالتي'),
+                                                  style:
+                                                      TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.black,
+                                                          fontSize: w * 0.035)),
                                             ],
                                           ),
                                         ),
-                                      )
-                                    : const SizedBox(),
-                                SizedBox(
-                                  height: h * 0.04,
-                                ),
-                                (productCla!.quantity == 0)
-                                    ? Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: h * 0.015),
-                                        child: Text(
-                                            translateString(
-                                                "Product not available",
-                                                "المنتج غير متوفر حاليا"),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.red,
-                                                fontSize: w * 0.04)),
-                                      )
-                                    : Container(),
-                                (productCla!.quantity == 0)
-                                    ? SizedBox(
+                                      ),
+                                      (productCla!.isOrder == 1)
+                                          ? SizedBox(
+                                              height: h * 0.01,
+                                            )
+                                          : const SizedBox(),
+                                      (productCla!.isOrder == 1)
+                                          ? Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: h * 0.015),
+                                              child: RichText(
+                                                text: TextSpan(
+                                                  children: [
+                                                    TextSpan(
+                                                        text: translateString(
+                                                            'Order will be deliver within ${productCla!.deliverDays} days ',
+                                                            'الطلب سيصل خلال  ${productCla!.deliverDays}  يوم '),
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontFamily:
+                                                                'Tajawal',
+                                                            color:
+                                                                Colors.black87,
+                                                            fontSize:
+                                                                w * 0.035)),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          : const SizedBox(),
+                                      SizedBox(
                                         height: h * 0.04,
-                                      )
-                                    : Container(),
-                                (productCla!.isClothes! == true &&
-                                        productCla!.quantity != 0)
-                                    ? Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: w * 0.025),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                homeBottomSheet(
-                                                  context: context,
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                w * 0.04,
-                                                            vertical: h * 0.04),
-                                                    child: Column(
+                                      ),
+                                      (productCla!.quantity == 0)
+                                          ? Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: h * 0.015),
+                                              child: Text(
+                                                  translateString(
+                                                      "Product not available",
+                                                      "المنتج غير متوفر حاليا"),
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.red,
+                                                      fontSize: w * 0.04)),
+                                            )
+                                          : Container(),
+                                      (productCla!.quantity == 0)
+                                          ? SizedBox(
+                                              height: h * 0.04,
+                                            )
+                                          : Container(),
+                                      (productCla!.isClothes! == true &&
+                                              productCla!.quantity != 0)
+                                          ? Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: w * 0.025),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      homeBottomSheet(
+                                                        context: context,
+                                                        child: Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      w * 0.04,
+                                                                  vertical:
+                                                                      h * 0.04),
+                                                          child: Column(
+                                                            children: [
+                                                              Text(
+                                                                translateString(
+                                                                    "Size",
+                                                                    "المقاس"),
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize: w *
+                                                                        0.05,
+                                                                    fontFamily:
+                                                                        'Tajawal',
+                                                                    color: Colors
+                                                                        .black),
+                                                              ),
+                                                              ListView.builder(
+                                                                  // primary: true,
+                                                                  shrinkWrap:
+                                                                      true,
+                                                                  physics:
+                                                                      const NeverScrollableScrollPhysics(),
+                                                                  itemCount:
+                                                                      productCla!
+                                                                          .attributesClothes!
+                                                                          .length,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          i) {
+                                                                    return Row(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding:
+                                                                              EdgeInsets.only(top: h * 0.02),
+                                                                          child:
+                                                                              Text(
+                                                                            translateString(productCla!.attributesClothes![i].nameEn!,
+                                                                                productCla!.attributesClothes![i].nameAr!),
+                                                                            style: TextStyle(
+                                                                                fontWeight: FontWeight.w700,
+                                                                                fontSize: w * 0.05,
+                                                                                color: Colors.black),
+                                                                          ),
+                                                                        ),
+                                                                        Radio(
+                                                                            activeColor:
+                                                                                mainColor,
+                                                                            value:
+                                                                                productCla!.attributesClothes![i].sizeId!,
+                                                                            groupValue: selectedSize,
+                                                                            onChanged: (int? value) async {
+                                                                              att.clear();
+                                                                              des.clear();
+                                                                              selectedColorSize.clear();
+                                                                              setState(
+                                                                                () {
+                                                                                  att.add(productCla!.attributesClothes![i].sizeId!);
+                                                                                  _counter = 1;
+                                                                                  selectedSize = productCla!.attributesClothes![i].sizeId!;
+                                                                                  if (language == 'en') {
+                                                                                    des.add(productCla!.attributesClothes![i].nameEn!);
+                                                                                    selectedColorSize.add(productCla!.attributesClothes![i].nameEn!);
+                                                                                  } else {
+                                                                                    des.add(productCla!.attributesClothes![i].nameAr!);
+                                                                                    selectedColorSize.add(productCla!.attributesClothes![i].nameAr!);
+                                                                                  }
+                                                                                },
+                                                                              );
+                                                                              Navigator.pop(context);
+                                                                            }),
+                                                                      ],
+                                                                    );
+                                                                  }),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Row(
                                                       children: [
                                                         Text(
                                                           translateString(
                                                               "Size", "المقاس"),
                                                           style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .bold,
+                                                                      .w600,
                                                               fontSize:
-                                                                  w * 0.05,
+                                                                  w * 0.04,
                                                               fontFamily:
-                                                                  'Tajawal',
+                                                                  'Tajawal'),
+                                                        ),
+                                                        Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(w *
+                                                                          0.01),
                                                               color:
                                                                   Colors.black),
-                                                        ),
-                                                        ListView.builder(
-                                                            // primary: true,
-                                                            shrinkWrap: true,
-                                                            physics:
-                                                                const NeverScrollableScrollPhysics(),
-                                                            itemCount: productCla!
-                                                                .attributesClothes!
-                                                                .length,
-                                                            itemBuilder:
-                                                                (context, i) {
-                                                              return Row(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: EdgeInsets.only(
-                                                                        top: h *
-                                                                            0.02),
-                                                                    child: Text(
-                                                                      translateString(
-                                                                          productCla!
-                                                                              .attributesClothes![
-                                                                                  i]
-                                                                              .nameEn!,
-                                                                          productCla!
-                                                                              .attributesClothes![i]
-                                                                              .nameAr!),
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .w700,
-                                                                          fontSize: w *
-                                                                              0.05,
-                                                                          color:
-                                                                              Colors.black),
-                                                                    ),
-                                                                  ),
-                                                                  Radio(
-                                                                      activeColor:
-                                                                          mainColor,
-                                                                      value: productCla!
-                                                                          .attributesClothes![
-                                                                              i]
-                                                                          .sizeId!,
-                                                                      groupValue:
-                                                                          selectedSize,
-                                                                      onChanged:
-                                                                          (int?
-                                                                              value) async {
-                                                                        att.clear();
-                                                                        des.clear();
-                                                                        selectedColorSize
-                                                                            .clear();
-                                                                        setState(
-                                                                          () {
-                                                                            att.add(productCla!.attributesClothes![i].sizeId!);
-                                                                            _counter =
-                                                                                1;
-                                                                            selectedSize =
-                                                                                productCla!.attributesClothes![i].sizeId!;
-                                                                            if (language ==
-                                                                                'en') {
-                                                                              des.add(productCla!.attributesClothes![i].nameEn!);
-                                                                              selectedColorSize.add(productCla!.attributesClothes![i].nameEn!);
-                                                                            } else {
-                                                                              des.add(productCla!.attributesClothes![i].nameAr!);
-                                                                              selectedColorSize.add(productCla!.attributesClothes![i].nameAr!);
-                                                                            }
-                                                                          },
-                                                                        );
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      }),
-                                                                ],
-                                                              );
-                                                            }),
+                                                          child: Center(
+                                                            child: Icon(
+                                                              Icons
+                                                                  .keyboard_arrow_down,
+                                                              color: mainColor,
+                                                            ),
+                                                          ),
+                                                        )
                                                       ],
                                                     ),
                                                   ),
-                                                );
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    translateString(
-                                                        "Size", "المقاس"),
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: w * 0.04,
-                                                        fontFamily: 'Tajawal'),
-                                                  ),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    w * 0.01),
-                                                        color: Colors.black),
-                                                    child: Center(
-                                                      child: Icon(
-                                                        Icons
-                                                            .keyboard_arrow_down,
-                                                        color: mainColor,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
 
-                                            InkWell(
-                                              onTap: () {
-                                                if (selectedSize != null) {
-                                                  homeBottomSheet(
-                                                    context: context,
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal:
-                                                                  w * 0.04,
-                                                              vertical:
-                                                                  h * 0.04),
-                                                      child: Column(
-                                                        children: [
-                                                          Text(
-                                                            translateString(
-                                                                "Color",
-                                                                "اللون"),
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize:
-                                                                    w * 0.05,
-                                                                fontFamily:
-                                                                    'Tajawal',
-                                                                color: Colors
-                                                                    .black),
-                                                          ),
-                                                          FutureBuilder(
-                                                              future:
-                                                                  getProductcolor(
-                                                                productId:
-                                                                    productCla!
-                                                                        .id
-                                                                        .toString(),
-                                                                sizeId: selectedSize
-                                                                    .toString(),
-                                                              ),
-                                                              builder: (context,
-                                                                  AsyncSnapshot
-                                                                      snapshot) {
-                                                                if (snapshot
-                                                                    .hasData) {
-                                                                  return (snapshot
-                                                                          .data
-                                                                          .data
-                                                                          .isNotEmpty)
-                                                                      ? ListView.builder(
-                                                                          // primary: true,
-                                                                          shrinkWrap: true,
-                                                                          physics: const NeverScrollableScrollPhysics(),
-                                                                          itemCount: snapshot.data.data.length,
-                                                                          itemBuilder: (context, i) {
-                                                                            return Row(
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                Padding(
-                                                                                  padding: EdgeInsets.only(top: h * 0.02),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      if (selectedSize !=
+                                                          null) {
+                                                        homeBottomSheet(
+                                                          context: context,
+                                                          child: Padding(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        w *
+                                                                            0.04,
+                                                                    vertical: h *
+                                                                        0.04),
+                                                            child: Column(
+                                                              children: [
+                                                                Text(
+                                                                  translateString(
+                                                                      "Color",
+                                                                      "اللون"),
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize: w *
+                                                                          0.05,
+                                                                      fontFamily:
+                                                                          'Tajawal',
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                                FutureBuilder(
+                                                                    future:
+                                                                        getProductcolor(
+                                                                      productId:
+                                                                          productCla!
+                                                                              .id
+                                                                              .toString(),
+                                                                      sizeId: selectedSize
+                                                                          .toString(),
+                                                                    ),
+                                                                    builder: (context,
+                                                                        AsyncSnapshot
+                                                                            snapshot) {
+                                                                      if (snapshot
+                                                                          .hasData) {
+                                                                        return (snapshot.data.data.isNotEmpty)
+                                                                            ? ListView.builder(
+                                                                                // primary: true,
+                                                                                shrinkWrap: true,
+                                                                                physics: const NeverScrollableScrollPhysics(),
+                                                                                itemCount: snapshot.data.data.length,
+                                                                                itemBuilder: (context, i) {
+                                                                                  return Row(
+                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                    children: [
+                                                                                      Padding(
+                                                                                        padding: EdgeInsets.only(top: h * 0.02),
+                                                                                        child: Text(
+                                                                                          translateString(snapshot.data.data[i].nameEn!, snapshot.data.data[i].nameAr!),
+                                                                                          style: TextStyle(fontWeight: FontWeight.w700, fontSize: w * 0.05, color: Colors.black),
+                                                                                        ),
+                                                                                      ),
+                                                                                      Radio<int>(
+                                                                                          activeColor: mainColor,
+                                                                                          value: snapshot.data.data[i].id,
+                                                                                          groupValue: selectedColor,
+                                                                                          onChanged: (int? value) {
+                                                                                            // prefs.remove("color_id");
+                                                                                            setState(
+                                                                                              () {
+                                                                                                att.add(snapshot.data.data[i].id);
+                                                                                                _counter = 1;
+                                                                                                selectedColor = snapshot.data.data[i].id;
+
+                                                                                                // prefs.setInt("color_id", snapshot.data.data[i].id);
+                                                                                                if (language == 'en') {
+                                                                                                  des.add(snapshot.data.data[i].nameEn!);
+                                                                                                  selectedColorSize.add(snapshot.data.data[i].nameEn!);
+                                                                                                } else {
+                                                                                                  des.add(snapshot.data.data[i].nameAr!);
+                                                                                                  selectedColorSize.add(snapshot.data.data[i].nameEn!);
+                                                                                                }
+                                                                                              },
+                                                                                            );
+                                                                                            checkProductClothesQuantity(colorId: snapshot.data.data[i].id, productId: productCla!.id, quantity: _counter, scaffoldKey: scaffoldKey, sizeId: selectedSize!);
+                                                                                            Navigator.pop(context);
+                                                                                          }),
+                                                                                    ],
+                                                                                  );
+                                                                                })
+                                                                            : Padding(
+                                                                                padding: EdgeInsets.only(top: h * 0.15),
+                                                                                child: Center(
                                                                                   child: Text(
-                                                                                    translateString(snapshot.data.data[i].nameEn!, snapshot.data.data[i].nameAr!),
-                                                                                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: w * 0.05, color: Colors.black),
+                                                                                    translateString("No colors yet for this size \n product not available for this size", "  لقد نفذت كمية المنتج المتاحه لهذا المقاس  \n لا توجد الوان متاحه حاليا لهذا المقاس"),
+                                                                                    textAlign: TextAlign.center,
+                                                                                    style: TextStyle(color: mainColor, fontSize: w * 0.04, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', height: 2),
                                                                                   ),
                                                                                 ),
-                                                                                Radio<int>(
-                                                                                    activeColor: mainColor,
-                                                                                    value: snapshot.data.data[i].id,
-                                                                                    groupValue: selectedColor,
-                                                                                    onChanged: (int? value) {
-                                                                                      // prefs.remove("color_id");
-                                                                                      setState(
-                                                                                        () {
-                                                                                          att.add(snapshot.data.data[i].id);
-                                                                                          _counter = 1;
-                                                                                          selectedColor = snapshot.data.data[i].id;
-
-                                                                                          // prefs.setInt("color_id", snapshot.data.data[i].id);
-                                                                                          if (language == 'en') {
-                                                                                            des.add(snapshot.data.data[i].nameEn!);
-                                                                                            selectedColorSize.add(snapshot.data.data[i].nameEn!);
-                                                                                          } else {
-                                                                                            des.add(snapshot.data.data[i].nameAr!);
-                                                                                            selectedColorSize.add(snapshot.data.data[i].nameEn!);
-                                                                                          }
-                                                                                        },
-                                                                                      );
-                                                                                      checkProductClothesQuantity(colorId: snapshot.data.data[i].id, productId: productCla!.id, quantity: _counter, scaffoldKey: scaffoldKey, sizeId: selectedSize!);
-                                                                                      Navigator.pop(context);
-                                                                                    }),
-                                                                              ],
-                                                                            );
-                                                                          })
-                                                                      : Padding(
-                                                                          padding:
-                                                                              EdgeInsets.only(top: h * 0.15),
+                                                                              );
+                                                                      } else {
+                                                                        return Center(
                                                                           child:
-                                                                              Center(
-                                                                            child:
-                                                                                Text(
-                                                                              translateString("No colors yet for this size \n product not available for this size", "  لقد نفذت كمية المنتج المتاحه لهذا المقاس  \n لا توجد الوان متاحه حاليا لهذا المقاس"),
-                                                                              textAlign: TextAlign.center,
-                                                                              style: TextStyle(color: mainColor, fontSize: w * 0.04, fontWeight: FontWeight.bold, fontFamily: 'Tajawal', height: 2),
-                                                                            ),
+                                                                              CircularProgressIndicator(
+                                                                            color:
+                                                                                mainColor,
                                                                           ),
                                                                         );
-                                                                } else {
-                                                                  return Center(
-                                                                    child:
-                                                                        CircularProgressIndicator(
-                                                                      color:
-                                                                          mainColor,
-                                                                    ),
-                                                                  );
-                                                                }
-                                                              }),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  );
-                                                } else {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      backgroundColor:
-                                                          Colors.black,
-                                                      content: Text(
-                                                        translateString(
-                                                            "select size first",
-                                                            "يجب اختيار المقاس اولا"),
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: w * 0.04,
-                                                            fontFamily:
-                                                                'Tajawal'),
-                                                      ),
-                                                    ),
-                                                  );
-                                                }
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    translateString(
-                                                        "Color", "اللون"),
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: w * 0.04,
-                                                        fontFamily: 'Tajawal'),
-                                                  ),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    w * 0.01),
-                                                        color: Colors.black),
-                                                    child: Center(
-                                                      child: Icon(
-                                                        Icons
-                                                            .keyboard_arrow_down,
-                                                        color: mainColor,
-                                                      ),
+                                                                      }
+                                                                    }),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            backgroundColor:
+                                                                Colors.black,
+                                                            content: Text(
+                                                              translateString(
+                                                                  "select size first",
+                                                                  "يجب اختيار المقاس اولا"),
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      w * 0.04,
+                                                                  fontFamily:
+                                                                      'Tajawal'),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          translateString(
+                                                              "Color", "اللون"),
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontSize:
+                                                                  w * 0.04,
+                                                              fontFamily:
+                                                                  'Tajawal'),
+                                                        ),
+                                                        Container(
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(w *
+                                                                          0.01),
+                                                              color:
+                                                                  Colors.black),
+                                                          child: Center(
+                                                            child: Icon(
+                                                              Icons
+                                                                  .keyboard_arrow_down,
+                                                              color: mainColor,
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
                                                     ),
                                                   )
+                                                  // : Container(),
                                                 ],
                                               ),
                                             )
-                                            // : Container(),
-                                          ],
-                                        ),
-                                      )
-                                    : (productCla!.attributes.isNotEmpty)
-                                        ? Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: w * 0.025),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: List.generate(
-                                                productCla!.attributes.length,
-                                                (index) => InkWell(
-                                                  onTap: () {
-                                                    homeBottomSheet(
-                                                      context: context,
-                                                      child: Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal:
-                                                                    w * 0.04,
-                                                                vertical:
-                                                                    h * 0.04),
-                                                        child: Column(
+                                          : (productCla!.attributes.isNotEmpty)
+                                              ? Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: w * 0.025),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: List.generate(
+                                                      productCla!
+                                                          .attributes.length,
+                                                      (index) => InkWell(
+                                                        onTap: () {
+                                                          homeBottomSheet(
+                                                            context: context,
+                                                            child: Padding(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          w *
+                                                                              0.04,
+                                                                      vertical: h *
+                                                                          0.04),
+                                                              child: Column(
+                                                                children: [
+                                                                  Text(
+                                                                    translateString(
+                                                                        productCla!
+                                                                            .attributes[
+                                                                                index]!
+                                                                            .nameEn,
+                                                                        productCla!
+                                                                            .attributes[index]!
+                                                                            .nameAr),
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        fontSize: w *
+                                                                            0.05,
+                                                                        fontFamily:
+                                                                            'Tajawal',
+                                                                        color: Colors
+                                                                            .black),
+                                                                  ),
+                                                                  ListView.builder(
+                                                                      // primary: true,
+                                                                      shrinkWrap: true,
+                                                                      physics: const NeverScrollableScrollPhysics(),
+                                                                      itemCount: productCla!.attributes[index]!.options.length,
+                                                                      itemBuilder: (context, i) {
+                                                                        return Row(
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: EdgeInsets.only(top: h * 0.02),
+                                                                              child: Text(
+                                                                                translateString(productCla!.attributes[index]!.options[i].nameEn, productCla!.attributes[index]!.options[i].nameAr),
+                                                                                style: TextStyle(fontWeight: FontWeight.w700, fontSize: w * 0.05, color: Colors.black),
+                                                                              ),
+                                                                            ),
+                                                                            Radio(
+                                                                                activeColor: mainColor,
+                                                                                value: productCla!.attributes[index]!.options[i].id,
+                                                                                groupValue: att[index],
+                                                                                onChanged: (int? value) {
+                                                                                  setState(
+                                                                                    () {
+                                                                                      print(attPrice);
+                                                                                      if (productCla!.attributes[index]!.nameEn == attPrice[productCla!.attributes[index]!.nameEn]) {
+                                                                                        attPrice.updateAll(((key, value) => productCla!.attributes[index]!.options[i].price));
+                                                                                      } else {
+                                                                                        attPrice.addAll({
+                                                                                          productCla!.attributes[index]!.nameEn: productCla!.attributes[index]!.options[i].price
+                                                                                        });
+                                                                                      }
+                                                                                      optionsPrice[index] = productCla!.attributes[index]!.options[i].price;
+                                                                                      optionsQuantity[index] = productCla!.attributes[index]!.options[i].id;
+                                                                                      attributesID[index] = productCla!.attributes[index]!.id;
+                                                                                      att[index] = productCla!.attributes[index]!.options[i].id;
+                                                                                      selectedItem.add(att[index]);
+                                                                                      finalPrice += attPrice.values.reduce((sum, element) => sum + element);
+                                                                                      checkProductquantity(productId: productCla!.id.toString(), quantity: _counter, attributes: attributesID, options: att, context: context, scaffoldKey: scaffoldKey);
+                                                                                      print(optionsPrice);
+                                                                                      if (language == 'en') {
+                                                                                        des[index] = productCla!.attributes[index]!.options[i].nameEn;
+                                                                                      } else {
+                                                                                        des[index] = productCla!.attributes[index]!.options[i].nameAr;
+                                                                                      }
+                                                                                    },
+                                                                                  );
+                                                                                  Navigator.pop(context);
+                                                                                }),
+                                                                          ],
+                                                                        );
+                                                                      }),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Row(
                                                           children: [
                                                             Text(
                                                               translateString(
@@ -2185,433 +2325,43 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                   color: Colors
                                                                       .black),
                                                             ),
-                                                            ListView.builder(
-                                                                // primary: true,
-                                                                shrinkWrap:
-                                                                    true,
-                                                                physics:
-                                                                    const NeverScrollableScrollPhysics(),
-                                                                itemCount: productCla!
-                                                                    .attributes[
-                                                                        index]!
-                                                                    .options
-                                                                    .length,
-                                                                itemBuilder:
-                                                                    (context,
-                                                                        i) {
-                                                                  return Row(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding:
-                                                                            EdgeInsets.only(top: h * 0.02),
-                                                                        child:
-                                                                            Text(
-                                                                          translateString(
-                                                                              productCla!.attributes[index]!.options[i].nameEn,
-                                                                              productCla!.attributes[index]!.options[i].nameAr),
-                                                                          style: TextStyle(
-                                                                              fontWeight: FontWeight.w700,
-                                                                              fontSize: w * 0.05,
-                                                                              color: Colors.black),
-                                                                        ),
-                                                                      ),
-                                                                      Radio(
-                                                                          activeColor:
-                                                                              mainColor,
-                                                                          value: productCla!
-                                                                              .attributes[
-                                                                                  index]!
-                                                                              .options[
-                                                                                  i]
-                                                                              .id,
-                                                                          groupValue: att[
-                                                                              index],
-                                                                          onChanged:
-                                                                              (int? value) {
-                                                                            setState(
-                                                                              () {
-                                                                                print(attPrice);
-                                                                                if (productCla!.attributes[index]!.nameEn == attPrice[productCla!.attributes[index]!.nameEn]) {
-                                                                                  attPrice.updateAll(((key, value) => productCla!.attributes[index]!.options[i].price));
-                                                                                } else {
-                                                                                  attPrice.addAll({
-                                                                                    productCla!.attributes[index]!.nameEn: productCla!.attributes[index]!.options[i].price
-                                                                                  });
-                                                                                }
-                                                                                optionsPrice[index] = productCla!.attributes[index]!.options[i].price;
-                                                                                optionsQuantity[index] = productCla!.attributes[index]!.options[i].id;
-                                                                                attributesID[index] = productCla!.attributes[index]!.id;
-                                                                                att[index] = productCla!.attributes[index]!.options[i].id;
-                                                                                selectedItem.add(att[index]);
-                                                                                finalPrice += attPrice.values.reduce((sum, element) => sum + element);
-                                                                                checkProductquantity(productId: productCla!.id.toString(), quantity: _counter, attributes: attributesID, options: att, context: context, scaffoldKey: scaffoldKey);
-                                                                                print(optionsPrice);
-                                                                                if (language == 'en') {
-                                                                                  des[index] = productCla!.attributes[index]!.options[i].nameEn;
-                                                                                } else {
-                                                                                  des[index] = productCla!.attributes[index]!.options[i].nameAr;
-                                                                                }
-                                                                              },
-                                                                            );
-                                                                            Navigator.pop(context);
-                                                                          }),
-                                                                    ],
-                                                                  );
-                                                                }),
+                                                            SizedBox(
+                                                              width: w * 0.01,
+                                                            ),
+                                                            Container(
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(w *
+                                                                              0.01),
+                                                                  color: Colors
+                                                                      .black),
+                                                              child: Center(
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .keyboard_arrow_down,
+                                                                  color:
+                                                                      mainColor,
+                                                                ),
+                                                              ),
+                                                            )
                                                           ],
                                                         ),
                                                       ),
-                                                    );
-                                                  },
-                                                  child: Row(
-                                                    children: [
-                                                      Text(
-                                                        translateString(
-                                                            productCla!
-                                                                .attributes[
-                                                                    index]!
-                                                                .nameEn,
-                                                            productCla!
-                                                                .attributes[
-                                                                    index]!
-                                                                .nameAr),
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: w * 0.05,
-                                                            fontFamily:
-                                                                'Tajawal',
-                                                            color:
-                                                                Colors.black),
-                                                      ),
-                                                      SizedBox(
-                                                        width: w * 0.01,
-                                                      ),
-                                                      Container(
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(w *
-                                                                        0.01),
-                                                            color:
-                                                                Colors.black),
-                                                        child: Center(
-                                                          child: Icon(
-                                                            Icons
-                                                                .keyboard_arrow_down,
-                                                            color: mainColor,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        : Container(),
-                                if (productCla!.attributes.isNotEmpty ||
-                                    productCla!.isClothes! == true)
-                                  SizedBox(
-                                    height: h * 0.05,
-                                  ),
-                                if (productCla!.hasOptions)
-                                  SizedBox(
-                                    height: h * 0.01,
-                                  ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: w * 0.025),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                          child: SizedBox(
-                                              width: 1,
-                                              child: Divider(
-                                                color: Colors.grey,
-                                                thickness: h * 0.001,
-                                              ))),
-                                      SizedBox(
-                                        width: w * 0.02,
-                                      ),
-                                      Text(
-                                        translate(context, 'product', 'des'),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: w * 0.045,
-                                            color: mainColor),
-                                      ),
-                                      SizedBox(
-                                        width: w * 0.02,
-                                      ),
-                                      Expanded(
-                                        child: SizedBox(
-                                          width: 1,
-                                          child: Divider(
-                                            color: Colors.grey,
-                                            thickness: h * 0.001,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: h * 0.04,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: w * 0.025),
-                                  child: Text(
-                                    parseHtmlString(translateString(
-                                        productCla!.descriptionEn,
-                                        productCla!.descriptionAr)),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: w * 0.03),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: h * 0.02,
-                                ),
-                                (productCla!.isOrder! == 1)
-                                    ? SizedBox(
-                                        height: h * 0.01,
-                                      )
-                                    : const SizedBox(),
-                                (productCla!.isOrder! == 1)
-                                    ? Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: w * 0.025),
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                                child: SizedBox(
-                                                    width: 1,
-                                                    child: Divider(
-                                                      color: Colors.grey,
-                                                      thickness: h * 0.001,
-                                                    ))),
-                                            SizedBox(
-                                              width: w * 0.02,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Image.asset(
-                                                  "assets/images/Group 1090.png",
-                                                  color: mainColor,
-                                                ),
-                                                SizedBox(
-                                                  width: w * 0.015,
-                                                ),
-                                                Text(
-                                                  translateString(
-                                                      'Shipping and delivery',
-                                                      'الشحن والتوصيل'),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: w * 0.045,
-                                                      color: mainColor),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              width: w * 0.02,
-                                            ),
-                                            Expanded(
-                                              child: SizedBox(
-                                                width: 1,
-                                                child: Divider(
-                                                  color: Colors.grey,
-                                                  thickness: h * 0.001,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : const SizedBox(),
-                                (productCla!.isOrder! == 1)
-                                    ? SizedBox(
-                                        height: h * 0.04,
-                                      )
-                                    : const SizedBox(),
-                                (productCla!.isOrder! == 1)
-                                    ? Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: w * 0.025),
-                                        child: Text(
-                                          translateString(
-                                              "This product is on demand \n Delivery time ${productCla!.deliverDays!} working days",
-                                              "هذا المنتج تحت الطلب \n مدة التوصيل ${productCla!.deliverDays!} يوم عمل"),
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: w * 0.03),
-                                        ),
-                                      )
-                                    : const SizedBox(),
-                                (productCla!.isOrder! == 1)
-                                    ? SizedBox(
-                                        height: h * 0.02,
-                                      )
-                                    : const SizedBox(),
-                                if (productCla!.aboutEn != null)
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: w * 0.025),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                            child: SizedBox(
-                                                width: 1,
-                                                child: Divider(
-                                                  color: Colors.grey,
-                                                  thickness: h * 0.001,
-                                                ))),
+                                                )
+                                              : Container(),
+                                      if (productCla!.attributes.isNotEmpty ||
+                                          productCla!.isClothes! == true)
                                         SizedBox(
-                                          width: w * 0.02,
+                                          height: h * 0.05,
                                         ),
-                                        Text(
-                                          translate(
-                                              context, 'product', 'about'),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: w * 0.045,
-                                              color: mainColor),
-                                        ),
+                                      if (productCla!.hasOptions)
                                         SizedBox(
-                                          width: w * 0.02,
+                                          height: h * 0.01,
                                         ),
-                                        Expanded(
-                                            child: SizedBox(
-                                                width: 1,
-                                                child: Divider(
-                                                  color: Colors.grey,
-                                                  thickness: h * 0.001,
-                                                ))),
-                                      ],
-                                    ),
-                                  ),
-                                if (productCla!.aboutEn != null)
-                                  SizedBox(
-                                    height: h * 0.04,
-                                  ),
-                                if (productCla!.aboutEn != null)
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: w * 0.025),
-                                    child: Text(
-                                      translateString(productCla!.aboutEn!,
-                                          productCla!.aboutAr!),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: w * 0.03),
-                                    ),
-                                  ),
-                                if (productCla!.aboutEn != null)
-                                  SizedBox(
-                                    height: h * 0.04,
-                                  ),
-                                if (productCla!.about.isNotEmpty)
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: w * 0.025),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                            child: SizedBox(
-                                                width: 1,
-                                                child: Divider(
-                                                  color: Colors.grey,
-                                                  thickness: h * 0.001,
-                                                ))),
-                                        SizedBox(
-                                          width: w * 0.02,
-                                        ),
-                                        Text(
-                                          '${translate(context, 'product', 'why')} Multi',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: w * 0.045,
-                                              color: mainColor),
-                                        ),
-                                        SizedBox(
-                                          width: w * 0.02,
-                                        ),
-                                        Expanded(
-                                            child: SizedBox(
-                                                width: 1,
-                                                child: Divider(
-                                                  color: Colors.grey,
-                                                  thickness: h * 0.001,
-                                                ))),
-                                      ],
-                                    ),
-                                  ),
-                                if (productCla!.about.isNotEmpty)
-                                  SizedBox(
-                                    height: h * 0.02,
-                                  ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: w * 0.025,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: List.generate(
-                                        productCla!.about.length, (index) {
-                                      return SizedBox(
-                                        width: w * 0.9,
-                                        child: ListTile(
-                                          leading: CircleAvatar(
-                                            backgroundColor: mainColor,
-                                            radius: w * 0.05,
-                                            child: Center(
-                                              child: Icon(
-                                                Icons.assignment_outlined,
-                                                color: Colors.white,
-                                                size: w * 0.06,
-                                              ),
-                                            ),
-                                          ),
-                                          title: Text(
-                                            translateString(
-                                                productCla!.about[index].nameEn,
-                                                productCla!
-                                                    .about[index].nameAr),
-                                            style: TextStyle(
-                                                color: mainColor,
-                                                fontSize: w * 0.04),
-                                          ),
-                                          subtitle: Text(
-                                            translateString(
-                                                productCla!
-                                                    .about[index].valueEn,
-                                                productCla!
-                                                    .about[index].valueEn),
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: w * 0.035),
-                                          ),
-                                          minVerticalPadding: h * 0.02,
-                                        ),
-                                      );
-                                    }),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: h * 0.03,
-                                ),
-                                (productCla!.similar.isNotEmpty)
-                                    ? Padding(
+                                      Padding(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: w * 0.025),
                                         child: Row(
@@ -2627,8 +2377,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               width: w * 0.02,
                                             ),
                                             Text(
-                                              translateString("Similar Product",
-                                                  "المنتجات المشابه"),
+                                              translate(
+                                                  context, 'product', 'des'),
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: w * 0.045,
@@ -2638,237 +2388,546 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                               width: w * 0.02,
                                             ),
                                             Expanded(
-                                                child: SizedBox(
-                                                    width: 1,
-                                                    child: Divider(
-                                                      color: Colors.grey,
-                                                      thickness: h * 0.001,
-                                                    ))),
+                                              child: SizedBox(
+                                                width: 1,
+                                                child: Divider(
+                                                  color: Colors.grey,
+                                                  thickness: h * 0.001,
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         ),
-                                      )
-                                    : Container(),
-                                (productCla!.similar.isNotEmpty)
-                                    ? SizedBox(
+                                      ),
+                                      SizedBox(
+                                        height: h * 0.04,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: w * 0.025),
+                                        child: Text(
+                                          parseHtmlString(translateString(
+                                              productCla!.descriptionEn,
+                                              productCla!.descriptionAr)),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: w * 0.03),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: h * 0.02,
+                                      ),
+                                      (productCla!.isOrder! == 1)
+                                          ? SizedBox(
+                                              height: h * 0.01,
+                                            )
+                                          : const SizedBox(),
+                                      (productCla!.isOrder! == 1)
+                                          ? Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: w * 0.025),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                      child: SizedBox(
+                                                          width: 1,
+                                                          child: Divider(
+                                                            color: Colors.grey,
+                                                            thickness:
+                                                                h * 0.001,
+                                                          ))),
+                                                  SizedBox(
+                                                    width: w * 0.02,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Image.asset(
+                                                        "assets/images/Group 1090.png",
+                                                        color: mainColor,
+                                                      ),
+                                                      SizedBox(
+                                                        width: w * 0.015,
+                                                      ),
+                                                      Text(
+                                                        translateString(
+                                                            'Shipping and delivery',
+                                                            'الشحن والتوصيل'),
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: w * 0.045,
+                                                            color: mainColor),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    width: w * 0.02,
+                                                  ),
+                                                  Expanded(
+                                                    child: SizedBox(
+                                                      width: 1,
+                                                      child: Divider(
+                                                        color: Colors.grey,
+                                                        thickness: h * 0.001,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          : const SizedBox(),
+                                      (productCla!.isOrder! == 1)
+                                          ? SizedBox(
+                                              height: h * 0.04,
+                                            )
+                                          : const SizedBox(),
+                                      (productCla!.isOrder! == 1)
+                                          ? Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: w * 0.025),
+                                              child: Text(
+                                                translateString(
+                                                    "This product is on demand \n Delivery time ${productCla!.deliverDays!} working days",
+                                                    "هذا المنتج تحت الطلب \n مدة التوصيل ${productCla!.deliverDays!} يوم عمل"),
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: w * 0.03),
+                                              ),
+                                            )
+                                          : const SizedBox(),
+                                      (productCla!.isOrder! == 1)
+                                          ? SizedBox(
+                                              height: h * 0.02,
+                                            )
+                                          : const SizedBox(),
+                                      if (productCla!.aboutEn != null)
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: w * 0.025),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                  child: SizedBox(
+                                                      width: 1,
+                                                      child: Divider(
+                                                        color: Colors.grey,
+                                                        thickness: h * 0.001,
+                                                      ))),
+                                              SizedBox(
+                                                width: w * 0.02,
+                                              ),
+                                              Text(
+                                                translate(context, 'product',
+                                                    'about'),
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: w * 0.045,
+                                                    color: mainColor),
+                                              ),
+                                              SizedBox(
+                                                width: w * 0.02,
+                                              ),
+                                              Expanded(
+                                                  child: SizedBox(
+                                                      width: 1,
+                                                      child: Divider(
+                                                        color: Colors.grey,
+                                                        thickness: h * 0.001,
+                                                      ))),
+                                            ],
+                                          ),
+                                        ),
+                                      if (productCla!.aboutEn != null)
+                                        SizedBox(
+                                          height: h * 0.04,
+                                        ),
+                                      if (productCla!.aboutEn != null)
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: w * 0.025),
+                                          child: Text(
+                                            translateString(
+                                                productCla!.aboutEn!,
+                                                productCla!.aboutAr!),
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: w * 0.03),
+                                          ),
+                                        ),
+                                      if (productCla!.aboutEn != null)
+                                        SizedBox(
+                                          height: h * 0.04,
+                                        ),
+                                      if (productCla!.about.isNotEmpty)
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: w * 0.025),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                  child: SizedBox(
+                                                      width: 1,
+                                                      child: Divider(
+                                                        color: Colors.grey,
+                                                        thickness: h * 0.001,
+                                                      ))),
+                                              SizedBox(
+                                                width: w * 0.02,
+                                              ),
+                                              Text(
+                                                '${translate(context, 'product', 'why')} Multi',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: w * 0.045,
+                                                    color: mainColor),
+                                              ),
+                                              SizedBox(
+                                                width: w * 0.02,
+                                              ),
+                                              Expanded(
+                                                  child: SizedBox(
+                                                      width: 1,
+                                                      child: Divider(
+                                                        color: Colors.grey,
+                                                        thickness: h * 0.001,
+                                                      ))),
+                                            ],
+                                          ),
+                                        ),
+                                      if (productCla!.about.isNotEmpty)
+                                        SizedBox(
+                                          height: h * 0.02,
+                                        ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: w * 0.025,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: List.generate(
+                                              productCla!.about.length,
+                                              (index) {
+                                            return SizedBox(
+                                              width: w * 0.9,
+                                              child: ListTile(
+                                                leading: CircleAvatar(
+                                                  backgroundColor: mainColor,
+                                                  radius: w * 0.05,
+                                                  child: Center(
+                                                    child: Icon(
+                                                      Icons.assignment_outlined,
+                                                      color: Colors.white,
+                                                      size: w * 0.06,
+                                                    ),
+                                                  ),
+                                                ),
+                                                title: Text(
+                                                  translateString(
+                                                      productCla!
+                                                          .about[index].nameEn,
+                                                      productCla!
+                                                          .about[index].nameAr),
+                                                  style: TextStyle(
+                                                      color: mainColor,
+                                                      fontSize: w * 0.04),
+                                                ),
+                                                subtitle: Text(
+                                                  translateString(
+                                                      productCla!
+                                                          .about[index].valueEn,
+                                                      productCla!.about[index]
+                                                          .valueEn),
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: w * 0.035),
+                                                ),
+                                                minVerticalPadding: h * 0.02,
+                                              ),
+                                            );
+                                          }),
+                                        ),
+                                      ),
+                                      SizedBox(
                                         height: h * 0.03,
-                                      )
-                                    : Container(),
-                                (productCla!.similar.isNotEmpty)
-                                    ? SimilarProductScreen(
-                                        similar: productCla!.similar)
-                                    : Container(),
-                                SizedBox(
-                                  height: h * 0.05,
+                                      ),
+                                      (productCla!.similar.isNotEmpty)
+                                          ? Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: w * 0.025),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                      child: SizedBox(
+                                                          width: 1,
+                                                          child: Divider(
+                                                            color: Colors.grey,
+                                                            thickness:
+                                                                h * 0.001,
+                                                          ))),
+                                                  SizedBox(
+                                                    width: w * 0.02,
+                                                  ),
+                                                  Text(
+                                                    translateString(
+                                                        "Similar Product",
+                                                        "المنتجات المشابه"),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: w * 0.045,
+                                                        color: mainColor),
+                                                  ),
+                                                  SizedBox(
+                                                    width: w * 0.02,
+                                                  ),
+                                                  Expanded(
+                                                      child: SizedBox(
+                                                          width: 1,
+                                                          child: Divider(
+                                                            color: Colors.grey,
+                                                            thickness:
+                                                                h * 0.001,
+                                                          ))),
+                                                ],
+                                              ),
+                                            )
+                                          : Container(),
+                                      (productCla!.similar.isNotEmpty)
+                                          ? SizedBox(
+                                              height: h * 0.03,
+                                            )
+                                          : Container(),
+                                      (productCla!.similar.isNotEmpty)
+                                          ? SimilarProductScreen(
+                                              similar: productCla!.similar)
+                                          : Container(),
+                                      SizedBox(
+                                        height: h * 0.05,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    const ProductRates(),
-                    const ProductHelp(),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: w,
-                height: h * 0.1,
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox(
-                        width: 0.1,
+                          const ProductRates(),
+                          const ProductHelp(),
+                        ],
                       ),
-                      InkWell(
-                        child: Container(
-                          width: w * 0.7,
-                          height: h * 0.07,
-                          decoration: BoxDecoration(
-                            color: mainColor,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Center(
-                              child: Text(
-                            translate(context, 'buttons', 'add_cart') +
-                                "     " +
-                                getProductprice(
-                                    currency: currency,
-                                    productPrice: finalPrice),
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize:
-                                    language == 'en' ? w * 0.05 : w * 0.05),
-                          )),
-                        ),
-                        onTap: () {
-                          if (productCla!.quantity != 0) {
-                            if (productCla!.attributes.isNotEmpty) {
-                              if (selectedItem.isNotEmpty) {
-                                show(context);
-                              } else {
-                                final snackBar = SnackBar(
-                                  content: Text(
-                                    translateString('Select product options',
-                                        'يجب تحديد الاختيارات اولا'),
-                                    style: TextStyle(
-                                        fontFamily: 'Tajawal',
-                                        fontSize: w * 0.04,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  action: SnackBarAction(
-                                    label: translateString("Undo", "تراجع"),
-                                    disabledTextColor: Colors.yellow,
-                                    textColor: Colors.yellow,
-                                    onPressed: () {},
-                                  ),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              }
-                            } else if (productCla!.isClothes!) {
-                              if (selectedColor == null ||
-                                  selectedSize == null) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    backgroundColor: Colors.black,
-                                    content: Text(
-                                      translateString(
-                                          "you should choose color and size",
-                                          "يجب اختيار المقاس واللون"),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: w * 0.04,
-                                          fontFamily: 'Tajawal'),
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                show(context);
-                              }
-                            } else {
-                              show(context);
-                            }
-                          } else if (productCla!.quantity == 0) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: Colors.red,
-                                content: Text(
-                                  translateString("Product not available",
-                                      "المنتج غير متوفر حاليا "),
+                    ),
+                    SizedBox(
+                      width: w,
+                      height: h * 0.1,
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox(
+                              width: 0.1,
+                            ),
+                            InkWell(
+                              child: Container(
+                                width: w * 0.7,
+                                height: h * 0.07,
+                                decoration: BoxDecoration(
+                                  color: mainColor,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Center(
+                                    child: Text(
+                                  translate(context, 'buttons', 'add_cart') +
+                                      "     " +
+                                      getProductprice(
+                                          currency: currency,
+                                          productPrice: finalPrice),
                                   style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: w * 0.04,
-                                      fontFamily: 'Tajawal'),
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                      const SizedBox(
-                        width: 0.1,
-                      ),
-                      check
-                          ? InkWell(
-                              child: Container(
-                                width: w * 0.2,
-                                height: h * 0.07,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(color: Colors.grey[400]!),
-                                ),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.favorite,
-                                    color: mainColor,
-                                  ),
-                                ),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: language == 'en'
+                                          ? w * 0.05
+                                          : w * 0.05),
+                                )),
                               ),
                               onTap: () {
-                                if (login) {
-                                  dialog(context);
-                                  saveLike(false)
-                                      .then((value) => navPop(context));
-                                } else {
-                                  final snackBar = SnackBar(
-                                    content: Text(translate(
-                                        context, 'snack_bar', 'login')),
-                                    action: SnackBarAction(
-                                      label: translate(
-                                          context, 'buttons', 'login'),
-                                      disabledTextColor: Colors.yellow,
-                                      textColor: Colors.yellow,
-                                      onPressed: () {
-                                        Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const Login()),
-                                            (route) => false);
-                                      },
+                                if (productCla!.quantity != 0) {
+                                  if (productCla!.attributes.isNotEmpty) {
+                                    if (selectedItem.isNotEmpty) {
+                                      show(context);
+                                    } else {
+                                      final snackBar = SnackBar(
+                                        content: Text(
+                                          translateString(
+                                              'Select product options',
+                                              'يجب تحديد الاختيارات اولا'),
+                                          style: TextStyle(
+                                              fontFamily: 'Tajawal',
+                                              fontSize: w * 0.04,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        action: SnackBarAction(
+                                          label:
+                                              translateString("Undo", "تراجع"),
+                                          disabledTextColor: Colors.yellow,
+                                          textColor: Colors.yellow,
+                                          onPressed: () {},
+                                        ),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    }
+                                  } else if (productCla!.isClothes!) {
+                                    if (selectedColor == null ||
+                                        selectedSize == null) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          backgroundColor: Colors.black,
+                                          content: Text(
+                                            translateString(
+                                                "you should choose color and size",
+                                                "يجب اختيار المقاس واللون"),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: w * 0.04,
+                                                fontFamily: 'Tajawal'),
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      show(context);
+                                    }
+                                  } else {
+                                    show(context);
+                                  }
+                                } else if (productCla!.quantity == 0) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                        translateString("Product not available",
+                                            "المنتج غير متوفر حاليا "),
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: w * 0.04,
+                                            fontFamily: 'Tajawal'),
+                                      ),
                                     ),
                                   );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
-                                }
-                              },
-                            )
-                          : InkWell(
-                              child: Container(
-                                width: w * 0.2,
-                                height: h * 0.07,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(color: Colors.grey[400]!),
-                                ),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.favorite_border,
-                                    color: mainColor,
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                if (login) {
-                                  dialog(context);
-                                  saveLike(true)
-                                      .then((value) => navPop(context));
-                                } else {
-                                  final snackBar = SnackBar(
-                                    content: Text(translate(
-                                        context, 'snack_bar', 'login')),
-                                    action: SnackBarAction(
-                                      label: translate(
-                                          context, 'buttons', 'login'),
-                                      disabledTextColor: Colors.yellow,
-                                      textColor: Colors.yellow,
-                                      onPressed: () {
-                                        Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const Login()),
-                                            (route) => false);
-                                      },
-                                    ),
-                                  );
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
                                 }
                               },
                             ),
-                      const SizedBox(
-                        width: 0.1,
+                            const SizedBox(
+                              width: 0.1,
+                            ),
+                            check
+                                ? InkWell(
+                                    child: Container(
+                                      width: w * 0.2,
+                                      height: h * 0.07,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                            color: Colors.grey[400]!),
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.favorite,
+                                          color: mainColor,
+                                        ),
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      if (login) {
+                                        dialog(context);
+                                        saveLike(false)
+                                            .then((value) => navPop(context));
+                                      } else {
+                                        final snackBar = SnackBar(
+                                          content: Text(translate(
+                                              context, 'snack_bar', 'login')),
+                                          action: SnackBarAction(
+                                            label: translate(
+                                                context, 'buttons', 'login'),
+                                            disabledTextColor: Colors.yellow,
+                                            textColor: Colors.yellow,
+                                            onPressed: () {
+                                              Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const Login()),
+                                                  (route) => false);
+                                            },
+                                          ),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    },
+                                  )
+                                : InkWell(
+                                    child: Container(
+                                      width: w * 0.2,
+                                      height: h * 0.07,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                            color: Colors.grey[400]!),
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.favorite_border,
+                                          color: mainColor,
+                                        ),
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      if (login) {
+                                        dialog(context);
+                                        saveLike(true)
+                                            .then((value) => navPop(context));
+                                      } else {
+                                        final snackBar = SnackBar(
+                                          content: Text(translate(
+                                              context, 'snack_bar', 'login')),
+                                          action: SnackBarAction(
+                                            label: translate(
+                                                context, 'buttons', 'login'),
+                                            disabledTextColor: Colors.yellow,
+                                            textColor: Colors.yellow,
+                                            onPressed: () {
+                                              Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const Login()),
+                                                  (route) => false);
+                                            },
+                                          ),
+                                        );
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    },
+                                  ),
+                            const SizedBox(
+                              width: 0.1,
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
+                    ),
+                  ],
+                )
+              : Container(
+                  color: Colors.white,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: mainColor,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
         ),
       ),
     );

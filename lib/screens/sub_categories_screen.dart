@@ -1,14 +1,12 @@
 // ignore_for_file: must_be_immutable, use_key_in_widget_constructors
 
 import 'package:badges/badges.dart';
-import 'package:davinshi_app/elements/newtwork_image.dart';
+import 'package:davinshi_app/screens/subcategory_product.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/cat.dart';
 import 'package:davinshi_app/models/constants.dart';
-import 'package:davinshi_app/models/products_cla.dart';
-import 'package:davinshi_app/provider/CatProvider.dart';
 import 'package:davinshi_app/provider/cart_provider.dart';
 import 'package:davinshi_app/screens/cart/cart.dart';
 import 'package:provider/provider.dart';
@@ -20,18 +18,22 @@ class SubCategoriesScreen extends StatefulWidget {
   _SubCategoriesScreenState createState() => _SubCategoriesScreenState();
 }
 
-class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
+class _SubCategoriesScreenState extends State<SubCategoriesScreen>
+    with SingleTickerProviderStateMixin {
   int selectedSubCat = 0;
   String subCatId = "0";
   var currency = (prefs.getString('language_code').toString() == 'en')
       ? prefs.getString('currencyEn').toString()
       : prefs.getString('currencyAr').toString();
+  TabController? tabController;
 
   @override
   void initState() {
     if (widget.subcategoriesList.isNotEmpty) {
       setState(() {
         subCatId = widget.subcategoriesList.first.id.toString();
+        tabController =
+            TabController(length: widget.subcategoriesList.length, vsync: this);
       });
     }
 
@@ -42,7 +44,6 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-    CatProvider cat = Provider.of<CatProvider>(context, listen: false);
     CartProvider cart = Provider.of<CartProvider>(context, listen: true);
     return Directionality(
       textDirection: getDirection(),
@@ -101,279 +102,89 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen> {
                 height: h * 0.06 + 10,
                 padding: const EdgeInsets.only(top: 10),
                 color: Colors.white,
-                child: ListView.separated(
-                  itemCount: widget.subcategoriesList.length,
-                  physics: const BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedSubCat = index;
-                          subCatId =
-                              widget.subcategoriesList[index].id.toString();
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: index == selectedSubCat
-                                        ? mainColor
-                                        : Colors.grey.withOpacity(0.3),
-                                    width: 2))),
-                        child: Text(
-                          prefs.getString('language_code').toString() == 'en'
-                              ? widget.subcategoriesList[index].nameEn
-                              : widget.subcategoriesList[index].nameAr,
-                          style: TextStyle(
-                              color: index == selectedSubCat
-                                  ? mainColor
-                                  : Colors.black45,
-                              fontSize: w * 0.045),
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      width: w * 0.03,
-                    );
-                  },
+                child: TabBar(
+                  isScrollable: true,
+                  controller: tabController,
+                  indicatorColor: Colors.brown.withOpacity(0.8),
+                  indicatorWeight: w * 0.01,
+                  labelColor: mainColor,
+                  unselectedLabelColor: Colors.black45,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  labelStyle: TextStyle(
+                      color: mainColor,
+                      fontFamily: 'Tajawal',
+                      fontSize: w * 0.045),
+                  unselectedLabelStyle: TextStyle(
+                      color: Colors.grey,
+                      fontFamily: 'Tajawal',
+                      fontSize: w * 0.045),
+                  tabs: List.generate(
+                    widget.subcategoriesList.length,
+                    (index) => Text(
+                      prefs.getString('language_code').toString() == 'en'
+                          ? widget.subcategoriesList[index].nameEn
+                          : widget.subcategoriesList[index].nameAr,
+                    ),
+                  ),
                 ),
+
+                // ListView.separated(
+                //   itemCount: widget.subcategoriesList.length,
+                //   physics: const BouncingScrollPhysics(),
+                //   scrollDirection: Axis.horizontal,
+                //   itemBuilder: (context, index) {
+                //     return GestureDetector(
+                //       onTap: () {
+                //         setState(() {
+                //           selectedSubCat = index;
+                //           subCatId =
+                //               widget.subcategoriesList[index].id.toString();
+                //         });
+                //       },
+                //       child: Container(
+                //         padding: const EdgeInsets.all(5),
+                //         decoration: BoxDecoration(
+                //             border: Border(
+                //                 bottom: BorderSide(
+                //                     color: index == selectedSubCat
+                //                         ? mainColor
+                //                         : Colors.grey.withOpacity(0.3),
+                //                     width: 2))),
+                // child: Text(
+                //   prefs.getString('language_code').toString() == 'en'
+                //       ? widget.subcategoriesList[index].nameEn
+                //       : widget.subcategoriesList[index].nameAr,
+                //   style: TextStyle(
+                //       color: index == selectedSubCat
+                //           ? mainColor
+                //           : Colors.black45,
+                //       fontSize: w * 0.045),
+                // ),
+                //       ),
+                //     );
+                //   },
+                //   separatorBuilder: (BuildContext context, int index) {
+                //     return SizedBox(
+                //       width: w * 0.03,
+                //     );
+                //   },
+                // ),
               ),
             ),
           ),
           body: Padding(
-            padding: isLeft()
-                ? EdgeInsets.only(left: w * 0.025)
-                : EdgeInsets.only(right: w * 0.025),
-            child: SizedBox(
-              width: w,
-              height: h,
-              child: FutureBuilder(
-                future: cat.getProducts(subCatId.toString()),
-                builder:
-                    (context, AsyncSnapshot<List<ProductsModel>> snapshot) {
-                  if (snapshot.hasData) {
-                    return snapshot.data!.isEmpty
-                        ? Center(
-                            child: Text(
-                              translate(context, 'empty', 'no_products'),
-                              style: TextStyle(color: mainColor),
-                            ),
-                          )
-                        : ListView(
-                            primary: true,
-                            shrinkWrap: true,
-                            children: [
-                              SizedBox(
-                                height: h * 0.03,
-                              ),
-                              Wrap(
-                                children:
-                                    List.generate(snapshot.data!.length, (i) {
-                                  return snapshot.data!.isNotEmpty
-                                      ? InkWell(
-                                          child: Padding(
-                                            padding: isLeft()
-                                                ? EdgeInsets.only(
-                                                    right: w * 0.025,
-                                                    bottom: h * 0.02)
-                                                : EdgeInsets.only(
-                                                    left: w * 0.025,
-                                                    bottom: h * 0.02),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Stack(
-                                                  children: [
-                                                    ImageeNetworkWidget(
-                                                      fit: BoxFit.cover,
-                                                      width: w * 0.45,
-                                                      height: h * 0.28,
-                                                      image: snapshot
-                                                          .data![i].img
-                                                          .toString(),
-                                                    ),
-                                                    (snapshot.data![i]
-                                                                .isOrder ==
-                                                            1)
-                                                        ? Container(
-                                                            height: h * 0.04,
-                                                            width: w * 0.22,
-                                                            margin: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        w *
-                                                                            0.01,
-                                                                    vertical: h *
-                                                                        0.01),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: mainColor,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(w *
-                                                                          0.02),
-                                                            ),
-                                                            child: Center(
-                                                              child: Text(
-                                                                translateString(
-                                                                    "Order",
-                                                                    "علي الطلب"),
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Tajawal',
-                                                                    fontSize: w *
-                                                                        0.04,
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                            ),
-                                                          )
-                                                        : const SizedBox(),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: w * 0.45,
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      SizedBox(
-                                                        height: h * 0.01,
-                                                      ),
-                                                      Text(snapshot
-                                                          .data![i].name
-                                                          .toString()),
-                                                      SizedBox(
-                                                        height: h * 0.005,
-                                                      ),
-                                                      Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          RichText(
-                                                            text: TextSpan(
-                                                              children: [
-                                                                if (snapshot
-                                                                        .data![
-                                                                            i]
-                                                                        .in_sale ==
-                                                                    true)
-                                                                  TextSpan(
-                                                                      text: getProductprice(
-                                                                          currency:
-                                                                              currency,
-                                                                          productPrice: num.parse(snapshot
-                                                                              .data![
-                                                                                  i]
-                                                                              .sale_price
-                                                                              .toString())),
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Tajawal',
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          color:
-                                                                              mainColor)),
-                                                                if (snapshot
-                                                                        .data![
-                                                                            i]
-                                                                        .in_sale ==
-                                                                    false)
-                                                                  TextSpan(
-                                                                      text:
-                                                                          '${snapshot.data![i].regular_price} '
-                                                                          '$currency ',
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Tajawal',
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          color:
-                                                                              mainColor)),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          if (snapshot.data![i]
-                                                                      .in_sale ==
-                                                                  true &&
-                                                              snapshot.data![i]
-                                                                      .disPer !=
-                                                                  null)
-                                                            Text(
-                                                              '${snapshot.data![i].regular_price} $currency',
-                                                              style: TextStyle(
-                                                                fontSize:
-                                                                    w * 0.035,
-                                                                color:
-                                                                    Colors.grey,
-                                                                decorationColor:
-                                                                    mainColor,
-                                                                decorationThickness:
-                                                                    w * 0.1,
-                                                                decoration:
-                                                                    TextDecoration
-                                                                        .lineThrough,
-                                                              ),
-                                                            ),
-                                                        ],
-                                                      ),
-                                                      // if(snapshot.data![i].in_sale==true)
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          onTap: () async {
-                                            await getItem(int.parse(snapshot
-                                                .data![i].id
-                                                .toString()));
-                                            Navigator.pushNamed(context, 'pro');
-                                          },
-                                        )
-                                      : Container();
-                                }),
-                              ),
-                            ],
-                          );
-                  } else if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return Container(
-                      alignment: Alignment.center,
-                      child: CircularProgressIndicator(
-                        color: mainColor,
-                        backgroundColor: mainColor2,
-                      ),
-                    );
-                  } else if (snapshot.data!.isEmpty) {
-                    return Center(
-                      child: Text(translate(context, "empty", "empty")),
-                    );
-                  } else {
-                    return Text(
-                      snapshot.error.toString(),
-                      textAlign: TextAlign.center,
-                    );
-                  }
-                },
-              ),
-            ),
-          ),
+              padding: isLeft()
+                  ? EdgeInsets.only(left: w * 0.025)
+                  : EdgeInsets.only(right: w * 0.025),
+              child: TabBarView(
+                controller: tabController,
+                children: List.generate(
+                  widget.subcategoriesList.length,
+                  (index) => SubCategoryProductsList(
+                    subcatId: widget.subcategoriesList[index].id.toString(),
+                  ),
+                ),
+              )),
         ),
       ),
     );

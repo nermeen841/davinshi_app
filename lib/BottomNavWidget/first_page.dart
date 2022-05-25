@@ -21,6 +21,8 @@ import 'package:davinshi_app/provider/map.dart';
 import 'package:davinshi_app/provider/new_item.dart';
 import 'package:davinshi_app/provider/offer_item.dart';
 
+import '../screens/product_info/products.dart';
+
 class FirstPage extends StatefulWidget {
   @override
   _FirstPageState createState() => _FirstPageState();
@@ -552,10 +554,18 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                     ),
                                                   ),
                                                   onTap: () async {
-                                                    await getItem(
-                                                        newItem.items[i].id);
-                                                    Navigator.pushNamed(
-                                                        context, 'pro');
+                                                    // await getItem(
+                                                    //     newItem.items[i].id);
+                                                    // Navigator.pushNamed(
+                                                    //     context, 'pro');
+                                                    navP(
+                                                      context,
+                                                      Products(
+                                                        fromFav: false,
+                                                        productId:
+                                                            newItem.items[i].id,
+                                                      ),
+                                                    );
                                                   },
                                                 );
                                               }),
@@ -874,10 +884,18 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                     ),
                                                   ),
                                                   onTap: () async {
-                                                    await getItem(
-                                                        bestItem.items[i].id);
-                                                    Navigator.pushNamed(
-                                                        context, 'pro');
+                                                    // await getItem(
+                                                    //     bestItem.items[i].id);
+                                                    // Navigator.pushNamed(
+                                                    //     context, 'pro');
+                                                    navP(
+                                                      context,
+                                                      Products(
+                                                        fromFav: false,
+                                                        productId: bestItem
+                                                            .items[i].id,
+                                                      ),
+                                                    );
                                                   },
                                                 );
                                               }),
@@ -1197,10 +1215,18 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                     ),
                                                   ),
                                                   onTap: () async {
-                                                    await getItem(
-                                                        reItem.items[i].id);
-                                                    Navigator.pushNamed(
-                                                        context, 'pro');
+                                                    // await getItem(
+                                                    //     reItem.items[i].id);
+                                                    // Navigator.pushNamed(
+                                                    //     context, 'pro');
+                                                    navP(
+                                                      context,
+                                                      Products(
+                                                        fromFav: false,
+                                                        productId:
+                                                            reItem.items[i].id,
+                                                      ),
+                                                    );
                                                   },
                                                 );
                                               }),
@@ -1524,10 +1550,18 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
                                                     ),
                                                   ),
                                                   onTap: () async {
-                                                    await getItem(
-                                                        offerItem.items[i].id);
-                                                    Navigator.pushNamed(
-                                                        context, 'pro');
+                                                    // await getItem(
+                                                    //     offerItem.items[i].id);
+                                                    // Navigator.pushNamed(
+                                                    //     context, 'pro');
+                                                    navP(
+                                                      context,
+                                                      Products(
+                                                        fromFav: false,
+                                                        productId: offerItem
+                                                            .items[i].id,
+                                                      ),
+                                                    );
                                                   },
                                                 );
                                               }),

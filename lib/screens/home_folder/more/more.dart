@@ -15,6 +15,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../product_info/products.dart';
+
 class MoreScreen extends StatefulWidget {
   final String endPoint;
 
@@ -420,10 +422,16 @@ class _MoreScreenState extends State<MoreScreen>
                                     ),
                                   ),
                                   onTap: () async {
-                                    dialog(context);
-                                    await getItem(allProduct[i].id);
-                                    Navigator.pushReplacementNamed(
-                                        context, 'pro');
+                                    navP(
+                                        context,
+                                        Products(
+                                          fromFav: false,
+                                          productId: allProduct[i].id,
+                                        ));
+                                    //   dialog(context);
+                                    //   await getItem(allProduct[i].id);
+                                    //   Navigator.pushReplacementNamed(
+                                    //       context, 'pro');
                                   });
                             },
                             primary: false,
