@@ -754,13 +754,13 @@ class _StudentInfo extends State<StudentInfo> {
                                   ),
                                 ),
                               ),
-                              onTap: () async {
+                              onTap: () {
                                 navP(
                                     context,
                                     Products(
                                       fromFav: false,
                                       productId: item.items[i].id,
-                                      brandId: item.items[i].brands![i].id,
+                                      // brandId: item.items[i].brands![i].id,
                                     ));
                                 // dialog(context);
                                 // // await getItem(item.items[i].id);
