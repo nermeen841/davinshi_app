@@ -44,12 +44,7 @@ class _FirstPageState extends State<FirstPage>
   ScrollController _controller5 = ScrollController();
   bool mask = false, mask2 = false, mask3 = false, mask4 = false, mask5 = false;
   bool f1 = true, f2 = true, f3 = true, f4 = true, f5 = true;
-  bool fi1 = true,
-      fi2 = true,
-      fi3 = true,
-      fi4 = true,
-      fi5 = true,
-      finish = false;
+  bool fi1 = true, fi2 = true, fi3 = true, fi4 = true, finish = false;
 
   void start(context) {
     Provider.of<MapProvider>(context, listen: false).start();
@@ -106,27 +101,23 @@ class _FirstPageState extends State<FirstPage>
           OfferItemProvider offerItem =
               Provider.of<OfferItemProvider>(context, listen: false);
           if (offerItem.items.isEmpty) {
-            // dialog(context);
             await offerItem.getItems();
-            // Navigator.pop(context);
           }
           fi4 = true;
         }
       }
     });
-    // _tabBar2 = TabController(length: 5,vsync: this);
+
     controller.addListener(() {
       if (controller.position.pixels > 400.0 && mask == false) {
         setState(() {
           mask = true;
         });
-        // scroll.changeShow(0, true);
       }
       if (controller.position.pixels < 400.0 && mask == true) {
         setState(() {
           mask = false;
         });
-        // scroll.changeShow(0, false);
       }
     });
     _controller2.addListener(() {
@@ -346,11 +337,21 @@ class _FirstPageState extends State<FirstPage>
                                               ],
                                             ),
                                             onTap: () async {
-                                              setState(() {
-                                                newItem.sort =
-                                                    newItem.apiSort[index];
-                                                newItem.sortList(index);
-                                              });
+                                              if (fi1) {
+                                                fi1 = false;
+                                                setState(() {
+                                                  newItem.sort =
+                                                      newItem.apiSort[index];
+                                                  newItem.sortList(index);
+                                                });
+                                                await newItem
+                                                    .getItems()
+                                                    .then((value) {
+                                                  setState(() {
+                                                    fi1 = true;
+                                                  });
+                                                });
+                                              }
                                             },
                                           );
                                         }),
@@ -366,235 +367,225 @@ class _FirstPageState extends State<FirstPage>
                                     width: w,
                                     child: Consumer<NewItemProvider>(
                                         builder: (context, newItem, _) {
-                                      return (newItem.items.isNotEmpty)
-                                          ? Wrap(
-                                              children: List.generate(
-                                                  newItem.items.length, (i) {
-                                                return InkWell(
-                                                  child: Padding(
-                                                    padding: isLeft()
-                                                        ? EdgeInsets.only(
-                                                            right: w * 0.025,
-                                                            bottom: h * 0.02)
-                                                        : EdgeInsets.only(
-                                                            left: w * 0.025,
-                                                            bottom: h * 0.02),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Stack(
+                                      return (!fi1)
+                                          ? Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: h * 0.2),
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: mainColor,
+                                                ),
+                                              ),
+                                            )
+                                          : (newItem.items.isNotEmpty)
+                                              ? Wrap(
+                                                  children: List.generate(
+                                                      newItem.items.length,
+                                                      (i) {
+                                                    return InkWell(
+                                                      child: Padding(
+                                                        padding: isLeft()
+                                                            ? EdgeInsets.only(
+                                                                right:
+                                                                    w * 0.025,
+                                                                bottom:
+                                                                    h * 0.02)
+                                                            : EdgeInsets.only(
+                                                                left: w * 0.025,
+                                                                bottom:
+                                                                    h * 0.02),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
-                                                            SizedBox(
-                                                              width: w * 0.45,
-                                                              height: h * 0.28,
-                                                              child:
-                                                                  ImageeNetworkWidget(
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                                image: newItem
-                                                                    .items[i]
-                                                                    .image,
-                                                              ),
-                                                            ),
-                                                            (newItem.items[i]
-                                                                        .isOrder ==
-                                                                    1)
-                                                                ? Container(
-                                                                    height: h *
-                                                                        0.04,
-                                                                    width: w *
-                                                                        0.22,
-                                                                    margin: EdgeInsets.symmetric(
-                                                                        horizontal: w *
-                                                                            0.01,
-                                                                        vertical:
-                                                                            h * 0.01),
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color:
-                                                                          mainColor,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(w *
-                                                                              0.02),
-                                                                    ),
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          Text(
-                                                                        translateString(
-                                                                            "Order",
-                                                                            "علي الطلب"),
-                                                                        style: TextStyle(
-                                                                            fontFamily:
-                                                                                'Tajawal',
-                                                                            fontSize: w *
-                                                                                0.04,
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontWeight: FontWeight.w500),
-                                                                      ),
-                                                                    ),
-                                                                  )
-                                                                : const SizedBox(),
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          width: w * 0.45,
-                                                          child: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              SizedBox(
-                                                                height:
-                                                                    h * 0.01,
-                                                              ),
-                                                              Container(
+                                                            Stack(
+                                                              children: [
+                                                                SizedBox(
                                                                   width:
                                                                       w * 0.45,
-                                                                  constraints:
-                                                                      BoxConstraints(
-                                                                    maxHeight:
-                                                                        h * 0.07,
+                                                                  height:
+                                                                      h * 0.28,
+                                                                  child:
+                                                                      ImageeNetworkWidget(
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    image: newItem
+                                                                        .items[
+                                                                            i]
+                                                                        .image,
                                                                   ),
-                                                                  child: Text(
-                                                                      translateString(
-                                                                          newItem
-                                                                              .items[
-                                                                                  i]
-                                                                              .nameEn,
-                                                                          newItem
-                                                                              .items[
-                                                                                  i]
-                                                                              .nameAr),
-                                                                      maxLines:
-                                                                          2,
-                                                                      style: TextStyle(
-                                                                          fontSize: w *
-                                                                              0.035),
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis)),
-                                                              SizedBox(
-                                                                height:
-                                                                    h * 0.005,
-                                                              ),
-                                                              Row(
+                                                                ),
+                                                                (newItem.items[i]
+                                                                            .isOrder ==
+                                                                        1)
+                                                                    ? Container(
+                                                                        height: h *
+                                                                            0.04,
+                                                                        width: w *
+                                                                            0.22,
+                                                                        margin: EdgeInsets.symmetric(
+                                                                            horizontal: w *
+                                                                                0.01,
+                                                                            vertical:
+                                                                                h * 0.01),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              mainColor,
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(w * 0.02),
+                                                                        ),
+                                                                        child:
+                                                                            Center(
+                                                                          child:
+                                                                              Text(
+                                                                            translateString("Order",
+                                                                                "علي الطلب"),
+                                                                            style: TextStyle(
+                                                                                fontFamily: 'Tajawal',
+                                                                                fontSize: w * 0.04,
+                                                                                color: Colors.white,
+                                                                                fontWeight: FontWeight.w500),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    : const SizedBox(),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              width: w * 0.45,
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment
                                                                         .start,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
                                                                 children: [
-                                                                  RichText(
-                                                                    text:
-                                                                        TextSpan(
-                                                                      children: [
-                                                                        if (newItem
-                                                                            .items[
-                                                                                i]
-                                                                            .isSale)
-                                                                          TextSpan(
-                                                                              text: getProductprice(currency: currency, productPrice: newItem.items[i].salePrice!),
-                                                                              style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
-                                                                        if (!newItem
-                                                                            .items[
-                                                                                i]
-                                                                            .isSale)
-                                                                          TextSpan(
-                                                                              text: getProductprice(currency: currency, productPrice: newItem.items[i].price),
-                                                                              style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
-                                                                      ],
-                                                                    ),
+                                                                  SizedBox(
+                                                                    height: h *
+                                                                        0.01,
                                                                   ),
-                                                                  // if (newItem.items[i]
-                                                                  //         .isSale &&
-                                                                  //     newItem.items[i]
-                                                                  //             .disPer !=
-                                                                  //         null)
-                                                                  //   Text(
-                                                                  //       newItem.items[i].disPer! +
-                                                                  //           '%',
-                                                                  //       style: const TextStyle(
-                                                                  //           fontWeight:
-                                                                  //               FontWeight
-                                                                  //                   .bold,
-                                                                  //           color: Colors
-                                                                  //               .red)),
-
-                                                                  if (newItem
-                                                                      .items[i]
-                                                                      .isSale)
-                                                                    Text(
-                                                                      getProductprice(
-                                                                          currency:
-                                                                              currency,
-                                                                          productPrice: newItem
-                                                                              .items[i]
-                                                                              .price),
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontFamily:
-                                                                            'Tajawal',
-                                                                        fontSize:
-                                                                            w * 0.035,
-                                                                        decorationThickness:
-                                                                            w * 0.1,
-                                                                        decorationColor:
-                                                                            mainColor,
-                                                                        decoration:
-                                                                            TextDecoration.lineThrough,
-                                                                        color: Colors
-                                                                            .grey,
+                                                                  Container(
+                                                                      width: w *
+                                                                          0.45,
+                                                                      constraints:
+                                                                          BoxConstraints(
+                                                                        maxHeight:
+                                                                            h * 0.07,
                                                                       ),
-                                                                    ),
+                                                                      child: Text(
+                                                                          translateString(
+                                                                              newItem.items[i].nameEn,
+                                                                              newItem.items[i].nameAr),
+                                                                          maxLines: 2,
+                                                                          style: TextStyle(fontSize: w * 0.035),
+                                                                          overflow: TextOverflow.ellipsis)),
+                                                                  SizedBox(
+                                                                    height: h *
+                                                                        0.005,
+                                                                  ),
+                                                                  Row(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      RichText(
+                                                                        text:
+                                                                            TextSpan(
+                                                                          children: [
+                                                                            if (newItem.items[i].isSale)
+                                                                              TextSpan(text: getProductprice(currency: currency, productPrice: newItem.items[i].salePrice!), style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
+                                                                            if (!newItem.items[i].isSale)
+                                                                              TextSpan(text: getProductprice(currency: currency, productPrice: newItem.items[i].price), style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      // if (newItem.items[i]
+                                                                      //         .isSale &&
+                                                                      //     newItem.items[i]
+                                                                      //             .disPer !=
+                                                                      //         null)
+                                                                      //   Text(
+                                                                      //       newItem.items[i].disPer! +
+                                                                      //           '%',
+                                                                      //       style: const TextStyle(
+                                                                      //           fontWeight:
+                                                                      //               FontWeight
+                                                                      //                   .bold,
+                                                                      //           color: Colors
+                                                                      //               .red)),
+
+                                                                      if (newItem
+                                                                          .items[
+                                                                              i]
+                                                                          .isSale)
+                                                                        Text(
+                                                                          getProductprice(
+                                                                              currency: currency,
+                                                                              productPrice: newItem.items[i].price),
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontFamily:
+                                                                                'Tajawal',
+                                                                            fontSize:
+                                                                                w * 0.035,
+                                                                            decorationThickness:
+                                                                                w * 0.1,
+                                                                            decorationColor:
+                                                                                mainColor,
+                                                                            decoration:
+                                                                                TextDecoration.lineThrough,
+                                                                            color:
+                                                                                Colors.grey,
+                                                                          ),
+                                                                        ),
+                                                                    ],
+                                                                  ),
                                                                 ],
                                                               ),
-                                                            ],
-                                                          ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ],
+                                                      ),
+                                                      onTap: () async {
+                                                        // await getItem(
+                                                        //     newItem.items[i].id);
+                                                        // Navigator.pushNamed(
+                                                        //     context, 'pro');
+                                                        navP(
+                                                          context,
+                                                          Products(
+                                                            fromFav: false,
+                                                            productId: newItem
+                                                                .items[i].id,
+                                                          ),
+                                                        );
+                                                      },
+                                                    );
+                                                  }),
+                                                )
+                                              : Center(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: h * 0.3),
+                                                    child: Text(
+                                                      translateString(
+                                                          "No products here",
+                                                          "لا توجد منتجات"),
+                                                      style: TextStyle(
+                                                          fontFamily: "Tajawal",
+                                                          fontSize: w * 0.04,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: mainColor),
                                                     ),
                                                   ),
-                                                  onTap: () async {
-                                                    // await getItem(
-                                                    //     newItem.items[i].id);
-                                                    // Navigator.pushNamed(
-                                                    //     context, 'pro');
-                                                    navP(
-                                                      context,
-                                                      Products(
-                                                        fromFav: false,
-                                                        productId:
-                                                            newItem.items[i].id,
-                                                      ),
-                                                    );
-                                                  },
                                                 );
-                                              }),
-                                            )
-                                          : Center(
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: h * 0.3),
-                                                child: Text(
-                                                  translateString(
-                                                      "No products here",
-                                                      "لا توجد منتجات"),
-                                                  style: TextStyle(
-                                                      fontFamily: "Tajawal",
-                                                      fontSize: w * 0.04,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: mainColor),
-                                                ),
-                                              ),
-                                            );
                                     }),
                                   ),
                                 ],
@@ -686,11 +677,22 @@ class _FirstPageState extends State<FirstPage>
                                                 )
                                               ],
                                             ),
-                                            onTap: () {
-                                              setState(() {
-                                                item.sort = item.apiSort[index];
-                                                item.sortList(index);
-                                              });
+                                            onTap: () async {
+                                              if (fi2) {
+                                                fi2 = false;
+                                                setState(() {
+                                                  item.sort =
+                                                      item.apiSort[index];
+                                                  item.sortList(index);
+                                                });
+                                                await item
+                                                    .getItems()
+                                                    .then((value) {
+                                                  setState(() {
+                                                    fi2 = true;
+                                                  });
+                                                });
+                                              }
                                             },
                                           );
                                         }),
@@ -706,225 +708,216 @@ class _FirstPageState extends State<FirstPage>
                                     width: w,
                                     child: Consumer<BestItemProvider>(
                                         builder: (context, bestItem, _) {
-                                      return (bestItem.items.isNotEmpty)
-                                          ? Wrap(
-                                              children: List.generate(
-                                                  bestItem.items.length, (i) {
-                                                return InkWell(
-                                                  child: Padding(
-                                                    padding: isLeft()
-                                                        ? EdgeInsets.only(
-                                                            right: w * 0.025,
-                                                            bottom: h * 0.02)
-                                                        : EdgeInsets.only(
-                                                            left: w * 0.025,
-                                                            bottom: h * 0.02),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Stack(
+                                      return (!fi2)
+                                          ? Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: h * 0.2),
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: mainColor,
+                                                ),
+                                              ),
+                                            )
+                                          : (bestItem.items.isNotEmpty)
+                                              ? Wrap(
+                                                  children: List.generate(
+                                                      bestItem.items.length,
+                                                      (i) {
+                                                    return InkWell(
+                                                      child: Padding(
+                                                        padding: isLeft()
+                                                            ? EdgeInsets.only(
+                                                                right:
+                                                                    w * 0.025,
+                                                                bottom:
+                                                                    h * 0.02)
+                                                            : EdgeInsets.only(
+                                                                left: w * 0.025,
+                                                                bottom:
+                                                                    h * 0.02),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
-                                                            ImageeNetworkWidget(
-                                                              fit: BoxFit.cover,
-                                                              image: bestItem
-                                                                  .items[i]
-                                                                  .image,
-                                                              width: w * 0.45,
-                                                              height: h * 0.28,
+                                                            Stack(
+                                                              children: [
+                                                                ImageeNetworkWidget(
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  image: bestItem
+                                                                      .items[i]
+                                                                      .image,
+                                                                  width:
+                                                                      w * 0.45,
+                                                                  height:
+                                                                      h * 0.28,
+                                                                ),
+                                                                (bestItem.items[i]
+                                                                            .isOrder ==
+                                                                        1)
+                                                                    ? Container(
+                                                                        height: h *
+                                                                            0.04,
+                                                                        width: w *
+                                                                            0.22,
+                                                                        margin: EdgeInsets.symmetric(
+                                                                            horizontal: w *
+                                                                                0.01,
+                                                                            vertical:
+                                                                                h * 0.01),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              mainColor,
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(w * 0.02),
+                                                                        ),
+                                                                        child:
+                                                                            Center(
+                                                                          child:
+                                                                              Text(
+                                                                            translateString("Order",
+                                                                                "علي الطلب"),
+                                                                            style: TextStyle(
+                                                                                fontFamily: 'Tajawal',
+                                                                                fontSize: w * 0.04,
+                                                                                color: Colors.white,
+                                                                                fontWeight: FontWeight.w500),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    : const SizedBox(),
+                                                              ],
                                                             ),
-                                                            (bestItem.items[i]
-                                                                        .isOrder ==
-                                                                    1)
-                                                                ? Container(
-                                                                    height: h *
-                                                                        0.04,
-                                                                    width: w *
-                                                                        0.22,
-                                                                    margin: EdgeInsets.symmetric(
-                                                                        horizontal: w *
-                                                                            0.01,
-                                                                        vertical:
-                                                                            h * 0.01),
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color:
-                                                                          mainColor,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(w *
-                                                                              0.02),
-                                                                    ),
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          Text(
-                                                                        translateString(
-                                                                            "Order",
-                                                                            "علي الطلب"),
-                                                                        style: TextStyle(
-                                                                            fontFamily:
-                                                                                'Tajawal',
-                                                                            fontSize: w *
-                                                                                0.04,
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontWeight: FontWeight.w500),
-                                                                      ),
-                                                                    ),
-                                                                  )
-                                                                : const SizedBox(),
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          width: w * 0.45,
-                                                          child: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              SizedBox(
-                                                                height:
-                                                                    h * 0.01,
-                                                              ),
-                                                              Container(
-                                                                  constraints:
-                                                                      BoxConstraints(
-                                                                    maxHeight:
-                                                                        h * 0.07,
-                                                                  ),
-                                                                  child: Text(
-                                                                      translateString(
-                                                                          bestItem
-                                                                              .items[
-                                                                                  i]
-                                                                              .nameEn,
-                                                                          bestItem
-                                                                              .items[
-                                                                                  i]
-                                                                              .nameAr),
-                                                                      style: TextStyle(
-                                                                          fontSize: w *
-                                                                              0.035),
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .fade)),
-                                                              SizedBox(
-                                                                height:
-                                                                    h * 0.005,
-                                                              ),
-                                                              Row(
+                                                            SizedBox(
+                                                              width: w * 0.45,
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment
                                                                         .start,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
                                                                 children: [
-                                                                  RichText(
-                                                                    text:
-                                                                        TextSpan(
-                                                                      children: [
-                                                                        if (bestItem
-                                                                            .items[
-                                                                                i]
-                                                                            .isSale)
-                                                                          TextSpan(
-                                                                              text: getProductprice(currency: currency, productPrice: bestItem.items[i].salePrice!),
-                                                                              style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
-                                                                        if (!bestItem
-                                                                            .items[
-                                                                                i]
-                                                                            .isSale)
-                                                                          TextSpan(
-                                                                              text: getProductprice(currency: currency, productPrice: bestItem.items[i].price),
-                                                                              style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
-                                                                      ],
-                                                                    ),
+                                                                  SizedBox(
+                                                                    height: h *
+                                                                        0.01,
                                                                   ),
-                                                                  // if (bestItem.items[i].isSale &&
-                                                                  //     bestItem.items[i]
-                                                                  //             .disPer !=
-                                                                  //         null)
-                                                                  //   Text(
-                                                                  //       bestItem.items[i]
-                                                                  //               .disPer! +
-                                                                  //           '%',
-                                                                  //       style: const TextStyle(
-                                                                  //           fontWeight:
-                                                                  //               FontWeight
-                                                                  //                   .bold,
-                                                                  //           color: Colors
-                                                                  //               .red)),
-
-                                                                  if (bestItem
-                                                                      .items[i]
-                                                                      .isSale)
-                                                                    Text(
-                                                                      getProductprice(
-                                                                          currency:
-                                                                              currency,
-                                                                          productPrice: bestItem
-                                                                              .items[i]
-                                                                              .price),
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            w * 0.035,
-                                                                        decorationThickness:
-                                                                            w * 0.1,
-                                                                        decorationColor:
-                                                                            mainColor,
-                                                                        decoration:
-                                                                            TextDecoration.lineThrough,
-                                                                        color: Colors
-                                                                            .grey,
+                                                                  Container(
+                                                                      constraints:
+                                                                          BoxConstraints(
+                                                                        maxHeight:
+                                                                            h * 0.07,
                                                                       ),
-                                                                    ),
+                                                                      child: Text(
+                                                                          translateString(
+                                                                              bestItem.items[i].nameEn,
+                                                                              bestItem.items[i].nameAr),
+                                                                          style: TextStyle(fontSize: w * 0.035),
+                                                                          overflow: TextOverflow.fade)),
+                                                                  SizedBox(
+                                                                    height: h *
+                                                                        0.005,
+                                                                  ),
+                                                                  Row(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      RichText(
+                                                                        text:
+                                                                            TextSpan(
+                                                                          children: [
+                                                                            if (bestItem.items[i].isSale)
+                                                                              TextSpan(text: getProductprice(currency: currency, productPrice: bestItem.items[i].salePrice!), style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
+                                                                            if (!bestItem.items[i].isSale)
+                                                                              TextSpan(text: getProductprice(currency: currency, productPrice: bestItem.items[i].price), style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      // if (bestItem.items[i].isSale &&
+                                                                      //     bestItem.items[i]
+                                                                      //             .disPer !=
+                                                                      //         null)
+                                                                      //   Text(
+                                                                      //       bestItem.items[i]
+                                                                      //               .disPer! +
+                                                                      //           '%',
+                                                                      //       style: const TextStyle(
+                                                                      //           fontWeight:
+                                                                      //               FontWeight
+                                                                      //                   .bold,
+                                                                      //           color: Colors
+                                                                      //               .red)),
+
+                                                                      if (bestItem
+                                                                          .items[
+                                                                              i]
+                                                                          .isSale)
+                                                                        Text(
+                                                                          getProductprice(
+                                                                              currency: currency,
+                                                                              productPrice: bestItem.items[i].price),
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                w * 0.035,
+                                                                            decorationThickness:
+                                                                                w * 0.1,
+                                                                            decorationColor:
+                                                                                mainColor,
+                                                                            decoration:
+                                                                                TextDecoration.lineThrough,
+                                                                            color:
+                                                                                Colors.grey,
+                                                                          ),
+                                                                        ),
+                                                                    ],
+                                                                  ),
                                                                 ],
                                                               ),
-                                                            ],
-                                                          ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ],
+                                                      ),
+                                                      onTap: () async {
+                                                        // await getItem(
+                                                        //     bestItem.items[i].id);
+                                                        // Navigator.pushNamed(
+                                                        //     context, 'pro');
+                                                        navP(
+                                                          context,
+                                                          Products(
+                                                            fromFav: false,
+                                                            productId: bestItem
+                                                                .items[i].id,
+                                                          ),
+                                                        );
+                                                      },
+                                                    );
+                                                  }),
+                                                )
+                                              : Center(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: h * 0.3),
+                                                    child: Text(
+                                                      translateString(
+                                                          "No products here",
+                                                          "لا توجد منتجات"),
+                                                      style: TextStyle(
+                                                          fontFamily: "Tajawal",
+                                                          fontSize: w * 0.04,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: mainColor),
                                                     ),
                                                   ),
-                                                  onTap: () async {
-                                                    // await getItem(
-                                                    //     bestItem.items[i].id);
-                                                    // Navigator.pushNamed(
-                                                    //     context, 'pro');
-                                                    navP(
-                                                      context,
-                                                      Products(
-                                                        fromFav: false,
-                                                        productId: bestItem
-                                                            .items[i].id,
-                                                      ),
-                                                    );
-                                                  },
                                                 );
-                                              }),
-                                            )
-                                          : Center(
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: h * 0.3),
-                                                child: Text(
-                                                  translateString(
-                                                      "No products here",
-                                                      "لا توجد منتجات"),
-                                                  style: TextStyle(
-                                                      fontFamily: "Tajawal",
-                                                      fontSize: w * 0.04,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: mainColor),
-                                                ),
-                                              ),
-                                            );
                                     }),
                                   ),
                                 ],
@@ -1016,11 +1009,22 @@ class _FirstPageState extends State<FirstPage>
                                                 )
                                               ],
                                             ),
-                                            onTap: () {
-                                              setState(() {
-                                                item.sort = item.apiSort[index];
-                                                item.sortList(index);
-                                              });
+                                            onTap: () async {
+                                              if (fi3) {
+                                                fi3 = false;
+                                                setState(() {
+                                                  item.sort =
+                                                      item.apiSort[index];
+                                                  item.sortList(index);
+                                                });
+                                                await item
+                                                    .getItems()
+                                                    .then((value) {
+                                                  setState(() {
+                                                    fi3 = true;
+                                                  });
+                                                });
+                                              }
                                             },
                                           );
                                         }),
@@ -1036,226 +1040,216 @@ class _FirstPageState extends State<FirstPage>
                                     width: w,
                                     child: Consumer<ReItemProvider>(
                                         builder: (context, reItem, _) {
-                                      return (reItem.items.isNotEmpty)
-                                          ? Wrap(
-                                              children: List.generate(
-                                                  reItem.items.length, (i) {
-                                                return InkWell(
-                                                  child: Padding(
-                                                    padding: isLeft()
-                                                        ? EdgeInsets.only(
-                                                            right: w * 0.025,
-                                                            bottom: h * 0.02)
-                                                        : EdgeInsets.only(
-                                                            left: w * 0.025,
-                                                            bottom: h * 0.02),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Stack(
+                                      return (!fi3)
+                                          ? Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: h * 0.2),
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: mainColor,
+                                                ),
+                                              ),
+                                            )
+                                          : (reItem.items.isNotEmpty)
+                                              ? Wrap(
+                                                  children: List.generate(
+                                                      reItem.items.length, (i) {
+                                                    return InkWell(
+                                                      child: Padding(
+                                                        padding: isLeft()
+                                                            ? EdgeInsets.only(
+                                                                right:
+                                                                    w * 0.025,
+                                                                bottom:
+                                                                    h * 0.02)
+                                                            : EdgeInsets.only(
+                                                                left: w * 0.025,
+                                                                bottom:
+                                                                    h * 0.02),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
-                                                            ImageeNetworkWidget(
-                                                              fit: BoxFit.cover,
-                                                              image: reItem
-                                                                  .items[i]
-                                                                  .image,
-                                                              width: w * 0.45,
-                                                              height: h * 0.28,
+                                                            Stack(
+                                                              children: [
+                                                                ImageeNetworkWidget(
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  image: reItem
+                                                                      .items[i]
+                                                                      .image,
+                                                                  width:
+                                                                      w * 0.45,
+                                                                  height:
+                                                                      h * 0.28,
+                                                                ),
+                                                                (reItem.items[i]
+                                                                            .isOrder ==
+                                                                        1)
+                                                                    ? Container(
+                                                                        height: h *
+                                                                            0.04,
+                                                                        width: w *
+                                                                            0.22,
+                                                                        margin: EdgeInsets.symmetric(
+                                                                            horizontal: w *
+                                                                                0.01,
+                                                                            vertical:
+                                                                                h * 0.01),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              mainColor,
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(w * 0.02),
+                                                                        ),
+                                                                        child:
+                                                                            Center(
+                                                                          child:
+                                                                              Text(
+                                                                            translateString("Order",
+                                                                                "علي الطلب"),
+                                                                            style: TextStyle(
+                                                                                fontFamily: 'Tajawal',
+                                                                                fontSize: w * 0.04,
+                                                                                color: Colors.white,
+                                                                                fontWeight: FontWeight.w500),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    : const SizedBox(),
+                                                              ],
                                                             ),
-                                                            (reItem.items[i]
-                                                                        .isOrder ==
-                                                                    1)
-                                                                ? Container(
-                                                                    height: h *
-                                                                        0.04,
-                                                                    width: w *
-                                                                        0.22,
-                                                                    margin: EdgeInsets.symmetric(
-                                                                        horizontal: w *
-                                                                            0.01,
-                                                                        vertical:
-                                                                            h * 0.01),
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color:
-                                                                          mainColor,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(w *
-                                                                              0.02),
-                                                                    ),
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          Text(
-                                                                        translateString(
-                                                                            "Order",
-                                                                            "علي الطلب"),
-                                                                        style: TextStyle(
-                                                                            fontFamily:
-                                                                                'Tajawal',
-                                                                            fontSize: w *
-                                                                                0.04,
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontWeight: FontWeight.w500),
-                                                                      ),
-                                                                    ),
-                                                                  )
-                                                                : const SizedBox(),
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          width: w * 0.45,
-                                                          child: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              SizedBox(
-                                                                height:
-                                                                    h * 0.01,
-                                                              ),
-                                                              Container(
-                                                                  constraints:
-                                                                      BoxConstraints(
-                                                                    maxHeight:
-                                                                        h * 0.07,
-                                                                  ),
-                                                                  child: Text(
-                                                                      translateString(
-                                                                          reItem
-                                                                              .items[
-                                                                                  i]
-                                                                              .nameEn,
-                                                                          reItem
-                                                                              .items[
-                                                                                  i]
-                                                                              .nameAr),
-                                                                      style: TextStyle(
-                                                                          fontSize: w *
-                                                                              0.035),
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .fade)),
-                                                              SizedBox(
-                                                                height:
-                                                                    h * 0.005,
-                                                              ),
-                                                              Row(
+                                                            SizedBox(
+                                                              width: w * 0.45,
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment
                                                                         .start,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
                                                                 children: [
-                                                                  RichText(
-                                                                    text:
-                                                                        TextSpan(
-                                                                      children: [
-                                                                        if (reItem
-                                                                            .items[
-                                                                                i]
-                                                                            .isSale)
-                                                                          TextSpan(
-                                                                              text: getProductprice(currency: currency, productPrice: reItem.items[i].salePrice!),
-                                                                              style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
-                                                                        if (!reItem
-                                                                            .items[
-                                                                                i]
-                                                                            .isSale)
-                                                                          TextSpan(
-                                                                              text: getProductprice(currency: currency, productPrice: reItem.items[i].price),
-                                                                              style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
-                                                                      ],
-                                                                    ),
+                                                                  SizedBox(
+                                                                    height: h *
+                                                                        0.01,
                                                                   ),
-                                                                  // if (reItem.items[i]
-                                                                  //         .isSale &&
-                                                                  //     reItem.items[i]
-                                                                  //             .disPer !=
-                                                                  //         null)
-                                                                  //   Text(
-                                                                  //       reItem.items[i]
-                                                                  //               .disPer! +
-                                                                  //           '%',
-                                                                  //       style: const TextStyle(
-                                                                  //           fontWeight:
-                                                                  //               FontWeight
-                                                                  //                   .bold,
-                                                                  //           color: Colors
-                                                                  //               .red)),
-
-                                                                  if (reItem
-                                                                      .items[i]
-                                                                      .isSale)
-                                                                    Text(
-                                                                      getProductprice(
-                                                                          currency:
-                                                                              currency,
-                                                                          productPrice: reItem
-                                                                              .items[i]
-                                                                              .price),
-                                                                      style:
-                                                                          TextStyle(
-                                                                        decorationThickness:
-                                                                            w * 0.1,
-                                                                        fontSize:
-                                                                            w * 0.035,
-                                                                        decorationColor:
-                                                                            mainColor,
-                                                                        decoration:
-                                                                            TextDecoration.lineThrough,
-                                                                        color: Colors
-                                                                            .grey,
+                                                                  Container(
+                                                                      constraints:
+                                                                          BoxConstraints(
+                                                                        maxHeight:
+                                                                            h * 0.07,
                                                                       ),
-                                                                    ),
+                                                                      child: Text(
+                                                                          translateString(
+                                                                              reItem.items[i].nameEn,
+                                                                              reItem.items[i].nameAr),
+                                                                          style: TextStyle(fontSize: w * 0.035),
+                                                                          overflow: TextOverflow.fade)),
+                                                                  SizedBox(
+                                                                    height: h *
+                                                                        0.005,
+                                                                  ),
+                                                                  Row(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      RichText(
+                                                                        text:
+                                                                            TextSpan(
+                                                                          children: [
+                                                                            if (reItem.items[i].isSale)
+                                                                              TextSpan(text: getProductprice(currency: currency, productPrice: reItem.items[i].salePrice!), style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
+                                                                            if (!reItem.items[i].isSale)
+                                                                              TextSpan(text: getProductprice(currency: currency, productPrice: reItem.items[i].price), style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      // if (reItem.items[i]
+                                                                      //         .isSale &&
+                                                                      //     reItem.items[i]
+                                                                      //             .disPer !=
+                                                                      //         null)
+                                                                      //   Text(
+                                                                      //       reItem.items[i]
+                                                                      //               .disPer! +
+                                                                      //           '%',
+                                                                      //       style: const TextStyle(
+                                                                      //           fontWeight:
+                                                                      //               FontWeight
+                                                                      //                   .bold,
+                                                                      //           color: Colors
+                                                                      //               .red)),
+
+                                                                      if (reItem
+                                                                          .items[
+                                                                              i]
+                                                                          .isSale)
+                                                                        Text(
+                                                                          getProductprice(
+                                                                              currency: currency,
+                                                                              productPrice: reItem.items[i].price),
+                                                                          style:
+                                                                              TextStyle(
+                                                                            decorationThickness:
+                                                                                w * 0.1,
+                                                                            fontSize:
+                                                                                w * 0.035,
+                                                                            decorationColor:
+                                                                                mainColor,
+                                                                            decoration:
+                                                                                TextDecoration.lineThrough,
+                                                                            color:
+                                                                                Colors.grey,
+                                                                          ),
+                                                                        ),
+                                                                    ],
+                                                                  ),
                                                                 ],
                                                               ),
-                                                            ],
-                                                          ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ],
+                                                      ),
+                                                      onTap: () async {
+                                                        // await getItem(
+                                                        //     reItem.items[i].id);
+                                                        // Navigator.pushNamed(
+                                                        //     context, 'pro');
+                                                        navP(
+                                                          context,
+                                                          Products(
+                                                            fromFav: false,
+                                                            productId: reItem
+                                                                .items[i].id,
+                                                          ),
+                                                        );
+                                                      },
+                                                    );
+                                                  }),
+                                                )
+                                              : Center(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: h * 0.3),
+                                                    child: Text(
+                                                      translateString(
+                                                          "No products here",
+                                                          "لا توجد منتجات"),
+                                                      style: TextStyle(
+                                                          fontFamily: "Tajawal",
+                                                          fontSize: w * 0.04,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: mainColor),
                                                     ),
                                                   ),
-                                                  onTap: () async {
-                                                    // await getItem(
-                                                    //     reItem.items[i].id);
-                                                    // Navigator.pushNamed(
-                                                    //     context, 'pro');
-                                                    navP(
-                                                      context,
-                                                      Products(
-                                                        fromFav: false,
-                                                        productId:
-                                                            reItem.items[i].id,
-                                                      ),
-                                                    );
-                                                  },
                                                 );
-                                              }),
-                                            )
-                                          : Center(
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: h * 0.3),
-                                                child: Text(
-                                                  translateString(
-                                                      "No products here",
-                                                      "لا توجد منتجات"),
-                                                  style: TextStyle(
-                                                      fontFamily: "Tajawal",
-                                                      fontSize: w * 0.04,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: mainColor),
-                                                ),
-                                              ),
-                                            );
                                     }),
                                   ),
                                 ],
@@ -1347,14 +1341,22 @@ class _FirstPageState extends State<FirstPage>
                                                 )
                                               ],
                                             ),
-                                            onTap: () {
-                                              setState(() {
+                                            onTap: () async {
+                                              if (fi4) {
+                                                fi4 = false;
                                                 setState(() {
                                                   item.sort =
                                                       item.apiSort[index];
                                                   item.sortList(index);
                                                 });
-                                              });
+                                                await item
+                                                    .getItems()
+                                                    .then((value) {
+                                                  setState(() {
+                                                    fi4 = true;
+                                                  });
+                                                });
+                                              }
                                             },
                                           );
                                         }),
@@ -1370,227 +1372,209 @@ class _FirstPageState extends State<FirstPage>
                                     width: w,
                                     child: Consumer<OfferItemProvider>(
                                         builder: (context, offerItem, _) {
-                                      return (offerItem.items.isNotEmpty)
-                                          ? Wrap(
-                                              children: List.generate(
-                                                  offerItem.items.length, (i) {
-                                                return InkWell(
-                                                  child: Padding(
-                                                    padding: isLeft()
-                                                        ? EdgeInsets.only(
-                                                            right: w * 0.025,
-                                                            bottom: h * 0.02)
-                                                        : EdgeInsets.only(
-                                                            left: w * 0.025,
-                                                            bottom: h * 0.02),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Stack(
+                                      return (!fi4)
+                                          ? Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: h * 0.2),
+                                              child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: mainColor,
+                                                ),
+                                              ),
+                                            )
+                                          : (offerItem.items.isNotEmpty)
+                                              ? Wrap(
+                                                  children: List.generate(
+                                                      offerItem.items.length,
+                                                      (i) {
+                                                    return InkWell(
+                                                      child: Padding(
+                                                        padding: isLeft()
+                                                            ? EdgeInsets.only(
+                                                                right:
+                                                                    w * 0.025,
+                                                                bottom:
+                                                                    h * 0.02)
+                                                            : EdgeInsets.only(
+                                                                left: w * 0.025,
+                                                                bottom:
+                                                                    h * 0.02),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
                                                           children: [
                                                             Stack(
                                                               children: [
-                                                                ImageeNetworkWidget(
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                  image: offerItem
-                                                                      .items[i]
-                                                                      .image,
-                                                                  width:
-                                                                      w * 0.45,
-                                                                  height:
-                                                                      h * 0.28,
+                                                                Stack(
+                                                                  children: [
+                                                                    ImageeNetworkWidget(
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                      image: offerItem
+                                                                          .items[
+                                                                              i]
+                                                                          .image,
+                                                                      width: w *
+                                                                          0.45,
+                                                                      height: h *
+                                                                          0.28,
+                                                                    ),
+                                                                    (offerItem.items[i].isOrder ==
+                                                                            1)
+                                                                        ? Container(
+                                                                            height:
+                                                                                h * 0.04,
+                                                                            width:
+                                                                                w * 0.22,
+                                                                            margin:
+                                                                                EdgeInsets.symmetric(horizontal: w * 0.01, vertical: h * 0.01),
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              color: mainColor,
+                                                                              borderRadius: BorderRadius.circular(w * 0.02),
+                                                                            ),
+                                                                            child:
+                                                                                Center(
+                                                                              child: Text(
+                                                                                translateString("Order", "علي الطلب"),
+                                                                                style: TextStyle(fontFamily: 'Tajawal', fontSize: w * 0.04, color: Colors.white, fontWeight: FontWeight.w500),
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                        : const SizedBox(),
+                                                                  ],
                                                                 ),
-                                                                (offerItem.items[i]
-                                                                            .isOrder ==
-                                                                        1)
-                                                                    ? Container(
-                                                                        height: h *
-                                                                            0.04,
-                                                                        width: w *
-                                                                            0.22,
-                                                                        margin: EdgeInsets.symmetric(
-                                                                            horizontal: w *
-                                                                                0.01,
-                                                                            vertical:
-                                                                                h * 0.01),
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          color:
-                                                                              mainColor,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(w * 0.02),
-                                                                        ),
-                                                                        child:
-                                                                            Center(
-                                                                          child:
-                                                                              Text(
-                                                                            translateString("Order",
-                                                                                "علي الطلب"),
-                                                                            style: TextStyle(
-                                                                                fontFamily: 'Tajawal',
-                                                                                fontSize: w * 0.04,
-                                                                                color: Colors.white,
-                                                                                fontWeight: FontWeight.w500),
-                                                                          ),
-                                                                        ),
-                                                                      )
-                                                                    : const SizedBox(),
                                                               ],
                                                             ),
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          width: w * 0.45,
-                                                          child: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .min,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              SizedBox(
-                                                                height:
-                                                                    h * 0.01,
-                                                              ),
-                                                              Container(
-                                                                  constraints:
-                                                                      BoxConstraints(
-                                                                    maxHeight:
-                                                                        h * 0.07,
-                                                                  ),
-                                                                  child: Text(
-                                                                      translateString(
-                                                                          offerItem
-                                                                              .items[
-                                                                                  i]
-                                                                              .nameEn,
-                                                                          offerItem
-                                                                              .items[
-                                                                                  i]
-                                                                              .nameAr),
-                                                                      style: TextStyle(
-                                                                          fontSize: w *
-                                                                              0.035),
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .fade)),
-                                                              SizedBox(
-                                                                height:
-                                                                    h * 0.005,
-                                                              ),
-                                                              Row(
+                                                            SizedBox(
+                                                              width: w * 0.45,
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment
                                                                         .start,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
                                                                 children: [
-                                                                  RichText(
-                                                                    text:
-                                                                        TextSpan(
-                                                                      children: [
-                                                                        if (offerItem
-                                                                            .items[
-                                                                                i]
-                                                                            .isSale)
-                                                                          TextSpan(
-                                                                              text: getProductprice(currency: currency, productPrice: offerItem.items[i].salePrice!),
-                                                                              style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
-                                                                        if (!offerItem
-                                                                            .items[
-                                                                                i]
-                                                                            .isSale)
-                                                                          TextSpan(
-                                                                              text: getProductprice(currency: currency, productPrice: offerItem.items[i].price),
-                                                                              style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
-                                                                      ],
-                                                                    ),
+                                                                  SizedBox(
+                                                                    height: h *
+                                                                        0.01,
                                                                   ),
-                                                                  if (offerItem
-                                                                      .items[i]
-                                                                      .isSale)
-                                                                    Text(
-                                                                      getProductprice(
-                                                                          currency:
-                                                                              currency,
-                                                                          productPrice: offerItem
-                                                                              .items[i]
-                                                                              .price),
-                                                                      style:
-                                                                          TextStyle(
-                                                                        decorationThickness:
-                                                                            w * 0.1,
-                                                                        fontSize:
-                                                                            w * 0.035,
-                                                                        decorationColor:
-                                                                            mainColor,
-                                                                        decoration:
-                                                                            TextDecoration.lineThrough,
-                                                                        color: Colors
-                                                                            .grey,
+                                                                  Container(
+                                                                      constraints:
+                                                                          BoxConstraints(
+                                                                        maxHeight:
+                                                                            h * 0.07,
                                                                       ),
-                                                                    ),
-                                                                  // if (offerItem.items[i]
-                                                                  //         .isSale &&
-                                                                  //     offerItem.items[i]
-                                                                  //             .disPer !=
-                                                                  //         null)
-                                                                  //   Text(
-                                                                  //       offerItem.items[i]
-                                                                  //               .disPer! +
-                                                                  //           '%',
-                                                                  //       style: const TextStyle(
-                                                                  //           fontWeight:
-                                                                  //               FontWeight
-                                                                  //                   .bold,
-                                                                  //           color: Colors
-                                                                  //               .red)),
+                                                                      child: Text(
+                                                                          translateString(
+                                                                              offerItem.items[i].nameEn,
+                                                                              offerItem.items[i].nameAr),
+                                                                          style: TextStyle(fontSize: w * 0.035),
+                                                                          overflow: TextOverflow.fade)),
+                                                                  SizedBox(
+                                                                    height: h *
+                                                                        0.005,
+                                                                  ),
+                                                                  Row(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      RichText(
+                                                                        text:
+                                                                            TextSpan(
+                                                                          children: [
+                                                                            if (offerItem.items[i].isSale)
+                                                                              TextSpan(text: getProductprice(currency: currency, productPrice: offerItem.items[i].salePrice!), style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
+                                                                            if (!offerItem.items[i].isSale)
+                                                                              TextSpan(text: getProductprice(currency: currency, productPrice: offerItem.items[i].price), style: TextStyle(fontFamily: 'Tajawal', fontWeight: FontWeight.bold, color: mainColor)),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      if (offerItem
+                                                                          .items[
+                                                                              i]
+                                                                          .isSale)
+                                                                        Text(
+                                                                          getProductprice(
+                                                                              currency: currency,
+                                                                              productPrice: offerItem.items[i].price),
+                                                                          style:
+                                                                              TextStyle(
+                                                                            decorationThickness:
+                                                                                w * 0.1,
+                                                                            fontSize:
+                                                                                w * 0.035,
+                                                                            decorationColor:
+                                                                                mainColor,
+                                                                            decoration:
+                                                                                TextDecoration.lineThrough,
+                                                                            color:
+                                                                                Colors.grey,
+                                                                          ),
+                                                                        ),
+                                                                      // if (offerItem.items[i]
+                                                                      //         .isSale &&
+                                                                      //     offerItem.items[i]
+                                                                      //             .disPer !=
+                                                                      //         null)
+                                                                      //   Text(
+                                                                      //       offerItem.items[i]
+                                                                      //               .disPer! +
+                                                                      //           '%',
+                                                                      //       style: const TextStyle(
+                                                                      //           fontWeight:
+                                                                      //               FontWeight
+                                                                      //                   .bold,
+                                                                      //           color: Colors
+                                                                      //               .red)),
+                                                                    ],
+                                                                  ),
                                                                 ],
                                                               ),
-                                                            ],
-                                                          ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ],
+                                                      ),
+                                                      onTap: () async {
+                                                        // await getItem(
+                                                        //     offerItem.items[i].id);
+                                                        // Navigator.pushNamed(
+                                                        //     context, 'pro');
+                                                        navP(
+                                                          context,
+                                                          Products(
+                                                            fromFav: false,
+                                                            productId: offerItem
+                                                                .items[i].id,
+                                                          ),
+                                                        );
+                                                      },
+                                                    );
+                                                  }),
+                                                )
+                                              : Center(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: h * 0.3),
+                                                    child: Text(
+                                                      translateString(
+                                                          "No products here",
+                                                          "لا توجد منتجات"),
+                                                      style: TextStyle(
+                                                          fontFamily: "Tajawal",
+                                                          fontSize: w * 0.04,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: mainColor),
                                                     ),
                                                   ),
-                                                  onTap: () async {
-                                                    // await getItem(
-                                                    //     offerItem.items[i].id);
-                                                    // Navigator.pushNamed(
-                                                    //     context, 'pro');
-                                                    navP(
-                                                      context,
-                                                      Products(
-                                                        fromFav: false,
-                                                        productId: offerItem
-                                                            .items[i].id,
-                                                      ),
-                                                    );
-                                                  },
                                                 );
-                                              }),
-                                            )
-                                          : Center(
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: h * 0.3),
-                                                child: Text(
-                                                  translateString(
-                                                      "No products here",
-                                                      "لا توجد منتجات"),
-                                                  style: TextStyle(
-                                                      fontFamily: "Tajawal",
-                                                      fontSize: w * 0.04,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: mainColor),
-                                                ),
-                                              ),
-                                            );
                                     }),
                                   ),
                                 ],

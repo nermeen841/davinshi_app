@@ -30,24 +30,12 @@ class NewItemProvider extends ChangeNotifier {
     if (index == 0) {
       items.clear();
       getItems();
-
-      // items.sort((a, b) {
-      //   return a.finalPrice.compareTo(b.finalPrice);
-      // });
     } else if (index == 1) {
       items.clear();
       getItems();
-
-      // items.sort((a, b) {
-      //   return b.finalPrice.compareTo(a.finalPrice);
-      // });
     } else {
       items.clear();
       getItems();
-
-      // items.sort((a, b) {
-      //   return a.id.compareTo(b.id);
-      // });
     }
     sort = apiSort[index];
     notifyListeners();
@@ -83,7 +71,7 @@ class NewItemProvider extends ChangeNotifier {
     final String url = domain + 'get-new-products?page=$pageIndex&sort=$sort';
     try {
       Response response = await Dio().get(url);
-      print(response.data.toString());
+      print(response.data);
       if (response.data['status'] == 1) {
         setItemsProvider(response.data['data']);
       }

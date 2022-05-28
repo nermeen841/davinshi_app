@@ -1,18 +1,17 @@
 // ignore_for_file: avoid_print
 
 import 'package:davinshi_app/elements/newtwork_image.dart';
+import 'package:davinshi_app/screens/product_info/products.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 import 'package:provider/provider.dart';
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
-import 'package:davinshi_app/models/constants.dart';
 import 'package:davinshi_app/provider/student_product.dart';
 import 'package:davinshi_app/provider/student_provider.dart';
 import 'package:davinshi_app/screens/student/student_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../models/home_item.dart';
-import '../../models/products_cla.dart';
 import '../../provider/home.dart';
 import '../home_folder/home_page.dart';
 
@@ -148,10 +147,14 @@ class _ViewAllState extends State<ViewAll> {
                               onTap: () async {
                                 if (_ads.inApp) {
                                   if (_ads.type) {
-                                    dialog(context);
-                                    await getItem(int.parse(_ads.link));
-                                    Navigator.pushReplacementNamed(
-                                        context, 'pro');
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Products(
+                                                fromFav: false,
+                                                productId: int.parse(_ads.link),
+                                              )),
+                                    );
                                   }
                                 } else {
                                   await canLaunch(_ads.link)
