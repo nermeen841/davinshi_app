@@ -63,9 +63,6 @@ void navPR(context, className) {
       context, MaterialPageRoute(builder: (context) => className));
 }
 
-// void navPRRU(context,className){
-//   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>className), (route) => route.isActive);
-// }
 void navPop(context) {
   Navigator.pop(context);
 }
@@ -187,7 +184,7 @@ void alertSuccessCart(context) {
       dismissOnTouchOutside: false,
       title: translate(context, 'alert', 'success'),
       desc: translate(context, 'alert', 'operation'),
-      btnOkOnPress: () {},
+      btnOkOnPress: () => Navigator.pop(context),
       btnOkIcon: Icons.check_circle,
       onDissmissCallback: (type) {
         Navigator.pushAndRemoveUntil(context,

@@ -90,10 +90,13 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                 onTap: () async {
                                   if (slider[i].inApp) {
                                     if (slider[i].type) {
-                                      dialog(context);
-                                      await getItem(int.parse(slider[i].link));
-                                      Navigator.pushReplacementNamed(
-                                          context, 'pro');
+                                      navP(
+                                          context,
+                                          Products(
+                                            fromFav: false,
+                                            productId:
+                                                int.parse(slider[i].link),
+                                          ));
                                     } else {
                                       dialog(context);
                                       Provider.of<NewPackageItemProvider>(
@@ -152,13 +155,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     fit: BoxFit.cover,
                                     width: w * 0.95,
                                     height: h * 0.08,
-                                    // decoration: BoxDecoration(
-                                    //   color: Colors.white,
-                                    //   image: DecorationImage(
                                     image: _ads.image,
-                                    //     fit: BoxFit.cover,
-                                    //   ),
-                                    // ),
                                   ),
                                   focusColor: Colors.transparent,
                                   splashColor: Colors.transparent,
@@ -166,10 +163,12 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                   onTap: () async {
                                     if (_ads.inApp) {
                                       if (_ads.type) {
-                                        dialog(context);
-                                        await getItem(int.parse(_ads.link));
-                                        Navigator.pushReplacementNamed(
-                                            context, 'pro');
+                                        navP(
+                                            context,
+                                            Products(
+                                              fromFav: false,
+                                              productId: int.parse(_ads.link),
+                                            ));
                                       } else {
                                         dialog(context);
                                         Provider.of<NewPackageItemProvider>(
@@ -1286,12 +1285,7 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                     fit: BoxFit.cover,
                                     width: w * 0.95,
                                     height: h * 0.2,
-                                    // decoration: BoxDecoration(
-                                    //   image: DecorationImage(
                                     image: _ads.image,
-                                    //     fit: BoxFit.cover,
-                                    //   ),
-                                    // ),
                                   ),
                                   focusColor: Colors.transparent,
                                   splashColor: Colors.transparent,
@@ -1299,10 +1293,12 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                   onTap: () async {
                                     if (_ads.inApp) {
                                       if (_ads.type) {
-                                        dialog(context);
-                                        await getItem(int.parse(_ads.link));
-                                        Navigator.pushReplacementNamed(
-                                            context, 'pro');
+                                        navP(
+                                            context,
+                                            Products(
+                                              fromFav: false,
+                                              productId: int.parse(_ads.link),
+                                            ));
                                       } else {
                                         dialog(context);
                                         Provider.of<NewPackageItemProvider>(

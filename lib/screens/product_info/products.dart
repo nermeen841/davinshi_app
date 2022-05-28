@@ -113,6 +113,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   bool visible = false;
   loading() async {
     visible = false;
+
     await getItem(widget.productId!.toInt()).then((value) {
       if (value && productCla != null) {
         for (int i = 0; i < (productCla?.attributes.length ?? 0); i++) {
@@ -134,6 +135,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
           }
           finish = true;
         }
+
         setState(() {
           visible = true;
           finalPrice =

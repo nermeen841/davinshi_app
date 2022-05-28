@@ -31,20 +31,27 @@ class _StudentInfo extends State<StudentInfo> {
   final ScrollController _controller = ScrollController();
   final ScrollController _controller2 = ScrollController();
   bool f1 = true, finish = false;
+  bool isLoading = false;
   var currency = (prefs.getString('language_code').toString() == 'en')
       ? prefs.getString('currencyEn').toString()
       : prefs.getString('currencyAr').toString();
+
   void start(context) {
     studentId = widget.studentClass.id;
     var of1 = Provider.of<StudentItemProvider>(context, listen: true);
+    of1.getItems(widget.studentClass.id).then((value) {
+      isLoading = true;
+    });
     _controller.addListener(() {
       if (_controller.position.atEdge) {
         if (_controller.position.pixels != 0) {
           if (f1) {
             if (!of1.finish) {
               f1 = false;
+              isLoading = false;
               of1.getItems(widget.studentClass.id).then((value) {
                 f1 = true;
+                isLoading = true;
               });
             }
           }
@@ -57,8 +64,10 @@ class _StudentInfo extends State<StudentInfo> {
           if (f1) {
             if (!of1.finish) {
               f1 = false;
+              isLoading = false;
               of1.getItems(widget.studentClass.id).then((value) {
                 f1 = true;
+                isLoading = true;
               });
             }
           }
@@ -82,8 +91,7 @@ class _StudentInfo extends State<StudentInfo> {
       finish = true;
     }
     CartProvider cart = Provider.of<CartProvider>(context, listen: true);
-    Provider.of<StudentItemProvider>(context, listen: true)
-        .getItems(widget.studentId);
+    // Provider.of<StudentItemProvider>(context, listen: true);
     return Directionality(
       textDirection: getDirection(),
       child: Scaffold(
@@ -282,10 +290,12 @@ class _StudentInfo extends State<StudentInfo> {
                             onTap: () async {
                               if (_ads.inApp) {
                                 if (_ads.type) {
-                                  dialog(context);
-                                  // await getItem(int.parse(_ads.link));
-                                  Navigator.pushReplacementNamed(
-                                      context, 'pro');
+                                  navP(
+                                      context,
+                                      Products(
+                                        fromFav: false,
+                                        productId: int.parse(_ads.link),
+                                      ));
                                 }
                               } else {
                                 await canLaunch(_ads.link)
@@ -302,24 +312,6 @@ class _StudentInfo extends State<StudentInfo> {
                   SizedBox(
                     height: h * 0.01,
                   ),
-                  SizedBox(
-                    height: h * 0.01,
-                  ),
-                  // if (widget.studentClass.cover != null)
-                  //   Container(
-                  //     height: h * 0.2,
-                  //     width: w,
-                  //     decoration: BoxDecoration(
-                  //       image: DecorationImage(
-                  //         image: NetworkImage(widget.studentClass.cover!),
-                  //         fit: BoxFit.fill,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // if (widget.studentClass.cover != null)
-                  //   SizedBox(
-                  //     height: h * 0.01,
-                  //   ),
                   Material(
                     elevation: 1,
                     child: SizedBox(
@@ -540,10 +532,12 @@ class _StudentInfo extends State<StudentInfo> {
                                       ),
                                     ),
                                     onTap: () async {
-                                      dialog(context);
-                                      // await getItem(item.offers[i].id);
-                                      Navigator.pushReplacementNamed(
-                                          context, 'pro');
+                                      navP(
+                                          context,
+                                          Products(
+                                            fromFav: false,
+                                            productId: item.offers[i].id,
+                                          ));
                                     },
                                   );
                                 },
@@ -588,190 +582,181 @@ class _StudentInfo extends State<StudentInfo> {
                     width: w * 0.95,
                     child: Consumer<StudentItemProvider>(
                         builder: (context, item, _) {
-                      if (item.items.isEmpty || item.items.isEmpty) {
-                        return SizedBox(
-                          width: w,
-                          height: h * 0.5,
+                      if (!isLoading) {
+                        return Padding(
+                          padding: EdgeInsets.only(top: h * 0.3),
                           child: Center(
-                            child: Text(
-                              translate(context, 'empty', 'no_products'),
-                              style: TextStyle(
-                                  color: mainColor, fontSize: w * 0.05),
+                            child: CircularProgressIndicator(
+                              color: mainColor,
                             ),
                           ),
                         );
                       } else {
-                        return Wrap(
-                          children: List.generate(item.items.length, (i) {
-                            return InkWell(
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    right: i.isOdd ? w * 0.025 : 0,
-                                    bottom: h * 0.02,
-                                    left: i.isOdd ? w * 0.025 : 0),
-                                child: Container(
-                                  width: w * 0.45,
-                                  height: h * 0.28,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius:
-                                          BorderRadius.circular(w * 0.05),
-                                      border: Border.all(
-                                          color: const Color(0xff707070))),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Container(
-                                        width: w * 0.45,
-                                        height: h * 0.2,
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey[200],
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                          image: DecorationImage(
-                                            image: NetworkImage(
-                                                item.items[i].image),
-                                            // image: AssetImage('assets/food${i+1}.png'),
-                                            fit: BoxFit.fitHeight,
+                        if (item.items.isEmpty || item.items.isEmpty) {
+                          return SizedBox(
+                            width: w,
+                            height: h * 0.5,
+                            child: Center(
+                              child: Text(
+                                translate(context, 'empty', 'no_products'),
+                                style: TextStyle(
+                                    color: mainColor, fontSize: w * 0.05),
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Wrap(
+                            children: List.generate(item.items.length, (i) {
+                              return InkWell(
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      right: i.isOdd ? w * 0.025 : 0,
+                                      bottom: h * 0.02,
+                                      left: i.isOdd ? w * 0.025 : 0),
+                                  child: Container(
+                                    width: w * 0.45,
+                                    height: h * 0.28,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(w * 0.05),
+                                        border: Border.all(
+                                            color: const Color(0xff707070))),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          width: w * 0.45,
+                                          height: h * 0.2,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                  item.items[i].image),
+                                              fit: BoxFit.fitHeight,
+                                            ),
                                           ),
                                         ),
-                                        // child: Padding(
-                                        //   padding: EdgeInsets.all(w * 0.015),
-                                        //   child: Align(
-                                        //     alignment: isLeft()
-                                        //         ? Alignment.bottomLeft
-                                        //         : Alignment.bottomRight,
-                                        //     child: CircleAvatar(
-                                        //       backgroundColor: mainColor,
-                                        //       radius: w * .05,
-                                        //       child: Center(
-                                        //         child: Icon(
-                                        //           Icons.shopping_cart_outlined,
-                                        //           color: Colors.white,
-                                        //           size: w * 0.05,
-                                        //         ),
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                      ),
-                                      SizedBox(
-                                        width: w * 0.45,
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: w * 0.02),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              SizedBox(
-                                                height: h * 0.01,
-                                              ),
-                                              Container(
-                                                  constraints: BoxConstraints(
-                                                    maxHeight: h * 0.07,
-                                                  ),
-                                                  child: Text(
-                                                      translateString(
-                                                          item.items[i].nameEn,
-                                                          item.items[i].nameAr),
-                                                      style: TextStyle(
-                                                          fontSize: w * 0.035),
-                                                      overflow:
-                                                          TextOverflow.fade)),
-                                              SizedBox(
-                                                height: h * 0.005,
-                                              ),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  RichText(
-                                                    text: TextSpan(
-                                                      children: [
-                                                        if (item
-                                                            .items[i].isSale)
-                                                          TextSpan(
-                                                              text: getProductprice(
-                                                                  currency:
-                                                                      currency,
-                                                                  productPrice: item
-                                                                      .items[i]
-                                                                      .salePrice!),
-                                                              style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Tajawal',
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color:
-                                                                      mainColor)),
-                                                        if (!item
-                                                            .items[i].isSale)
-                                                          TextSpan(
-                                                              text: getProductprice(
-                                                                  currency:
-                                                                      currency,
-                                                                  productPrice: item
-                                                                      .items[i]
-                                                                      .price),
-                                                              style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Tajawal',
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color:
-                                                                      mainColor)),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              if (item.items[i].isSale)
-                                                Text(
-                                                  getProductprice(
-                                                      currency: currency,
-                                                      productPrice:
-                                                          item.items[i].price),
-                                                  style: TextStyle(
-                                                      fontSize: w * 0.035,
-                                                      fontFamily: 'Tajawal',
-                                                      decoration: TextDecoration
-                                                          .lineThrough,
-                                                      color: Colors.grey,
-                                                      decorationColor:
-                                                          mainColor,
-                                                      decorationThickness: 20),
+                                        SizedBox(
+                                          width: w * 0.45,
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: w * 0.02),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                SizedBox(
+                                                  height: h * 0.01,
                                                 ),
-                                            ],
+                                                Container(
+                                                    constraints: BoxConstraints(
+                                                      maxHeight: h * 0.07,
+                                                    ),
+                                                    child: Text(
+                                                        translateString(
+                                                            item.items[i]
+                                                                .nameEn,
+                                                            item.items[i]
+                                                                .nameAr),
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                w * 0.035),
+                                                        overflow:
+                                                            TextOverflow.fade)),
+                                                SizedBox(
+                                                  height: h * 0.005,
+                                                ),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        children: [
+                                                          if (item
+                                                              .items[i].isSale)
+                                                            TextSpan(
+                                                                text: getProductprice(
+                                                                    currency:
+                                                                        currency,
+                                                                    productPrice: item
+                                                                        .items[
+                                                                            i]
+                                                                        .salePrice!),
+                                                                style: TextStyle(
+                                                                    fontFamily:
+                                                                        'Tajawal',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color:
+                                                                        mainColor)),
+                                                          if (!item
+                                                              .items[i].isSale)
+                                                            TextSpan(
+                                                                text: getProductprice(
+                                                                    currency:
+                                                                        currency,
+                                                                    productPrice: item
+                                                                        .items[
+                                                                            i]
+                                                                        .price),
+                                                                style: TextStyle(
+                                                                    fontFamily:
+                                                                        'Tajawal',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color:
+                                                                        mainColor)),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                if (item.items[i].isSale)
+                                                  Text(
+                                                    getProductprice(
+                                                        currency: currency,
+                                                        productPrice: item
+                                                            .items[i].price),
+                                                    style: TextStyle(
+                                                        fontSize: w * 0.035,
+                                                        fontFamily: 'Tajawal',
+                                                        decoration:
+                                                            TextDecoration
+                                                                .lineThrough,
+                                                        color: Colors.grey,
+                                                        decorationColor:
+                                                            mainColor,
+                                                        decorationThickness:
+                                                            20),
+                                                  ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              onTap: () {
-                                navP(
-                                    context,
-                                    Products(
-                                      fromFav: false,
-                                      productId: item.items[i].id,
-                                      // brandId: item.items[i].brands![i].id,
-                                    ));
-                                // dialog(context);
-                                // // await getItem(item.items[i].id);
-                                // Navigator.pushReplacementNamed(
-                                //   context,
-                                //   'pro',
-                                // );
-                              },
-                            );
-                          }),
-                        );
+                                onTap: () {
+                                  navP(
+                                      context,
+                                      Products(
+                                        fromFav: false,
+                                        productId: item.items[i].id,
+                                      ));
+                                },
+                              );
+                            }),
+                          );
+                        }
                       }
                     }),
                   ),

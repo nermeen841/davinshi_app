@@ -10,6 +10,7 @@ class StudentItemProvider extends ChangeNotifier {
   List<Item> offers = [];
   int pageIndex = 1;
   bool finish = false;
+  bool isLoading = false;
   String? sort;
   List sorts = [
     'Low price',
@@ -85,7 +86,7 @@ class StudentItemProvider extends ChangeNotifier {
         items.add(_item);
       }
       pageIndex++;
-
+      isLoading = true;
       notifyListeners();
     }
   }
@@ -93,6 +94,7 @@ class StudentItemProvider extends ChangeNotifier {
   Future getItems(id) async {
     final String url = domain +
         'get-products-student?student_id=${id.toString()}&page=$pageIndex&sort=$sort';
+
     try {
       Response response = await Dio().get(url);
       if (response.data['status'] == 1) {
@@ -104,6 +106,7 @@ class StudentItemProvider extends ChangeNotifier {
       }
     } catch (e) {
       print(e);
+      isLoading = true;
       await Future.delayed(const Duration(milliseconds: 700));
       getItems(id);
     }
