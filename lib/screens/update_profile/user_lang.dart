@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../lang/change_language.dart';
 import '../../models/bottomnav.dart';
 import '../../models/constants.dart';
-import '../../provider/best_item.dart';
-import '../../provider/fav_pro.dart';
 import '../../provider/home.dart';
-import '../../provider/new_item.dart';
-import '../../provider/offer_item.dart';
-import '../../provider/recommended_item.dart';
 import '../home_folder/home_page.dart';
 
 class UserLanguageScreen extends StatefulWidget {
@@ -127,18 +121,6 @@ class _UserLanguageScreenState extends State<UserLanguageScreen> {
                             await Provider.of<AppLanguage>(context,
                                     listen: false)
                                 .changeLanguage(const Locale('en'));
-                            Provider.of<NewItemProvider>(context, listen: false)
-                                .getItems();
-                            Provider.of<FavItemProvider>(context, listen: false)
-                                .getItems();
-                            Provider.of<BestItemProvider>(context,
-                                    listen: false)
-                                .getItems();
-                            Provider.of<OfferItemProvider>(context,
-                                    listen: false)
-                                .getItems();
-                            Provider.of<ReItemProvider>(context, listen: false)
-                                .getItems();
                             Provider.of<BottomProvider>(context, listen: false)
                                 .setIndex(3);
                             Navigator.pushAndRemoveUntil(
@@ -175,18 +157,7 @@ class _UserLanguageScreenState extends State<UserLanguageScreen> {
                             await Provider.of<AppLanguage>(context,
                                     listen: false)
                                 .changeLanguage(const Locale('ar'));
-                            Provider.of<NewItemProvider>(context, listen: false)
-                                .getItems();
-                            Provider.of<FavItemProvider>(context, listen: false)
-                                .getItems();
-                            Provider.of<BestItemProvider>(context,
-                                    listen: false)
-                                .getItems();
-                            Provider.of<OfferItemProvider>(context,
-                                    listen: false)
-                                .getItems();
-                            Provider.of<ReItemProvider>(context, listen: false)
-                                .getItems();
+
                             Provider.of<BottomProvider>(context, listen: false)
                                 .setIndex(3);
                             Navigator.pushAndRemoveUntil(

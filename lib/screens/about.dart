@@ -80,7 +80,7 @@ class _AboutUsState extends State<AboutUs> {
             ),
             centerTitle: true,
             leading: InkWell(
-              onTap: (() => Navigator.pop(context)),
+              onTap: () => Navigator.pop(context),
               child: Container(
                 width: w * 0.05,
                 height: h * 0.01,

@@ -2,25 +2,19 @@
 
 import 'package:badges/badges.dart';
 import 'package:davinshi_app/provider/home.dart';
-import 'package:davinshi_app/provider/new_item.dart';
 import 'package:davinshi_app/screens/home_folder/home_page.dart';
 import 'package:davinshi_app/screens/student/view_all.dart';
 import 'package:flutter/material.dart';
-import 'package:davinshi_app/BottomNavWidget/first_page.dart';
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/provider/cart_provider.dart';
 import 'package:davinshi_app/screens/cart/cart.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/best_item.dart';
-import '../provider/fav_pro.dart';
-import '../provider/offer_item.dart';
-import '../provider/recommended_item.dart';
-
 class AppBarHome {
   late int currentindex;
-  static PreferredSizeWidget app_bar_home(BuildContext context) {
+  static PreferredSizeWidget app_bar_home(
+      BuildContext context, TabController controller) {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
     CartProvider cart = Provider.of<CartProvider>(context, listen: false);
@@ -29,11 +23,6 @@ class AppBarHome {
       automaticallyImplyLeading: false,
       title: InkWell(
         onTap: () {
-          Provider.of<NewItemProvider>(context, listen: false).getItems();
-          Provider.of<FavItemProvider>(context, listen: false).getItems();
-          Provider.of<BestItemProvider>(context, listen: false).getItems();
-          Provider.of<OfferItemProvider>(context, listen: false).getItems();
-          Provider.of<ReItemProvider>(context, listen: false).getItems();
           Provider.of<BottomProvider>(context, listen: false).setIndex(2);
           Navigator.pushAndRemoveUntil(
               context,
@@ -146,7 +135,7 @@ class AppBarHome {
                   spreadRadius: 3,
                   blurRadius: 3)
             ], color: mainColor, borderRadius: BorderRadius.circular(20)),
-            controller: tabBarHome,
+            controller: controller,
             tabs: [
               Container(
                 padding: EdgeInsets.symmetric(

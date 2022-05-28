@@ -7,7 +7,6 @@ import 'package:davinshi_app/screens/home_folder/more/more.dart';
 import 'package:davinshi_app/screens/student/view_all.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
-import 'package:davinshi_app/BottomNavWidget/first_page.dart';
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/cat.dart';
@@ -63,7 +62,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                 width: w,
                 height: h,
                 child: SingleChildScrollView(
-                  controller: controller,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -3672,28 +3670,6 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                   ),
                 ),
               ),
-              // mask
-              //     ? Positioned(
-              //         bottom: h * 0.03,
-              //         right: w * 0.08,
-              //         child: CircleAvatar(
-              //           radius: w * 0.06,
-              //           backgroundColor: mainColor.withOpacity(0.7),
-              //           child: InkWell(
-              //             child: const Center(
-              //                 child: Icon(
-              //               Icons.arrow_upward_outlined,
-              //               color: Colors.white,
-              //             )),
-              //             onTap: () {
-              //               controller.animateTo(0,
-              //                   duration: const Duration(milliseconds: 500),
-              //                   curve: Curves.ease);
-              //             },
-              //           ),
-              //         ),
-              //       )
-              //     : const SizedBox(),
             ],
           ),
         ),

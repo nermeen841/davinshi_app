@@ -3,14 +3,8 @@ import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/screens/designes/componnent/all_designes.dart';
 import 'package:davinshi_app/screens/designes/componnent/send_designe.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/constants.dart';
-import '../../provider/best_item.dart';
-import '../../provider/fav_pro.dart';
-import '../../provider/new_item.dart';
-import '../../provider/offer_item.dart';
-import '../../provider/recommended_item.dart';
 
 class DesigneScreen extends StatefulWidget {
   const DesigneScreen({Key? key}) : super(key: key);
@@ -82,11 +76,6 @@ class _DesigneScreenState extends State<DesigneScreen> {
         centerTitle: true,
         leading: InkWell(
           onTap: () {
-            Provider.of<NewItemProvider>(context, listen: false).getItems();
-            Provider.of<FavItemProvider>(context, listen: false).getItems();
-            Provider.of<BestItemProvider>(context, listen: false).getItems();
-            Provider.of<OfferItemProvider>(context, listen: false).getItems();
-            Provider.of<ReItemProvider>(context, listen: false).getItems();
             Navigator.pop(context);
           },
           child: Container(

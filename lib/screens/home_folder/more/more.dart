@@ -428,10 +428,6 @@ class _MoreScreenState extends State<MoreScreen>
                                           fromFav: false,
                                           productId: allProduct[i].id,
                                         ));
-                                    //   dialog(context);
-                                    //   await getItem(allProduct[i].id);
-                                    //   Navigator.pushReplacementNamed(
-                                    //       context, 'pro');
                                   });
                             },
                             primary: false,

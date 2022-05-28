@@ -1,3 +1,4 @@
+import 'package:davinshi_app/screens/product_info/products.dart';
 import 'package:flutter/material.dart';
 
 import '../../lang/change_language.dart';
@@ -122,9 +123,14 @@ class _SimilarProductScreenState extends State<SimilarProductScreen> {
                 ),
               ),
               onTap: () async {
-                dialog(context);
-                await getItem(widget.similar[i].id);
-                Navigator.pushReplacementNamed(context, 'pro');
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Products(
+                            fromFav: false,
+                            productId: widget.similar[i].id,
+                          )),
+                );
               });
         },
         shrinkWrap: true,

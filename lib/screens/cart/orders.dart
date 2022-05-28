@@ -1,6 +1,3 @@
-import 'package:davinshi_app/provider/best_item.dart';
-import 'package:davinshi_app/provider/fav_pro.dart';
-import 'package:davinshi_app/provider/offer_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:davinshi_app/lang/change_language.dart';
@@ -10,8 +7,6 @@ import 'package:davinshi_app/models/order.dart';
 import 'package:davinshi_app/provider/home.dart';
 import 'package:davinshi_app/screens/home_folder/home_page.dart';
 import 'package:provider/provider.dart';
-import '../../provider/new_item.dart';
-import '../../provider/recommended_item.dart';
 import 'order_info.dart';
 
 class Orders extends StatefulWidget {
@@ -40,13 +35,6 @@ class _OrdersState extends State<Orders> {
             leading: BackButton(
               color: Colors.white,
               onPressed: () {
-                Provider.of<NewItemProvider>(context, listen: false).getItems();
-                Provider.of<FavItemProvider>(context, listen: false).getItems();
-                Provider.of<BestItemProvider>(context, listen: false)
-                    .getItems();
-                Provider.of<OfferItemProvider>(context, listen: false)
-                    .getItems();
-                Provider.of<ReItemProvider>(context, listen: false).getItems();
                 Provider.of<BottomProvider>(context, listen: false).setIndex(3);
                 Navigator.pushReplacement(
                   context,

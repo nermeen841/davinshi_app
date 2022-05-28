@@ -22,6 +22,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+  TabController? tabController;
+
   final List<String> _itemsEn = [
     'Home',
     'Favorite',
@@ -43,15 +45,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     'assets/images/android-contact.png',
   ];
 
-  List<Widget> bottomWidget = [
-    FirstPage(),
-    SecPage(),
-    PageFour(),
-    const Profile(),
-  ];
+  @override
+  void initState() {
+    tabController = TabController(length: 5, vsync: this, initialIndex: 0);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> bottomWidget = [
+      FirstPage(
+        tabBarHome: tabController!,
+      ),
+      SecPage(),
+      PageFour(),
+      const Profile(),
+    ];
     var bottom = Provider.of<BottomProvider>(context, listen: true);
     Provider.of<HomeProvider>(context, listen: false);
     return Directionality(
@@ -82,7 +91,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             notchedShape: const CircularNotchedRectangle(),
             onTabSelected: (int val) async {
               if (val == 0) {
-                tabBarHome!.animateTo(0, duration: const Duration(seconds: 1));
+                tabController!
+                    .animateTo(0, duration: const Duration(seconds: 1));
               }
               if (val != bottom.currentIndex) {
                 if (val == 4) {
@@ -90,32 +100,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 }
                 if (val == 0) {
                   bottom.setIndex(val);
-                  tabBarHome!
+                  tabController!
                       .animateTo(0, duration: const Duration(seconds: 1));
                 }
                 if (val == 2 || val == 3) {
-                  // dialog(context);
-                  // await catProvider.getParentCat().then((value) {
-                  //   Navigator.pop(context);
                   bottom.setIndex(val);
-                  // });
                 }
                 if (val == 1) {
                   if (userId != 0) {
                     bottom.setIndex(val);
-                    // dialog(context);
-                    // FavItemProvider fav =
-                    //     Provider.of<FavItemProvider>(context, listen: false);
-                    // fav.clearList();
-                    // await fav.getItems().then((value) {
-                    //   if (value) {
-                    //     Navigator.pop(context);
-                    //     bottom.setIndex(val);
-                    //   } else {
-                    //     Navigator.pop(context);
-                    //     error(context);
-                    //   }
-                    // });
                   } else {
                     final snackBar = SnackBar(
                       content: Text(

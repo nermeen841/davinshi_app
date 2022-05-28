@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, unused_local_variable, avoid_print, unnecessary_this
+// ignore_for_file: use_key_in_widget_constructors, unused_local_variable, avoid_print, unnecessary_this, prefer_final_fields
 
 import 'package:davinshi_app/dbhelper.dart';
 import 'package:davinshi_app/elements/newtwork_image.dart';
@@ -24,36 +24,44 @@ import 'package:davinshi_app/provider/offer_item.dart';
 import '../screens/product_info/products.dart';
 
 class FirstPage extends StatefulWidget {
+  final TabController tabBarHome;
+
+  const FirstPage({Key? key, required this.tabBarHome}) : super(key: key);
   @override
   _FirstPageState createState() => _FirstPageState();
 }
 
-TabController? tabBarHome;
-ScrollController controller = ScrollController();
-ScrollController _controller2 = ScrollController();
-ScrollController _controller3 = ScrollController();
-ScrollController _controller4 = ScrollController();
-ScrollController _controller5 = ScrollController();
-bool mask = false, mask2 = false, mask3 = false, mask4 = false, mask5 = false;
-bool f1 = true, f2 = true, f3 = true, f4 = true, f5 = true;
-bool fi1 = true, fi2 = true, fi3 = true, fi4 = true, fi5 = true, finish = false;
-
-class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
+class _FirstPageState extends State<FirstPage>
+    with SingleTickerProviderStateMixin {
   var currency = (prefs.getString('language_code').toString() == 'en')
       ? prefs.getString('currencyEn').toString()
       : prefs.getString('currencyAr').toString();
+
+  ScrollController controller = ScrollController();
+  ScrollController _controller2 = ScrollController();
+  ScrollController _controller3 = ScrollController();
+  ScrollController _controller4 = ScrollController();
+  ScrollController _controller5 = ScrollController();
+  bool mask = false, mask2 = false, mask3 = false, mask4 = false, mask5 = false;
+  bool f1 = true, f2 = true, f3 = true, f4 = true, f5 = true;
+  bool fi1 = true,
+      fi2 = true,
+      fi3 = true,
+      fi4 = true,
+      fi5 = true,
+      finish = false;
+
   void start(context) {
     Provider.of<MapProvider>(context, listen: false).start();
     Provider.of<AddressProvider>(context, listen: false).getAddress();
     Provider.of<CartProvider>(context, listen: false).setItems();
-    tabBarHome = TabController(length: 5, vsync: this);
     var of1 = Provider.of<NewItemProvider>(context, listen: true);
     var of2 = Provider.of<BestItemProvider>(context, listen: true);
     var of3 = Provider.of<ReItemProvider>(context, listen: true);
     var of4 = Provider.of<OfferItemProvider>(context, listen: true);
 
-    tabBarHome?.addListener(() async {
-      if (tabBarHome?.index == 1) {
+    widget.tabBarHome.addListener(() async {
+      if (widget.tabBarHome.index == 1) {
         if (fi1) {
           fi1 = false;
           NewItemProvider newItem =
@@ -66,7 +74,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
           fi1 = true;
         }
       }
-      if (tabBarHome?.index == 2) {
+      if (widget.tabBarHome.index == 2) {
         if (fi2) {
           fi2 = false;
           BestItemProvider bestItem =
@@ -79,7 +87,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
           fi2 = true;
         }
       }
-      if (tabBarHome?.index == 3) {
+      if (widget.tabBarHome.index == 3) {
         if (fi3) {
           fi3 = false;
           ReItemProvider reItem =
@@ -92,7 +100,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
           fi3 = true;
         }
       }
-      if (tabBarHome?.index == 4) {
+      if (widget.tabBarHome.index == 4) {
         if (fi4) {
           fi4 = false;
           OfferItemProvider offerItem =
@@ -254,7 +262,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
       child: DefaultTabController(
         length: 5,
         child: Scaffold(
-          appBar: AppBarHome.app_bar_home(context),
+          appBar: AppBarHome.app_bar_home(context, widget.tabBarHome),
           floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           floatingActionButton: FloatingActionButton(
             backgroundColor: Colors.white,
@@ -276,7 +284,7 @@ class _FirstPageState extends State<FirstPage> with TickerProviderStateMixin {
           body: Consumer<HomeProvider>(
             builder: (context, value, child) {
               return TabBarView(
-                controller: tabBarHome,
+                controller: widget.tabBarHome,
                 children: [
                   TabOne(),
                   SizedBox(

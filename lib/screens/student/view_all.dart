@@ -11,15 +11,9 @@ import 'package:davinshi_app/provider/student_product.dart';
 import 'package:davinshi_app/provider/student_provider.dart';
 import 'package:davinshi_app/screens/student/student_info.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../models/home_item.dart';
 import '../../models/products_cla.dart';
-import '../../provider/best_item.dart';
-import '../../provider/fav_pro.dart';
 import '../../provider/home.dart';
-import '../../provider/new_item.dart';
-import '../../provider/offer_item.dart';
-import '../../provider/recommended_item.dart';
 import '../home_folder/home_page.dart';
 
 class ViewAll extends StatefulWidget {
@@ -78,13 +72,6 @@ class _ViewAllState extends State<ViewAll> {
             padding: EdgeInsets.symmetric(horizontal: w * 0.02),
             child: InkWell(
               onTap: () {
-                Provider.of<NewItemProvider>(context, listen: false).getItems();
-                Provider.of<FavItemProvider>(context, listen: false).getItems();
-                Provider.of<BestItemProvider>(context, listen: false)
-                    .getItems();
-                Provider.of<OfferItemProvider>(context, listen: false)
-                    .getItems();
-                Provider.of<ReItemProvider>(context, listen: false).getItems();
                 Provider.of<BottomProvider>(context, listen: false).setIndex(2);
                 Navigator.pushReplacement(
                   context,
