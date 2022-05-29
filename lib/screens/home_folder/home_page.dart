@@ -1,4 +1,5 @@
 import 'package:davinshi_app/BottomNavWidget/fabbuttom.dart';
+import 'package:davinshi_app/screens/student/view_all.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/provider/home.dart';
 import 'package:provider/provider.dart';
@@ -90,6 +91,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             color: Colors.white,
             notchedShape: const CircularNotchedRectangle(),
             onTabSelected: (int val) async {
+              ViewAll.brandsSearch = false;
               if (val == 0) {
                 tabController!
                     .animateTo(0, duration: const Duration(seconds: 1));

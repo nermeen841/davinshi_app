@@ -136,13 +136,7 @@ class _ViewAllState extends State<ViewAll> {
                                 height: h * 0.2 + 5,
                                 fit: BoxFit.cover,
                                 width: w,
-                                // decoration: BoxDecoration(
-                                //   image: DecorationImage(
                                 image: _ads.image,
-                                //   fit: BoxFit.cover,
-                                // ),
-                                // color: Colors.grey[200],
-                                // ),
                               ),
                               focusColor: Colors.transparent,
                               splashColor: Colors.transparent,
