@@ -2,6 +2,7 @@
 
 import 'package:davinshi_app/models/products_cla.dart';
 import 'package:davinshi_app/screens/cart/payment_screen.dart';
+import 'package:davinshi_app/screens/fatorah.dart/fatorah.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/lang/change_language.dart';
@@ -15,9 +16,10 @@ import 'package:davinshi_app/provider/address.dart';
 import 'package:davinshi_app/provider/cart_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'orders.dart';
+import '../../models/fatorah_model.dart';
 
 class ConfirmCart extends StatefulWidget {
+  static SaveOrderModel? saveOrderModel;
   final num couponPrice;
   final int deliveryDays;
   final num maxCopounLimit;
@@ -38,6 +40,7 @@ class ConfirmCart extends StatefulWidget {
 class _ConfirmCartState extends State<ConfirmCart> {
   int isCash = 0;
   late double finalPrice;
+
   Future checkOut(context) async {
     final String url2 = domain + 'save-order';
     CartProvider _cart = Provider.of<CartProvider>(context, listen: false);
@@ -99,6 +102,9 @@ class _ConfirmCartState extends State<ConfirmCart> {
       );
       if (response.data['status'] == 1) {
         print(response.data);
+
+        ConfirmCart.saveOrderModel = SaveOrderModel.fromJson(response.data);
+
         Provider.of<CartProvider>(context, listen: false).clearAll();
         dbHelper.deleteAll();
         if (isCash == 0) {
@@ -121,7 +127,7 @@ class _ConfirmCartState extends State<ConfirmCart> {
               if (value) {
                 Provider.of<CartProvider>(context, listen: false).clearAll();
                 dbHelper.deleteAll();
-                navPR(context, const Orders());
+                navPR(context, const FatorahScreen());
                 return null;
               } else {
                 navPop(context);
@@ -131,10 +137,9 @@ class _ConfirmCartState extends State<ConfirmCart> {
               }
             });
           } else {
-            navPop(context);
             dbHelper.deleteAll();
             Provider.of<CartProvider>(context, listen: false).clearAll();
-            alertSuccessCart(context);
+            navPR(context, const FatorahScreen());
             return null;
           }
         }

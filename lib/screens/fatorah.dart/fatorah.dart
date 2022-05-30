@@ -1,24 +1,45 @@
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
+import 'package:davinshi_app/models/constants.dart';
 import 'package:davinshi_app/models/user.dart';
+import 'package:davinshi_app/provider/home.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../cart/confirm_cart.dart';
+import '../home_folder/home_page.dart';
 
 class FatorahScreen extends StatefulWidget {
-  const FatorahScreen({Key? key}) : super(key: key);
+  const FatorahScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<FatorahScreen> createState() => _FatorahScreenState();
 }
 
 class _FatorahScreenState extends State<FatorahScreen> {
+  var currency = (prefs.getString('language_code').toString() == 'en')
+      ? prefs.getString('currencyEn').toString()
+      : prefs.getString('currencyAr').toString();
+
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 0.0,
-        elevation: 0.0,
+        backgroundColor: Colors.white,
+        leading: BackButton(
+          color: mainColor,
+          onPressed: () {
+            Provider.of<BottomProvider>(context, listen: false).setIndex(0);
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+            );
+          },
+        ),
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: h * 0.02, horizontal: w * 0.02),
@@ -57,7 +78,8 @@ class _FatorahScreenState extends State<FatorahScreen> {
               child: Center(
                 child: Text(
                   translateString(
-                      "invoice number  342325446", "رقم الفاتورة  343354354"),
+                      "invoice number  ${ConfirmCart.saveOrderModel!.order!.id!}",
+                      "رقم الفاتورة  ${ConfirmCart.saveOrderModel!.order!.id!}"),
                   style: TextStyle(
                       fontFamily: 'Tajawal',
                       fontWeight: FontWeight.w400,
@@ -86,30 +108,9 @@ class _FatorahScreenState extends State<FatorahScreen> {
                             fontSize: w * 0.035),
                       ),
                       TextSpan(
-                        text: translateString("Knet", " كي نت "),
-                        style: TextStyle(
-                            fontFamily: 'Tajawal',
-                            fontWeight: FontWeight.w400,
-                            color: mainColor,
-                            fontSize: w * 0.035),
-                      ),
-                    ],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
                         text: translateString(
-                            "My fatoorah code ", "كود ماي فاتوره "),
-                        style: TextStyle(
-                            fontFamily: 'Tajawal',
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black87,
-                            fontSize: w * 0.035),
-                      ),
-                      TextSpan(
-                        text: translateString(" 342352654", " 324546456"),
+                            ConfirmCart.saveOrderModel!.order!.paymentMethod!,
+                            ConfirmCart.saveOrderModel!.order!.paymentMethod!),
                         style: TextStyle(
                             fontFamily: 'Tajawal',
                             fontWeight: FontWeight.w400,
@@ -119,6 +120,32 @@ class _FatorahScreenState extends State<FatorahScreen> {
                     ],
                   ),
                 ),
+                (ConfirmCart.saveOrderModel!.order!.invoiceId != null)
+                    ? RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: translateString(
+                                  "My fatoorah code ", "كود ماي فاتوره "),
+                              style: TextStyle(
+                                  fontFamily: 'Tajawal',
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black87,
+                                  fontSize: w * 0.035),
+                            ),
+                            TextSpan(
+                              text:
+                                  "${ConfirmCart.saveOrderModel!.order!.invoiceId!}",
+                              style: TextStyle(
+                                  fontFamily: 'Tajawal',
+                                  fontWeight: FontWeight.w400,
+                                  color: mainColor,
+                                  fontSize: w * 0.035),
+                            ),
+                          ],
+                        ),
+                      )
+                    : const SizedBox(),
               ],
             ),
             SizedBox(
@@ -144,7 +171,11 @@ class _FatorahScreenState extends State<FatorahScreen> {
                           fontSize: w * 0.035),
                     ),
                     TextSpan(
-                      text: translateString("21 / 4 / 0323 ", "21 / 4 / 0323 "),
+                      text: " " +
+                          ConfirmCart.saveOrderModel!.order!.createdAt!
+                              .substring(0, 10)
+                              .toString() +
+                          " ",
                       style: TextStyle(
                           fontFamily: 'Tajawal',
                           fontWeight: FontWeight.w400,
@@ -189,7 +220,56 @@ class _FatorahScreenState extends State<FatorahScreen> {
                   child: Center(
                     child: Text(
                       translateString(
-                          "Quantity  2  pieces ", "الكمية  2 قطعة "),
+                          "Quantity   ${ConfirmCart.saveOrderModel!.order!.productCount!}   pieces ",
+                          "الكمية  ${ConfirmCart.saveOrderModel!.order!.productCount!} قطعة "),
+                      style: TextStyle(
+                          fontFamily: 'Tajawal',
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black54,
+                          fontSize: w * 0.03),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: h * 0.04,
+                  width: w * 0.4,
+                  // decoration: BoxDecoration(
+                  //   color: Colors.white,
+                  //   border: Border.all(color: mainColor),
+                  // ),
+                  // child: Center(
+                  //   child: Text(
+                  //     translateString(
+                  //         "Piece price  23 kw", "سعر الوحدة  25 د.ك"),
+                  //     style: TextStyle(
+                  //         fontFamily: 'Tajawal',
+                  //         fontWeight: FontWeight.w400,
+                  //         color: Colors.black54,
+                  //         fontSize: w * 0.03),
+                  //   ),
+                  // ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: h * 0.02,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  height: h * 0.04,
+                  width: w * 0.4,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: mainColor),
+                  ),
+                  child: Center(
+                    child: Text(
+                      translateString(
+                          "discount  ${ConfirmCart.saveOrderModel!.order!.discount!} $currency",
+                          "الخصم  ${ConfirmCart.saveOrderModel!.order!.discount!}  $currency"),
                       style: TextStyle(
                           fontFamily: 'Tajawal',
                           fontWeight: FontWeight.w400,
@@ -208,7 +288,8 @@ class _FatorahScreenState extends State<FatorahScreen> {
                   child: Center(
                     child: Text(
                       translateString(
-                          "Piece price  23 kw", "سعر الوحدة  25 د.ك"),
+                          "price  ${ConfirmCart.saveOrderModel!.order!.orderPrice!} $currency",
+                          "إجمالي الطلب  ${ConfirmCart.saveOrderModel!.order!.orderPrice!} $currency"),
                       style: TextStyle(
                           fontFamily: 'Tajawal',
                           fontWeight: FontWeight.w400,
@@ -235,52 +316,9 @@ class _FatorahScreenState extends State<FatorahScreen> {
                   ),
                   child: Center(
                     child: Text(
-                      translateString("discount  10 kw", "الخصم  10 د.ك"),
-                      style: TextStyle(
-                          fontFamily: 'Tajawal',
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black54,
-                          fontSize: w * 0.03),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: h * 0.04,
-                  width: w * 0.4,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: mainColor),
-                  ),
-                  child: Center(
-                    child: Text(
-                      translateString("price  23 kw", "إجمالي الطلب  25 د.ك"),
-                      style: TextStyle(
-                          fontFamily: 'Tajawal',
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black54,
-                          fontSize: w * 0.03),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: h * 0.02,
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  height: h * 0.04,
-                  width: w * 0.4,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: mainColor),
-                  ),
-                  child: Center(
-                    child: Text(
-                      translateString("shipping  2 kw ", "سعر الشحن   2 د.ك "),
+                      translateString(
+                          "shipping  ${ConfirmCart.saveOrderModel!.order!.shippingPrice!} $currency ",
+                          "سعر الشحن   ${ConfirmCart.saveOrderModel!.order!.shippingPrice!} $currency "),
                       style: TextStyle(
                           fontFamily: 'Tajawal',
                           fontWeight: FontWeight.w400,
@@ -299,7 +337,8 @@ class _FatorahScreenState extends State<FatorahScreen> {
                   child: Center(
                     child: Text(
                       translateString(
-                          "Total price  23 kw", " الإجمالي  25 د.ك"),
+                          "Total price  ${ConfirmCart.saveOrderModel!.order!.totalPrice!} $currency",
+                          " الإجمالي  ${ConfirmCart.saveOrderModel!.order!.totalPrice!} $currency"),
                       style: TextStyle(
                           fontFamily: 'Tajawal',
                           fontWeight: FontWeight.w400,
@@ -335,7 +374,7 @@ class _FatorahScreenState extends State<FatorahScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: List.generate(
-                  3,
+                  ConfirmCart.saveOrderModel!.order!.productsData!.length,
                   (index) => Container(
                     width: w * 0.2,
                     height: h * 0.09,
@@ -344,8 +383,9 @@ class _FatorahScreenState extends State<FatorahScreen> {
                       color: Colors.white,
                       border: Border.all(color: mainColor),
                       borderRadius: BorderRadius.circular(w * 0.02),
-                      image: const DecorationImage(
-                          image: AssetImage("assets/images/143.png"),
+                      image: DecorationImage(
+                          image: NetworkImage(ConfirmCart.saveOrderModel!.order!
+                              .productsData![index].image!),
                           fit: BoxFit.cover),
                     ),
                   ),
@@ -385,7 +425,7 @@ class _FatorahScreenState extends State<FatorahScreen> {
                       fontSize: w * 0.035),
                 ),
                 Text(
-                  "Ahmed mohamed",
+                  ConfirmCart.saveOrderModel!.order!.shippingAddress!.name!,
                   style: TextStyle(
                       fontFamily: 'Tajawal',
                       fontWeight: FontWeight.w400,
@@ -412,14 +452,24 @@ class _FatorahScreenState extends State<FatorahScreen> {
                             color: Colors.black87,
                             fontSize: w * 0.035),
                       ),
-                      TextSpan(
-                        text: translateString("visitor", "زائر"),
-                        style: TextStyle(
-                            fontFamily: 'Tajawal',
-                            fontWeight: FontWeight.w400,
-                            color: mainColor,
-                            fontSize: w * 0.035),
-                      ),
+                      (login)
+                          ? TextSpan(
+                              text:
+                                  translateString("app user", "مستخدم للتطبيق"),
+                              style: TextStyle(
+                                  fontFamily: 'Tajawal',
+                                  fontWeight: FontWeight.w400,
+                                  color: mainColor,
+                                  fontSize: w * 0.035),
+                            )
+                          : TextSpan(
+                              text: translateString("visitor", "زائر"),
+                              style: TextStyle(
+                                  fontFamily: 'Tajawal',
+                                  fontWeight: FontWeight.w400,
+                                  color: mainColor,
+                                  fontSize: w * 0.035),
+                            ),
                     ],
                   ),
                 ),
@@ -435,7 +485,8 @@ class _FatorahScreenState extends State<FatorahScreen> {
                             fontSize: w * 0.035),
                       ),
                       TextSpan(
-                        text: translateString(" 342352654", " 324546456"),
+                        text: ConfirmCart
+                            .saveOrderModel!.order!.shippingAddress!.phone!,
                         style: TextStyle(
                             fontFamily: 'Tajawal',
                             fontWeight: FontWeight.w400,
@@ -450,31 +501,37 @@ class _FatorahScreenState extends State<FatorahScreen> {
             SizedBox(
               height: h * 0.02,
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  translateString("Email ", " الإيميل "),
-                  style: TextStyle(
-                      fontFamily: 'Tajawal',
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black87,
-                      fontSize: w * 0.035),
-                ),
-                Text(
-                  "Ahmed@gmail.com",
-                  style: TextStyle(
-                      fontFamily: 'Tajawal',
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black87,
-                      fontSize: w * 0.035),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: h * 0.02,
-            ),
+            (ConfirmCart.saveOrderModel!.order!.shippingAddress!.email != null)
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        translateString("Email ", " الإيميل "),
+                        style: TextStyle(
+                            fontFamily: 'Tajawal',
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87,
+                            fontSize: w * 0.035),
+                      ),
+                      Text(
+                        ConfirmCart
+                            .saveOrderModel!.order!.shippingAddress!.email
+                            .toString(),
+                        style: TextStyle(
+                            fontFamily: 'Tajawal',
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black87,
+                            fontSize: w * 0.035),
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
+            (ConfirmCart.saveOrderModel!.order!.shippingAddress!.email != null)
+                ? SizedBox(
+                    height: h * 0.02,
+                  )
+                : const SizedBox(),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -540,7 +597,7 @@ class _FatorahScreenState extends State<FatorahScreen> {
             ),
             Center(
               child: Text(
-                "شارع قنيبه - مبني 415 - الدور 3 - شقه 3",
+                ConfirmCart.saveOrderModel!.order!.shippingAddress!.address!,
                 style: TextStyle(
                     fontFamily: 'Tajawal',
                     fontWeight: FontWeight.w400,

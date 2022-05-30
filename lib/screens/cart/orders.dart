@@ -4,9 +4,6 @@ import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/constants.dart';
 import 'package:davinshi_app/models/order.dart';
-import 'package:davinshi_app/provider/home.dart';
-import 'package:davinshi_app/screens/home_folder/home_page.dart';
-import 'package:provider/provider.dart';
 import 'order_info.dart';
 
 class Orders extends StatefulWidget {
@@ -35,11 +32,12 @@ class _OrdersState extends State<Orders> {
             leading: BackButton(
               color: Colors.white,
               onPressed: () {
-                Provider.of<BottomProvider>(context, listen: false).setIndex(3);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => Home()),
-                );
+                Navigator.pop(context);
+                // Provider.of<BottomProvider>(context, listen: false).setIndex(3);
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => Home()),
+                // );
               },
             ),
             centerTitle: true,

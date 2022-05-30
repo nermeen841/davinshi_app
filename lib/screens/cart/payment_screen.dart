@@ -3,19 +3,20 @@
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/constants.dart';
+import 'package:davinshi_app/models/fatorah_model.dart';
 import 'package:davinshi_app/models/order.dart';
 import 'package:davinshi_app/models/user.dart';
-import 'package:davinshi_app/screens/cart/cart.dart';
-import 'package:davinshi_app/screens/cart/orders.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:my_fatoorah/my_fatoorah.dart';
+import '../fatorah.dart/fatorah.dart';
 import 'confirm_cart.dart';
 
 String mAPIKey =
     "DmnT-XUpIpN8FtbVl6AabNBc-jHxsOlAwrCA_ANkRX5V7D6tVS4nozWQBxrllgkQ3ZErGnfzrwxNqGV2TCgJ0rQGvfEpO8maxMhz0Dt92Buh68M54Ux33SF18QcnEedoFow0E4J49xpEUyplwDzHPoLPAI03XgSWhjDiaF09TP1o49_2ChY8DF_lWUSzPQvT7eRVCXzJWmmJCg-KgEg7AYdAhZ5sakky5exKBLyzucpmXvAELMsBAQE5O8wF6CvSSKOMI064oBFlpSwwkT2vUKdJiQf3AEsxqYpp_wrEsdzW4St7Kke2-8Hy1PRDKbh-iZC3q5Hpwdlk32ZSjazAzZpwsyGDsF1-LZhhYv1eH3BWOhxFjHxIo25tHl7jVa-b9p85ptTR5BcxkQnGPNWInkgHhx2lJFCD1yJBNB8Me_bf_8X9xnc1NkkD_xfw_siJxjx8IlVxL1DHoecEJLMtLTzlpeldc2LOBXb_YZgYiNpRJRWecm2-DgjN7B-ODqI5_poHr4N-E-60RlXfO_K6eAi0KaLeiE6jcmbAoCgdm5UQnFMpyEecM1gaqC3H-V0hwQn_oORaJsuLVFlP-yfDCt9Xcg6Yy9mTQuOnzP7ymjMKI1pccNTY8vWtkLwfdIK8XeJWCgqzK9Wmu5wq7LGIgzM-bSIinT5OfvF-NTbXRMVRMEgfkj_nlfwcpswJZfaLmvNuFQdRNGDSbLCvnTc5eUpJVhFTOD1w9XZu6gIUrlFamP_1";
 
 class PaymentScreen extends StatefulWidget {
+  final SaveOrderModel? saveOrderModel;
   final double totalprice;
   final int orderId;
   final num couponPrice;
@@ -25,6 +26,7 @@ class PaymentScreen extends StatefulWidget {
   final int deliveryDays;
   const PaymentScreen(
       {Key? key,
+      this.saveOrderModel,
       required this.totalprice,
       required this.couponPrice,
       required this.couponName,
@@ -120,15 +122,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
               if (login) {
                 await getOrders().then((value) {
                   if (value) {
-                    navPR(context, const Orders());
+                    navPR(context, const FatorahScreen());
                     return null;
                   } else {
-                    navPR(context, Cart());
+                    navPR(context, const FatorahScreen());
                     print('asdss1');
                     error(context);
                     return null;
                   }
                 });
+              } else {
+                navPR(context, const FatorahScreen());
               }
             } else if (res.isError) {
               print("error url : ---------" + res.url.toString());
