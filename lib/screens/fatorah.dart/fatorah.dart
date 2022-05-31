@@ -545,7 +545,9 @@ class _FatorahScreenState extends State<FatorahScreen> {
                   ),
                   child: Center(
                     child: Text(
-                      translateString("Country   kuwait ", "الدولة   الكويت "),
+                      translateString(
+                          "Country   ${ConfirmCart.saveOrderModel!.order!.shippingAddress!.countryEn!} ",
+                          "الدولة   ${ConfirmCart.saveOrderModel!.order!.shippingAddress!.countryAr!} "),
                       style: TextStyle(
                           fontFamily: 'Tajawal',
                           fontWeight: FontWeight.w400,
@@ -563,7 +565,9 @@ class _FatorahScreenState extends State<FatorahScreen> {
                   ),
                   child: Center(
                     child: Text(
-                      translateString("city  hwalli", "المدينة   حولي"),
+                      translateString(
+                          "city  ${ConfirmCart.saveOrderModel!.order!.shippingAddress!.araeEn}",
+                          "المدينة   ${ConfirmCart.saveOrderModel!.order!.shippingAddress!.araeAr!}"),
                       style: TextStyle(
                           fontFamily: 'Tajawal',
                           fontWeight: FontWeight.w400,
@@ -581,7 +585,9 @@ class _FatorahScreenState extends State<FatorahScreen> {
                   ),
                   child: Center(
                     child: Text(
-                      translateString("Area   meshref", " المنطقة   مشرف"),
+                      translateString(
+                          "Area   ${ConfirmCart.saveOrderModel!.order!.shippingAddress!.araeEn!}",
+                          " المنطقة   ${ConfirmCart.saveOrderModel!.order!.shippingAddress!.araeAr!}"),
                       style: TextStyle(
                           fontFamily: 'Tajawal',
                           fontWeight: FontWeight.w400,
@@ -595,16 +601,32 @@ class _FatorahScreenState extends State<FatorahScreen> {
             SizedBox(
               height: h * 0.02,
             ),
-            Center(
-              child: Text(
-                ConfirmCart.saveOrderModel!.order!.shippingAddress!.address!,
-                style: TextStyle(
-                    fontFamily: 'Tajawal',
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black54,
-                    fontSize: w * 0.03),
-              ),
-            ),
+            (ConfirmCart.saveOrderModel!.order!.shippingAddress!.addressD !=
+                    null)
+                ? Center(
+                    child: Text(
+                      ConfirmCart.saveOrderModel!.order!.shippingAddress!
+                              .address! +
+                          ConfirmCart.saveOrderModel!.order!.shippingAddress!
+                              .addressD!,
+                      style: TextStyle(
+                          fontFamily: 'Tajawal',
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black54,
+                          fontSize: w * 0.03),
+                    ),
+                  )
+                : Center(
+                    child: Text(
+                      ConfirmCart
+                          .saveOrderModel!.order!.shippingAddress!.address!,
+                      style: TextStyle(
+                          fontFamily: 'Tajawal',
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black54,
+                          fontSize: w * 0.03),
+                    ),
+                  ),
             SizedBox(
               height: h * 0.04,
             ),

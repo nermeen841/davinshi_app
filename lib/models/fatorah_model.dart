@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
+import 'package:davinshi_app/models/constants.dart';
+
 class SaveOrderModel {
   int? statuse;
   Order? order;
@@ -68,7 +70,7 @@ class ProductsData {
   ProductsData({this.id, this.image});
   ProductsData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    image = json["img_src"] + "/" + json['img'];
+    image = imagePath + json['img'];
   }
 }
 
@@ -79,8 +81,24 @@ class ShippingAddress {
   String? email;
   String? phone;
   String? address;
+  String? addressD;
+  String? countryEn;
+  String? countryAr;
+  String? araeEn;
+  String? araeAr;
+
   ShippingAddress(
-      {this.id, this.address, this.email, this.phone, this.name, this.title});
+      {this.id,
+      this.address,
+      this.email,
+      this.phone,
+      this.name,
+      this.title,
+      this.addressD,
+      this.araeAr,
+      this.araeEn,
+      this.countryEn,
+      this.countryAr});
   ShippingAddress.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
@@ -88,5 +106,10 @@ class ShippingAddress {
     email = json['email'];
     phone = json['phone'];
     address = json['address'];
+    addressD = json['address_d'];
+    araeEn = json['area']['name_en'];
+    araeAr = json['area']['name_ar'];
+    countryEn = json['area']['country']['name_en'];
+    countryAr = json['area']['country']['name_ar'];
   }
 }
