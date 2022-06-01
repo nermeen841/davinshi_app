@@ -1,3 +1,4 @@
+import 'package:davinshi_app/splach.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,7 +12,6 @@ import 'package:davinshi_app/screens/home_folder/home_page.dart';
 import 'package:davinshi_app/screens/lang.dart';
 import 'package:davinshi_app/screens/noti.dart';
 import 'package:davinshi_app/screens/product_info/products.dart';
-import 'package:davinshi_app/splach.dart';
 import 'BottomNavWidget/change_pass.dart';
 import 'lang/change_language.dart';
 import 'lang/localizations.dart';
