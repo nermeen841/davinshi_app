@@ -321,7 +321,7 @@ class _FatorahScreenState extends State<FatorahScreen> {
                       ),
                       Container(
                         height: h * 0.04,
-                        width: double.infinity,
+                        width: w * 0.85,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(color: mainColor),
