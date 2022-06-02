@@ -245,54 +245,6 @@ class _FatorahScreenState extends State<FatorahScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: h * 0.04,
-                            width: w * 0.4,
-                            // decoration: BoxDecoration(
-                            //   color: Colors.white,
-                            //   border: Border.all(color: mainColor),
-                            // ),
-                            // child: Center(
-                            //   child: Text(
-                            //     translateString(
-                            //         "Piece price  23 kw", "سعر الوحدة  25 د.ك"),
-                            //     style: TextStyle(
-                            //         fontFamily: 'Tajawal',
-                            //         fontWeight: FontWeight.w400,
-                            //         color: Colors.black54,
-                            //         fontSize: w * 0.03),
-                            //   ),
-                            // ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: h * 0.02,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            height: h * 0.04,
-                            width: w * 0.4,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: mainColor),
-                            ),
-                            child: Center(
-                              child: Text(
-                                translateString(
-                                    "discount  ${ConfirmCart.saveOrderModel!.order!.discount!} $currency",
-                                    "الخصم  ${ConfirmCart.saveOrderModel!.order!.discount!}  $currency"),
-                                style: TextStyle(
-                                    fontFamily: 'Tajawal',
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black54,
-                                    fontSize: w * 0.03),
-                              ),
-                            ),
-                          ),
                           Container(
                             height: h * 0.04,
                             width: w * 0.4,
@@ -352,8 +304,8 @@ class _FatorahScreenState extends State<FatorahScreen> {
                             child: Center(
                               child: Text(
                                 translateString(
-                                    "Total price  ${ConfirmCart.saveOrderModel!.order!.totalPrice!} $currency",
-                                    " الإجمالي  ${ConfirmCart.saveOrderModel!.order!.totalPrice!} $currency"),
+                                    "discount  ${ConfirmCart.saveOrderModel!.order!.discount!} $currency",
+                                    "الخصم  ${ConfirmCart.saveOrderModel!.order!.discount!}  $currency"),
                                 style: TextStyle(
                                     fontFamily: 'Tajawal',
                                     fontWeight: FontWeight.w400,
@@ -363,6 +315,29 @@ class _FatorahScreenState extends State<FatorahScreen> {
                             ),
                           ),
                         ],
+                      ),
+                      SizedBox(
+                        height: h * 0.02,
+                      ),
+                      Container(
+                        height: h * 0.04,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: mainColor),
+                        ),
+                        child: Center(
+                          child: Text(
+                            translateString(
+                                "Total price  ${ConfirmCart.saveOrderModel!.order!.totalPrice!} $currency",
+                                " الإجمالي  ${ConfirmCart.saveOrderModel!.order!.totalPrice!} $currency"),
+                            style: TextStyle(
+                                fontFamily: 'Tajawal',
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black54,
+                                fontSize: w * 0.03),
+                          ),
+                        ),
                       ),
                       SizedBox(
                         height: h * 0.02,
