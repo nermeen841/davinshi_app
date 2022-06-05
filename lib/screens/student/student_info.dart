@@ -580,6 +580,7 @@ class _StudentInfo extends State<StudentInfo> {
                   ),
                   SizedBox(
                     width: w * 0.95,
+                    height: h,
                     child: Consumer<StudentItemProvider>(
                         builder: (context, item, _) {
                       if (!isLoading) {
@@ -605,157 +606,170 @@ class _StudentInfo extends State<StudentInfo> {
                             ),
                           );
                         } else {
-                          return Wrap(
-                            children: List.generate(item.items.length, (i) {
-                              return InkWell(
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      right: i.isOdd ? w * 0.025 : 0,
-                                      bottom: h * 0.02,
-                                      left: i.isOdd ? w * 0.025 : 0),
-                                  child: Container(
-                                    width: w * 0.45,
-                                    height: h * 0.28,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(w * 0.05),
-                                        border: Border.all(
-                                            color: const Color(0xff707070))),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                          width: w * 0.45,
-                                          height: h * 0.2,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[200],
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                  item.items[i].image),
-                                              fit: BoxFit.fitHeight,
+                          return GridView.builder(
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisSpacing: h * 0.001,
+                                      mainAxisSpacing: w * 0.05,
+                                      crossAxisCount: 2,
+                                      childAspectRatio: 0.8),
+                              itemCount: item.items.length,
+                              itemBuilder: (context, i) {
+                                return InkWell(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        right: i.isOdd ? w * 0.025 : 0,
+                                        bottom: h * 0.02,
+                                        left: i.isOdd ? w * 0.025 : 0),
+                                    child: Container(
+                                      width: w * 0.45,
+                                      height: h * 0.28,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(w * 0.05),
+                                          border: Border.all(
+                                              color: const Color(0xff707070))),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Container(
+                                            width: w * 0.45,
+                                            height: h * 0.2,
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey[200],
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                    item.items[i].image),
+                                                fit: BoxFit.fitHeight,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: w * 0.45,
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: w * 0.02),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                SizedBox(
-                                                  height: h * 0.01,
-                                                ),
-                                                Container(
-                                                    constraints: BoxConstraints(
-                                                      maxHeight: h * 0.07,
-                                                    ),
-                                                    child: Text(
-                                                        translateString(
-                                                            item.items[i]
-                                                                .nameEn,
-                                                            item.items[i]
-                                                                .nameAr),
-                                                        style: TextStyle(
-                                                            fontSize:
-                                                                w * 0.035),
-                                                        overflow:
-                                                            TextOverflow.fade)),
-                                                SizedBox(
-                                                  height: h * 0.005,
-                                                ),
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    RichText(
-                                                      text: TextSpan(
-                                                        children: [
-                                                          if (item
-                                                              .items[i].isSale)
-                                                            TextSpan(
-                                                                text: getProductprice(
-                                                                    currency:
-                                                                        currency,
-                                                                    productPrice: item
-                                                                        .items[
-                                                                            i]
-                                                                        .salePrice!),
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Tajawal',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    color:
-                                                                        mainColor)),
-                                                          if (!item
-                                                              .items[i].isSale)
-                                                            TextSpan(
-                                                                text: getProductprice(
-                                                                    currency:
-                                                                        currency,
-                                                                    productPrice: item
-                                                                        .items[
-                                                                            i]
-                                                                        .price),
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Tajawal',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    color:
-                                                                        mainColor)),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                if (item.items[i].isSale)
-                                                  Text(
-                                                    getProductprice(
-                                                        currency: currency,
-                                                        productPrice: item
-                                                            .items[i].price),
-                                                    style: TextStyle(
-                                                        fontSize: w * 0.035,
-                                                        fontFamily: 'Tajawal',
-                                                        decoration:
-                                                            TextDecoration
-                                                                .lineThrough,
-                                                        color: Colors.grey,
-                                                        decorationColor:
-                                                            mainColor,
-                                                        decorationThickness:
-                                                            20),
+                                          SizedBox(
+                                            width: w * 0.45,
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: w * 0.02),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  SizedBox(
+                                                    height: h * 0.01,
                                                   ),
-                                              ],
+                                                  Container(
+                                                      constraints:
+                                                          BoxConstraints(
+                                                        maxHeight: h * 0.07,
+                                                      ),
+                                                      child: Text(
+                                                          translateString(
+                                                              item.items[i]
+                                                                  .nameEn,
+                                                              item.items[i]
+                                                                  .nameAr),
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  w * 0.035),
+                                                          overflow: TextOverflow
+                                                              .fade)),
+                                                  SizedBox(
+                                                    height: h * 0.005,
+                                                  ),
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      RichText(
+                                                        text: TextSpan(
+                                                          children: [
+                                                            if (item.items[i]
+                                                                .isSale)
+                                                              TextSpan(
+                                                                  text: getProductprice(
+                                                                      currency:
+                                                                          currency,
+                                                                      productPrice: item
+                                                                          .items[
+                                                                              i]
+                                                                          .salePrice!),
+                                                                  style: TextStyle(
+                                                                      fontFamily:
+                                                                          'Tajawal',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color:
+                                                                          mainColor)),
+                                                            if (!item.items[i].isSale)
+                                                              TextSpan(
+                                                                  text: getProductprice(
+                                                                      currency:
+                                                                          currency,
+                                                                      productPrice: item
+                                                                          .items[
+                                                                              i]
+                                                                          .price),
+                                                                  style: TextStyle(
+                                                                      fontFamily:
+                                                                          'Tajawal',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color:
+                                                                          mainColor)),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  if (item.items[i].isSale)
+                                                    Text(
+                                                      getProductprice(
+                                                          currency: currency,
+                                                          productPrice: item
+                                                              .items[i].price),
+                                                      style: TextStyle(
+                                                          fontSize: w * 0.035,
+                                                          fontFamily: 'Tajawal',
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough,
+                                                          color: Colors.grey,
+                                                          decorationColor:
+                                                              mainColor,
+                                                          decorationThickness:
+                                                              20),
+                                                    ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                                onTap: () {
-                                  navP(
-                                      context,
-                                      Products(
-                                        fromFav: false,
-                                        productId: item.items[i].id,
-                                      ));
-                                },
-                              );
-                            }),
-                          );
+                                  onTap: () {
+                                    navP(
+                                        context,
+                                        Products(
+                                          fromFav: false,
+                                          productId: item.items[i].id,
+                                        ));
+                                  },
+                                );
+                              });
+                          // return Wrap(
+                          //   children: List.generate(item.items.length, (i) {
+
+                          //   }),
+                          // );
                         }
                       }
                     }),
