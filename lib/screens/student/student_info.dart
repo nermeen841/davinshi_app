@@ -765,11 +765,6 @@ class _StudentInfo extends State<StudentInfo> {
                                   },
                                 );
                               });
-                          // return Wrap(
-                          //   children: List.generate(item.items.length, (i) {
-
-                          //   }),
-                          // );
                         }
                       }
                     }),

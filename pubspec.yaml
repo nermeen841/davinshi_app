@@ -60,6 +60,8 @@ dependencies:
   google_geocoding: ^0.2.0
   geocoding: ^2.0.1
   date_time_picker: ^2.1.0
+  flutter_local_notifications: any
+  pin_code_fields: any
   cached_network_image: any
 
   flutter_localizations:

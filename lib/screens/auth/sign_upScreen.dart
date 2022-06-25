@@ -302,7 +302,7 @@ class _SignupScreenState extends State<SignupScreen> {
           onEditingComplete: () {
             focusNode1.unfocus();
 
-            FocusScope.of(context).requestFocus();
+            FocusScope.of(context).requestFocus(focusNode2);
           },
           decoration: InputDecoration(
             focusedBorder: InputBorder.none,
@@ -339,7 +339,19 @@ class _SignupScreenState extends State<SignupScreen> {
           focusNode: focusNode2,
           onEditingComplete: () {
             focusNode2.unfocus();
-            FocusScope.of(context).requestFocus();
+            FocusScope.of(context).requestFocus(focusNode3);
+          },
+          validator: (value) {
+            if (value!.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(translate(context, 'validation', 'field'))));
+            }
+            if (!value.contains("@") || !value.contains(".com")) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(translateString('Email address is invalid ',
+                      'البريد الإلكتروني غير صحيح'))));
+            }
+            return null;
           },
           decoration: InputDecoration(
             focusedBorder: InputBorder.none,
@@ -377,7 +389,7 @@ class _SignupScreenState extends State<SignupScreen> {
           onEditingComplete: () {
             focusNode3.unfocus();
 
-            FocusScope.of(context).requestFocus();
+            FocusScope.of(context).requestFocus(focusNode4);
           },
           decoration: InputDecoration(
             focusedBorder: InputBorder.none,
@@ -414,7 +426,7 @@ class _SignupScreenState extends State<SignupScreen> {
           onEditingComplete: () {
             focusNode4.unfocus();
 
-            FocusScope.of(context).requestFocus();
+            FocusScope.of(context).requestFocus(focusNode5);
           },
           decoration: InputDecoration(
             suffixIcon: InkWell(
@@ -466,8 +478,6 @@ class _SignupScreenState extends State<SignupScreen> {
           focusNode: focusNode5,
           onEditingComplete: () {
             focusNode5.unfocus();
-
-            FocusScope.of(context).requestFocus();
           },
           // validator: (value) {
           //   if (value!.isEmpty) {
