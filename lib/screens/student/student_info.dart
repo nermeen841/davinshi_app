@@ -163,7 +163,12 @@ class _StudentInfo extends State<StudentInfo> {
                               'assets/facebook-logo.png',
                               'assets/instagram.png',
                               widget.studentClass.facebook ?? 'Empty',
-                              widget.studentClass.instagram ?? 'Empty'),
+                              widget.studentClass.instagram ?? 'Empty',
+                              () async {
+                            await launch(widget.studentClass.facebook);
+                          }, () async {
+                            await launch(widget.studentClass.instagram);
+                          }),
                           SizedBox(
                             height: h * 0.03,
                           ),
@@ -172,7 +177,12 @@ class _StudentInfo extends State<StudentInfo> {
                               'assets/twitter.png',
                               'assets/linkedin.png',
                               widget.studentClass.twitter ?? 'Empty',
-                              widget.studentClass.linkedin ?? 'Empty'),
+                              widget.studentClass.linkedin ?? 'Empty',
+                              () async {
+                            await launch(widget.studentClass.twitter);
+                          }, () async {
+                            await launch(widget.studentClass.linkedin);
+                          }),
                           SizedBox(
                             height: h * 0.03,
                           ),
@@ -181,7 +191,16 @@ class _StudentInfo extends State<StudentInfo> {
                               'assets/phone-receiver-silhouette.png',
                               'assets/email.png',
                               widget.studentClass.phone,
-                              widget.studentClass.email),
+                              widget.studentClass.email, () async {
+                            await launch('tel: ${widget.studentClass.phone}');
+                          }, () async {
+                            final Uri params = Uri(
+                              scheme: 'mailto',
+                              path: widget.studentClass.email,
+                            );
+                            String url = params.toString();
+                            await launch(url);
+                          }),
                         ],
                       ),
                     ),
@@ -783,21 +802,25 @@ class _StudentInfo extends State<StudentInfo> {
     );
   }
 
-  Widget row(w, svg1, svg2, text1, text2) {
+  Widget row(
+      w, svg1, svg2, text1, text2, VoidCallback press1, VoidCallback press2) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         (text1 != 'Empty')
-            ? CircleAvatar(
-                radius: w * 0.05,
-                backgroundColor: Colors.white,
-                child: Image.asset(
-                  svg1,
-                  fit: BoxFit.contain,
-                  color: mainColor,
-                  width: w * 0.05,
+            ? InkWell(
+              onTap: press1,
+              child: CircleAvatar(
+                  radius: w * 0.05,
+                  backgroundColor: Colors.white,
+                  child: Image.asset(
+                    svg1,
+                    fit: BoxFit.contain,
+                    color: mainColor,
+                    width: w * 0.05,
+                  ),
                 ),
-              )
+            )
             : const SizedBox(),
         (text1 != 'Empty')
             ? SizedBox(
@@ -806,23 +829,29 @@ class _StudentInfo extends State<StudentInfo> {
             : const SizedBox(),
         (text1 != 'Empty')
             ? Expanded(
-                child: Text(
-                  text1,
-                  style: TextStyle(color: mainColor, fontSize: w * 0.029),
+                child: InkWell(
+                   onTap: press1,
+                  child: Text(
+                    text1,
+                    style: TextStyle(color: mainColor, fontSize: w * 0.029),
+                  ),
                 ),
               )
             : const SizedBox(),
         (text2 != 'Empty')
-            ? CircleAvatar(
-                radius: w * 0.05,
-                backgroundColor: Colors.white,
-                child: Image.asset(
-                  svg2,
-                  fit: BoxFit.contain,
-                  color: mainColor,
-                  width: w * 0.05,
+            ? InkWell(
+               onTap: press2,
+              child: CircleAvatar(
+                  radius: w * 0.05,
+                  backgroundColor: Colors.white,
+                  child: Image.asset(
+                    svg2,
+                    fit: BoxFit.contain,
+                    color: mainColor,
+                    width: w * 0.05,
+                  ),
                 ),
-              )
+            )
             : const SizedBox(),
         (text2 != 'Empty')
             ? SizedBox(
@@ -831,9 +860,12 @@ class _StudentInfo extends State<StudentInfo> {
             : const SizedBox(),
         (text2 != 'Empty')
             ? Expanded(
-                child: Text(
-                  text2,
-                  style: TextStyle(color: mainColor, fontSize: w * 0.029),
+                child: InkWell(
+                   onTap: press2,
+                  child: Text(
+                    text2,
+                    style: TextStyle(color: mainColor, fontSize: w * 0.029),
+                  ),
                 ),
               )
             : const SizedBox(),
