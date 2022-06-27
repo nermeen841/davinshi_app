@@ -44,7 +44,7 @@ class _StudentInfo extends State<StudentInfo> {
   void start(context) {
     isLoading = false;
     studentId = widget.studentClass.id;
-    var of1 = Provider.of<StudentItemProvider>(context, listen: true);
+    var of1 = Provider.of<StudentItemProvider>(context, listen: false);
     of1.getItems(widget.studentClass.id).then((value) {
       isLoading = true;
     });
@@ -99,7 +99,6 @@ class _StudentInfo extends State<StudentInfo> {
       finish = true;
     }
     CartProvider cart = Provider.of<CartProvider>(context, listen: true);
-    Provider.of<StudentItemProvider>(context, listen: true);
     return Directionality(
       textDirection: getDirection(),
       child: Scaffold(
@@ -868,12 +867,20 @@ class _StudentInfo extends State<StudentInfo> {
       child: InkWell(
         onTap: press,
         child: Container(
-          padding:
-              EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.015),
-          height: h * 0.06,
+       
+         width: w*0.3,
+          height: h * 0.08,
           decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 2,
+                offset: const Offset(0, 2)
+              ),
+            ],
               borderRadius: BorderRadius.circular(w * 0.015),
-              border: Border.all(color: mainColor),
+              border: Border.all(color: currentIndex == index ? Colors.white : mainColor),
               color: currentIndex == index ? mainColor : Colors.white),
           child: Center(
             child: Text(

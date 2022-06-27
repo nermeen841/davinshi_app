@@ -43,7 +43,7 @@ class StudentItemProvider extends ChangeNotifier {
       getItems(id);
     } else {
       // items.clear();
-      
+       getItems(id);
     }
     sort = apiSort[index];
     notifyListeners();
@@ -104,7 +104,7 @@ class StudentItemProvider extends ChangeNotifier {
         receiveTimeout: 3000,
       )).get(url);
       if (response.data['status'] == 1) {
-          print(response.data);
+        print(response.data);
         print(sort);
         setItemsProvider(response.data['data']);
       

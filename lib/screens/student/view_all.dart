@@ -31,7 +31,7 @@ class _ViewAllState extends State<ViewAll> {
   bool f1 = true;
   bool isLoading = false;
   void start(context) {
-    var of1 = Provider.of<StudentProvider>(context, listen: true);
+    var of1 = Provider.of<StudentProvider>(context, listen: false);
     of1.getStudents().then((value) {
       isLoading = true;
     });
@@ -183,7 +183,7 @@ class _ViewAllState extends State<ViewAll> {
                             );
                           } else {
                             if (st.students.isNotEmpty) {
-                              return ListView.separated(
+                              return ListView.builder(
                                   shrinkWrap: true,
                                   primary: false,
                                   itemBuilder: (context, i) {
@@ -204,7 +204,7 @@ class _ViewAllState extends State<ViewAll> {
                                                     )));
                                       },
                                       child: SizedBox(
-                                        height: h * 0.4,
+                                        height: h * 0.48,
                                         child: Stack(
                                           alignment:
                                               AlignmentDirectional.bottomCenter,
@@ -216,7 +216,7 @@ class _ViewAllState extends State<ViewAll> {
                                                 height: h * 0.35,
                                                 color: Colors.white,
                                                 child: ImageeNetworkWidget(
-                                                  fit: BoxFit.fill,
+                                                  fit: BoxFit.cover,
                                                   image: st.students[i].cover!,
                                                   width: double.infinity,
                                                   height: h * 0.25,
@@ -262,7 +262,7 @@ class _ViewAllState extends State<ViewAll> {
                                             ),
                                             Container(
                                               width: w * 0.3,
-                                              height: h * 0.14,
+                                              height: h * 0.3,
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 color: Colors.white,
@@ -280,12 +280,12 @@ class _ViewAllState extends State<ViewAll> {
                                                     ? const DecorationImage(
                                                         image: AssetImage(
                                                             'assets/logo2.png'),
-                                                        fit: BoxFit.cover,
+                                                        fit: BoxFit.contain,
                                                       )
                                                     : DecorationImage(
                                                         image: NetworkImage(
                                                             _st.image!),
-                                                        fit: BoxFit.cover,
+                                                        fit: BoxFit.contain,
                                                       ),
                                               ),
                                             ),
@@ -294,9 +294,7 @@ class _ViewAllState extends State<ViewAll> {
                                       ),
                                     );
                                   },
-                                  separatorBuilder: (context, i) => SizedBox(
-                                        height: h * 0.02,
-                                      ),
+                                  
                                   itemCount: st.students.length);
                               // return GridView.count(
                               //   controller: _controller,
