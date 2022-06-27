@@ -61,6 +61,7 @@
 		34B3E30B86D899BB1A1ADC1B /* Pods-ImageNotifications.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageNotifications.release.xcconfig"; path = "Target Support Files/Pods-ImageNotifications/Pods-ImageNotifications.release.xcconfig"; sourceTree = "<group>"; };
 		3684A5724199094785CCFFE8 /* Pods-ImageNotifications.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageNotifications.debug.xcconfig"; path = "Target Support Files/Pods-ImageNotifications/Pods-ImageNotifications.debug.xcconfig"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
+		658518232869F726002BDD17 /* firebase_messaging.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = firebase_messaging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		659270332868959F00B061B1 /* ImageNotifications.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ImageNotifications.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		659270352868959F00B061B1 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		659270372868959F00B061B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -177,6 +178,7 @@
 		97DC33A0C80DD0ACE767AC75 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				658518232869F726002BDD17 /* firebase_messaging.framework */,
 				843F0A84DD5581BE3CECE209 /* Pods_Runner.framework */,
 				7A706D25E1EE262FA4ABEEC4 /* Pods_ImageNotifications.framework */,
 			);
