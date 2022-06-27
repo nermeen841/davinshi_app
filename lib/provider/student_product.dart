@@ -11,21 +11,24 @@ class StudentItemProvider extends ChangeNotifier {
   int pageIndex = 1;
   bool finish = false;
   bool isLoading = false;
-  String? sort;
+  String sort = "";
   List sorts = [
+    "All",
     'Low price',
     'High price',
     'New',
   ];
 
   List sortsAr = [
-    'سعر أقل',
-    'سعر أعلي',
-    'جديد',
+    "الكل",
+    'الأحدث',
+    'الأقل سعر',
+    'الأعلي سعر',
+  
   ];
-  List<String> apiSort = ["highestPrice", "lowestPrice", "bestSeller"];
+  List<String> apiSort = ["","bestSeller","lowestPrice", "highestPrice"];
   void clearList() {
-    sort = null;
+    sort = "";
     items.clear();
     offers.clear();
     pageIndex = 1;
@@ -33,14 +36,14 @@ class StudentItemProvider extends ChangeNotifier {
 
   void sortList(int index, String id) {
     if (index == 0) {
-      items.clear();
+      // items.clear();
       getItems(id);
     } else if (index == 1) {
-      items.clear();
+      // items.clear();
       getItems(id);
     } else {
-      items.clear();
-      getItems(id);
+      // items.clear();
+      
     }
     sort = apiSort[index];
     notifyListeners();
@@ -93,12 +96,18 @@ class StudentItemProvider extends ChangeNotifier {
 
   Future getItems(id) async {
     final String url = domain +
-        'get-products-student?student_id=${id.toString()}&page=$pageIndex&sort=$sort';
+        'get-products-student?student_id=$id&page=$pageIndex&sort=$sort';
 
     try {
-      Response response = await Dio().get(url);
+      Response response = await Dio(BaseOptions(
+        connectTimeout: 5000,
+        receiveTimeout: 3000,
+      )).get(url);
       if (response.data['status'] == 1) {
+          print(response.data);
+        print(sort);
         setItemsProvider(response.data['data']);
+      
       }
       if (response.statusCode != 200) {
         await Future.delayed(const Duration(milliseconds: 700));

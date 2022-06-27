@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_full_hex_values_for_flutter_colors
 
 import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:davinshi_app/screens/product_info/products.dart';
@@ -164,10 +164,7 @@ class _ViewAllState extends State<ViewAll> {
                         ),
                       ),
                     SizedBox(
-                      height: h * 0.01,
-                    ),
-                    SizedBox(
-                      height: h * 0.01,
+                      height: h * 0.02,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
@@ -186,82 +183,197 @@ class _ViewAllState extends State<ViewAll> {
                             );
                           } else {
                             if (st.students.isNotEmpty) {
-                              return GridView.count(
-                                controller: _controller,
-                                crossAxisCount: 3,
-                                shrinkWrap: true,
-                                // primary: false,
-                                scrollDirection: Axis.vertical,
-                                mainAxisSpacing: w * 0.02,
-                                crossAxisSpacing: h * 0.02,
-                                childAspectRatio: 0.8,
-                                children:
-                                    List.generate(st.students.length, (i) {
-                                  StudentClass _st = st.students[i];
-
-                                  return InkWell(
-                                    child: Container(
-                                      width: w * 0.3,
-                                      height: h * 0.2,
-                                      decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          borderRadius:
-                                              BorderRadius.circular(w * 0.05),
-                                          border: Border.all(color: mainColor)),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Container(
-                                            width: w * 0.3,
-                                            height: h * 0.14,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              color: Colors.white,
-                                              border:
-                                                  Border.all(color: mainColor),
-                                              image: _st.image == null
-                                                  ? const DecorationImage(
-                                                      image: AssetImage(
-                                                          'assets/logo2.png'),
-                                                      fit: BoxFit.cover,
-                                                    )
-                                                  : DecorationImage(
-                                                      image: NetworkImage(
-                                                          _st.image!),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: h * 0.01,
-                                          ),
-                                          Text(
-                                            _st.name ?? '',
-                                            style: TextStyle(
-                                                fontSize: w * 0.04,
+                              return ListView.separated(
+                                  shrinkWrap: true,
+                                  primary: false,
+                                  itemBuilder: (context, i) {
+                                    StudentClass _st = st.students[i];
+                                    return InkWell(
+                                      onTap: () async {
+                                        Provider.of<StudentItemProvider>(
+                                                context,
+                                                listen: false)
+                                            .clearList();
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    StudentInfo(
+                                                      studentClass: _st,
+                                                      studentId: _st.id,
+                                                    )));
+                                      },
+                                      child: SizedBox(
+                                        height: h * 0.4,
+                                        child: Stack(
+                                          alignment:
+                                              AlignmentDirectional.bottomCenter,
+                                          children: [
+                                            Align(
+                                              alignment: AlignmentDirectional
+                                                  .topCenter,
+                                              child: Container(
+                                                height: h * 0.35,
                                                 color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                            overflow: TextOverflow.fade,
-                                          ),
-                                        ],
+                                                child: ImageeNetworkWidget(
+                                                  fit: BoxFit.fill,
+                                                  image: st.students[i].cover!,
+                                                  width: double.infinity,
+                                                  height: h * 0.25,
+                                                ),
+                                                // child: Column(
+                                                //   mainAxisSize: MainAxisSize.min,
+                                                //   children: [
+                                                //     Container(
+                                                //       width: w * 0.3,
+                                                //       height: h * 0.14,
+                                                //       decoration: BoxDecoration(
+                                                //         shape: BoxShape.circle,
+                                                //         color: Colors.white,
+                                                //         border: Border.all(
+                                                //             color: mainColor),
+                                                //         image: _st.image == null
+                                                //             ? const DecorationImage(
+                                                //                 image: AssetImage(
+                                                //                     'assets/logo2.png'),
+                                                //                 fit: BoxFit.cover,
+                                                //               )
+                                                //             : DecorationImage(
+                                                //                 image: NetworkImage(
+                                                //                     _st.image!),
+                                                //                 fit: BoxFit.cover,
+                                                //               ),
+                                                //       ),
+                                                //     ),
+                                                //     // SizedBox(
+                                                //     //   height: h * 0.01,
+                                                //     // ),
+                                                //     // Text(
+                                                //     //   _st.name ?? '',
+                                                //     //   style: TextStyle(
+                                                //     //       fontSize: w * 0.04,
+                                                //     //       color: Colors.white,
+                                                //     //       fontWeight: FontWeight.bold),
+                                                //     //   overflow: TextOverflow.fade,
+                                                //     // ),
+                                                //   ],
+                                                // ),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: w * 0.3,
+                                              height: h * 0.14,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.white,
+                                                boxShadow:  [
+                                                  BoxShadow(
+                                                      color:
+                                                          Colors.grey.withOpacity(0.5),
+                                                      offset:const Offset(0, 3),
+                                                      blurRadius: 3,
+                                                      spreadRadius: 3),
+                                                ],
+                                                border: Border.all(
+                                                    color: mainColor),
+                                                image: _st.image == null
+                                                    ? const DecorationImage(
+                                                        image: AssetImage(
+                                                            'assets/logo2.png'),
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                    : DecorationImage(
+                                                        image: NetworkImage(
+                                                            _st.image!),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    onTap: () async {
-                                      Provider.of<StudentItemProvider>(context,
-                                              listen: false)
-                                          .clearList();
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => StudentInfo(
-                                                    studentClass: _st,
-                                                    studentId: _st.id,
-                                                  )));
-                                    },
-                                  );
-                                }),
-                              );
+                                    );
+                                  },
+                                  separatorBuilder: (context, i) => SizedBox(
+                                        height: h * 0.02,
+                                      ),
+                                  itemCount: st.students.length);
+                              // return GridView.count(
+                              //   controller: _controller,
+                              //   crossAxisCount: 3,
+                              //   shrinkWrap: true,
+                              //   // primary: false,
+                              //   scrollDirection: Axis.vertical,
+                              //   mainAxisSpacing: w * 0.02,
+                              //   crossAxisSpacing: h * 0.02,
+                              //   childAspectRatio: 0.8,
+                              //   children:
+                              //       List.generate(st.students.length, (i) {
+                              //     StudentClass _st = st.students[i];
+
+                              //     return InkWell(
+                              //       child: Container(
+                              //         width: w * 0.3,
+                              //         height: h * 0.2,
+                              //         decoration: BoxDecoration(
+                              //             color: Colors.black,
+                              //             borderRadius:
+                              //                 BorderRadius.circular(w * 0.05),
+                              //             border: Border.all(color: mainColor)),
+                              //         child: Column(
+                              //           mainAxisSize: MainAxisSize.min,
+                              //           children: [
+                              //             Container(
+                              //               width: w * 0.3,
+                              //               height: h * 0.14,
+                              //               decoration: BoxDecoration(
+                              //                 borderRadius:
+                              //                     BorderRadius.circular(15),
+                              //                 color: Colors.white,
+                              //                 border:
+                              //                     Border.all(color: mainColor),
+                              //                 image: _st.image == null
+                              //                     ? const DecorationImage(
+                              //                         image: AssetImage(
+                              //                             'assets/logo2.png'),
+                              //                         fit: BoxFit.cover,
+                              //                       )
+                              //                     : DecorationImage(
+                              //                         image: NetworkImage(
+                              //                             _st.image!),
+                              //                         fit: BoxFit.cover,
+                              //                       ),
+                              //               ),
+                              //             ),
+                              //             SizedBox(
+                              //               height: h * 0.01,
+                              //             ),
+                              //             Text(
+                              //               _st.name ?? '',
+                              //               style: TextStyle(
+                              //                   fontSize: w * 0.04,
+                              //                   color: Colors.white,
+                              //                   fontWeight: FontWeight.bold),
+                              //               overflow: TextOverflow.fade,
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //       onTap: () async {
+                              //         Provider.of<StudentItemProvider>(context,
+                              //                 listen: false)
+                              //             .clearList();
+                              //         Navigator.push(
+                              //             context,
+                              //             MaterialPageRoute(
+                              //                 builder: (context) => StudentInfo(
+                              //                       studentClass: _st,
+                              //                       studentId: _st.id,
+                              //                     )));
+                              //       },
+                              //     );
+                              //   }),
+                              // );
                             } else {
                               return Center(
                                 child: Text(
