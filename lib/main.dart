@@ -43,7 +43,7 @@ Future<void> main() async {
   final token = await FirebaseMessaging.instance.getToken();
   SharedPreferences _sp = await SharedPreferences.getInstance();
   _sp.setString('token', "$token");
-
+  print(token);
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   if (!kIsWeb) {
