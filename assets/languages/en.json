@@ -202,7 +202,7 @@
   },
   "reset_pass": {
     "title" : "Reset Password",
-    "sub_title1" : "Enter Your Email address for send",
+    "sub_title1" : "Enter Your Email address for sending",
     "sub_title2" : "Activation code",
     "sub_title3" : "New Password"
   },

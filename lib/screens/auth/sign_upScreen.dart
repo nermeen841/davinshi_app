@@ -43,14 +43,14 @@ class _SignupScreenState extends State<SignupScreen> {
   final List<String> hint = (language == 'en')
       ? [
           'Name',
-          'E-mail ( optional )',
+          'E-mail',
           'phone number',
           'password',
           'confirm password'
         ]
       : [
           'الاسم بالكامل',
-          ' ( اختياري ) البريد الاكتروني',
+          ' البريد الاكتروني',
           'رقم الهاتف',
           'كلمة المرور',
           'تاكيد كلمة المرور'

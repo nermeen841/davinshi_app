@@ -47,9 +47,9 @@ class CartProvider extends ChangeNotifier {
           items.where((element) => element.idc == _cat[i].id).toList();
       cart.add(
         CartClass(
-            nameAr: _cat[i].nameAr,
-            nameEn: _cat[i].nameEn,
-            svg: _cat[i].svg,
+            nameAr: _cat[i].nameAr!,
+            nameEn: _cat[i].nameEn!,
+            svg: _cat[i].svg!,
             cartPro: cartPro),
       );
     }

@@ -124,16 +124,12 @@ class ProductsModel {
 }
 
 class Cat {
-  int id;
-  String nameAr;
-  String nameEn;
-  String svg;
+  int? id;
+  String? nameAr;
+  String? nameEn;
+  String? svg;
 
-  Cat(
-      {required this.id,
-      required this.nameAr,
-      required this.nameEn,
-      required this.svg});
+  Cat({this.id, this.nameAr, this.nameEn, this.svg});
 }
 
 class Statement {
@@ -222,12 +218,17 @@ Future<ProductCla> setProduct(Map e) async {
     bool isClothes = e['product']['is_clothes'];
     List<ProCategory> _proCat = [];
     try {
-      e['product']['categories'].forEach((c) {
-        _proCat.add(ProCategory(
-            nameAr: c['name_ar'] ?? '',
-            nameEn: c['name_en'] ?? '',
-            catId: c['pivot']['category_id']));
-      });
+      if (e['product']['categories'].isNotEmpty ||
+          e['product']['categories'] != []) {
+        e['product']['categories'].forEach((c) {
+          _proCat.add(ProCategory(
+              nameAr: c['name_ar'] ?? '',
+              nameEn: c['name_en'] ?? '',
+              catId: c['pivot']['category_id']));
+        });
+      } else {
+        _proCat = [];
+      }
     } catch (e) {
       print('q');
     }
@@ -301,17 +302,22 @@ Future<ProductCla> setProduct(Map e) async {
       }
     }
 
-    late Cat _cat;
+ Cat _cat = Cat();
     try {
-      e['product']['categories'].forEach((c) {
-        if (c['parent_id'] != 0) {
-          _cat = Cat(
-              id: c['id'],
-              nameAr: c['name_ar'] ?? '',
-              nameEn: c['name_en'] ?? '',
-              svg: c['src'] + '/' + c['img']);
-        }
-      });
+      if (e['product']['categories'].isNotEmpty ||
+          e['product']['categories'] != []) {
+        e['product']['categories'].forEach((c) {
+          if (c['parent_id'] != 0) {
+            _cat = Cat(
+                id: c['id'],
+                nameAr: c['name_ar'] ?? '',
+                nameEn: c['name_en'] ?? '',
+                svg: c['src'] + '/' + c['img']);
+          }
+        });
+      } else {
+        _cat = Cat(id: null, nameAr: '', nameEn: '');
+      }
     } catch (e) {
       print('t');
     }
@@ -406,6 +412,7 @@ Future<bool> getItem(int id) async {
   try {
     Response response = await Dio().get(url);
     if (response.data['status'] == 1) {
+      print(response.data);
       await setProduct(response.data['data']);
       return true;
     }

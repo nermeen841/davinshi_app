@@ -567,7 +567,7 @@ class _StudentInfo extends State<StudentInfo> {
                                             newItem.sort = newItem.apiSort[index];
                                           });
                                         });
-                                       
+                                       start(context);
                                         await newItem
                                             .getItems(widget.studentClass.id)
                                             .then((value) {
@@ -820,11 +820,13 @@ class _StudentInfo extends State<StudentInfo> {
                                             ),
                                           ),
                                           onTap: () {
+                                           
                                             navP(
                                                 context,
                                                 Products(
                                                   fromFav: false,
                                                   productId: item.items[i].id,
+                                                  brandId: widget.studentClass.id,
                                                 ));
                                           },
                                         );
