@@ -1,181 +1,34 @@
 {
   "project_info": {
-    "project_number": "771393052029",
-    "project_id": "davinshi-d4cc5",
-    "storage_bucket": "davinshi-d4cc5.appspot.com"
+    "project_number": "900582549343",
+    "project_id": "multi-1f70d",
+    "storage_bucket": "multi-1f70d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:771393052029:android:fd2ba0daf5fa11bbfc4014",
-        "android_client_info": {
-          "package_name": "com.bluezone.davinshi"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "771393052029-1cplucvbk0ig161eld8t1bihbfjqba3k.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bluezone.davinshi",
-            "certificate_hash": "f2592ebd89c8893da934603802c247d49b45d119"
-          }
-        },
-        {
-          "client_id": "771393052029-q3vfg3q3f62r8kavme5lqrt1mf0vnpka.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bluezone.davinshi",
-            "certificate_hash": "7bc6c29fe40094229d0c57d51a59d585a9b1c6b0"
-          }
-        },
-        {
-          "client_id": "771393052029-m4j6kfsoakgo65dqp3bjl4u2elbcna1m.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBBbEdX_ikAEmvEkebx96Meos9JAZRQWHM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "771393052029-m4j6kfsoakgo65dqp3bjl4u2elbcna1m.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "771393052029-evaruoj4m9d7hv01h648nvjb23v9o7r2.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.davinshiApp"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:771393052029:android:2413a456957c4ee3fc4014",
-        "android_client_info": {
-          "package_name": "com.davinshi.davinshi"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "771393052029-qplvvviu1jqjpcgmvj3skmotop8d3lek.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.davinshi.davinshi",
-            "certificate_hash": "7bc6c29fe40094229d0c57d51a59d585a9b1c6b0"
-          }
-        },
-        {
-          "client_id": "771393052029-m4j6kfsoakgo65dqp3bjl4u2elbcna1m.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBBbEdX_ikAEmvEkebx96Meos9JAZRQWHM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "771393052029-m4j6kfsoakgo65dqp3bjl4u2elbcna1m.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "771393052029-evaruoj4m9d7hv01h648nvjb23v9o7r2.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.davinshiApp"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:771393052029:android:04ad6f7a5e2dd1b0fc4014",
-        "android_client_info": {
-          "package_name": "com.konoz.konoz"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "771393052029-9hdk29up3sbu165i46qi790k23789o83.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.konoz.konoz",
-            "certificate_hash": "7bc6c29fe40094229d0c57d51a59d585a9b1c6b0"
-          }
-        },
-        {
-          "client_id": "771393052029-m4j6kfsoakgo65dqp3bjl4u2elbcna1m.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBBbEdX_ikAEmvEkebx96Meos9JAZRQWHM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "771393052029-m4j6kfsoakgo65dqp3bjl4u2elbcna1m.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "771393052029-evaruoj4m9d7hv01h648nvjb23v9o7r2.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.davinshiApp"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:771393052029:android:0e4c3354b24ce4b5fc4014",
+        "mobilesdk_app_id": "1:900582549343:android:bc062192f2a68ae55778ea",
         "android_client_info": {
           "package_name": "com.multi.multi"
         }
       },
       "oauth_client": [
         {
-          "client_id": "771393052029-m4j6kfsoakgo65dqp3bjl4u2elbcna1m.apps.googleusercontent.com",
+          "client_id": "900582549343-ee97rt8j1fjqflir1d1n1rb1dkr67q23.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBBbEdX_ikAEmvEkebx96Meos9JAZRQWHM"
+          "current_key": "AIzaSyCianvMIJnhj3y98q6b3qkVgQdWt6JwpTQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "771393052029-m4j6kfsoakgo65dqp3bjl4u2elbcna1m.apps.googleusercontent.com",
+              "client_id": "900582549343-ee97rt8j1fjqflir1d1n1rb1dkr67q23.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "771393052029-evaruoj4m9d7hv01h648nvjb23v9o7r2.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.davinshiApp"
-              }
             }
           ]
         }
