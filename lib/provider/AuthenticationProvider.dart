@@ -34,8 +34,10 @@ class AuthenticationProvider {
       data: {
         'email': email.toString(),
         'password': password.toString(),
+        'fcm_token': prefs.getString('token')
       },
     );
+    print(response.data);
     if (response.statusCode == 200 && response.data['user'] != null) {
       print(response.data);
       Map userData = response.data['user'];
@@ -110,7 +112,9 @@ class AuthenticationProvider {
       'password': password.text,
       'password_confirmation': confirmPassword.text,
       'phone': phone.text,
+      'fcm_token': prefs.getString('token')
     };
+    print(data);
     try {
       var response = await http.post(
         Uri.parse(url),
@@ -121,6 +125,7 @@ class AuthenticationProvider {
       );
 
       var userData = json.decode(response.body);
+      print(userData);
       String datamess = '';
       if (userData['status'] == 0) {
         controller.error();

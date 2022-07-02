@@ -15,6 +15,7 @@ SystemUiOverlayStyle st = const SystemUiOverlayStyle(
   statusBarBrightness: Brightness.light,
 );
 String domain = "https://multi-kw.com/api/V1/";
+String liveDomainUrl = "https://multi-kw.com/";
 // 'https://davinshi.net/api/V1/';
 String imagePath = 'https://multi-kw.com/assets/images/products/min/';
 String imagePath2 = 'https://multi-kw.com/assets/images/products/gallery/';

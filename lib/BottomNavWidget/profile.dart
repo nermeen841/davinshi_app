@@ -580,7 +580,7 @@ class _ProfileState extends State<Profile> {
                                 child: CircleAvatar(
                                     backgroundColor: Colors.white,
                                     backgroundImage: NetworkImage(
-                                        "https://davinshi.net/" + userImage!),
+                                        liveDomainUrl + userImage!),
                                     radius: w * 0.13),
                               ),
                         backgroundColor: mainColor,
