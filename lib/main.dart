@@ -1,4 +1,6 @@
 // ignore_for_file: avoid_print, prefer_typing_uninitialized_variables
+
+import 'package:davinshi_app/provider/notification.dart';
 import 'package:davinshi_app/splach.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -42,7 +44,9 @@ Future<void> main() async {
   await startShared();
   final token = await FirebaseMessaging.instance.getToken();
   SharedPreferences _sp = await SharedPreferences.getInstance();
-  _sp.setString('token', "$token");
+  _sp.setString('token', "$token").then((value) {
+    notificationToken();
+  });
   print(token);
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 

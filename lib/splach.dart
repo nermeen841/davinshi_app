@@ -4,6 +4,7 @@ import 'package:davinshi_app/models/order.dart';
 import 'package:davinshi_app/provider/best_item.dart';
 import 'package:davinshi_app/provider/fav_pro.dart';
 import 'package:davinshi_app/provider/new_item.dart';
+import 'package:davinshi_app/provider/notification.dart';
 import 'package:davinshi_app/provider/offer_item.dart';
 import 'package:davinshi_app/provider/social.dart';
 import 'package:davinshi_app/screens/auth/login.dart';
@@ -25,52 +26,62 @@ class Splach extends StatefulWidget {
 
 class _SplachState extends State<Splach> {
   Future go() async {
-    await Future.delayed(const Duration(seconds: 1), () async {
-      String? lang = prefs.getString('language_code');
-      bool countrySelected = prefs.getBool('country_selected') ?? false;
-      if (lang != null) {
-        if (login) {
-          getLikes();
-          getOrders();
-          NewItemProvider();
-          FavItemProvider();
-          BestItemProvider();
-          OfferItemProvider();
-          SocialIcons().getSocialIcons();
-          getCountries();
-          HomeProvider().getHomeItems();
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => Home()),
-              (route) => false);
-        } else {
-          await getCountries();
-          if (countrySelected) {
+    await Future.delayed(
+      const Duration(seconds: 1),
+      () async {
+        String? lang = prefs.getString('language_code');
+        bool countrySelected = prefs.getBool('country_selected') ?? false;
+        if (lang != null) {
+          if (login) {
+            notificationToken();
+            getLikes();
+            getOrders();
+            NewItemProvider();
+            await NotificationProvider().getNotification();
+            FavItemProvider();
+            BestItemProvider();
+            OfferItemProvider();
+            SocialIcons().getSocialIcons();
+            getCountries();
+            HomeProvider().getHomeItems();
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => const Login()),
+                MaterialPageRoute(builder: (context) => Home()),
                 (route) => false);
           } else {
+            notificationToken();
+            await NotificationProvider().getNotification();
             await getCountries();
-            await SocialIcons().getSocialIcons();
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => Country(1)),
-                (route) => false);
+            if (countrySelected) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Login()),
+                  (route) => false);
+            } else {
+              await getCountries();
+              await SocialIcons().getSocialIcons();
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Country(1)),
+                  (route) => false);
+            }
           }
+        } else {
+          notificationToken();
+          await NotificationProvider().getNotification();
+          getCountries();
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const LangPage()),
+              (route) => false);
         }
-      } else {
-        getCountries();
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const LangPage()),
-            (route) => false);
-      }
-    });
+      },
+    );
   }
 
   @override
   void initState() {
+    NotificationProvider();
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       String? token = prefs.getString('token');

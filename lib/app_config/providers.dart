@@ -18,6 +18,8 @@ import 'package:davinshi_app/provider/student_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+import '../provider/notification.dart';
+
 class ProvidersList {
   static List<SingleChildWidget> getProviders = [
     ChangeNotifierProvider(create: (context) => CatProvider()),
@@ -40,5 +42,8 @@ class ProvidersList {
     ChangeNotifierProvider(create: (context) => OneDesigne()),
     ChangeNotifierProvider(
         create: ((context) => HomeProvider()..getHomeItems())),
+    ChangeNotifierProvider(
+      create: ((context) => NotificationProvider()..getNotification()),
+    ),
   ];
 }

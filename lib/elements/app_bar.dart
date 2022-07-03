@@ -2,7 +2,9 @@
 
 import 'package:badges/badges.dart';
 import 'package:davinshi_app/provider/home.dart';
+import 'package:davinshi_app/provider/notification.dart';
 import 'package:davinshi_app/screens/home_folder/home_page.dart';
+import 'package:davinshi_app/screens/notifications/notification.dart';
 import 'package:davinshi_app/screens/student/view_all.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/lang/change_language.dart';
@@ -18,6 +20,7 @@ class AppBarHome {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
     CartProvider cart = Provider.of<CartProvider>(context, listen: false);
+    Provider.of<NotificationProvider>(context, listen: false);
     return AppBar(
       backgroundColor: Colors.white,
       automaticallyImplyLeading: false,
@@ -60,32 +63,40 @@ class AppBarHome {
         ),
       ),
       actions: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: w * 0.01),
-          child: Padding(
-            padding: const EdgeInsets.all(5),
-            child: Badge(
-              badgeColor: const Color(0xffFF0921),
-              child: IconButton(
-                icon: Icon(
-                  Icons.notifications_outlined,
-                  color: mainColor,
+        Consumer<NotificationProvider>(
+          builder: (context, value, child) => Padding(
+            padding: EdgeInsets.symmetric(vertical: w * 0.01),
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: Badge(
+                badgeColor: const Color(0xffFF0921),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.notifications_outlined,
+                    color: mainColor,
+                  ),
+                  padding: EdgeInsets.zero,
+                  focusColor: Colors.white,
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationScreen())),
                 ),
-                padding: EdgeInsets.zero,
-                focusColor: Colors.white,
-                onPressed: () {},
-              ),
-              animationDuration: const Duration(
-                seconds: 2,
-              ),
-              badgeContent: Text(
-                "0",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: w * 0.03,
+                animationDuration: const Duration(
+                  seconds: 2,
                 ),
+                badgeContent: Text(
+                  (value.waitingData == true)
+                      ? value.notificationModel!.data!.length.toString()
+                      : "0",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: w * 0.03,
+                  ),
+                ),
+                position:
+                    BadgePosition.topStart(start: w * 0.03, top: h * 0.001),
               ),
-              position: BadgePosition.topStart(start: w * 0.03, top: h * 0.001),
             ),
           ),
         ),

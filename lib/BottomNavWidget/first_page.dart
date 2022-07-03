@@ -3,6 +3,7 @@
 import 'package:davinshi_app/dbhelper.dart';
 import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:davinshi_app/models/home_item.dart';
+import 'package:davinshi_app/provider/notification.dart';
 import 'package:davinshi_app/screens/designes/designe.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/elements/app_bar.dart';
@@ -54,7 +55,7 @@ class _FirstPageState extends State<FirstPage>
     var of2 = Provider.of<BestItemProvider>(context, listen: true);
     var of3 = Provider.of<ReItemProvider>(context, listen: true);
     var of4 = Provider.of<OfferItemProvider>(context, listen: true);
-
+    notificationToken();
     widget.tabBarHome.addListener(() async {
       if (widget.tabBarHome.index == 1) {
         if (fi1) {

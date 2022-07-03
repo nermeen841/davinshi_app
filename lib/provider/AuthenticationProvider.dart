@@ -34,7 +34,6 @@ class AuthenticationProvider {
       data: {
         'email': email.toString(),
         'password': password.toString(),
-        'fcm_token': prefs.getString('token')
       },
     );
     print(response.data);
@@ -112,7 +111,6 @@ class AuthenticationProvider {
       'password': password.text,
       'password_confirmation': confirmPassword.text,
       'phone': phone.text,
-      'fcm_token': prefs.getString('token')
     };
     print(data);
     try {
