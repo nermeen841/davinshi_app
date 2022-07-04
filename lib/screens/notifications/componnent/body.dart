@@ -1,18 +1,13 @@
 import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:davinshi_app/lang/change_language.dart';
 import 'package:davinshi_app/models/bottomnav.dart';
-import 'package:davinshi_app/models/search_model.dart';
 import 'package:davinshi_app/provider/notification.dart';
 import 'package:davinshi_app/screens/product_info/products.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../models/constants.dart';
 import '../../../models/order.dart';
-import '../../../provider/student_product.dart';
 import '../../cart/order_info.dart';
-import '../../student/student_info.dart';
-import '../../sub_categories_screen.dart';
 
 class NotificationBody extends StatefulWidget {
   const NotificationBody({Key? key}) : super(key: key);

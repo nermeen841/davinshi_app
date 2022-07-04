@@ -23,6 +23,8 @@ import 'BottomNavWidget/change_pass.dart';
 import 'lang/change_language.dart';
 import 'lang/localizations.dart';
 import 'models/bottomnav.dart';
+import 'models/order.dart';
+import 'screens/cart/order_info.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a background message ');
@@ -114,9 +116,31 @@ class _MyAppState extends State<MyApp> {
         var val;
         var data = message.data;
         print(data);
-        if (message.data.containsKey('data')) {
-          // Handle data message
-
+        if (message.data.containsKey('a_data')) {
+          if (data['a_data']['type'] == "Product") {
+            navPR(
+              context,
+              Products(
+                fromFav: false,
+                productId: data['a_data']['type_id'],
+              ),
+            );
+          } else if (data['a_data']['type'] == "Order") {
+            dialog(context);
+            getOrder(data['a_data']['type_id']).then((value) {
+              if (value) {
+                navPR(
+                    context,
+                    OrderInfo(
+                      orderClass: orders[0],
+                    ));
+              } else {
+                navPop(context);
+                error(context);
+              }
+            });
+          } else if (data['a_data']['type_id'] == "Brand") {
+          } else if (data['a_data']['type_id'] == "Category") {}
         }
 
         print("firebase data ----------------------------- : $val");
@@ -141,12 +165,34 @@ class _MyAppState extends State<MyApp> {
       }
 
       var val;
-      // var data = message.data;
-      // if (message.data.containsKey('data')) {
-      //   // Handle data message
-      //   data = message.data['data'];
-      //   val = json.decode(data);
-      // }
+      var data = message.data;
+      print(data);
+      if (message.data.containsKey('a_data')) {
+        if (data['a_data']['type'] == "Product") {
+          navPR(
+            context,
+            Products(
+              fromFav: false,
+              productId: data['a_data']['type_id'],
+            ),
+          );
+        } else if (data['a_data']['type'] == "Order") {
+          dialog(context);
+          getOrder(data['a_data']['type_id']).then((value) {
+            if (value) {
+              navPR(
+                  context,
+                  OrderInfo(
+                    orderClass: orders[0],
+                  ));
+            } else {
+              navPop(context);
+              error(context);
+            }
+          });
+        } else if (data['a_data']['type_id'] == "Brand") {
+        } else if (data['a_data']['type_id'] == "Category") {}
+      }
 
       print("firebase data ----------------------------- : $val");
     });
@@ -154,12 +200,34 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('A new onMessageOpenedApp event was published!');
       var val;
-      // var data = message.data;
-      // if (message.data.containsKey('data')) {
-      //   // Handle data message
-      //   data = message.data['data'];
-      //   val = json.decode(data);
-      // }
+      var data = message.data;
+      print(data);
+      if (message.data.containsKey('a_data')) {
+        if (data['a_data']['type'] == "Product") {
+          navPR(
+            context,
+            Products(
+              fromFav: false,
+              productId: data['a_data']['type_id'],
+            ),
+          );
+        } else if (data['a_data']['type'] == "Order") {
+          dialog(context);
+          getOrder(data['a_data']['type_id']).then((value) {
+            if (value) {
+              navPR(
+                  context,
+                  OrderInfo(
+                    orderClass: orders[0],
+                  ));
+            } else {
+              navPop(context);
+              error(context);
+            }
+          });
+        } else if (data['a_data']['type_id'] == "Brand") {
+        } else if (data['a_data']['type_id'] == "Category") {}
+      }
 
       print("firebase data ----------------------------- : $val");
     });
