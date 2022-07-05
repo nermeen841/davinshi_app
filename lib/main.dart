@@ -110,7 +110,7 @@ class _MyAppState extends State<MyApp> {
               notification.body,
               NotificationDetails(
                 android: AndroidNotificationDetails(channel.id, channel.name,
-                    icon: 'launch_background', importance: Importance.high),
+                    icon: '@mipmap/ic_launcher', importance: Importance.high),
               ));
         }
 
@@ -161,7 +161,7 @@ class _MyAppState extends State<MyApp> {
             notification.body,
             NotificationDetails(
               android: AndroidNotificationDetails(channel.id, channel.name,
-                  icon: 'launch_background', importance: Importance.high),
+                  icon: '@mipmap/ic_launcher', importance: Importance.high),
             ));
       }
 
@@ -198,6 +198,18 @@ class _MyAppState extends State<MyApp> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+       RemoteNotification? notification = message.notification;
+        AndroidNotification? android = message.notification?.android;
+        if (notification != null && android != null && !kIsWeb) {
+          flutterLocalNotificationsPlugin.show(
+              notification.hashCode,
+              notification.title,
+              notification.body,
+              NotificationDetails(
+                android: AndroidNotificationDetails(channel.id, channel.name,
+                    icon: '@mipmap/ic_launcher', importance: Importance.high),
+              ));
+        }
       print('A new onMessageOpenedApp event was published!');
       var val;
       var data = message.data;
