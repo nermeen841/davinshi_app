@@ -71,6 +71,7 @@ Future<void> main() async {
       alert: true,
       badge: true,
       sound: true,
+      
     );
   }
 
@@ -143,7 +144,7 @@ class _MyAppState extends State<MyApp> {
           } else if (data['a_data']['type_id'] == "Category") {}
         }
 
-        print("firebase data ----------------------------- : $val");
+        print("firebase data ----------------------------- : $data");
         debugPrint("firebase data ----------------------------- : $val");
         debugPrint(
             "firebase type ----------------------------- : ${message.data['type']}");
@@ -164,7 +165,6 @@ class _MyAppState extends State<MyApp> {
             ));
       }
 
-      var val;
       var data = message.data;
       print(data);
       if (message.data.containsKey('a_data')) {
@@ -194,7 +194,7 @@ class _MyAppState extends State<MyApp> {
         } else if (data['a_data']['type_id'] == "Category") {}
       }
 
-      print("firebase data ----------------------------- : $val");
+      print("firebase data ----------------------------- : $data");
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {

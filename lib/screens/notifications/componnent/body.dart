@@ -103,7 +103,7 @@ class _NotificationBodyState extends State<NotificationBody> {
                                             .data![index].image!,
                                         fit: BoxFit.cover,
                                         width: double.infinity,
-                                        height: h * 0.2,
+                                        height: h * 0.3,
                                       ),
                                     )
                                   : const SizedBox(),

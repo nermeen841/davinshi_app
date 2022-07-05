@@ -128,47 +128,7 @@ class _SubCategoriesScreenState extends State<SubCategoriesScreen>
                   ),
                 ),
 
-                // ListView.separated(
-                //   itemCount: widget.subcategoriesList.length,
-                //   physics: const BouncingScrollPhysics(),
-                //   scrollDirection: Axis.horizontal,
-                //   itemBuilder: (context, index) {
-                //     return GestureDetector(
-                //       onTap: () {
-                //         setState(() {
-                //           selectedSubCat = index;
-                //           subCatId =
-                //               widget.subcategoriesList[index].id.toString();
-                //         });
-                //       },
-                //       child: Container(
-                //         padding: const EdgeInsets.all(5),
-                //         decoration: BoxDecoration(
-                //             border: Border(
-                //                 bottom: BorderSide(
-                //                     color: index == selectedSubCat
-                //                         ? mainColor
-                //                         : Colors.grey.withOpacity(0.3),
-                //                     width: 2))),
-                // child: Text(
-                //   prefs.getString('language_code').toString() == 'en'
-                //       ? widget.subcategoriesList[index].nameEn
-                //       : widget.subcategoriesList[index].nameAr,
-                //   style: TextStyle(
-                //       color: index == selectedSubCat
-                //           ? mainColor
-                //           : Colors.black45,
-                //       fontSize: w * 0.045),
-                // ),
-                //       ),
-                //     );
-                //   },
-                //   separatorBuilder: (BuildContext context, int index) {
-                //     return SizedBox(
-                //       width: w * 0.03,
-                //     );
-                //   },
-                // ),
+            
               ),
             ),
           ),

@@ -123,11 +123,12 @@ class _ConfirmCartState extends State<ConfirmCart> {
                       )));
         } else if (isCash == 1) {
           if (login) {
+            navPR(context, const FatorahScreen());
             await getOrders().then((value) {
               if (value) {
                 Provider.of<CartProvider>(context, listen: false).clearAll();
                 dbHelper.deleteAll();
-                navPR(context, const FatorahScreen());
+                
                 return null;
               } else {
                 navPop(context);

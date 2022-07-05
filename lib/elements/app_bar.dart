@@ -86,9 +86,9 @@ class AppBarHome {
                   seconds: 2,
                 ),
                 badgeContent: Text(
-                  // (value.waitingData == true)
-                  //     ? value.notificationModel!.data!.length.toString()
-                  //     :
+                  (value.waitingData == true)
+                      ? value.notificationModel!.data!.length.toString()
+                      :
                   "0",
                   style: TextStyle(
                     color: Colors.white,

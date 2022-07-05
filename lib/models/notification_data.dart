@@ -9,15 +9,17 @@ class NotificationModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add( Data.fromJson(v));
       });
     }
   }
+
 }
 
 class Data {
   int? id;
-  String? fcmToken;
+  List<String>? fcmToken;
+  List<int>? userId;
   String? type;
   int? typeId;
   String? title;
@@ -28,6 +30,7 @@ class Data {
   Data(
       {this.id,
       this.fcmToken,
+      this.userId,
       this.type,
       this.typeId,
       this.title,
@@ -37,7 +40,8 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    fcmToken = json['fcm_token'];
+    fcmToken = json['fcm_token'].cast<String>();
+    userId = json['user_id'].cast<int>();
     type = json['type'];
     typeId = json['type_id'];
     title = json['title'];
@@ -45,4 +49,5 @@ class Data {
     image = json['image'];
     isRead = json['is_read'];
   }
+
 }

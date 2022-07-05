@@ -102,6 +102,8 @@ class StudentItemProvider extends ChangeNotifier {
       Response response = await Dio(BaseOptions(
         connectTimeout: 5000,
         receiveTimeout: 3000,
+        followRedirects: false,
+        validateStatus: (status) => true,
       )).get(url);
       if (response.data['status'] == 1) {
         print(response.data);
