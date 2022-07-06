@@ -25,7 +25,7 @@ class Data {
   String? title;
   String? body;
   String? image;
-  int? isRead;
+  bool? isRead;
 
   Data(
       {this.id,

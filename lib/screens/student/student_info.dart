@@ -16,9 +16,12 @@ import '../cart/cart.dart';
 import '../product_info/products.dart';
 
 class StudentInfo extends StatefulWidget {
-  final dynamic studentClass;
+  // final dynamic studentClass;
   final int studentId;
-  StudentInfo({Key? key, required this.studentClass, required this.studentId})
+  StudentInfo(
+      {Key? key,
+      // required this.studentClass,
+      required this.studentId})
       : super(key: key);
   @override
   _StudentInfo createState() => _StudentInfo();
@@ -37,15 +40,17 @@ class _StudentInfo extends State<StudentInfo> {
   late PageController pageController;
   @override
   void initState() {
+  
     pageController = PageController(initialPage: currentIndex);
     super.initState();
   }
 
   void start(context) {
     isLoading = false;
-    studentId = widget.studentClass.id;
+    studentId = widget.studentId;
     var of1 = Provider.of<StudentItemProvider>(context, listen: false);
-    of1.getItems(widget.studentClass.id).then((value) {
+    of1.getItems(widget.studentId).then((value) {
+    
       isLoading = true;
     });
     _controller.addListener(() {
@@ -55,7 +60,7 @@ class _StudentInfo extends State<StudentInfo> {
             if (!of1.finish) {
               f1 = false;
               isLoading = false;
-              of1.getItems(widget.studentClass.id).then((value) {
+              of1.getItems(widget.studentId).then((value) {
                 f1 = true;
                 isLoading = true;
               });
@@ -71,7 +76,7 @@ class _StudentInfo extends State<StudentInfo> {
             if (!of1.finish) {
               f1 = false;
               isLoading = false;
-              of1.getItems(widget.studentClass.id).then((value) {
+              of1.getItems(widget.studentId).then((value) {
                 f1 = true;
                 isLoading = true;
               });
@@ -109,105 +114,109 @@ class _StudentInfo extends State<StudentInfo> {
               context: context,
               barrierDismissible: true,
               builder: (BuildContext context) {
-                return Dialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  backgroundColor: Colors.grey[200]!.withOpacity(0.85),
-                  insetPadding: EdgeInsets.all(w * 0.05),
-                  child: Padding(
-                    padding: isLeft()
-                        ? EdgeInsets.only(
-                            top: h * 0.01,
-                            bottom: h * 0.02,
-                            right: w * 0.03,
-                            left: w * 0.04)
-                        : EdgeInsets.only(
-                            top: h * 0.01,
-                            bottom: h * 0.02,
-                            left: w * 0.03,
-                            right: w * 0.04),
-                    child: Container(
-                      width: w * 0.93,
-                      constraints: BoxConstraints(
-                        minHeight: h * 0.4,
-                        maxHeight: h * 0.5,
-                      ),
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            radius: w * 0.12,
-                            backgroundColor: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: widget.studentClass.image == null
-                                  ? CircleAvatar(
-                                      radius: w * 0.1,
-                                      backgroundImage:
-                                          const AssetImage('assets/logo2.png'),
-                                    )
-                                  : CircleAvatar(
-                                      radius: w * 0.1,
-                                      backgroundImage: NetworkImage(
-                                          widget.studentClass.image!),
-                                    ),
+                return Consumer<StudentItemProvider>(
+                  builder: (context, value, child) => Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    backgroundColor: Colors.grey[200]!.withOpacity(0.85),
+                    insetPadding: EdgeInsets.all(w * 0.05),
+                    child: Padding(
+                      padding: isLeft()
+                          ? EdgeInsets.only(
+                              top: h * 0.01,
+                              bottom: h * 0.02,
+                              right: w * 0.03,
+                              left: w * 0.04)
+                          : EdgeInsets.only(
+                              top: h * 0.01,
+                              bottom: h * 0.02,
+                              left: w * 0.03,
+                              right: w * 0.04),
+                      child: Container(
+                        width: w * 0.93,
+                        constraints: BoxConstraints(
+                          minHeight: h * 0.4,
+                          maxHeight: h * 0.5,
+                        ),
+                        child: Column(
+                          children: [
+                            CircleAvatar(
+                              radius: w * 0.12,
+                              backgroundColor: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(5),
+                                child: value.studentClass!.image == null
+                                    ? CircleAvatar(
+                                        radius: w * 0.1,
+                                        backgroundImage: const AssetImage(
+                                            'assets/logo2.png'),
+                                      )
+                                    : CircleAvatar(
+                                        radius: w * 0.1,
+                                        backgroundImage: NetworkImage(
+                                            value.studentClass!.image.toString()),
+                                      ),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: h * 0.02,
-                          ),
-                          Text(
-                            widget.studentClass.name ?? '',
-                            style:
-                                TextStyle(color: mainColor, fontSize: w * 0.05),
-                          ),
-                          SizedBox(
-                            height: h * 0.02,
-                          ),
-                          row(
-                              w,
-                              'assets/facebook-logo.png',
-                              'assets/instagram.png',
-                              widget.studentClass.facebook ?? 'Empty',
-                              widget.studentClass.instagram ?? 'Empty',
-                              () async {
-                            await launch(widget.studentClass.facebook);
-                          }, () async {
-                            await launch(widget.studentClass.instagram);
-                          }),
-                          SizedBox(
-                            height: h * 0.03,
-                          ),
-                          row(
-                              w,
-                              'assets/twitter.png',
-                              'assets/linkedin.png',
-                              widget.studentClass.twitter ?? 'Empty',
-                              widget.studentClass.linkedin ?? 'Empty',
-                              () async {
-                            await launch(widget.studentClass.twitter);
-                          }, () async {
-                            await launch(widget.studentClass.linkedin);
-                          }),
-                          SizedBox(
-                            height: h * 0.03,
-                          ),
-                          row(
-                              w,
-                              'assets/phone-receiver-silhouette.png',
-                              'assets/email.png',
-                              widget.studentClass.phone,
-                              widget.studentClass.email, () async {
-                            await launch('tel: ${widget.studentClass.phone}');
-                          }, () async {
-                            final Uri params = Uri(
-                              scheme: 'mailto',
-                              path: widget.studentClass.email,
-                            );
-                            String url = params.toString();
-                            await launch(url);
-                          }),
-                        ],
+                            SizedBox(
+                              height: h * 0.02,
+                            ),
+                            Text(
+                              value.studentClass!.name ?? '',
+                              style: TextStyle(
+                                  color: mainColor, fontSize: w * 0.05),
+                            ),
+                            SizedBox(
+                              height: h * 0.02,
+                            ),
+                            row(
+                                w,
+                                'assets/facebook-logo.png',
+                                'assets/instagram.png',
+                                value.studentClass!.facebook ?? 'Empty',
+                                value.studentClass!.instagram ?? 'Empty',
+                                () async {
+                              await launch(value.studentClass!.facebook!);
+                            }, () async {
+                              await launch(value.studentClass!.instagram!);
+                            }),
+                            SizedBox(
+                              height: h * 0.03,
+                            ),
+                            row(
+                                w,
+                                'assets/twitter.png',
+                                'assets/linkedin.png',
+                                value.studentClass!.twitter ?? 'Empty',
+                                value.studentClass!.linkedin ?? 'Empty',
+                                () async {
+                              await launch(
+                                  value.studentClass!.twitter.toString());
+                            }, () async {
+                              await launch(
+                                  value.studentClass!.linkedin.toString());
+                            }),
+                            SizedBox(
+                              height: h * 0.03,
+                            ),
+                            row(
+                                w,
+                                'assets/phone-receiver-silhouette.png',
+                                'assets/email.png',
+                                value.studentClass!.phone ??"",
+                                value.studentClass!.email ??"", () async {
+                              await launch('tel: ${value.studentClass!.phone}');
+                            }, () async {
+                              final Uri params = Uri(
+                                scheme: 'mailto',
+                                path: value.studentClass!.email,
+                              );
+                              String url = params.toString();
+                              await launch(url);
+                            }),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -225,9 +234,11 @@ class _StudentInfo extends State<StudentInfo> {
           ),
         ),
         appBar: AppBar(
-          title: Text(
-            widget.studentClass.name ?? '',
-            style: TextStyle(color: Colors.white, fontSize: w * 0.04),
+          title: Consumer<StudentItemProvider>(
+            builder: (context, value, child) => Text(
+              value.studentClass!.name ?? '',
+              style: TextStyle(color: Colors.white, fontSize: w * 0.04),
+            ),
           ),
           centerTitle: true,
           leading: InkWell(
@@ -540,21 +551,22 @@ class _StudentInfo extends State<StudentInfo> {
                               scrollDirection: Axis.horizontal,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: List.generate(
                                   newItem.sorts.length,
                                   (index) => buildOrderStatus(
                                     index: index,
-                                    text:
-                                        (prefs.getString('language_code') == 'en')
-                                            ? newItem.sorts[index]
-                                            : newItem.sortsAr[index],
+                                    text: (prefs.getString('language_code') ==
+                                            'en')
+                                        ? newItem.sorts[index]
+                                        : newItem.sortsAr[index],
                                     press: () async {
                                       pageController.animateToPage(index,
                                           duration:
                                               const Duration(microseconds: 500),
                                           curve: Curves.fastOutSlowIn);
-                            
+
                                       if (f1) {
                                         f1 = false;
                                         isLoading = false;
@@ -562,14 +574,15 @@ class _StudentInfo extends State<StudentInfo> {
                                           setState(() {
                                             newItem.sortList(
                                                 index,
-                                                widget.studentClass.id
+                                                widget.studentId
                                                     .toString());
-                                            newItem.sort = newItem.apiSort[index];
+                                            newItem.sort =
+                                                newItem.apiSort[index];
                                           });
                                         });
-                                       start(context);
+                                        start(context);
                                         await newItem
-                                            .getItems(widget.studentClass.id)
+                                            .getItems(widget.studentId)
                                             .then((value) {
                                           setState(() {
                                             f1 = true;
@@ -820,13 +833,13 @@ class _StudentInfo extends State<StudentInfo> {
                                             ),
                                           ),
                                           onTap: () {
-                                           
                                             navP(
                                                 context,
                                                 Products(
                                                   fromFav: false,
                                                   productId: item.items[i].id,
-                                                  brandId: widget.studentClass.id,
+                                                  brandId:
+                                                      widget.studentId,
                                                 ));
                                           },
                                         );
@@ -869,20 +882,19 @@ class _StudentInfo extends State<StudentInfo> {
       child: InkWell(
         onTap: press,
         child: Container(
-       
-         width: w*0.3,
+          width: w * 0.3,
           height: h * 0.08,
           decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 2,
-                offset: const Offset(0, 2)
-              ),
-            ],
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 2)),
+              ],
               borderRadius: BorderRadius.circular(w * 0.015),
-              border: Border.all(color: currentIndex == index ? Colors.white : mainColor),
+              border: Border.all(
+                  color: currentIndex == index ? Colors.white : mainColor),
               color: currentIndex == index ? mainColor : Colors.white),
           child: Center(
             child: Text(

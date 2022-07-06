@@ -447,6 +447,14 @@ class _PageFourState extends State<PageFour> {
                                                                       listen:
                                                                           false)
                                                                   .clearList();
+                                                              Provider.of<StudentItemProvider>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .getItems(
+                                                                      searchData[
+                                                                              index]
+                                                                          .id);
                                                               Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(
@@ -454,8 +462,8 @@ class _PageFourState extends State<PageFour> {
                                                                           StudentInfo(
                                                                             studentId:
                                                                                 searchData[index].id,
-                                                                            studentClass:
-                                                                                searchData[index],
+                                                                            // studentClass:
+                                                                            //     searchData[index],
                                                                           )));
                                                             },
                                                           ),
@@ -627,13 +635,17 @@ class _PageFourState extends State<PageFour> {
                                                 context,
                                                 listen: false)
                                             .clearList();
+                                        //  Provider.of<StudentItemProvider>(
+                                        //                           context,
+                                        //                           listen:
+                                        //                               false).getItems(_st.id);
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     StudentInfo(
-                                                      studentClass: _st,
-                                                      studentId: _st.id,
+                                                      // studentClass: _st,
+                                                      studentId: _st.id!,
                                                     )));
                                       },
                                     ),

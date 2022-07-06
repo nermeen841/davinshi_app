@@ -81,8 +81,7 @@ class _NotificationBodyState extends State<NotificationBody> {
                           padding: EdgeInsets.symmetric(
                               horizontal: w * 0.02, vertical: h * 0.02),
                           decoration: BoxDecoration(
-                            color: (value.isRead[value
-                                        .notificationModel!.data![index].id!] ==
+                            color: (value.notificationModel!.data![index].isRead ==
                                     true)
                                 ? Colors.white
                                 : const Color(0xffD7E5F0 ),

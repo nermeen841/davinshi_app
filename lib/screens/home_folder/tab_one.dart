@@ -1484,16 +1484,18 @@ class _TabOneState extends State<TabOne> with SingleTickerProviderStateMixin {
                                                 context,
                                                 listen: false)
                                             .clearList();
-
+                                        // Provider.of<StudentItemProvider>(
+                                        //         context,
+                                        //         listen: false)
+                                        //     .getItems(stu[i].id);
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     StudentInfo(
-                                                      studentClass: stu[i],
-                                                      studentId: stu[i].id,
+                                                      // studentClass: stu[i],
+                                                      studentId: stu[i].id!,
                                                     )));
-                                       
                                       },
                                     );
                                   },

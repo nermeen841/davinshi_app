@@ -232,8 +232,8 @@ class Student extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => StudentInfo(
-                                        studentClass: _st,
-                                        studentId: _st.id,
+                                        // studentClass: _st,
+                                        studentId: _st.id!,
                                       )));
                         },
                       );
@@ -316,13 +316,13 @@ class Student extends StatelessWidget {
                               Provider.of<StudentItemProvider>(context,
                                   listen: false);
                           st.clearList();
-                          // await st.getItems(_st.id);
+                          // st.getItems(_st.id);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => StudentInfo(
-                                        studentClass: _st,
-                                        studentId: _st.id,
+                                        // studentClass: _st,
+                                        studentId: _st.id!,
                                       )));
                         },
                       );

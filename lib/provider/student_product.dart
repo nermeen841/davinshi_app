@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:davinshi_app/provider/student_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:davinshi_app/models/constants.dart';
@@ -8,6 +9,7 @@ import 'new_item.dart';
 class StudentItemProvider extends ChangeNotifier {
   List<Item> items = [];
   List<Item> offers = [];
+  StudentClass? studentClass;
   int pageIndex = 1;
   bool finish = false;
   bool isLoading = false;
@@ -24,13 +26,13 @@ class StudentItemProvider extends ChangeNotifier {
     'الأحدث',
     'الأقل سعر',
     'الأعلي سعر',
-  
   ];
-  List<String> apiSort = ["","bestSeller","lowestPrice", "highestPrice"];
+  List<String> apiSort = ["", "bestSeller", "lowestPrice", "highestPrice"];
   void clearList() {
     sort = "";
     items.clear();
     offers.clear();
+    studentClass = StudentClass();
     pageIndex = 1;
   }
 
@@ -43,15 +45,16 @@ class StudentItemProvider extends ChangeNotifier {
       getItems(id);
     } else {
       // items.clear();
-       getItems(id);
+      getItems(id);
     }
     sort = apiSort[index];
     notifyListeners();
   }
 
-  void setItemsProvider(Map map) {
+  setItemsProvider(Map map) {
     List list = map['products'];
     List _offers = map['offers'];
+
     if (list.isEmpty && _offers.isEmpty) {
       finish = true;
       notifyListeners();
@@ -94,7 +97,7 @@ class StudentItemProvider extends ChangeNotifier {
     }
   }
 
-  Future getItems(id) async {
+  Future<StudentClass> getItems(id) async {
     final String url = domain +
         'get-products-student?student_id=$id&page=$pageIndex&sort=$sort';
 
@@ -106,10 +109,29 @@ class StudentItemProvider extends ChangeNotifier {
         validateStatus: (status) => true,
       )).get(url);
       if (response.data['status'] == 1) {
-        print(response.data);
-        print(sort);
+        studentClass = StudentClass(
+            id: response.data['data']['brand']['id'],
+            name: response.data['data']['brand']['name'],
+            email: response.data['data']['brand']['email'],
+            phone: response.data['data']['brand']['phone'],
+            image: response.data['data']['brand']['img'] == null
+                ? null
+                : response.data['data']['brand']['img_src'] +
+                    '/' +
+                    response.data['data']['brand']['img'],
+            cover: response.data['data']['brand']['cover'] == null
+                ? null
+                : response.data['data']['brand']['img_src'] +
+                    '/' +
+                    response.data['data']['brand']['cover'],
+            facebook: response.data['data']['brand']['facebook'],
+            twitter: response.data['data']['brand']['twitter'],
+            instagram: response.data['data']['brand']['instagram'],
+            linkedin: response.data['data']['brand']['linkedin']);
+        notifyListeners();
         setItemsProvider(response.data['data']);
-      
+
+        return studentClass!;
       }
       if (response.statusCode != 200) {
         await Future.delayed(const Duration(milliseconds: 700));
@@ -121,5 +143,7 @@ class StudentItemProvider extends ChangeNotifier {
       await Future.delayed(const Duration(milliseconds: 700));
       getItems(id);
     }
+    notifyListeners();
+    return studentClass!;
   }
 }

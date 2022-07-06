@@ -194,13 +194,17 @@ class _ViewAllState extends State<ViewAll> {
                                                 context,
                                                 listen: false)
                                             .clearList();
+                                            //  Provider.of<StudentItemProvider>(
+                                            //     context,
+                                            //     listen: false)
+                                            // .getItems(_st.id);
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     StudentInfo(
-                                                      studentClass: _st,
-                                                      studentId: _st.id,
+                                                      // studentClass: _st,
+                                                      studentId: _st.id!,
                                                     )));
                                       },
                                       child: SizedBox(

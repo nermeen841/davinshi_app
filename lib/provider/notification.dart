@@ -91,7 +91,7 @@ class NotificationProvider extends ChangeNotifier {
   }
 
   Map<int,bool> isRead = {};
-  Future<bool> changeNotificationStatuse({required int notificationId}) async {
+  Future changeNotificationStatuse({required int notificationId}) async {
     final String url = domain + "notifications/show";
     try {
       Response response = await Dio().post(

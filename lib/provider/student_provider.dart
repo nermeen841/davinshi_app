@@ -25,9 +25,9 @@ class StudentProvider extends ChangeNotifier {
             name: e['name'],
             email: e['email'],
             phone: e['phone'],
-            date: e['date'],
-            university: e['university'],
-            major: e['major'],
+            // date: e['date'],
+            // university: e['university'],
+            // major: e['major'],
             image: e['img'] == null ? null : e['img_src'] + '/' + e['img'],
             cover: e['cover'] == null ? null : e['img_src'] + '/' + e['cover'],
             facebook: e['facebook'],
@@ -64,13 +64,13 @@ class StudentProvider extends ChangeNotifier {
 }
 
 class StudentClass {
-  int id;
+  int? id;
   String? name;
   String? email;
   String? phone;
-  String? date;
-  String? university;
-  String? major;
+  // String? date;
+  // String? university;
+  // String? major;
   String? facebook;
   String? instagram;
   String? linkedin;
@@ -78,19 +78,19 @@ class StudentClass {
   String? image;
   String? cover;
   StudentClass(
-      {required this.id,
-      required this.name,
-      required this.email,
-      required this.phone,
-      required this.date,
-      required this.university,
-      required this.major,
-      required this.image,
-      required this.cover,
-      required this.facebook,
-      required this.instagram,
-      required this.linkedin,
-      required this.twitter});
+      { this.id,
+       this.name,
+       this.email,
+       this.phone,
+      //  this.date,
+      //  this.university,
+      //  this.major,
+       this.image,
+       this.cover,
+       this.facebook,
+       this.instagram,
+       this.linkedin,
+       this.twitter});
 }
 
 List<StudentClass> studentHome = [];
@@ -106,9 +106,9 @@ Future setStudent(Map map) async {
         name: e['name'],
         email: e['email'],
         phone: e['phone'],
-        date: e['date'],
-        university: e['university'],
-        major: e['major'],
+        // date: e['date'],
+        // university: e['university'],
+        // major: e['major'],
         image: e['img'] == null ? null : e['img_src'] + '/' + e['img'],
         cover: e['cover'] == null ? null : e['img_src'] + '/' + e['cover'],
         facebook: e['facebook'],
