@@ -20,7 +20,7 @@ class AppBarHome {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
     CartProvider cart = Provider.of<CartProvider>(context, listen: false);
-    Provider.of<NotificationProvider>(context, listen: false);
+    Provider.of<NotificationProvider>(context, listen: false).getNotificationcount();
     return AppBar(
       backgroundColor: Colors.white,
       automaticallyImplyLeading: false,
@@ -86,10 +86,7 @@ class AppBarHome {
                   seconds: 2,
                 ),
                 badgeContent: Text(
-                  (value.waitingData == true)
-                      ? value.notificationModel!.data!.length.toString()
-                      :
-                  "0",
+                  value.notificationCount.toString(),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: w * 0.03,

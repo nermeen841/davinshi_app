@@ -58,4 +58,67 @@ class NotificationProvider extends ChangeNotifier {
       print("get notification error data : \n " + e.toString());
     }
   }
+
+  int notificationCount = 0;
+  Future<int> getNotificationcount() async {
+    final String url = domain + "notifications/count";
+    try {
+      Response response = await Dio().post(
+        url,
+        data: {"fcm_token": prefs.getString('token').toString()},
+        options: Options(
+          headers: {
+            "auth-token": prefs.getString('auth') ?? "",
+          },
+        ),
+      );
+
+      if (response.data['status'] == 1) {
+        notificationCount = response.data['data'];
+        notifyListeners();
+        print(notificationCount);
+        return notificationCount;
+      } else if (response.data['status'] == 0) {
+        notifyListeners();
+        return notificationCount;
+      }
+      notifyListeners();
+    } catch (e) {
+      print("get notification count error data : \n " + e.toString());
+    }
+
+    return notificationCount;
+  }
+
+  Map<int,bool> isRead = {};
+  Future<bool> changeNotificationStatuse({required int notificationId}) async {
+    final String url = domain + "notifications/show";
+    try {
+      Response response = await Dio().post(
+        url,
+        data: {"notification_id": notificationId},
+        options: Options(
+          headers: {
+            "auth-token": prefs.getString('auth') ?? "",
+          },
+        ),
+      );
+
+      if (response.data['status'] == 1) {
+        isRead[notificationId] = true;
+        notifyListeners();
+        print(response.data);
+        return isRead[notificationId]!;
+      } else if (response.data['status'] == 0) {
+        isRead[notificationId] = false;
+        notifyListeners();
+        return isRead[notificationId]!;
+      }
+      notifyListeners();
+    } catch (e) {
+      print("get notification count error data : \n " + e.toString());
+    }
+
+    return isRead[notificationId]!;
+  }
 }

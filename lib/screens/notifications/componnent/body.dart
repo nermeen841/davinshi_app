@@ -38,6 +38,9 @@ class _NotificationBodyState extends State<NotificationBody> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () async {
+                          value.changeNotificationStatuse(
+                              notificationId:
+                                  value.notificationModel!.data![index].id!);
                           if (value.notificationModel!.data![index].type! ==
                               "Order") {
                             dialog(context);
@@ -78,11 +81,15 @@ class _NotificationBodyState extends State<NotificationBody> {
                           padding: EdgeInsets.symmetric(
                               horizontal: w * 0.02, vertical: h * 0.02),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: (value.isRead[value
+                                        .notificationModel!.data![index].id!] ==
+                                    true)
+                                ? Colors.white
+                                : const Color(0xffD7E5F0 ),
                             borderRadius: BorderRadius.circular(w * 0.03),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
+                                color: Colors.grey.withOpacity(0.2),
                                 offset: const Offset(0, 3),
                                 spreadRadius: 3,
                                 blurRadius: 3,
