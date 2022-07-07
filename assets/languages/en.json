@@ -138,6 +138,8 @@
     "area" : "Must Update the Area",
     "area_button" : "Update",
     "phone" : "Wrong phone",
+    "email" : "Wrong Email address",
+    "code":"activation code is invalid",
     "try" : "Try again later"
   },
   "inputs" : {

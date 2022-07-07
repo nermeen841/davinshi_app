@@ -40,7 +40,6 @@ class _StudentInfo extends State<StudentInfo> {
   late PageController pageController;
   @override
   void initState() {
-  
     pageController = PageController(initialPage: currentIndex);
     super.initState();
   }
@@ -50,7 +49,7 @@ class _StudentInfo extends State<StudentInfo> {
     studentId = widget.studentId;
     var of1 = Provider.of<StudentItemProvider>(context, listen: false);
     of1.getItems(widget.studentId).then((value) {
-    
+      
       isLoading = true;
     });
     _controller.addListener(() {
@@ -114,14 +113,14 @@ class _StudentInfo extends State<StudentInfo> {
               context: context,
               barrierDismissible: true,
               builder: (BuildContext context) {
-                return Consumer<StudentItemProvider>(
-                  builder: (context, value, child) => Dialog(
+                return  Dialog(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                     backgroundColor: Colors.grey[200]!.withOpacity(0.85),
                     insetPadding: EdgeInsets.all(w * 0.05),
-                    child: Padding(
+                    child:Consumer<StudentItemProvider>(builder: (context, value, child) {
+                      return  Padding(
                       padding: isLeft()
                           ? EdgeInsets.only(
                               top: h * 0.01,
@@ -146,7 +145,7 @@ class _StudentInfo extends State<StudentInfo> {
                               backgroundColor: Colors.white,
                               child: Padding(
                                 padding: const EdgeInsets.all(5),
-                                child: value.studentClass!.image == null
+                                child: value.brandData!.brandImage == null
                                     ? CircleAvatar(
                                         radius: w * 0.1,
                                         backgroundImage: const AssetImage(
@@ -155,7 +154,7 @@ class _StudentInfo extends State<StudentInfo> {
                                     : CircleAvatar(
                                         radius: w * 0.1,
                                         backgroundImage: NetworkImage(
-                                            value.studentClass!.image.toString()),
+                                            value.brandData!.brandImage.toString()),
                                       ),
                               ),
                             ),
@@ -163,7 +162,7 @@ class _StudentInfo extends State<StudentInfo> {
                               height: h * 0.02,
                             ),
                             Text(
-                              value.studentClass!.name ?? '',
+                              value.brandData!.brandName ?? '',
                               style: TextStyle(
                                   color: mainColor, fontSize: w * 0.05),
                             ),
@@ -174,12 +173,11 @@ class _StudentInfo extends State<StudentInfo> {
                                 w,
                                 'assets/facebook-logo.png',
                                 'assets/instagram.png',
-                                value.studentClass!.facebook ?? 'Empty',
-                                value.studentClass!.instagram ?? 'Empty',
-                                () async {
-                              await launch(value.studentClass!.facebook!);
+                                value.brandData!.brandfacebook ?? 'Empty',
+                                value.brandData!.brandinstagram ?? 'Empty', () async {
+                              await launch(value.brandData!.brandfacebook!);
                             }, () async {
-                              await launch(value.studentClass!.instagram!);
+                              await launch(value.brandData!.brandinstagram!);
                             }),
                             SizedBox(
                               height: h * 0.03,
@@ -188,14 +186,11 @@ class _StudentInfo extends State<StudentInfo> {
                                 w,
                                 'assets/twitter.png',
                                 'assets/linkedin.png',
-                                value.studentClass!.twitter ?? 'Empty',
-                                value.studentClass!.linkedin ?? 'Empty',
-                                () async {
-                              await launch(
-                                  value.studentClass!.twitter.toString());
+                                value.brandData!.brandtwitter ?? 'Empty',
+                                value.brandData!.brandlinkedin ?? 'Empty', () async {
+                              await launch(value.brandData!.brandtwitter.toString());
                             }, () async {
-                              await launch(
-                                  value.studentClass!.linkedin.toString());
+                              await launch(value.brandData!.brandlinkedin.toString());
                             }),
                             SizedBox(
                               height: h * 0.03,
@@ -204,13 +199,13 @@ class _StudentInfo extends State<StudentInfo> {
                                 w,
                                 'assets/phone-receiver-silhouette.png',
                                 'assets/email.png',
-                                value.studentClass!.phone ??"",
-                                value.studentClass!.email ??"", () async {
-                              await launch('tel: ${value.studentClass!.phone}');
+                                value.brandData!.brandphone ?? "",
+                                value.brandData!.brandemail ?? "", () async {
+                              await launch('tel: ${value.brandData!.brandphone}');
                             }, () async {
                               final Uri params = Uri(
                                 scheme: 'mailto',
-                                path: value.studentClass!.email,
+                                path: value.brandData!.brandemail.toString(),
                               );
                               String url = params.toString();
                               await launch(url);
@@ -218,8 +213,9 @@ class _StudentInfo extends State<StudentInfo> {
                           ],
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  
+                    }),
                 );
               },
             );
@@ -236,7 +232,7 @@ class _StudentInfo extends State<StudentInfo> {
         appBar: AppBar(
           title: Consumer<StudentItemProvider>(
             builder: (context, value, child) => Text(
-              value.studentClass!.name ?? '',
+            (value.brandData!.brandName != null)?  value.brandData!.brandName! :"",
               style: TextStyle(color: Colors.white, fontSize: w * 0.04),
             ),
           ),
@@ -572,10 +568,8 @@ class _StudentInfo extends State<StudentInfo> {
                                         isLoading = false;
                                         setState(() {
                                           setState(() {
-                                            newItem.sortList(
-                                                index,
-                                                widget.studentId
-                                                    .toString());
+                                            newItem.sortList(index,
+                                                widget.studentId.toString());
                                             newItem.sort =
                                                 newItem.apiSort[index];
                                           });
@@ -838,8 +832,7 @@ class _StudentInfo extends State<StudentInfo> {
                                                 Products(
                                                   fromFav: false,
                                                   productId: item.items[i].id,
-                                                  brandId:
-                                                      widget.studentId,
+                                                  brandId: widget.studentId,
                                                 ));
                                           },
                                         );

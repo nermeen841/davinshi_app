@@ -125,17 +125,12 @@ class _ConfirmCartState extends State<ConfirmCart> {
           if (login) {
             navPR(context, const FatorahScreen());
             await getOrders().then((value) {
-              if (value) {
+           
                 Provider.of<CartProvider>(context, listen: false).clearAll();
                 dbHelper.deleteAll();
                 
                 return null;
-              } else {
-                navPop(context);
-                print('asdss1');
-                error(context);
-                return null;
-              }
+            
             });
           } else {
             dbHelper.deleteAll();

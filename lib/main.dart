@@ -1,6 +1,11 @@
 // ignore_for_file: avoid_print, prefer_typing_uninitialized_variables
 
+import 'dart:convert';
+
+import 'package:davinshi_app/models/fatorah_model.dart';
+import 'package:davinshi_app/models/user.dart';
 import 'package:davinshi_app/provider/notification.dart';
+import 'package:davinshi_app/screens/student/student_info.dart';
 import 'package:davinshi_app/splach.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -71,7 +76,6 @@ Future<void> main() async {
       alert: true,
       badge: true,
       sound: true,
-      
     );
   }
 
@@ -93,6 +97,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   void initState() {
     super.initState();
@@ -118,30 +124,30 @@ class _MyAppState extends State<MyApp> {
         var data = message.data;
         print(data);
         if (message.data.containsKey('a_data')) {
-          if (data['a_data']['type'] == "Product") {
-            navPR(
-              context,
-              Products(
+          val = jsonDecode(data['a_data']);
+          if (val['type'] == "Product") {
+            navigatorKey.currentState!.push(MaterialPageRoute(
+              builder: (context) => Products(
                 fromFav: false,
                 productId: data['a_data']['type_id'],
               ),
-            );
-          } else if (data['a_data']['type'] == "Order") {
-            dialog(context);
-            getOrder(data['a_data']['type_id']).then((value) {
-              if (value) {
-                navPR(
-                    context,
-                    OrderInfo(
-                      orderClass: orders[0],
-                    ));
-              } else {
-                navPop(context);
-                error(context);
-              }
-            });
-          } else if (data['a_data']['type_id'] == "Brand") {
-          } else if (data['a_data']['type_id'] == "Category") {}
+            ));
+          } else if (val['type'] == "Order") {
+            if (login) {
+              getOrder(val['type_id']).then((value) {
+                navigatorKey.currentState!.push(MaterialPageRoute(
+                    builder: (context) => OrderInfo(
+                        // orderClass: orders[0],
+                        )));
+              });
+            }
+          } else if (val['type_id'] == "Brand") {
+            navigatorKey.currentState!.push(MaterialPageRoute(
+              builder: (context) => StudentInfo(
+                studentId: val['type_id'],
+              ),
+            ));
+          } else if (val['type_id'] == "Category") {}
         }
 
         print("firebase data ----------------------------- : $data");
@@ -168,77 +174,77 @@ class _MyAppState extends State<MyApp> {
       var data = message.data;
       print(data);
       if (message.data.containsKey('a_data')) {
-        if (data['a_data']['type'] == "Product") {
-          navPR(
-            context,
-            Products(
+        var val = jsonDecode(data['a_data']);
+        if (val['type'] == "Product") {
+          navigatorKey.currentState!.push(MaterialPageRoute(
+            builder: (context) => Products(
               fromFav: false,
-              productId: data['a_data']['type_id'],
+              productId: val['type_id'],
             ),
-          );
-        } else if (data['a_data']['type'] == "Order") {
-          dialog(context);
-          getOrder(data['a_data']['type_id']).then((value) {
-            if (value) {
-              navPR(
-                  context,
-                  OrderInfo(
-                    orderClass: orders[0],
-                  ));
-            } else {
-              navPop(context);
-              error(context);
-            }
-          });
-        } else if (data['a_data']['type_id'] == "Brand") {
-        } else if (data['a_data']['type_id'] == "Category") {}
+          ));
+        } else if (val['type'] == "Order") {
+          if (login) {
+            getOrder(val['type_id']).then((value) {
+              navigatorKey.currentState!.push(MaterialPageRoute(
+                  builder: (context) => OrderInfo(
+                      // orderClass: orders[0],
+                      )));
+            });
+          }
+        } else if (val['type_id'] == "Brand") {
+          navigatorKey.currentState!.push(MaterialPageRoute(
+            builder: (context) => StudentInfo(
+              studentId: val['type_id'],
+            ),
+          ));
+        } else if (val['type_id'] == "Category") {}
       }
 
       print("firebase data ----------------------------- : $data");
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-       RemoteNotification? notification = message.notification;
-        AndroidNotification? android = message.notification?.android;
-        if (notification != null && android != null && !kIsWeb) {
-          flutterLocalNotificationsPlugin.show(
-              notification.hashCode,
-              notification.title,
-              notification.body,
-              NotificationDetails(
-                android: AndroidNotificationDetails(channel.id, channel.name,
-                    icon: '@mipmap/ic_launcher', importance: Importance.high),
-              ));
-        }
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null && !kIsWeb) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(channel.id, channel.name,
+                  icon: '@mipmap/ic_launcher', importance: Importance.high),
+            ));
+      }
       print('A new onMessageOpenedApp event was published!');
       var val;
       var data = message.data;
       print(data);
       if (message.data.containsKey('a_data')) {
-        if (data['a_data']['type'] == "Product") {
-          navPR(
-            context,
-            Products(
+        val = jsonDecode(data['a_data']);
+        if (val['type'] == "Product") {
+          navigatorKey.currentState!.push(MaterialPageRoute(
+            builder: (context) => Products(
               fromFav: false,
-              productId: data['a_data']['type_id'],
+              productId: val['type_id'],
             ),
-          );
-        } else if (data['a_data']['type'] == "Order") {
-          dialog(context);
-          getOrder(data['a_data']['type_id']).then((value) {
-            if (value) {
-              navPR(
-                  context,
-                  OrderInfo(
-                    orderClass: orders[0],
-                  ));
-            } else {
-              navPop(context);
-              error(context);
-            }
-          });
-        } else if (data['a_data']['type_id'] == "Brand") {
-        } else if (data['a_data']['type_id'] == "Category") {}
+          ));
+        } else if (val['type'] == "Order") {
+          if (login) {
+            getOrder(val['type_id']).then((value) {
+              navigatorKey.currentState!.push(MaterialPageRoute(
+                  builder: (context) => OrderInfo(
+                      // orderClass: orders[0],
+                      )));
+            });
+          }
+        } else if (val['type_id'] == "Brand") {
+          navigatorKey.currentState!.push(MaterialPageRoute(
+            builder: (context) => StudentInfo(
+              studentId: val['type_id'],
+            ),
+          ));
+        }
       }
 
       print("firebase data ----------------------------- : $val");
@@ -285,58 +291,62 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: ProvidersList.getProviders,
-      child: ChangeNotifierProvider<AppLanguage>(
-        create: (_) => widget.appLanguage,
-        child: Consumer<AppLanguage>(
-          builder: (context, lang, _) {
-            return AnnotatedRegion(
-              value: const SystemUiOverlayStyle(
-                statusBarColor: Colors.black,
-                statusBarIconBrightness: Brightness.light,
-                statusBarBrightness: Brightness.light,
-              ),
-              child: MaterialApp(
-                debugShowCheckedModeBanner: false,
-                theme: ThemeData(
-                  appBarTheme: AppBarTheme(
-                    systemOverlayStyle: st,
-                  ),
-                  primaryColor: Colors.black,
-                  checkboxTheme: CheckboxThemeData(
-                    checkColor: MaterialStateProperty.all<Color>(Colors.white),
-                    fillColor: MaterialStateProperty.all<Color>(mainColor),
-                  ),
-                  fontFamily: 'Tajawal',
+    return Material(
+      child: MultiProvider(
+        providers: ProvidersList.getProviders,
+        child: ChangeNotifierProvider<AppLanguage>(
+          create: (_) => widget.appLanguage,
+          child: Consumer<AppLanguage>(
+            builder: (context, lang, _) {
+              return AnnotatedRegion(
+                value: const SystemUiOverlayStyle(
+                  statusBarColor: Colors.black,
+                  statusBarIconBrightness: Brightness.light,
+                  statusBarBrightness: Brightness.light,
                 ),
-                home: Splach(),
-                locale: lang.appLocal,
-                supportedLocales: const [
-                  Locale('en', 'US'),
-                  Locale('ar', 'EG'),
-                ],
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                routes: {
-                  "pro": (ctx) => const Products(
-                        fromFav: false,
-                        brandId: 0,
-                      ),
-                  "noti": (ctx) => Notifications(),
-                  "home": (ctx) => Home(),
-                  "change": (ctx) => ChangePass(),
-                  "address": (ctx) => Address(),
-                  "orders": (ctx) => const Orders(),
-                  "lang": (ctx) => const LangPage(),
-                },
-              ),
-            );
-          },
+                child: MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  navigatorKey: navigatorKey,
+                  theme: ThemeData(
+                    appBarTheme: AppBarTheme(
+                      systemOverlayStyle: st,
+                    ),
+                    primaryColor: Colors.black,
+                    checkboxTheme: CheckboxThemeData(
+                      checkColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                      fillColor: MaterialStateProperty.all<Color>(mainColor),
+                    ),
+                    fontFamily: 'Tajawal',
+                  ),
+                  home: Splach(),
+                  locale: lang.appLocal,
+                  supportedLocales: const [
+                    Locale('en', 'US'),
+                    Locale('ar', 'EG'),
+                  ],
+                  localizationsDelegates: const [
+                    AppLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  routes: {
+                    "pro": (ctx) => const Products(
+                          fromFav: false,
+                          brandId: 0,
+                        ),
+                    "noti": (ctx) => Notifications(),
+                    "home": (ctx) => Home(),
+                    "change": (ctx) => ChangePass(),
+                    "address": (ctx) => Address(),
+                    "orders": (ctx) => const Orders(),
+                    "lang": (ctx) => const LangPage(),
+                  },
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

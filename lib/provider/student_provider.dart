@@ -25,9 +25,6 @@ class StudentProvider extends ChangeNotifier {
             name: e['name'],
             email: e['email'],
             phone: e['phone'],
-            // date: e['date'],
-            // university: e['university'],
-            // major: e['major'],
             image: e['img'] == null ? null : e['img_src'] + '/' + e['img'],
             cover: e['cover'] == null ? null : e['img_src'] + '/' + e['cover'],
             facebook: e['facebook'],
@@ -51,7 +48,7 @@ class StudentProvider extends ChangeNotifier {
             : prefs.getString('language_code').toString()
       }),
     );
-    // print("\n\nbrandsResponse: ${response.data.toString()}");
+   
 
     if (response.data['status'] == 1) {
       setStudentProvider(response.data['data']);
@@ -106,9 +103,7 @@ Future setStudent(Map map) async {
         name: e['name'],
         email: e['email'],
         phone: e['phone'],
-        // date: e['date'],
-        // university: e['university'],
-        // major: e['major'],
+       
         image: e['img'] == null ? null : e['img_src'] + '/' + e['img'],
         cover: e['cover'] == null ? null : e['img_src'] + '/' + e['cover'],
         facebook: e['facebook'],

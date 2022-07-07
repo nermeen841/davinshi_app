@@ -16,7 +16,7 @@ void notificationToken() async {
         headers: {"auth-token": prefs.getString('auth') ?? ""},
       ),
     );
-    print(response.data);
+  
   } catch (e) {
     print(e.toString());
   }
@@ -41,7 +41,7 @@ class NotificationProvider extends ChangeNotifier {
           },
         ),
       );
-      print(response.data);
+    
       if (response.data['status'] == 1) {
         waitingData = true;
         notificationModel = NotificationModel.fromJson(response.data);
@@ -76,7 +76,7 @@ class NotificationProvider extends ChangeNotifier {
       if (response.data['status'] == 1) {
         notificationCount = response.data['data'];
         notifyListeners();
-        print(notificationCount);
+      
         return notificationCount;
       } else if (response.data['status'] == 0) {
         notifyListeners();
@@ -107,7 +107,7 @@ class NotificationProvider extends ChangeNotifier {
       if (response.data['status'] == 1) {
         isRead[notificationId] = true;
         notifyListeners();
-        print(response.data);
+      
         return isRead[notificationId]!;
       } else if (response.data['status'] == 0) {
         isRead[notificationId] = false;

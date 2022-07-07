@@ -26,13 +26,13 @@ class _ConfirmPhoneState extends State<ConfirmPhone> {
   Future verifyPhone() async {
     String url = domain;
     try {
-      url = url + 'check-phone';
+      url = url + 'check-email';
       Response response = await Dio().post(url, data: {
-        'phone': _controller.text,
+        'email': _controller.text,
       });
       if (response.data['status'] == 0) {
         final snackBar = SnackBar(
-          content: Text(translate(context, 'snack_bar', 'phone')),
+          content: Text(translate(context, 'snack_bar', 'email')),
           action: SnackBarAction(
             label: translate(context, 'snack_bar', 'undo'),
             disabledTextColor: Colors.yellow,
@@ -46,16 +46,20 @@ class _ConfirmPhoneState extends State<ConfirmPhone> {
         _btnController.stop();
       }
       if (response.data['status'] == 1) {
-        Map userData = response.data['data'];
-        id = userData['id'];
+        // Map userData = response.data['data'];
+        id = response.data['data'];
+        _btnController.success();
+      await Future.delayed(const Duration(milliseconds: 700));
+      _btnController.stop();
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => VerificationCodeScreen(
-                      userId: userData['id'],
+                      userId: response.data['data'],
                     )));
       }
     } catch (e) {
+      print(e.toString());
       _btnController.error();
       await Future.delayed(const Duration(milliseconds: 700));
       _btnController.stop();

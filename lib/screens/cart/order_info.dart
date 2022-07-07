@@ -8,8 +8,8 @@ import 'package:davinshi_app/models/constants.dart';
 import 'package:davinshi_app/models/order.dart';
 
 class OrderInfo extends StatefulWidget {
-  final OrderClass orderClass;
-  const OrderInfo({required this.orderClass});
+  // final OrderClass orderClass;
+  // const OrderInfo({required this.orderClass});
   @override
   _OrderInfoState createState() => _OrderInfoState();
 }
@@ -31,9 +31,9 @@ class _OrderInfoState extends State<OrderInfo> {
             title: SizedBox(
               width: w * 0.7,
               child: (language == 'en')
-                  ? Text(widget.orderClass.titleEn)
+                  ? Text(saveOrderModel!.order!.productsData![0].nameEn!)
                   : Text(
-                      widget.orderClass.titleAr,
+                      saveOrderModel!.order!.productsData![0].nameAr!,
                     ),
             ),
             titleTextStyle: TextStyle(
@@ -44,346 +44,402 @@ class _OrderInfoState extends State<OrderInfo> {
               color: Colors.white,
             ),
           ),
-          body: Container(
-              width: w,
-              height: h,
-              color: Colors.white,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        SizedBox(
-                          width: w,
-                          child: Padding(
-                            padding: EdgeInsets.all(w * 0.05),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.location_on_outlined,
-                                  color: Colors.grey,
-                                  size: w * 0.09,
-                                ),
-                                SizedBox(
-                                  width: w * 0.02,
-                                ),
-                                SizedBox(
-                                  width: w * 0.7,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        widget.orderClass.userAddress!.title,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: w * 0.04),
-                                      ),
-                                      Text(
-                                        widget.orderClass.userAddress!.address,
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: w * 0.035,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const Expanded(
-                                    child: SizedBox(
-                                  width: 1,
-                                )),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: h * 0.02,
-                          width: w,
-                          color: Colors.grey[200],
-                        ),
-
-                        Padding(
-                          padding: EdgeInsets.all(w * 0.05),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: List.generate(
-                                widget.orderClass.items.length, (i) {
-                              return Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: w * 0.00, vertical: h * 0.01),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+          body: (loadingOrder == true)
+              ? Container(
+                  width: w,
+                  height: h,
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ListView(
+                          children: [
+                            SizedBox(
+                              width: w,
+                              child: Padding(
+                                padding: EdgeInsets.all(w * 0.05),
+                                child: Row(
                                   children: [
-                                    Text(
-                                      translateString(
-                                          widget.orderClass.items[i].titleEn,
-                                          widget.orderClass.items[i].titleAr),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: mainColor,
-                                          fontSize: w * 0.035),
+                                    Icon(
+                                      Icons.location_on_outlined,
+                                      color: Colors.grey,
+                                      size: w * 0.09,
                                     ),
                                     SizedBox(
-                                      height: h * 0.01,
+                                      width: w * 0.02,
                                     ),
                                     SizedBox(
-                                      width: w,
-                                      child: Row(
+                                      width: w * 0.7,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          SizedBox(
-                                            width: w * 0.09,
+                                          Text(
+                                            saveOrderModel!.order!
+                                                .shippingAddress!.address!,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: w * 0.04),
                                           ),
-                                          Container(
-                                            height: h * 0.12,
-                                            width: w * 0.18,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: NetworkImage(widget
-                                                    .orderClass.items[i].image),
-                                                fit: BoxFit.fitHeight,
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: w * 0.03,
-                                          ),
-                                          SizedBox(
-                                            height: h * 0.13,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  '${widget.orderClass.items[i].price} $currency',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: mainColor,
-                                                      fontSize: w * 0.035),
-                                                ),
-                                                Text(
-                                                  translateString(
-                                                      widget.orderClass.items[i]
-                                                          .desEn,
-                                                      widget.orderClass.items[i]
-                                                          .desAr),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: mainColor,
-                                                      fontSize: w * 0.035),
-                                                ),
-                                                Container(
-                                                  height: h * 0.07,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: Colors.black,
-                                                        width: 0.5),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                  ),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(
-                                                        w * 0.03),
-                                                    child: Row(
-                                                      children: [
-                                                        SizedBox(
-                                                          width: w * 0.04,
-                                                        ),
-                                                        Text(
-                                                          widget.orderClass
-                                                              .items[i].quantity
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize:
-                                                                  w * .04),
-                                                        ),
-                                                        SizedBox(
-                                                          width: w * 0.04,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
+                                          Text(
+                                            saveOrderModel!
+                                                    .order!
+                                                    .shippingAddress!
+                                                    .addressD ??
+                                                "",
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: w * 0.035,
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
+                                    const Expanded(
+                                        child: SizedBox(
+                                      width: 1,
+                                    )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: h * 0.02,
+                              width: w,
+                              color: Colors.grey[200],
+                            ),
+
+                            Padding(
+                              padding: EdgeInsets.all(w * 0.05),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: List.generate(
+                                    saveOrderModel!.order!.productsData!.length,
+                                    (i) {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: w * 0.00,
+                                        vertical: h * 0.01),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          translateString(
+                                              saveOrderModel!.order!
+                                                  .productsData![i].nameEn
+                                                  .toString(),
+                                              saveOrderModel!.order!
+                                                  .productsData![i].nameAr
+                                                  .toString()),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: mainColor,
+                                              fontSize: w * 0.035),
+                                        ),
+                                        SizedBox(
+                                          height: h * 0.01,
+                                        ),
+                                        SizedBox(
+                                          width: w,
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: w * 0.09,
+                                              ),
+                                              Container(
+                                                height: h * 0.12,
+                                                width: w * 0.18,
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        saveOrderModel!
+                                                            .order!
+                                                            .productsData![i]
+                                                            .image!),
+                                                    fit: BoxFit.fitHeight,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: w * 0.03,
+                                              ),
+                                              SizedBox(
+                                                height: h * 0.13,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    (saveOrderModel!
+                                                                .order!
+                                                                .productsData![
+                                                                    i]
+                                                                .isoffer ==
+                                                            true)
+                                                        ? Text(
+                                                            '${saveOrderModel!.order!.productsData![i].salePrice}  $currency',
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color:
+                                                                    mainColor,
+                                                                fontSize:
+                                                                    w * 0.035),
+                                                          )
+                                                        : Text(
+                                                            '${saveOrderModel!.order!.productsData![i].productPrice}  $currency',
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color:
+                                                                    mainColor,
+                                                                fontSize:
+                                                                    w * 0.035),
+                                                          ),
+                                                    Text(
+                                                      translateString(
+                                                          saveOrderModel!
+                                                              .order!
+                                                              .productsData![i]
+                                                              .descriptionEn
+                                                              .toString(),
+                                                          saveOrderModel!
+                                                              .order!
+                                                              .productsData![i]
+                                                              .descriptionAr
+                                                              .toString()),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: mainColor,
+                                                          fontSize: w * 0.035),
+                                                    ),
+                                                    Container(
+                                                      height: h * 0.07,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color: Colors.black,
+                                                            width: 0.5),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                      ),
+                                                      child: Padding(
+                                                        padding: EdgeInsets.all(
+                                                            w * 0.03),
+                                                        child: Row(
+                                                          children: [
+                                                            SizedBox(
+                                                              width: w * 0.04,
+                                                            ),
+                                                            Text(
+                                                              saveOrderModel!
+                                                                  .order!
+                                                                  .productsData![
+                                                                      i]
+                                                                  .quantity
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize:
+                                                                      w * .04),
+                                                            ),
+                                                            SizedBox(
+                                                              width: w * 0.04,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: h * 0.02,
+                                        ),
+                                        Divider(
+                                          color: Colors.grey[300],
+                                          thickness: h * 0.002,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                              ),
+                            ),
+                            Container(
+                              height: h * 0.02,
+                              width: w,
+                              color: Colors.grey[200],
+                            ),
+                            SizedBox(
+                              height: h * 0.02,
+                            ),
+                            // if(widget.orderClass.note!=null)Padding(
+                            //   padding: EdgeInsets.symmetric(horizontal: w*0.05),
+                            //   child: SizedBox(
+                            //     width: w*0.9,
+                            //     child: TextFormField(
+                            //       initialValue: widget.orderClass.note!,
+                            //       cursorColor: Colors.black,
+                            //       maxLines: 5,
+                            //       minLines: 1,
+                            //       decoration: InputDecoration(
+                            //         focusedBorder: form(),
+                            //         enabledBorder: form(),
+                            //         errorBorder: form(),
+                            //         focusedErrorBorder: form(),
+                            //         hintText: ' Note (optional)',
+                            //         hintStyle: const TextStyle(color: Colors.grey),
+                            //         floatingLabelBehavior:FloatingLabelBehavior.never,
+                            //         errorMaxLines: 1,
+                            //         errorStyle: TextStyle(fontSize: w*0.03),
+                            //         contentPadding: EdgeInsets.symmetric(horizontal: w*0.01),
+                            //       ),
+                            //       keyboardType: TextInputType.multiline,
+                            //     ),
+                            //   ),
+                            // ),
+                            // SizedBox(height: h*0.02,),
+                            Padding(
+                              padding: EdgeInsets.all(w * 0.05),
+                              child: SizedBox(
+                                width: w,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          translate(context, 'cart', 'price'),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: w * 0.05),
+                                        ),
+                                        Text(
+                                          getProductprice(
+                                              currency: currency,
+                                              productPrice: saveOrderModel!
+                                                  .order!.orderPrice!),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: w * 0.05),
+                                        ),
+                                      ],
+                                    ),
                                     SizedBox(
-                                      height: h * 0.02,
+                                      height: h * 0.03,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          translate(
+                                              context, 'cart', 'delivery'),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: w * 0.05),
+                                        ),
+                                        Text(
+                                          getProductprice(
+                                              currency: currency,
+                                              productPrice: saveOrderModel!
+                                                  .order!.shippingPrice!),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: w * 0.05),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: h * 0.03,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          translate(
+                                              context, 'cart', 'discount'),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: w * 0.05),
+                                        ),
+                                        Text(
+                                          getProductprice(
+                                              currency: currency,
+                                              productPrice: saveOrderModel!
+                                                  .order!.discount!),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: w * 0.05),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: h * 0.03,
                                     ),
                                     Divider(
                                       color: Colors.grey[300],
-                                      thickness: h * 0.002,
+                                      thickness: h * 0.001,
+                                    ),
+                                    SizedBox(
+                                      height: h * 0.03,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          translate(context, 'cart', 'total'),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: w * 0.05),
+                                        ),
+                                        Text(
+                                          getProductprice(
+                                              currency: currency,
+                                              productPrice: saveOrderModel!
+                                                  .order!.totalPrice!),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: w * 0.055,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: h * 0.06,
                                     ),
                                   ],
                                 ),
-                              );
-                            }),
-                          ),
-                        ),
-                        Container(
-                          height: h * 0.02,
-                          width: w,
-                          color: Colors.grey[200],
-                        ),
-                        SizedBox(
-                          height: h * 0.02,
-                        ),
-                        // if(widget.orderClass.note!=null)Padding(
-                        //   padding: EdgeInsets.symmetric(horizontal: w*0.05),
-                        //   child: SizedBox(
-                        //     width: w*0.9,
-                        //     child: TextFormField(
-                        //       initialValue: widget.orderClass.note!,
-                        //       cursorColor: Colors.black,
-                        //       maxLines: 5,
-                        //       minLines: 1,
-                        //       decoration: InputDecoration(
-                        //         focusedBorder: form(),
-                        //         enabledBorder: form(),
-                        //         errorBorder: form(),
-                        //         focusedErrorBorder: form(),
-                        //         hintText: ' Note (optional)',
-                        //         hintStyle: const TextStyle(color: Colors.grey),
-                        //         floatingLabelBehavior:FloatingLabelBehavior.never,
-                        //         errorMaxLines: 1,
-                        //         errorStyle: TextStyle(fontSize: w*0.03),
-                        //         contentPadding: EdgeInsets.symmetric(horizontal: w*0.01),
-                        //       ),
-                        //       keyboardType: TextInputType.multiline,
-                        //     ),
-                        //   ),
-                        // ),
-                        // SizedBox(height: h*0.02,),
-                        Padding(
-                          padding: EdgeInsets.all(w * 0.05),
-                          child: SizedBox(
-                            width: w,
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      translate(context, 'cart', 'price'),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: w * 0.05),
-                                    ),
-                                    Text(
-                                      getProductprice(
-                                          currency: currency,
-                                          productPrice:
-                                              widget.orderClass.subTotal),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: w * 0.05),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: h * 0.03,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      translate(context, 'cart', 'delivery'),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: w * 0.05),
-                                    ),
-                                    Text(
-                                      getProductprice(
-                                          currency: currency,
-                                          productPrice:
-                                              widget.orderClass.delivery),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: w * 0.05),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: h * 0.03,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      translate(context, 'cart', 'discount'),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: w * 0.05),
-                                    ),
-                                    Text(
-                                      getProductprice(
-                                          currency: currency,
-                                          productPrice: widget.orderClass.dis),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: w * 0.05),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: h * 0.03,
-                                ),
-                                Divider(
-                                  color: Colors.grey[300],
-                                  thickness: h * 0.001,
-                                ),
-                                SizedBox(
-                                  height: h * 0.03,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      translate(context, 'cart', 'total'),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: w * 0.05),
-                                    ),
-                                    Text(
-                                      getProductprice(
-                                          currency: currency,
-                                          productPrice:
-                                              widget.orderClass.total),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: w * 0.055,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: h * 0.06,
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ))),
+                )
+              : Center(
+                  child: CircularProgressIndicator(
+                    color: mainColor,
+                  ),
+                )),
     );
   }
 }

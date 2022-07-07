@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:davinshi_app/models/user.dart';
 import 'package:davinshi_app/provider/address.dart';
 import 'constants.dart';
+import 'fatorah_model.dart';
 
 class OrderClass {
   int id;
@@ -138,7 +139,7 @@ Future<bool> getOrders() async {
       options: Options(headers: {"auth-token": auth}),
     );
     if (response.data['status'] == 1) {
-      print(response.data);
+    
       await setOrder(response.data['orders']);
       return true;
     }
@@ -150,8 +151,11 @@ Future<bool> getOrders() async {
   return false;
 }
 
-Future<bool> getOrder(id) async {
+SaveOrderModel? saveOrderModel;
+bool loadingOrder = false;
+Future<SaveOrderModel?> getOrder(id) async {
   final String url = domain + 'get-order';
+print(id);
   try {
     Response response = await Dio().post(
       url,
@@ -159,13 +163,17 @@ Future<bool> getOrder(id) async {
       options: Options(headers: {"auth-token": auth}),
     );
     if (response.data['status'] == 1) {
+      loadingOrder = true;
+      saveOrderModel = SaveOrderModel.fromJson(response.data);
       await updateOrder(id, response.data['order']);
-      return true;
+      return saveOrderModel;
     }
-    if (response.statusCode != 200) {}
+    if (response.statusCode != 200) {
+      loadingOrder = false;
+    }
   } catch (e) {
     print('e');
     print(e);
   }
-  return false;
+    return saveOrderModel;
 }

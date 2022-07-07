@@ -1,15 +1,46 @@
 // ignore_for_file: avoid_print
-
-import 'package:davinshi_app/provider/student_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:davinshi_app/models/constants.dart';
 import 'new_item.dart';
 
+class BrandData {
+  String? brandName;
+  String? brandImage;
+  String? brandemail;
+  String? brandphone;
+  String? brandfacebook;
+  String? brandtwitter;
+  String? brandinstagram;
+  String? brandlinkedin;
+  int? brandId;
+  BrandData(
+      {this.brandId,
+      this.brandImage,
+      this.brandName,
+      this.brandemail,
+      this.brandfacebook,
+      this.brandinstagram,
+      this.brandlinkedin,
+      this.brandphone,
+      this.brandtwitter});
+}
+
 class StudentItemProvider extends ChangeNotifier {
   List<Item> items = [];
   List<Item> offers = [];
-  StudentClass? studentClass;
+  BrandData? brandData;
+  // StudentClass? studentClass;
+  // String? brandName;
+  // String? brandImage;
+  // String? brandemail;
+  // String? brandphone;
+  // String? brandfacebook;
+  // String? brandtwitter;
+  // String? brandinstagram;
+  // String? brandlinkedin;
+
+  int? brandId;
   int pageIndex = 1;
   bool finish = false;
   bool isLoading = false;
@@ -32,7 +63,15 @@ class StudentItemProvider extends ChangeNotifier {
     sort = "";
     items.clear();
     offers.clear();
-    studentClass = StudentClass();
+    brandData = BrandData();
+    // brandName = null;
+    // brandImage = null;
+    // brandemail = null;
+    // brandphone = null;
+    // brandfacebook = null;
+    // brandtwitter = null;
+    // brandinstagram = null;
+    // brandlinkedin = null;
     pageIndex = 1;
   }
 
@@ -54,6 +93,21 @@ class StudentItemProvider extends ChangeNotifier {
   setItemsProvider(Map map) {
     List list = map['products'];
     List _offers = map['offers'];
+    if (map.containsKey("brand")) {
+      brandData = BrandData(
+          brandId: map['brand']['id'],
+          brandName: map['brand']['name'],
+          brandemail: map['brand']['email'],
+          brandphone: map['brand']['phone'],
+          brandImage: map['brand']['img'] == null
+              ? null
+              : map['brand']['img_src'] + '/' + map['brand']['img'],
+          brandfacebook: map['brand']['facebook'],
+          brandtwitter: map['brand']['twitter'],
+          brandinstagram: map['brand']['instagram'],
+          brandlinkedin: map['brand']['linkedin']);
+      notifyListeners();
+    }
 
     if (list.isEmpty && _offers.isEmpty) {
       finish = true;
@@ -91,59 +145,37 @@ class StudentItemProvider extends ChangeNotifier {
             salePrice: num.parse(e['sale_price'].toString()));
         items.add(_item);
       }
-      pageIndex++;
       isLoading = true;
+      pageIndex++;
+
       notifyListeners();
     }
   }
 
-  Future<StudentClass> getItems(id) async {
-    final String url = domain +
-        'get-products-student?student_id=$id&page=$pageIndex&sort=$sort';
+  getItems(id) async {
+    final String url = domain + 'get-products-student';
 
     try {
-      Response response = await Dio(BaseOptions(
-        connectTimeout: 5000,
-        receiveTimeout: 3000,
-        followRedirects: false,
-        validateStatus: (status) => true,
-      )).get(url);
-      if (response.data['status'] == 1) {
-        studentClass = StudentClass(
-            id: response.data['data']['brand']['id'],
-            name: response.data['data']['brand']['name'],
-            email: response.data['data']['brand']['email'],
-            phone: response.data['data']['brand']['phone'],
-            image: response.data['data']['brand']['img'] == null
-                ? null
-                : response.data['data']['brand']['img_src'] +
-                    '/' +
-                    response.data['data']['brand']['img'],
-            cover: response.data['data']['brand']['cover'] == null
-                ? null
-                : response.data['data']['brand']['img_src'] +
-                    '/' +
-                    response.data['data']['brand']['cover'],
-            facebook: response.data['data']['brand']['facebook'],
-            twitter: response.data['data']['brand']['twitter'],
-            instagram: response.data['data']['brand']['instagram'],
-            linkedin: response.data['data']['brand']['linkedin']);
-        notifyListeners();
-        setItemsProvider(response.data['data']);
+      Response response = await Dio().get(
+        url,
+        queryParameters: {"student_id": id, "page": pageIndex, "sort": sort},
+      );
 
-        return studentClass!;
+      print(response.statusCode);
+      if (response.data['status'] == 1) {
+        await setItemsProvider(response.data['data']);
+      } else if (response.data['status'] == 0) {
+        await setItemsProvider(response.data['data']);
       }
       if (response.statusCode != 200) {
         await Future.delayed(const Duration(milliseconds: 700));
         getItems(id);
       }
     } catch (e) {
-      print(e);
       isLoading = true;
       await Future.delayed(const Duration(milliseconds: 700));
       getItems(id);
     }
     notifyListeners();
-    return studentClass!;
   }
 }

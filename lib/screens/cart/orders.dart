@@ -203,16 +203,11 @@ class _OrdersState extends State<Orders> {
                           onTap: () async {
                             dialog(context);
                             await getOrder(orders[i].id).then((value) {
-                              if (value) {
-                                navPR(
-                                    context,
-                                    OrderInfo(
-                                      orderClass: orders[i],
-                                    ));
-                              } else {
-                                navPop(context);
-                                error(context);
-                              }
+                              navPR(
+                                  context,
+                                  OrderInfo(
+                                      // orderClass: orders[i],
+                                      ));
                             });
                           },
                         ),

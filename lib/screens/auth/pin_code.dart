@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 import 'dart:async';
 import 'package:davinshi_app/screens/auth/reset_pass.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -27,7 +28,55 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   bool hasError = false;
   String currentText = "";
   final formKey = GlobalKey<FormState>();
+ Future verifyCode() async {
+    String url = domain;
+    try {
+      url = url + 'check-code';
+      Response response = await Dio().post(url,
+      options: Options(
+        headers: {"lang-api":prefs.getString("language_code").toString(),},
+      ),
+       data: {
+        'user_id': widget.userId,
+        'code':textEditingController.text
+      });
+      if (response.data['status'] == 0) {
+        final snackBar = SnackBar(
+          content: Text(translate(context, 'snack_bar', 'code')),
+          action: SnackBarAction(
+            label: translate(context, 'snack_bar', 'undo'),
+            disabledTextColor: Colors.yellow,
+            textColor: Colors.yellow,
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        _btnController.stop();
+      }
+      if (response.data['status'] == 1) {
+        // Map userData = response.data['data'];
+      
+        _btnController.success();
+      await Future.delayed(const Duration(milliseconds: 700));
+      _btnController.stop();
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>ResetPass(
+                  id: widget.userId,    
+                    )));
+      }
+    } catch (e) {
+      print(e.toString());
+      _btnController.error();
+      await Future.delayed(const Duration(milliseconds: 700));
+      _btnController.stop();
+    }
+  }
 
+  
   @override
   void initState() {
     errorController = StreamController<ErrorAnimationType>();
@@ -141,10 +190,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
               color: mainColor,
               disabledColor: mainColor,
               onPressed: () async {
-                navPR(
-                  context,
-                  ResetPass(id: widget.userId),
-                );
+               verifyCode();
               },
             ),
           ],

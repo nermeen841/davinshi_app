@@ -66,11 +66,36 @@ class Order {
 class ProductsData {
   int? id;
   String? image;
+  String? nameAr;
+  String? nameEn;
+  String? descriptionEn;
+  String? descriptionAr;
+  var productPrice;
+  var salePrice;
+  int? quantity;
+  bool? isoffer;
 
-  ProductsData({this.id, this.image});
+  ProductsData(
+      {this.id,
+      this.image,
+      this.nameAr,
+      this.nameEn,
+      this.productPrice,
+      this.salePrice,
+      this.quantity,
+      this.isoffer});
   ProductsData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     image = imagePath + json['img'];
+    nameAr = json['name_ar'];
+    nameAr = json['name_ar'];
+    descriptionEn = json['description_en'];
+    descriptionAr = json['description_ar'];
+    productPrice = json['pivot']['regular_price'];
+    salePrice = json['pivot']['sale_price'];
+    quantity = json['pivot']['quantity'];
+    isoffer = json['in_sale'];
+
   }
 }
 
