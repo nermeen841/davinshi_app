@@ -129,7 +129,7 @@ class _MyAppState extends State<MyApp> {
             navigatorKey.currentState!.push(MaterialPageRoute(
               builder: (context) => Products(
                 fromFav: false,
-                productId: data['a_data']['type_id'],
+                productId: val['type_id'],
               ),
             ));
           } else if (val['type'] == "Order") {
