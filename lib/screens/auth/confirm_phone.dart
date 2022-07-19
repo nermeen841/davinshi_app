@@ -1,4 +1,4 @@
-// ignore_for_file: body_might_complete_normally_nullable
+// ignore_for_file: body_might_complete_normally_nullable, avoid_print
 
 import 'package:davinshi_app/screens/auth/pin_code.dart';
 import 'package:davinshi_app/screens/auth/sign_upScreen.dart';

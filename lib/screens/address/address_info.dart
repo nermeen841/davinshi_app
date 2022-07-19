@@ -170,14 +170,20 @@ class _AddressInfoState extends State<AddressInfo> {
     } else {
       _listEd[6].text = widget.street ?? '';
       _listEd[5].text = widget.country ?? '';
+      _listEd[1].text = prefs.getString("name_add") ?? "";
+      _listEd[2].text = prefs.getString("email_add") ?? "";
+      _listEd[3].text = prefs.getString("phone_add") ?? "";
+      _listEd[0].text = prefs.getString("full_add") ?? "";
       if (login) {
         _listEd[1].text = (login) ? userName.toString() : "";
         _listEd[2].text = (userEmail == null) ? "" : userEmail!;
         _listEd[3].text = (userPhone != null) ? userPhone! : "";
+        _listEd[0].text = prefs.getString("full_add") ?? "";
       } else {
-        _listEd[1].text = "";
-        _listEd[2].text = "";
-        _listEd[3].text = "";
+        _listEd[1].text = prefs.getString("name_add") ?? "";
+        _listEd[2].text = prefs.getString("email_add") ?? "";
+        _listEd[3].text = prefs.getString("phone_add") ?? "";
+        _listEd[0].text = prefs.getString("full_add") ?? "";
       }
     }
   }
@@ -247,6 +253,14 @@ class _AddressInfoState extends State<AddressInfo> {
                                         ],
                                   maxLines: index == 7 ? 6 : 1,
                                   onEditingComplete: () {
+                                    prefs.setString(
+                                        "name_add", _listEd[1].text);
+                                    prefs.setString(
+                                        "email_add", _listEd[2].text);
+                                    prefs.setString(
+                                        "phone_add", _listEd[3].text);
+                                    prefs.setString(
+                                        "full_add", _listEd[0].text);
                                     _listFocus[index].unfocus();
                                     if (index < _listEd.length - 1) {
                                       FocusScope.of(context)
