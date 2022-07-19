@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:davinshi_app/models/fatorah_model.dart';
 import 'package:davinshi_app/models/user.dart';
 import 'package:davinshi_app/provider/notification.dart';
 import 'package:davinshi_app/screens/student/student_info.dart';

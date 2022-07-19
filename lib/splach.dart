@@ -83,7 +83,7 @@ class _SplachState extends State<Splach> {
   void initState() {
     NotificationProvider();
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       String? token = prefs.getString('token');
       if (token == null) {
         String? _token = await FirebaseMessaging.instance.getToken();
