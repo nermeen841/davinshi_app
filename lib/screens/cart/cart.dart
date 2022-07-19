@@ -73,11 +73,12 @@ class _CartState extends State<Cart> {
   @override
   void initState() {
     super.initState();
+    getdeliveryDays(idProduct: Provider.of<CartProvider>(context, listen: false).idp);
     idProducts = Provider.of<CartProvider>(context, listen: false).idp;
   }
 
   int deliveryDays = 0;
-  getdeliveryDays() async {
+  getdeliveryDays({List<int>? idProduct}) async {
     // var productId = {};
     print(idProducts);
     try {
@@ -88,7 +89,7 @@ class _CartState extends State<Cart> {
       //   );
       // }
 
-      Map<String, dynamic> body = {"products": idProducts};
+      Map<String, dynamic> body = {"products": idProduct};
       print(body);
 
       Response response = await Dio().post(
@@ -135,7 +136,7 @@ class _CartState extends State<Cart> {
       return finaldiscount;
     }
 
-    getdeliveryDays();
+    // getdeliveryDays();
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -1456,7 +1457,7 @@ class _CartState extends State<Cart> {
                                 ),
                               ),
                               onTap: () {
-                                getdeliveryDays();
+                                // getdeliveryDays();
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
@@ -1535,7 +1536,7 @@ class _CartState extends State<Cart> {
                                 ),
                               ),
                               onTap: () {
-                                getdeliveryDays();
+                                // getdeliveryDays();
                                 navP(
                                     context,
                                     ConfirmCart(
