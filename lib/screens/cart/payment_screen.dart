@@ -73,7 +73,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           elevation: 0,
         ),
         body: MyFatoorah(
-          afterPaymentBehaviour: AfterPaymentBehaviour.AfterCalbacksExecution,
+          afterPaymentBehaviour: AfterPaymentBehaviour.AfterCallbackExecution,
           buildAppBar: (context) {
             return AppBar(
               backgroundColor: mainColor,
@@ -110,7 +110,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   data: {"order_id": widget.orderId},
                   options: Options(headers: {
                     "auth-token": (login) ? auth : null,
-                    "fcm_token":prefs.getString('token'),
+                    "fcm_token": prefs.getString('token'),
                     "Content-Language": prefs.getString('language_code') ?? 'en'
                   }),
                 );
@@ -122,10 +122,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
               print("success url : ---------" + res.url.toString());
               if (login) {
                 await getOrders().then((value) {
-                 
-                    navPR(context, const FatorahScreen());
-                    return null;
-                  
+                  navPR(context, const FatorahScreen());
+                  return null;
                 });
               } else {
                 navPR(context, const FatorahScreen());
