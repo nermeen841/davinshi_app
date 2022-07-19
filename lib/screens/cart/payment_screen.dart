@@ -73,7 +73,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           elevation: 0,
         ),
         body: MyFatoorah(
-          afterPaymentBehaviour: AfterPaymentBehaviour.AfterCalbacksExecution,
+          afterPaymentBehaviour: AfterPaymentBehaviour.AfterCallbackExecution,
           buildAppBar: (context) {
             return AppBar(
               backgroundColor: mainColor,

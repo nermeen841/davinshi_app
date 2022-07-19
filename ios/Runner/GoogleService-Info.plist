@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>771393052029-evaruoj4m9d7hv01h648nvjb23v9o7r2.apps.googleusercontent.com</string>
+	<string>900582549343-9fcsskg0eokslbs3mj2blvj7q0quebcq.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.771393052029-evaruoj4m9d7hv01h648nvjb23v9o7r2</string>
+	<string>com.googleusercontent.apps.900582549343-9fcsskg0eokslbs3mj2blvj7q0quebcq</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>771393052029-1cplucvbk0ig161eld8t1bihbfjqba3k.apps.googleusercontent.com</string>
+	<string>900582549343-441p0rlg4a8llu658s1ubgsmi1ih0rbu.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyD4xjz9UGo0FFxcmq2fMnTnPETl_nEkO4c</string>
+	<string>AIzaSyA8ObG59kWXIs8O5ayB_IjEzHbIpbEBkNg</string>
 	<key>GCM_SENDER_ID</key>
-	<string>771393052029</string>
+	<string>900582549343</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.davinshiApp</string>
 	<key>PROJECT_ID</key>
-	<string>davinshi-d4cc5</string>
+	<string>multi-1f70d</string>
 	<key>STORAGE_BUCKET</key>
-	<string>davinshi-d4cc5.appspot.com</string>
+	<string>multi-1f70d.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:771393052029:ios:fffc29b15de26b5efc4014</string>
+	<string>1:900582549343:ios:58705eaaefc935685778ea</string>
 </dict>
 </plist>
