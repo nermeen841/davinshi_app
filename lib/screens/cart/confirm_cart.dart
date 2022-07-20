@@ -157,14 +157,38 @@ class _ConfirmCartState extends State<ConfirmCart> {
         print('hamza');
         print(response.data);
         print(response.data['message']);
-        customError(context,
-            response.data['message'] is List ? data : response.data['order']);
+          final snackBar = SnackBar(
+          content: Text(response.data['message'] is List ? data : response.data['order']),
+          action: SnackBarAction(
+            label: translate(context, 'snack_bar', 'undo'),
+            disabledTextColor: Colors.yellow,
+            textColor: Colors.yellow,
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // customError(context,
+        //     response.data['message'] is List ? data : response.data['order']);
         return null;
       }
     } catch (e) {
       print('error $e');
+         final snackBar = SnackBar(
+          content: Text(translate(context, 'alert', 'failed'),),
+          action: SnackBarAction(
+            label: translate(context, 'alert', 'try'),
+            disabledTextColor: Colors.yellow,
+            textColor: Colors.yellow,
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       // navPop(context);
-      error(context);
+      // error(context);
     }
   }
 
