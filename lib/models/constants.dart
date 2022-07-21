@@ -371,6 +371,7 @@ homeBottomSheet({context, child}) {
           topLeft: Radius.circular(w * 0.07)),
     ),
     isDismissible: true,
+  
     context: context,
     builder: (context) => child,
   );
