@@ -30,7 +30,7 @@ class NotificationProvider extends ChangeNotifier {
     try {
       Response response = await Dio().post(
         url,
-        // data: {"fcm_token": prefs.getString('token').toString()},
+        data: {"fcm_token": prefs.getString('token').toString()},
         options: Options(
           headers: {
             'Content-language':
@@ -65,7 +65,7 @@ class NotificationProvider extends ChangeNotifier {
     try {
       Response response = await Dio().post(
         url,
-        // data: {"fcm_token": prefs.getString('token').toString()},
+        data: {"fcm_token": prefs.getString('token').toString()},
         options: Options(
           headers: {
             "auth-token": prefs.getString('auth') ?? "",
