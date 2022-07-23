@@ -42,7 +42,7 @@ class _MoreScreenState extends State<MoreScreen>
     'الاكثر مبيعا',
   ];
 
-  List<String> apiSort = ["highestPrice", "lowestPrice", "bestSeller"];
+  List<String> apiSort = ["lowestPrice", "highestPrice", "bestSeller"];
 
   int page = 1;
   bool hasNextPage = true;
@@ -143,6 +143,7 @@ class _MoreScreenState extends State<MoreScreen>
       child: Directionality(
         textDirection: getDirection(),
         child: Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
               elevation: 0,
               backgroundColor: mainColor,

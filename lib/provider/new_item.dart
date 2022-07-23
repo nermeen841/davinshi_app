@@ -19,7 +19,7 @@ class NewItemProvider extends ChangeNotifier {
     'سعر أعلي',
     'الاكثر مبيعا',
   ];
-  List<String> apiSort = ["highestPrice", "lowestPrice", "bestSeller"];
+  List<String> apiSort = ["lowestPrice", "highestPrice", "bestSeller"];
   void clearList() {
     sort = null;
     items.clear();

@@ -83,6 +83,7 @@ class _SecPageState extends State<SecPage> {
         child: DefaultTabController(
           length: 5,
           child: Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
               elevation: 0,
               title: Text(

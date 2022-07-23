@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:davinshi_app/models/home_item.dart';
+import 'package:davinshi_app/provider/notification.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class AuthenticationProvider {
     print(response.data);
     if (response.statusCode == 200 && response.data['user'] != null) {
       print(response.data);
+      notificationToken();
       Map userData = response.data['user'];
       user = UserClass(
         id: userData['id'],
@@ -147,6 +149,7 @@ class AuthenticationProvider {
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
       if (response.statusCode == 200) {
+        notificationToken();
         try {
           user = UserClass(
             id: userData['data']['user']['id'],

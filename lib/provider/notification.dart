@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 
 void notificationToken() async {
   final String url = domain + "notifications/save_token";
-
+  print(prefs.getString('token').toString());
   try {
     Response response = await Dio().post(
       url,
@@ -16,7 +16,7 @@ void notificationToken() async {
         headers: {"auth-token": prefs.getString('auth') ?? ""},
       ),
     );
-  
+    print(response.data);
   } catch (e) {
     print(e.toString());
   }
@@ -30,7 +30,7 @@ class NotificationProvider extends ChangeNotifier {
     try {
       Response response = await Dio().post(
         url,
-        data: {"fcm_token": prefs.getString('token').toString()},
+        // data: {"fcm_token": prefs.getString('token').toString()},
         options: Options(
           headers: {
             'Content-language':
@@ -41,7 +41,7 @@ class NotificationProvider extends ChangeNotifier {
           },
         ),
       );
-    
+
       if (response.data['status'] == 1) {
         waitingData = true;
         notificationModel = NotificationModel.fromJson(response.data);
@@ -65,7 +65,7 @@ class NotificationProvider extends ChangeNotifier {
     try {
       Response response = await Dio().post(
         url,
-        data: {"fcm_token": prefs.getString('token').toString()},
+        // data: {"fcm_token": prefs.getString('token').toString()},
         options: Options(
           headers: {
             "auth-token": prefs.getString('auth') ?? "",
@@ -76,7 +76,7 @@ class NotificationProvider extends ChangeNotifier {
       if (response.data['status'] == 1) {
         notificationCount = response.data['data'];
         notifyListeners();
-      
+
         return notificationCount;
       } else if (response.data['status'] == 0) {
         notifyListeners();
@@ -90,7 +90,7 @@ class NotificationProvider extends ChangeNotifier {
     return notificationCount;
   }
 
-  Map<int,bool> isRead = {};
+  Map<int, bool> isRead = {};
   Future changeNotificationStatuse({required int notificationId}) async {
     final String url = domain + "notifications/show";
     try {
@@ -107,7 +107,7 @@ class NotificationProvider extends ChangeNotifier {
       if (response.data['status'] == 1) {
         isRead[notificationId] = true;
         notifyListeners();
-      
+
         return isRead[notificationId]!;
       } else if (response.data['status'] == 0) {
         isRead[notificationId] = false;

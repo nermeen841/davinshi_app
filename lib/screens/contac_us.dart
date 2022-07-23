@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields, avoid_print, use_key_in_widget_constructors
+// ignore_for_file: prefer_final_fields, avoid_print, use_key_in_widget_constructors, deprecated_member_use
 
 import 'package:davinshi_app/provider/social.dart';
 import 'package:dio/dio.dart';

@@ -34,6 +34,7 @@ class _ThirdPageState extends State<ThirdPage> {
       child: Directionality(
         textDirection: getDirection(),
         child: Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0,
             title: Text(

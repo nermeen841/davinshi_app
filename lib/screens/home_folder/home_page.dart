@@ -1,4 +1,5 @@
 import 'package:davinshi_app/BottomNavWidget/fabbuttom.dart';
+import 'package:davinshi_app/provider/notification.dart';
 import 'package:davinshi_app/screens/student/view_all.dart';
 import 'package:flutter/material.dart';
 import 'package:davinshi_app/provider/home.dart';
@@ -48,6 +49,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
+    notificationToken();
     tabController = TabController(length: 5, vsync: this, initialIndex: 0);
     super.initState();
   }
@@ -67,6 +69,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     return Directionality(
       textDirection: getDirection(),
       child: Scaffold(
+          backgroundColor: Colors.white,
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButton(

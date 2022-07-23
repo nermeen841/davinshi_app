@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_string_interpolations, avoid_print, use_key_in_widget_constructors
+// ignore_for_file: unnecessary_string_interpolations, avoid_print, use_key_in_widget_constructors, deprecated_member_use, duplicate_ignore
 
 import 'package:davinshi_app/dbhelper.dart';
 import 'package:davinshi_app/elements/newtwork_image.dart';

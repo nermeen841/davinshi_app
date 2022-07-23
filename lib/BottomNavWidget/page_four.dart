@@ -171,6 +171,7 @@ class _PageFourState extends State<PageFour> {
           FocusScope.of(context).unfocus();
         },
         child: Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0,
             title: Text(

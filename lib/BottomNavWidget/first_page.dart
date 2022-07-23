@@ -238,6 +238,11 @@ class _FirstPageState extends State<FirstPage>
   List<int> att = [];
   List<String> des = [];
   DbHelper helper = DbHelper();
+  @override
+  void initState() {
+    notificationToken();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -254,6 +259,7 @@ class _FirstPageState extends State<FirstPage>
       child: DefaultTabController(
         length: 5,
         child: Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBarHome.app_bar_home(context, widget.tabBarHome),
           floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           floatingActionButton: FloatingActionButton(

@@ -21,7 +21,7 @@ class ReItemProvider extends ChangeNotifier {
     'سعر أعلي',
     'جديد',
   ];
-  List<String> apiSort = ["highestPrice", "lowestPrice", "bestSeller"];
+  List<String> apiSort = ["lowestPrice", "highestPrice", "bestSeller"];
   void clearList() {
     sort = null;
     items.clear();

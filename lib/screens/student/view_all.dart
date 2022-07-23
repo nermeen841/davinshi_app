@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, use_full_hex_values_for_flutter_colors
+// ignore_for_file: avoid_print, use_full_hex_values_for_flutter_colors, deprecated_member_use
 
 import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:davinshi_app/screens/product_info/products.dart';
@@ -194,10 +194,10 @@ class _ViewAllState extends State<ViewAll> {
                                                 context,
                                                 listen: false)
                                             .clearList();
-                                            //  Provider.of<StudentItemProvider>(
-                                            //     context,
-                                            //     listen: false)
-                                            // .getItems(_st.id);
+                                        //  Provider.of<StudentItemProvider>(
+                                        //     context,
+                                        //     listen: false)
+                                        // .getItems(_st.id);
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -270,11 +270,12 @@ class _ViewAllState extends State<ViewAll> {
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 color: Colors.white,
-                                                boxShadow:  [
+                                                boxShadow: [
                                                   BoxShadow(
-                                                      color:
-                                                          Colors.grey.withOpacity(0.5),
-                                                      offset:const Offset(0, 3),
+                                                      color: Colors.grey
+                                                          .withOpacity(0.5),
+                                                      offset:
+                                                          const Offset(0, 3),
                                                       blurRadius: 3,
                                                       spreadRadius: 3),
                                                 ],
@@ -298,7 +299,6 @@ class _ViewAllState extends State<ViewAll> {
                                       ),
                                     );
                                   },
-                                  
                                   itemCount: st.students.length);
                               // return GridView.count(
                               //   controller: _controller,

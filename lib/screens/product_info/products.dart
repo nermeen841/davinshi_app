@@ -758,7 +758,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                         att: att,
                                                         des: des,
                                                         idp: productCla!.id,
-                                                        idc: productCla!.cat.id!,
+                                                        idc:
+                                                            productCla!.cat.id!,
                                                         catNameEn: productCla!
                                                             .cat.nameEn!,
                                                         catNameAr: productCla!
@@ -926,14 +927,15 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                             att: att,
                                                             des: des,
                                                             idp: productCla!.id,
-                                                            idc: productCla!
-                                                                .cat.id!,
+                                                            idc:
+                                                                productCla!
+                                                                    .cat.id!,
                                                             catNameEn:
-                                                                productCla!
-                                                                    .cat.nameEn!,
+                                                                productCla!.cat
+                                                                    .nameEn!,
                                                             catNameAr:
-                                                                productCla!
-                                                                    .cat.nameAr!,
+                                                                productCla!.cat
+                                                                    .nameAr!,
                                                             catSVG: productCla!
                                                                 .cat.svg!));
                                                   }
@@ -987,8 +989,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                           .cat.nameEn!,
                                                       catNameAr: productCla!
                                                           .cat.nameAr!,
-                                                      catSVG:
-                                                          productCla!.cat.svg!));
+                                                      catSVG: productCla!
+                                                          .cat.svg!));
                                             }
                                           } else {
                                             int quantity = cart.items
@@ -1069,8 +1071,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                           .cat.nameEn!,
                                                       catNameAr: productCla!
                                                           .cat.nameAr!,
-                                                      catSVG:
-                                                          productCla!.cat.svg!));
+                                                      catSVG: productCla!
+                                                          .cat.svg!));
                                             }
                                           }
                                           await cart.setItems().then((value) {
@@ -1168,8 +1170,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                           .cat.nameEn!,
                                                       catNameAr: productCla!
                                                           .cat.nameAr!,
-                                                      catSVG:
-                                                          productCla!.cat.svg!));
+                                                      catSVG: productCla!
+                                                          .cat.svg!));
                                             } else {
                                               int quantity = cart.items
                                                   .firstWhere((element) =>
@@ -1247,7 +1249,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                         att: att,
                                                         des: des,
                                                         idp: productCla!.id,
-                                                        idc: productCla!.cat.id!,
+                                                        idc:
+                                                            productCla!.cat.id!,
                                                         catNameEn: productCla!
                                                             .cat.nameEn!,
                                                         catNameAr: productCla!
@@ -1354,8 +1357,8 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                 productCla!
                                                                     .cat.nameEn!,
                                                             catNameAr:
-                                                                productCla!
-                                                                    .cat.nameAr!,
+                                                                productCla!.cat
+                                                                    .nameAr!,
                                                             catSVG: productCla!
                                                                 .cat.svg!));
                                                   } else {
@@ -1468,6 +1471,7 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
       child: DefaultTabController(
         length: 3,
         child: Scaffold(
+          backgroundColor: Colors.white,
           key: scaffoldKey,
           appBar: AppBar(
             elevation: 0,

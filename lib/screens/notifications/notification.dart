@@ -14,13 +14,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: false,
         elevation: 0.0,
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: mainColor),
         title: Text(
-          translateString("Notifications", "التنبيهات"),
+          translateString("Notifications", "الإشعارات"),
           style: TextStyle(
               fontFamily: "Tajawal",
               color: Colors.black,

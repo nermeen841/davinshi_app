@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors_in_immutables
+// ignore_for_file: prefer_const_constructors_in_immutables, deprecated_member_use
 import 'package:badges/badges.dart';
 import 'package:davinshi_app/elements/newtwork_image.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +49,6 @@ class _StudentInfo extends State<StudentInfo> {
     studentId = widget.studentId;
     var of1 = Provider.of<StudentItemProvider>(context, listen: false);
     of1.getItems(widget.studentId).then((value) {
-      
       isLoading = true;
     });
     _controller.addListener(() {
@@ -106,6 +105,7 @@ class _StudentInfo extends State<StudentInfo> {
     return Directionality(
       textDirection: getDirection(),
       child: Scaffold(
+        backgroundColor: Colors.white,
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -113,14 +113,15 @@ class _StudentInfo extends State<StudentInfo> {
               context: context,
               barrierDismissible: true,
               builder: (BuildContext context) {
-                return  Dialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    backgroundColor: Colors.grey[200]!.withOpacity(0.85),
-                    insetPadding: EdgeInsets.all(w * 0.05),
-                    child:Consumer<StudentItemProvider>(builder: (context, value, child) {
-                      return  Padding(
+                return Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  backgroundColor: Colors.grey[200]!.withOpacity(0.85),
+                  insetPadding: EdgeInsets.all(w * 0.05),
+                  child: Consumer<StudentItemProvider>(
+                      builder: (context, value, child) {
+                    return Padding(
                       padding: isLeft()
                           ? EdgeInsets.only(
                               top: h * 0.01,
@@ -153,8 +154,9 @@ class _StudentInfo extends State<StudentInfo> {
                                       )
                                     : CircleAvatar(
                                         radius: w * 0.1,
-                                        backgroundImage: NetworkImage(
-                                            value.brandData!.brandImage.toString()),
+                                        backgroundImage: NetworkImage(value
+                                            .brandData!.brandImage
+                                            .toString()),
                                       ),
                               ),
                             ),
@@ -174,7 +176,8 @@ class _StudentInfo extends State<StudentInfo> {
                                 'assets/facebook-logo.png',
                                 'assets/instagram.png',
                                 value.brandData!.brandfacebook ?? 'Empty',
-                                value.brandData!.brandinstagram ?? 'Empty', () async {
+                                value.brandData!.brandinstagram ?? 'Empty',
+                                () async {
                               await launch(value.brandData!.brandfacebook!);
                             }, () async {
                               await launch(value.brandData!.brandinstagram!);
@@ -187,10 +190,13 @@ class _StudentInfo extends State<StudentInfo> {
                                 'assets/twitter.png',
                                 'assets/linkedin.png',
                                 value.brandData!.brandtwitter ?? 'Empty',
-                                value.brandData!.brandlinkedin ?? 'Empty', () async {
-                              await launch(value.brandData!.brandtwitter.toString());
+                                value.brandData!.brandlinkedin ?? 'Empty',
+                                () async {
+                              await launch(
+                                  value.brandData!.brandtwitter.toString());
                             }, () async {
-                              await launch(value.brandData!.brandlinkedin.toString());
+                              await launch(
+                                  value.brandData!.brandlinkedin.toString());
                             }),
                             SizedBox(
                               height: h * 0.03,
@@ -201,7 +207,8 @@ class _StudentInfo extends State<StudentInfo> {
                                 'assets/email.png',
                                 value.brandData!.brandphone ?? "",
                                 value.brandData!.brandemail ?? "", () async {
-                              await launch('tel: ${value.brandData!.brandphone}');
+                              await launch(
+                                  'tel: ${value.brandData!.brandphone}');
                             }, () async {
                               final Uri params = Uri(
                                 scheme: 'mailto',
@@ -214,8 +221,7 @@ class _StudentInfo extends State<StudentInfo> {
                         ),
                       ),
                     );
-                  
-                    }),
+                  }),
                 );
               },
             );
@@ -232,7 +238,9 @@ class _StudentInfo extends State<StudentInfo> {
         appBar: AppBar(
           title: Consumer<StudentItemProvider>(
             builder: (context, value, child) => Text(
-            (value.brandData!.brandName != null)?  value.brandData!.brandName! :"",
+              (value.brandData!.brandName != null)
+                  ? value.brandData!.brandName!
+                  : "",
               style: TextStyle(color: Colors.white, fontSize: w * 0.04),
             ),
           ),
@@ -680,7 +688,7 @@ class _StudentInfo extends State<StudentInfo> {
                                               crossAxisSpacing: h * 0.001,
                                               mainAxisSpacing: w * 0.05,
                                               crossAxisCount: 2,
-                                              childAspectRatio: 0.75),
+                                              childAspectRatio: 0.7),
                                       itemCount: item.items.length,
                                       itemBuilder: (context, i) {
                                         return InkWell(

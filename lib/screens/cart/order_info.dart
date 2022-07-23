@@ -26,6 +26,7 @@ class _OrderInfoState extends State<OrderInfo> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0,
             title: SizedBox(
