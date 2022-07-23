@@ -40,24 +40,22 @@ class _NotificationBodyState extends State<NotificationBody> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () async {
-                 
                           value.changeNotificationStatuse(
                               notificationId:
                                   value.notificationModel!.data![index].id!);
                           if (value.notificationModel!.data![index].type! ==
                               "Order") {
-                            if(login){
-                               await getOrder(value
-                                    .notificationModel!.data![index].typeId!)
-                                .then((value) {
-                              navPR(
-                                  context,
-                                  OrderInfo(
-                                      // orderClass: orders[index],
-                                      ));
-                            });
+                            if (login) {
+                              await getOrder(value
+                                      .notificationModel!.data![index].typeId!)
+                                  .then((value) {
+                                navPR(
+                                    context,
+                                    OrderInfo(
+                                        // orderClass: orders[index],
+                                        ));
+                              });
                             }
-                           
                           } else if (value
                                   .notificationModel!.data![index].type! ==
                               "Product") {
@@ -99,7 +97,7 @@ class _NotificationBodyState extends State<NotificationBody> {
                             borderRadius: BorderRadius.circular(w * 0.03),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.2),
+                                color: Colors.grey.withOpacity(0.1),
                                 offset: const Offset(0, 3),
                                 spreadRadius: 3,
                                 blurRadius: 3,
@@ -136,8 +134,8 @@ class _NotificationBodyState extends State<NotificationBody> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontFamily: "Tajawal",
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
+                                    color: mainColor,
+                                    fontWeight: FontWeight.w700,
                                     fontSize:
                                         MediaQuery.of(context).size.width *
                                             0.04),
@@ -151,7 +149,7 @@ class _NotificationBodyState extends State<NotificationBody> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontFamily: "Tajawal",
-                                    color: Colors.black,
+                                    color: Colors.black.withOpacity(0.3),
                                     fontWeight: FontWeight.w400,
                                     fontSize:
                                         MediaQuery.of(context).size.width *

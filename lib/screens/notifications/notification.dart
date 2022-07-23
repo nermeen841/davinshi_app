@@ -18,13 +18,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
       appBar: AppBar(
         centerTitle: false,
         elevation: 0.0,
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: mainColor),
+        backgroundColor: mainColor,
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text(
           translateString("Notifications", "الإشعارات"),
           style: TextStyle(
               fontFamily: "Tajawal",
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.w600,
               fontSize: MediaQuery.of(context).size.width * 0.04),
         ),
