@@ -1900,87 +1900,77 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
                                                                       w * 0.04,
                                                                   vertical:
                                                                       h * 0.04),
-                                                          child: Column(
-                                                            children: [
-                                                              Text(
-                                                                translateString(
-                                                                    "Size",
-                                                                    "المقاس"),
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize: w *
-                                                                        0.05,
-                                                                    fontFamily:
-                                                                        'Tajawal',
-                                                                    color: Colors
-                                                                        .black),
-                                                              ),
-                                                              ListView.builder(
-                                                                  // primary: true,
-                                                                  shrinkWrap:
-                                                                      true,
-                                                                  physics:
-                                                                      const NeverScrollableScrollPhysics(),
-                                                                  itemCount:
-                                                                      productCla!
-                                                                          .attributesClothes!
-                                                                          .length,
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                          i) {
-                                                                    return Row(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding:
-                                                                              EdgeInsets.only(top: h * 0.02),
-                                                                          child:
-                                                                              Text(
-                                                                            translateString(productCla!.attributesClothes![i].nameEn!,
-                                                                                productCla!.attributesClothes![i].nameAr!),
-                                                                            style: TextStyle(
-                                                                                fontWeight: FontWeight.w700,
-                                                                                fontSize: w * 0.05,
-                                                                                color: Colors.black),
-                                                                          ),
-                                                                        ),
-                                                                        Radio(
-                                                                            activeColor:
-                                                                                mainColor,
-                                                                            value:
-                                                                                productCla!.attributesClothes![i].sizeId!,
-                                                                            groupValue: selectedSize,
-                                                                            onChanged: (int? value) async {
-                                                                              att.clear();
-                                                                              des.clear();
-                                                                              selectedColorSize.clear();
-                                                                              setState(
-                                                                                () {
-                                                                                  att.add(productCla!.attributesClothes![i].sizeId!);
-                                                                                  _counter = 1;
-                                                                                  selectedSize = productCla!.attributesClothes![i].sizeId!;
-                                                                                  if (language == 'en') {
-                                                                                    des.add(productCla!.attributesClothes![i].nameEn!);
-                                                                                    selectedColorSize.add(productCla!.attributesClothes![i].nameEn!);
-                                                                                  } else {
-                                                                                    des.add(productCla!.attributesClothes![i].nameAr!);
-                                                                                    selectedColorSize.add(productCla!.attributesClothes![i].nameAr!);
-                                                                                  }
-                                                                                },
-                                                                              );
-                                                                              Navigator.pop(context);
-                                                                            }),
-                                                                      ],
-                                                                    );
-                                                                  }),
-                                                            ],
+                                                          child: SingleChildScrollView(
+                                                            child: Column(
+                                                              children: [
+                                                                Text(
+                                                                  translateString(
+                                                                      "Size",
+                                                                      "المقاس"),
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize: w *
+                                                                          0.05,
+                                                                      fontFamily:
+                                                                          'Tajawal',
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                                ListView
+                                                                    .builder(
+                                                                      primary: false,
+                                                                        shrinkWrap:
+                                                                            true,
+                                                                        itemCount: productCla!
+                                                                            .attributesClothes!
+                                                                            .length,
+                                                                        itemBuilder:
+                                                                            (context,
+                                                                                i) {
+                                                                          return Row(
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.spaceBetween,
+                                                                            children: [
+                                                                              Padding(
+                                                                                padding: EdgeInsets.only(top: h * 0.02),
+                                                                                child: Text(
+                                                                                  translateString(productCla!.attributesClothes![i].nameEn!, productCla!.attributesClothes![i].nameAr!),
+                                                                                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: w * 0.05, color: Colors.black),
+                                                                                ),
+                                                                              ),
+                                                                              Radio(
+                                                                                  activeColor: mainColor,
+                                                                                  value: productCla!.attributesClothes![i].sizeId!,
+                                                                                  groupValue: selectedSize,
+                                                                                  onChanged: (int? value) async {
+                                                                                    att.clear();
+                                                                                    des.clear();
+                                                                                    selectedColorSize.clear();
+                                                                                    setState(
+                                                                                      () {
+                                                                                        att.add(productCla!.attributesClothes![i].sizeId!);
+                                                                                        _counter = 1;
+                                                                                        selectedSize = productCla!.attributesClothes![i].sizeId!;
+                                                                                        if (language == 'en') {
+                                                                                          des.add(productCla!.attributesClothes![i].nameEn!);
+                                                                                          selectedColorSize.add(productCla!.attributesClothes![i].nameEn!);
+                                                                                        } else {
+                                                                                          des.add(productCla!.attributesClothes![i].nameAr!);
+                                                                                          selectedColorSize.add(productCla!.attributesClothes![i].nameAr!);
+                                                                                        }
+                                                                                      },
+                                                                                    );
+                                                                                    Navigator.pop(context);
+                                                                                  }),
+                                                                            ],
+                                                                          );
+                                                                        }),
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
                                                       );
@@ -2961,9 +2951,9 @@ class _ProductsState extends State<Products> with TickerProviderStateMixin {
   }
 }
 
-InputBorder form() {
-  return OutlineInputBorder(
-    borderSide: BorderSide(color: mainColor, width: 1.5),
-    borderRadius: BorderRadius.circular(15),
-  );
-}
+// InputBorder form() {
+//   return OutlineInputBorder(
+//     borderSide: BorderSide(color: mainColor, width: 1.5),
+//     borderRadius: BorderRadius.circular(15),
+//   );
+// }
