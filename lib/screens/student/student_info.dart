@@ -688,7 +688,7 @@ class _StudentInfo extends State<StudentInfo> {
                                               crossAxisSpacing: h * 0.001,
                                               mainAxisSpacing: w * 0.05,
                                               crossAxisCount: 2,
-                                              childAspectRatio: 0.7),
+                                              childAspectRatio: 0.65),
                                       itemCount: item.items.length,
                                       itemBuilder: (context, i) {
                                         return InkWell(
@@ -699,13 +699,12 @@ class _StudentInfo extends State<StudentInfo> {
                                                 left: i.isOdd ? w * 0.025 : 0),
                                             child: Container(
                                               width: w * 0.45,
-                                              height: h * 0.35,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: Colors.grey
-                                                        .withOpacity(0.2),
+                                                        .withOpacity(0.1),
                                                     spreadRadius: 3,
                                                     blurRadius: 3,
                                                     offset: const Offset(0, 3),
@@ -713,6 +712,10 @@ class _StudentInfo extends State<StudentInfo> {
                                                 ],
                                               ),
                                               child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Container(

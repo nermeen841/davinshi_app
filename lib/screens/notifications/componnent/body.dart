@@ -97,7 +97,7 @@ class _NotificationBodyState extends State<NotificationBody> {
                             borderRadius: BorderRadius.circular(w * 0.03),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(0.1),
+                                color: Colors.grey.withOpacity(0.07),
                                 offset: const Offset(0, 3),
                                 spreadRadius: 3,
                                 blurRadius: 3,
@@ -149,11 +149,26 @@ class _NotificationBodyState extends State<NotificationBody> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontFamily: "Tajawal",
-                                    color: Colors.black.withOpacity(0.3),
+                                    color: Colors.black.withOpacity(0.8),
                                     fontWeight: FontWeight.w400,
                                     fontSize:
                                         MediaQuery.of(context).size.width *
                                             0.04),
+                              ),
+                              SizedBox(
+                                height: h * 0.015,
+                              ),
+                              Text(
+                                value.notificationModel!.data![index].createdAt.toString(),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontFamily: "Tajawal",
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.035),
                               ),
                             ],
                           ),
