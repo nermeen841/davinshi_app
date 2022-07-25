@@ -21,7 +21,7 @@ class NotificationBody extends StatefulWidget {
 class _NotificationBodyState extends State<NotificationBody> {
   @override
   Widget build(BuildContext context) {
-    Provider.of<NotificationProvider>(context, listen: false);
+    Provider.of<NotificationProvider>(context, listen: true).getNotification();
     return Consumer<NotificationProvider>(
       builder: (context, value, child) {
         return (!value.waitingData)
@@ -83,8 +83,6 @@ class _NotificationBodyState extends State<NotificationBody> {
                         },
                         child: Container(
                           width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: w * 0.02, vertical: h * 0.02),
                           decoration: BoxDecoration(
                             color:
                                 (value.notificationModel!.data![index].isRead ==
@@ -104,73 +102,75 @@ class _NotificationBodyState extends State<NotificationBody> {
                               ),
                             ],
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              (value.notificationModel!.data![index].image !=
-                                      null)
-                                  ? ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(w * 0.03),
-                                      child: ImageeNetworkWidget(
-                                        image: value.notificationModel!
-                                            .data![index].image!,
-                                        fit: BoxFit.cover,
-                                        width: double.infinity,
-                                        height: h * 0.3,
-                                      ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: w * 0.02, vertical: h * 0.02),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                (value.notificationModel!.data![index].image !=
+                                        null)
+                                    ? ImageeNetworkWidget(
+                                      image: value.notificationModel!
+                                          .data![index].image!,
+                                      fit: BoxFit.contain,
+                                      width: double.infinity,
+                                      height: h * 0.3,
                                     )
-                                  : const SizedBox(),
-                              (value.notificationModel!.data![index].image !=
-                                      null)
-                                  ? SizedBox(
-                                      height: h * 0.03,
-                                    )
-                                  : const SizedBox(),
-                              Text(
-                                value.notificationModel!.data![index].title!,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontFamily: "Tajawal",
-                                    color: mainColor,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
-                                            0.04),
-                              ),
-                              SizedBox(
-                                height: h * 0.015,
-                              ),
-                              Text(
-                                value.notificationModel!.data![index].body!,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontFamily: "Tajawal",
-                                    color: Colors.black.withOpacity(0.8),
-                                    fontWeight: FontWeight.w400,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
-                                            0.04),
-                              ),
-                              SizedBox(
-                                height: h * 0.015,
-                              ),
-                              Text(
-                                value.notificationModel!.data![index].createdAt.toString(),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontFamily: "Tajawal",
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
-                                            0.035),
-                              ),
-                            ],
+                                    : const SizedBox(),
+                                (value.notificationModel!.data![index].image !=
+                                        null)
+                                    ? SizedBox(
+                                        height: h * 0.03,
+                                      )
+                                    : const SizedBox(),
+                                Text(
+                                  value.notificationModel!.data![index].title!,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontFamily: "Tajawal",
+                                      color: mainColor,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.04),
+                                ),
+                                SizedBox(
+                                  height: h * 0.015,
+                                ),
+                                Text(
+                                  value.notificationModel!.data![index].body!,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontFamily: "Tajawal",
+                                      color: Colors.black.withOpacity(0.8),
+                                      fontWeight: FontWeight.w400,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.04),
+                                ),
+                                SizedBox(
+                                  height: h * 0.015,
+                                ),
+                                Text(
+                                  value
+                                      .notificationModel!.data![index].createdAt
+                                      .toString(),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontFamily: "Tajawal",
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.035),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );

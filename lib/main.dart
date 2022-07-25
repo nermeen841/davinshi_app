@@ -122,40 +122,38 @@ class _MyAppState extends State<MyApp> {
               ));
         }
 
-        var val;
         var data = message.data;
         print(data);
         if (message.data.containsKey('a_data')) {
-          val = jsonDecode(data['a_data']);
-          if (val['type'] == "Product") {
+          var value = jsonDecode(data['a_data']);
+          if (value['type'] == "Product") {
             navigatorKey.currentState!.push(MaterialPageRoute(
               builder: (context) => Products(
                 fromFav: false,
-                productId: val['type_id'],
+                productId: value['type_id'],
               ),
             ));
-          } else if (val['type'] == "Order") {
+          } else if (value['type'] == "Order") {
             if (login) {
-              getOrder(val['type_id']).then((value) {
+              getOrder(
+                value['type_id'],
+              ).then((value) {
                 navigatorKey.currentState!.push(MaterialPageRoute(
                     builder: (context) => OrderInfo(
                         // orderClass: orders[0],
                         )));
               });
             }
-          } else if (val['type_id'] == "Brand") {
+          } else if (value['type'] == "Brand") {
             navigatorKey.currentState!.push(MaterialPageRoute(
               builder: (context) => StudentInfo(
-                studentId: val['type_id'],
+                studentId: value['type_id'],
               ),
             ));
-          } else if (val['type_id'] == "Category") {}
+          } else if (value['type_id'] == "Category") {}
         }
 
         print("firebase data ----------------------------- : $data");
-        debugPrint("firebase data ----------------------------- : $val");
-        debugPrint(
-            "firebase type ----------------------------- : ${message.data['type']}");
       }
     });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -186,14 +184,16 @@ class _MyAppState extends State<MyApp> {
           ));
         } else if (val['type'] == "Order") {
           if (login) {
-            getOrder(val['type_id']).then((value) {
+            getOrder(
+              val['type_id'],
+            ).then((value) {
               navigatorKey.currentState!.push(MaterialPageRoute(
                   builder: (context) => OrderInfo(
                       // orderClass: orders[0],
                       )));
             });
           }
-        } else if (val['type_id'] == "Brand") {
+        } else if (val['type'] == "Brand") {
           navigatorKey.currentState!.push(MaterialPageRoute(
             builder: (context) => StudentInfo(
               studentId: val['type_id'],
@@ -219,11 +219,13 @@ class _MyAppState extends State<MyApp> {
             ));
       }
       print('A new onMessageOpenedApp event was published!');
-      var val;
+      // var val;
       var data = message.data;
       print(data);
       if (message.data.containsKey('a_data')) {
-        val = jsonDecode(data['a_data']);
+        var val = jsonDecode(data['a_data']);
+
+        print("firebase data ----------------------------- : $data");
         if (val['type'] == "Product") {
           navigatorKey.currentState!.push(MaterialPageRoute(
             builder: (context) => Products(
@@ -233,14 +235,16 @@ class _MyAppState extends State<MyApp> {
           ));
         } else if (val['type'] == "Order") {
           if (login) {
-            getOrder(val['type_id']).then((value) {
+            getOrder(
+              val['type_id'],
+            ).then((value) {
               navigatorKey.currentState!.push(MaterialPageRoute(
                   builder: (context) => OrderInfo(
                       // orderClass: orders[0],
                       )));
             });
           }
-        } else if (val['type_id'] == "Brand") {
+        } else if (val['type'] == "Brand") {
           navigatorKey.currentState!.push(MaterialPageRoute(
             builder: (context) => StudentInfo(
               studentId: val['type_id'],
@@ -248,8 +252,6 @@ class _MyAppState extends State<MyApp> {
           ));
         }
       }
-
-      print("firebase data ----------------------------- : $val");
     });
   }
 
