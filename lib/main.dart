@@ -119,38 +119,37 @@ class _MyAppState extends State<MyApp> {
               ));
         }
 
-        var val;
         var data = message.data;
         print(data);
-        if (message.data.containsKey('a_data')) {
-          val = jsonDecode(data['a_data']);
-          if (val['type'] == "Product") {
+        // if (message.data.containsKey('a_data')) {
+    
+          if (data['type'] == "Product") {
             navigatorKey.currentState!.push(MaterialPageRoute(
               builder: (context) => Products(
                 fromFav: false,
-                productId: val['type_id'],
+                productId:  int.parse(data['type_id'].toString()),
               ),
             ));
-          } else if (val['type'] == "Order") {
+          } else if (data['type'] == "Order") {
             if (login) {
-              getOrder(val['type_id']).then((value) {
+              getOrder( int.parse(data['type_id'].toString()),).then((value) {
                 navigatorKey.currentState!.push(MaterialPageRoute(
                     builder: (context) => OrderInfo(
                         // orderClass: orders[0],
                         )));
               });
             }
-          } else if (val['type_id'] == "Brand") {
+          } else if (data['type'] == "Brand") {
             navigatorKey.currentState!.push(MaterialPageRoute(
               builder: (context) => StudentInfo(
-                studentId: val['type_id'],
+                studentId:  int.parse(data['type_id'].toString()),
               ),
             ));
-          } else if (val['type_id'] == "Category") {}
-        }
+          } else if (data['type_id'] == "Category") {}
+        // }
 
         print("firebase data ----------------------------- : $data");
-        debugPrint("firebase data ----------------------------- : $val");
+        debugPrint("firebase data ----------------------------- : $data[");
         debugPrint(
             "firebase type ----------------------------- : ${message.data['type']}");
       }
@@ -172,32 +171,32 @@ class _MyAppState extends State<MyApp> {
 
       var data = message.data;
       print(data);
-      if (message.data.containsKey('a_data')) {
-        var val = jsonDecode(data['a_data']);
-        if (val['type'] == "Product") {
+      // if (message.data.containsKey('a_data')) {
+        // var val = jsonDecode(data['a_data']);
+        if (data['type'] == "Product") {
           navigatorKey.currentState!.push(MaterialPageRoute(
             builder: (context) => Products(
               fromFav: false,
-              productId: val['type_id'],
+              productId: int.parse(data['type_id'].toString()),
             ),
           ));
-        } else if (val['type'] == "Order") {
+        } else if (data['type'] == "Order") {
           if (login) {
-            getOrder(val['type_id']).then((value) {
+            getOrder( int.parse(data['type_id'].toString()),).then((value) {
               navigatorKey.currentState!.push(MaterialPageRoute(
                   builder: (context) => OrderInfo(
                       // orderClass: orders[0],
                       )));
             });
           }
-        } else if (val['type_id'] == "Brand") {
+        } else if (data['type'] == "Brand") {
           navigatorKey.currentState!.push(MaterialPageRoute(
             builder: (context) => StudentInfo(
-              studentId: val['type_id'],
+              studentId:  int.parse(data['type_id'].toString()),
             ),
           ));
-        } else if (val['type_id'] == "Category") {}
-      }
+        } else if (data['type_id'] == "Category") {}
+      // }
 
       print("firebase data ----------------------------- : $data");
     });
@@ -216,38 +215,40 @@ class _MyAppState extends State<MyApp> {
             ));
       }
       print('A new onMessageOpenedApp event was published!');
-      var val;
+      // var val;
       var data = message.data;
       print(data);
-      if (message.data.containsKey('a_data')) {
-        val = jsonDecode(data['a_data']);
-        if (val['type'] == "Product") {
+      // if (message.data.containsKey('a_data')) {
+        // val = jsonDecode(data['a_data']);
+        
+      print("firebase data ----------------------------- : $data");
+        if (data['type'] == "Product") {
           navigatorKey.currentState!.push(MaterialPageRoute(
             builder: (context) => Products(
               fromFav: false,
-              productId: val['type_id'],
+              productId: int.parse(data['type_id'].toString()),
             ),
           ));
-        } else if (val['type'] == "Order") {
+        } else if (data['type'] == "Order") {
           if (login) {
-            getOrder(val['type_id']).then((value) {
+            getOrder( int.parse(data['type_id'].toString()),).then((value) {
               navigatorKey.currentState!.push(MaterialPageRoute(
                   builder: (context) => OrderInfo(
                       // orderClass: orders[0],
                       )));
             });
           }
-        } else if (val['type_id'] == "Brand") {
+        } else if (data['type'] == "Brand") {
           navigatorKey.currentState!.push(MaterialPageRoute(
             builder: (context) => StudentInfo(
-              studentId: val['type_id'],
+              studentId:  int.parse(data['type_id'].toString()),
             ),
           ));
         }
       }
 
-      print("firebase data ----------------------------- : $val");
-    });
+    // }
+    );
   }
 
   Future<void> onActionSelected(String value) async {
