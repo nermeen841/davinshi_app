@@ -20,7 +20,7 @@ class AppBarHome {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
     CartProvider cart = Provider.of<CartProvider>(context, listen: false);
-    Provider.of<NotificationProvider>(context, listen: false).getNotificationcount();
+    Provider.of<NotificationProvider>(context, listen: true).getNotificationcount();
     return AppBar(
       backgroundColor: Colors.white,
       automaticallyImplyLeading: false,

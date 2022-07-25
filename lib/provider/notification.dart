@@ -43,8 +43,16 @@ class NotificationProvider extends ChangeNotifier {
       );
 
       if (response.data['status'] == 1) {
+        for (var item in response.data['data']) {
+          if (item['is_reads'] == true) {
+            isRead[item['id']] = true;
+          } else {
+            isRead[item['id']] = false;
+          }
+        }
         waitingData = true;
         notificationModel = NotificationModel.fromJson(response.data);
+
         notifyListeners();
         return notificationModel!;
       } else if (response.data['status'] == 0) {
