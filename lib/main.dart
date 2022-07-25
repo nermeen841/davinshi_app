@@ -32,6 +32,8 @@ import 'screens/cart/order_info.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a background message ');
+    await Firebase.initializeApp();
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +58,7 @@ Future<void> main() async {
   print(token);
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-  if (!kIsWeb) {
+  // if (!kIsWeb) {
     channel = const AndroidNotificationChannel(
       'high_importance_channel', // id
       'High Importance Notifications', // title
@@ -76,7 +78,8 @@ Future<void> main() async {
       badge: true,
       sound: true,
     );
-  }
+    
+  // }
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   AppLanguage appLanguage = AppLanguage();
