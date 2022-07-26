@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:davinshi_app/models/user.dart';
+import 'package:davinshi_app/provider/AuthenticationProvider.dart';
 import 'package:davinshi_app/provider/notification.dart';
 import 'package:davinshi_app/screens/student/student_info.dart';
 import 'package:davinshi_app/splach.dart';
@@ -32,8 +33,7 @@ import 'screens/cart/order_info.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a background message ');
-    await Firebase.initializeApp();
-
+  await Firebase.initializeApp();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +50,8 @@ Future<void> main() async {
   ));
   await Firebase.initializeApp();
   await startShared();
+  await AuthenticationProvider()
+    ..deleteUserAccount();
   final token = await FirebaseMessaging.instance.getToken();
   SharedPreferences _sp = await SharedPreferences.getInstance();
   _sp.setString('token', "$token").then((value) {
@@ -59,26 +61,25 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   // if (!kIsWeb) {
-    channel = const AndroidNotificationChannel(
-      'high_importance_channel', // id
-      'High Importance Notifications', // title
-      importance: Importance.max,
-    );
+  channel = const AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    importance: Importance.max,
+  );
 
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
 
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-    
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
   // }
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

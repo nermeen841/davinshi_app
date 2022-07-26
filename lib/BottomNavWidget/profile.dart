@@ -1,6 +1,7 @@
 // ignore_for_file: empty_catches, deprecated_member_use, avoid_print
 import 'dart:io';
 import 'package:davinshi_app/models/order.dart';
+import 'package:davinshi_app/provider/AuthenticationProvider.dart';
 import 'package:davinshi_app/screens/about%20multi/about_multi.dart';
 import 'package:davinshi_app/screens/auth/login.dart';
 import 'package:davinshi_app/screens/designes/designe.dart';
@@ -44,7 +45,7 @@ class _ProfileState extends State<Profile> {
       RoundedLoadingButtonController();
   double ratingValue = 0;
   final InAppReview inAppReview = InAppReview.instance;
-  final List<Tile> tile = login
+  final List<Tile> tile = (login || AuthenticationProvider().isDeleted == true)
       ? [
           Tile(
               nameAr: 'عناويني',
@@ -95,47 +96,106 @@ class _ProfileState extends State<Profile> {
             image: 'assets/icons/FeatherIconSet-Feather_Controls-upload.png',
             className: const SizedBox(),
           ),
-        ]
-      : [
           Tile(
-              nameAr: 'اللغة',
-              nameEn: 'Language',
-              image: 'assets/images/Group 1088.png',
-              className: const UserLanguageScreen()),
-          Tile(
-              nameAr: 'الدول',
-              nameEn: 'Country',
-              image: 'assets/images/Group 1101.png',
-              className: Country(2)),
-          Tile(
-              nameAr: 'تصاميمكم',
-              nameEn: 'Your Designe',
-              image: 'assets/images/ي77.png',
-              className: const DesigneScreen()),
-          Tile(
-              nameAr: 'تواصل معنا',
-              nameEn: 'Contact us',
-              image: 'assets/images/Group 1098.png',
-              className: ContactUs()),
-          Tile(
-              nameAr: 'حول مالتي',
-              nameEn: 'About Multi',
-              image: 'assets/images/Group 1095.png',
-              className: const AboutMultiScreen()),
-          Tile(
-              nameAr: 'المساعدة',
-              nameEn: 'Information',
-              keyApi: 'information',
-              image: 'assets/images/Group 1099.png',
-              className: AboutUs('Information')),
-          Tile(
-            nameAr: 'تقييم التطبيق',
-            nameEn: 'App rate',
-            keyApi: 'question',
-            image: 'assets/images/Group 1097.png',
+            nameAr: 'حذف الحساب',
+            nameEn: 'Delete Account',
+            image: 'assets/icons/FeatherIconSet-Feather_Controls-upload.png',
             className: const SizedBox(),
           ),
-        ];
+        ]
+      : (login && AuthenticationProvider().isDeleted == false)
+          ? [
+              Tile(
+                  nameAr: 'عناويني',
+                  nameEn: 'My address',
+                  image: 'assets/icons/FeatherIconSet-Feather_Maps-map-pin.png',
+                  className: Address()),
+              Tile(
+                  nameAr: 'اللغة',
+                  nameEn: 'Language',
+                  image: 'assets/images/Group 1088.png',
+                  className: const UserLanguageScreen()),
+              Tile(
+                  nameAr: 'الدول',
+                  nameEn: 'Country',
+                  image: 'assets/images/Group 1101.png',
+                  className: Country(2)),
+              Tile(
+                  nameAr: 'تصاميمكم',
+                  nameEn: 'Your Designe',
+                  image: 'assets/images/ي77.png',
+                  className: const DesigneScreen()),
+              Tile(
+                  nameAr: 'تواصل معنا',
+                  nameEn: 'Contact us',
+                  image: 'assets/images/Group 1098.png',
+                  className: ContactUs()),
+              Tile(
+                  nameAr: 'حول مالتي',
+                  nameEn: 'About Multi',
+                  image: 'assets/images/Group 1095.png',
+                  className: const AboutMultiScreen()),
+              Tile(
+                  nameAr: 'المساعدة',
+                  nameEn: 'Information',
+                  keyApi: 'information',
+                  image: 'assets/images/Group 1099.png',
+                  className: AboutUs('Information')),
+              Tile(
+                nameAr: 'تقييم التطبيق',
+                nameEn: 'App rate',
+                keyApi: 'question',
+                image: 'assets/images/Group 1097.png',
+                className: const SizedBox(),
+              ),
+              Tile(
+                nameAr: 'تسجيل خروج',
+                nameEn: 'Sign out',
+                image:
+                    'assets/icons/FeatherIconSet-Feather_Controls-upload.png',
+                className: const SizedBox(),
+              )
+            ]
+          : [
+              Tile(
+                  nameAr: 'اللغة',
+                  nameEn: 'Language',
+                  image: 'assets/images/Group 1088.png',
+                  className: const UserLanguageScreen()),
+              Tile(
+                  nameAr: 'الدول',
+                  nameEn: 'Country',
+                  image: 'assets/images/Group 1101.png',
+                  className: Country(2)),
+              Tile(
+                  nameAr: 'تصاميمكم',
+                  nameEn: 'Your Designe',
+                  image: 'assets/images/ي77.png',
+                  className: const DesigneScreen()),
+              Tile(
+                  nameAr: 'تواصل معنا',
+                  nameEn: 'Contact us',
+                  image: 'assets/images/Group 1098.png',
+                  className: ContactUs()),
+              Tile(
+                  nameAr: 'حول مالتي',
+                  nameEn: 'About Multi',
+                  image: 'assets/images/Group 1095.png',
+                  className: const AboutMultiScreen()),
+              Tile(
+                  nameAr: 'المساعدة',
+                  nameEn: 'Information',
+                  keyApi: 'information',
+                  image: 'assets/images/Group 1099.png',
+                  className: AboutUs('Information')),
+              Tile(
+                nameAr: 'تقييم التطبيق',
+                nameEn: 'App rate',
+                keyApi: 'question',
+                image: 'assets/images/Group 1097.png',
+                className: const SizedBox(),
+              ),
+            ];
 
   Future<bool> logOutUser() async {
     final String url = domain + 'logout';
@@ -221,6 +281,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     getProfile();
+    AuthenticationProvider()..deleteUserAccount();
     super.initState();
   }
 
@@ -638,7 +699,8 @@ class _ProfileState extends State<Profile> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => Address()));
-                                } else if (tile[i].nameEn == 'Sign out') {
+                                } else if (tile[i].nameEn == 'Sign out' ||
+                                    tile[i].nameEn == 'Delete Account') {
                                   dialog(context);
                                   prefs.setBool('login', false);
                                   userName = null;
