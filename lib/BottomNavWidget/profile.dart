@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:davinshi_app/models/order.dart';
 import 'package:davinshi_app/provider/AuthenticationProvider.dart';
 import 'package:davinshi_app/screens/about%20multi/about_multi.dart';
+import 'package:davinshi_app/screens/auth/delete_account.dart';
 import 'package:davinshi_app/screens/auth/login.dart';
 import 'package:davinshi_app/screens/designes/designe.dart';
 import 'package:davinshi_app/screens/update_profile/profile_setting.dart';
@@ -699,8 +700,7 @@ class _ProfileState extends State<Profile> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => Address()));
-                                } else if (tile[i].nameEn == 'Sign out' ||
-                                    tile[i].nameEn == 'Delete Account') {
+                                } else if (tile[i].nameEn == 'Sign out') {
                                   dialog(context);
                                   prefs.setBool('login', false);
                                   userName = null;
@@ -717,6 +717,12 @@ class _ProfileState extends State<Profile> {
                                       MaterialPageRoute(
                                           builder: (context) => Country(1)),
                                       (route) => false);
+                                } else if (tile[i].nameEn == 'Delete Account') {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: ((context) =>
+                                              DeleteAccountScreen())));
                                 } else if (tile[i].nameEn == 'Your Designe') {
                                   Navigator.push(
                                       context,

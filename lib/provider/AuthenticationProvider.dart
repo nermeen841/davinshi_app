@@ -17,6 +17,7 @@ import 'package:davinshi_app/provider/home.dart';
 import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
+import '../screens/auth/country.dart';
 import '../screens/home_folder/home_page.dart';
 
 class AuthenticationProvider {
@@ -213,5 +214,59 @@ class AuthenticationProvider {
       print(e.toString());
     }
     return isDeleted;
+  }
+
+///////////////////////////////////////////////////////
+
+  String? messageSuccess;
+  Future deleteAccount(
+      {required String password,
+      required context,
+      required RoundedLoadingButtonController controller}) async {
+    final String url = domain + "remove-account";
+    try {
+      Map<String, dynamic> body = {"password": password};
+      var response = await http.post(
+        Uri.parse(url),
+        body: body,
+        headers: {
+          "auth-token": prefs.getString('auth') ?? "",
+        },
+      );
+      var data = jsonDecode(response.body);
+      if (data['status'] == 1) {
+        controller.success();
+        await Future.delayed(const Duration(milliseconds: 1000));
+        controller.stop();
+        print(data);
+
+        prefs.setBool('login', false);
+        userName = null;
+        await prefs.setString('userName', 'Guest');
+        prefs.setInt('id', 0);
+        prefs.setString('auth', '');
+        setUserId(0);
+        setAuth('');
+        setLogin(false);
+        await prefs.setBool('login', false);
+
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => Country(1)),
+            (route) => false);
+
+        return messageSuccess;
+      } else {
+        controller.error();
+        await Future.delayed(const Duration(milliseconds: 1000));
+        controller.stop();
+      }
+    } catch (e) {
+      print(e.toString());
+      controller.error();
+      await Future.delayed(const Duration(milliseconds: 1000));
+      controller.stop();
+    }
+    return messageSuccess;
   }
 }
