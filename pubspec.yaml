@@ -34,6 +34,7 @@ dependencies:
   myfatoorah_flutter: ^2.1.4
   my_fatoorah: ^3.0.7
   flutter_card_swipper: ^0.4.0
+  package_info_plus: any
   dio: any
   shared_preferences: any
   rounded_loading_button: any

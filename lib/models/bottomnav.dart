@@ -12,3 +12,7 @@ class BottomNav {
 
 Color mainColor = const Color(0xffB58840);
 Color mainColor2 = const Color(0xffB58840).withOpacity(0.2);
+String? appName;
+String? packageName;
+String? version;
+String? buildNumber;

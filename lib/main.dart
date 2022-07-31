@@ -15,6 +15,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:davinshi_app/app_config/providers.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:davinshi_app/models/constants.dart';
 import 'package:davinshi_app/screens/address/address.dart';
@@ -50,8 +51,13 @@ Future<void> main() async {
   ));
   await Firebase.initializeApp();
   await startShared();
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  appName = packageInfo.appName;
+  packageName = packageInfo.packageName;
+  version = packageInfo.version;
+  buildNumber = packageInfo.buildNumber;
   await AuthenticationProvider()
-    ..deleteUserAccount();
+    ..deleteUserAccount(appversion: version);
   final token = await FirebaseMessaging.instance.getToken();
   SharedPreferences _sp = await SharedPreferences.getInstance();
   _sp.setString('token', "$token").then((value) {

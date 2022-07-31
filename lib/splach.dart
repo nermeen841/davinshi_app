@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, use_key_in_widget_constructors
 
+import 'package:davinshi_app/models/bottomnav.dart';
 import 'package:davinshi_app/models/order.dart';
 import 'package:davinshi_app/provider/AuthenticationProvider.dart';
 import 'package:davinshi_app/provider/best_item.dart';
@@ -52,7 +53,7 @@ class _SplachState extends State<Splach> {
                 (route) => false);
           } else {
             notificationToken();
-            AuthenticationProvider()..deleteUserAccount();
+            AuthenticationProvider()..deleteUserAccount(appversion: version);
             await NotificationProvider().getNotification();
             await getCountries();
             if (countrySelected) {

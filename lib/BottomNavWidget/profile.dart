@@ -46,7 +46,7 @@ class _ProfileState extends State<Profile> {
       RoundedLoadingButtonController();
   double ratingValue = 0;
   final InAppReview inAppReview = InAppReview.instance;
-  final List<Tile> tile = (login || AuthenticationProvider().isDeleted == true)
+  final List<Tile> tile = (login && AuthenticationProvider().isDeleted == true)
       ? [
           Tile(
               nameAr: 'عناويني',
@@ -282,7 +282,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     getProfile();
-    AuthenticationProvider()..deleteUserAccount();
+    AuthenticationProvider()..deleteUserAccount(appversion: version);
     super.initState();
   }
 

@@ -193,21 +193,21 @@ class AuthenticationProvider {
 
   /////////////////////////////////////////////////////////////////////////
   bool isDeleted = false;
-  Future<bool> deleteUserAccount() async {
+  Future<bool> deleteUserAccount({String? appversion}) async {
     final String url = domain + "active-remove-account";
     try {
       Response response = await Dio().post(
         url,
+        data: {"app_version": appversion},
         options: Options(
           headers: {
             "auth-token": prefs.getString('auth') ?? "",
           },
         ),
       );
-
-      if (response.data['message'] == true) {
+      print(response.data);
+      if (response.data['status'] == 1) {
         isDeleted = response.data['message'];
-        print(response.data);
         return isDeleted;
       }
     } catch (e) {
