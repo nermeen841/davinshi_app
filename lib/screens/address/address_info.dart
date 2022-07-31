@@ -252,15 +252,29 @@ class _AddressInfoState extends State<AddressInfo> {
                                               RegExp(r"[0-9 a-z  @ .]")),
                                         ],
                                   maxLines: index == 7 ? 6 : 1,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      prefs.setString(
+                                          "name_add", _listEd[1].text);
+                                      prefs.setString(
+                                          "email_add", _listEd[2].text);
+                                      prefs.setString(
+                                          "phone_add", _listEd[3].text);
+                                      prefs.setString(
+                                          "full_add", _listEd[0].text);
+                                    });
+                                  },
                                   onEditingComplete: () {
-                                    prefs.setString(
-                                        "name_add", _listEd[1].text);
-                                    prefs.setString(
-                                        "email_add", _listEd[2].text);
-                                    prefs.setString(
-                                        "phone_add", _listEd[3].text);
-                                    prefs.setString(
-                                        "full_add", _listEd[0].text);
+                                    setState(() {
+                                      prefs.setString(
+                                          "name_add", _listEd[1].text);
+                                      prefs.setString(
+                                          "email_add", _listEd[2].text);
+                                      prefs.setString(
+                                          "phone_add", _listEd[3].text);
+                                      prefs.setString(
+                                          "full_add", _listEd[0].text);
+                                    });
                                     _listFocus[index].unfocus();
                                     if (index < _listEd.length - 1) {
                                       FocusScope.of(context)
